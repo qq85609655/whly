@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.cms.dao.TechnologyNewsDao">
+    <resultMap type="com.thinkgem.jeesite.modules.cms.entity.TechnologyNews" id="newsMap">
+		<id property="id" column="ID" />
+		<result column="Ori_ID" property="oriId" />
+		<result column="Ori_Table" property="oriTable" />
+		<result column="Title" property="title" />
+		<result column="Title_Src" property="titleSrc" />
+		<result column="Author" property="author" />
+		<result column="News_Section" property="newsSection" />
+		<result column="Text_Src" property="textSrc" />
+		<result column="Category1" property="category1" />
+		<result column="Category2" property="category2" />
+		<result column="Web_Name" property="webName" />
+		<result column="Country_ZH" property="countryZH" />
+		<result column="Country_EN" property="countryEN" />
+		<result column="Language" property="language" />
+		<result column="ProgramID" property="programID" />
+		<result column="TaskID" property="taskID" />
+		<result column="ColumnURL" property="columnURL" />
+		<result column="Insert" property="insert" />
+		<result column="Publish_date" property="publishDate" />
+		<result column="Created" property="created" />
+		<result column="Web_Keywords" property="webKeywords" />
+		
+		
+		
+	</resultMap>
+	<sql id="cmsTechnologyNewsColumns">
+		a.ID AS "id",
+		a.Ori_ID AS "oriId",
+		a.Ori_Table AS "oriTable",
+		a.Title as "title",
+		a.Title_Src as "titleSrc",
+		a.Author as "author",
+		a.News_Section as "newsSection",
+		a.Text_Src as "textSrc",
+		a.Category1 as "category1",
+		a.Category2 as "category2",
+		a.Web_Name as "webName",
+		a.Country_ZH as "countryZH",
+		a.Country_EN as "countryEN",
+		a.Language as "language",
+		a.ProgramID as "programID",
+		a.TaskID as "taskID",
+		a.ColumnURL as "columnURL",
+		a.Insert as "insert"
+		
+	</sql>
+	
+    
+	<select id="getNewsById" resultMap="newsMap">
+		SELECT 
+			*
+		FROM tb_technology_news a
+		WHERE a.id = #{id}
+	</select>
+	
+	
+	
+	<insert id="saveNews" parameterType="com.thinkgem.jeesite.modules.cms.entity.TechnologyNews" >
+		INSERT INTO tb_technology_news(
+			Ori_ID,
+			Ori_Table,
+			Title,
+			Title_Src,
+			Author,
+			News_Section,
+			Text_Src,
+			Category1,
+			Category2,
+			Web_Name,
+			Country_ZH,
+			Country_EN,
+			ProgramID,
+			TaskID,
+			ColumnURL,
+			Publish_date,
+			Created,
+			Language,
+			Gatherers,
+			URL,
+			Web_Keywords
+		) VALUES (
+			#{oriId},
+			#{oriTable},
+			#{title},
+			#{titleSrc},
+			#{author},
+			#{newsSection},
+			#{textSrc},
+			#{category1},
+			#{category2},
+			#{webName},
+			#{countryZH},
+			#{countryEN},
+			#{programID},
+			#{taskID},
+			#{columnURL},
+			#{publishDate},
+			#{created},
+			#{language},
+			#{gatherers},
+			#{url},
+			#{webKeywords}
+		)
+	</insert>
+	
+	<update id="updateNews">
+		UPDATE tb_technology_news SET 	
+			Title = #{title},
+			Title_Src = #{titleSrc},
+			Text_Src = #{textSrc},
+			Category1 = #{category1},
+			Category2 = #{category2}
+		WHERE id = #{id}
+	</update>
+	
+	
+	
+</mapper>

@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.cms.web;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,11 +27,13 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.cms.entity.Article;
 import com.thinkgem.jeesite.modules.cms.entity.Category;
 import com.thinkgem.jeesite.modules.cms.entity.Site;
+import com.thinkgem.jeesite.modules.cms.entity.TechnologyNews;
 import com.thinkgem.jeesite.modules.cms.service.ArticleDataService;
 import com.thinkgem.jeesite.modules.cms.service.ArticleService;
 import com.thinkgem.jeesite.modules.cms.service.CategoryService;
 import com.thinkgem.jeesite.modules.cms.service.FileTplService;
 import com.thinkgem.jeesite.modules.cms.service.SiteService;
+import com.thinkgem.jeesite.modules.cms.service.TechnologyNewsService;
 import com.thinkgem.jeesite.modules.cms.utils.CmsUtils;
 import com.thinkgem.jeesite.modules.cms.utils.TplUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -53,6 +57,9 @@ public class ArticleController extends BaseController {
    	private FileTplService fileTplService;
     @Autowired
    	private SiteService siteService;
+    
+    @Autowired
+	private TechnologyNewsService technologyNewsService;
 	
 	@ModelAttribute
 	public Article get(@RequestParam(required=false) String id) {
@@ -109,11 +116,45 @@ public class ArticleController extends BaseController {
 			return form(article, model);
 		}
 		articleService.save(article);
+		if("2".equals(article.getCategory().getSite().getId())){
+			technologyNewsService.save(getTechnologyNews(article));
+		}
 		addMessage(redirectAttributes, "保存文章'" + StringUtils.abbr(article.getTitle(),50) + "'成功");
 		String categoryId = article.getCategory()!=null?article.getCategory().getId():null;
 		return "redirect:" + adminPath + "/cms/article/?repage&category.id="+(categoryId!=null?categoryId:"");
 	}
-	
+	public TechnologyNews getTechnologyNews(Article a){
+		Category category=a.getCategory();
+		TechnologyNews news=new TechnologyNews();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateStr=sdf.format(new Date());
+		news.setOriId(a.getId());//原表id
+		news.setOriTable("cms_article");
+		news.setTitleSrc(a.getTitle());
+		news.setTitleOri(a.getTitle());
+		news.setTitle(a.getTitle());
+		news.setAuthor(UserUtils.getUser().getId());
+		news.setNewsSection(category.getName());
+		news.setPublishDate(dateStr);
+		news.setOriginaURL(a.getLink());
+		news.setTextSrc(a.getDescription());
+		news.setCreated(dateStr);
+		news.setCategory1("category1");
+		news.setCategory2("category2");
+		news.setWebName("webName");
+		news.setCountryZH("中国");
+		news.setCountryEN("Chain");
+		news.setLanguage("中简");
+		news.setGatherers(UserUtils.getUser().getName());
+		news.setUrl(a.getUrl());
+		news.setProgramID("-999");
+		news.setTaskID("-999");
+		//news.setColumnURL("http://www.enet.com.cn/tag/energy");
+		news.setInsert(new Date());
+		news.setWebKeywords(a.getKeywords());
+		return news;
+		
+	}
 	@RequiresPermissions("cms:article:edit")
 	@RequestMapping(value = "delete")
 	public String delete(Article article, String categoryId, @RequestParam(required=false) Boolean isRe, RedirectAttributes redirectAttributes) {
