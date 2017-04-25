@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.cms.dao.TechnologyNewsDao;
 import com.thinkgem.jeesite.modules.cms.entity.TechnologyNews;
@@ -37,6 +36,12 @@ public class TechnologyNewsService {
 		}
 	}
 	
-
+	public TechnologyNews getNewsById(String id){
+		return technologyNewsDao.getNewsById(id);
+	}
+	@Transactional(readOnly = false)
+	public int newDelete(TechnologyNews news){
+		return technologyNewsDao.newDelete(news);
+	}
 	
 }

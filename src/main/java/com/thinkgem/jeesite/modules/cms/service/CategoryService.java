@@ -23,6 +23,7 @@ import com.thinkgem.jeesite.modules.cms.dao.CategoryDao;
 import com.thinkgem.jeesite.modules.cms.entity.Category;
 import com.thinkgem.jeesite.modules.cms.entity.Site;
 import com.thinkgem.jeesite.modules.cms.utils.CmsUtils;
+import com.thinkgem.jeesite.modules.cms.utils.YijianUtil;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -50,16 +51,14 @@ public class CategoryService extends TreeService<CategoryDao, Category> {
 			category.setOffice(new Office());
 			category.getSqlMap().put("dsf", dataScopeFilter(user, "o", "u"));
 			category.setSite(new Site());
-			for(String str:user.getRoleIdList()){
-				if(str.equals("c735238c56a54c1f905b1446488c21ba")){
-					//科技大数据 默认 站点2
-					Site site=new Site();
-					site.setId("2");
-					UserUtils.putCache("siteId", "2");
-					// 保存到Cookie中，下次登录后自动切换到该站点
-					CookieUtils.setCookie(response, "siteId", "2");
-					category.setSite(site);
-				}
+			if(YijianUtil.containRole(user)){
+				//科技大数据 默认 站点2
+				Site site=new Site();
+				site.setId("2");
+				UserUtils.putCache("siteId", "2");
+				// 保存到Cookie中，下次登录后自动切换到该站点
+				CookieUtils.setCookie(response, "siteId", "2");
+				category.setSite(site);
 			}
 			category.setParent(new Category());
 			list = dao.findList(category);

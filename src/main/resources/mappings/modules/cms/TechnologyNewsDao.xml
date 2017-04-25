@@ -57,9 +57,11 @@
 		WHERE a.id = #{id}
 	</select>
 	
+	<delete id="newDelete">
+		delete from tb_technology_news  where  id=#{id}
+	</delete>
 	
-	
-	<insert id="saveNews" parameterType="com.thinkgem.jeesite.modules.cms.entity.TechnologyNews" >
+	<insert id="saveNews" useGeneratedKeys="true" keyProperty="id" parameterType="com.thinkgem.jeesite.modules.cms.entity.TechnologyNews" >
 		INSERT INTO tb_technology_news(
 			Ori_ID,
 			Ori_Table,
@@ -107,7 +109,7 @@
 		)
 	</insert>
 	
-	<update id="updateNews">
+	<update id="updateNews" useGeneratedKeys="true" keyProperty="id" parameterType="com.thinkgem.jeesite.modules.cms.entity.TechnologyNews">
 		UPDATE tb_technology_news SET 	
 			Title = #{title},
 			Title_Src = #{titleSrc},

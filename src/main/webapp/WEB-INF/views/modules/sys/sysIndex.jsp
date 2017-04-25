@@ -158,7 +158,7 @@
 		<div id="header" class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="brand">
-					<div class="logo_back"><img  style="margin-top: 15px;" src="/qst/images/qsta.png"></div>
+					<div class="logo_back"><img  style="margin-top: 15px;height:42px;" src="/qst/images/yijian_logo.png"></div>
 					<%--<span id="productName">${fns:getConfig('productName')}</span>--%></div>
 				<ul id="userControl" class="nav pull-right">
 					<li><a href="${pageContext.request.contextPath}${fns:getFrontPath()}/index-${fnc:getCurrentSiteId()}.html" target="_blank" title="访问网站主页"><i class="icon-home"></i></a></li>

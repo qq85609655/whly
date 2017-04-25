@@ -15,6 +15,7 @@
 		a.weight_date AS "weightDate",
 		a.hits AS "hits",
 		a.posid AS "posid",
+		a.yijian_news_id as "yijianNewsId",
 		a.custom_content_view AS "customContentView",
 		a.view_config AS "viewConfig",
 		a.create_by AS "createBy.id",
@@ -126,7 +127,8 @@
 			update_by,
 			update_date,
 			remarks,
-			del_flag
+			del_flag,
+			yijian_news_id
 		) VALUES (
 			#{id},
 			#{category.id},
@@ -147,7 +149,8 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{yijianNewsId}
 		)
 	</insert>
 	

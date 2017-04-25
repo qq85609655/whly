@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.CookieUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.cms.entity.Article;
@@ -36,6 +37,7 @@ import com.thinkgem.jeesite.modules.cms.service.SiteService;
 import com.thinkgem.jeesite.modules.cms.service.TechnologyNewsService;
 import com.thinkgem.jeesite.modules.cms.utils.CmsUtils;
 import com.thinkgem.jeesite.modules.cms.utils.TplUtils;
+import com.thinkgem.jeesite.modules.cms.utils.YijianUtil;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
@@ -89,6 +91,7 @@ public class ArticleController extends BaseController {
 	@RequiresPermissions("cms:article:view")
 	@RequestMapping(value = "form")
 	public String form(Article article, Model model) {
+		//article=articleService.get(article.getId());
 		// 如果当前传参有子节点，则选择取消传参选择
 		if (article.getCategory()!=null && StringUtils.isNotBlank(article.getCategory().getId())){
 			List<Category> list = categoryService.findByParentId(article.getCategory().getId(), Site.getCurrentSiteId());
@@ -115,10 +118,16 @@ public class ArticleController extends BaseController {
 		if (!beanValidator(model, article)){
 			return form(article, model);
 		}
-		articleService.save(article);
-		if("2".equals(article.getCategory().getSite().getId())){
-			technologyNewsService.save(getTechnologyNews(article));
+		TechnologyNews tnews=null;
+		if(YijianUtil.containRole(UserUtils.getUser())){
+			//科技大数据 默认 站点2
+			tnews=getTechnologyNews(article);
+			technologyNewsService.save(tnews);
 		}
+		if(tnews!=null){
+			article.setYijianNewsId(tnews.getId());
+		}
+		articleService.save(article);
 		addMessage(redirectAttributes, "保存文章'" + StringUtils.abbr(article.getTitle(),50) + "'成功");
 		String categoryId = article.getCategory()!=null?article.getCategory().getId():null;
 		return "redirect:" + adminPath + "/cms/article/?repage&category.id="+(categoryId!=null?categoryId:"");
@@ -128,7 +137,8 @@ public class ArticleController extends BaseController {
 		TechnologyNews news=new TechnologyNews();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateStr=sdf.format(new Date());
-		news.setOriId(a.getId());//原表id
+		news.setId(a.getYijianNewsId());
+		news.setOriId("-999");//原表id
 		news.setOriTable("cms_article");
 		news.setTitleSrc(a.getTitle());
 		news.setTitleOri(a.getTitle());
@@ -146,10 +156,10 @@ public class ArticleController extends BaseController {
 		news.setCountryEN("Chain");
 		news.setLanguage("中简");
 		news.setGatherers(UserUtils.getUser().getName());
-		news.setUrl(a.getUrl());
+		news.setUrl("/article?artid="+a.getYijianNewsId()+"&t="+System.currentTimeMillis());
 		news.setProgramID("-999");
 		news.setTaskID("-999");
-		//news.setColumnURL("http://www.enet.com.cn/tag/energy");
+		news.setColumnURL("http://www.enet.com.cn/tag/energy");
 		news.setInsert(new Date());
 		news.setWebKeywords(a.getKeywords());
 		return news;
@@ -162,7 +172,9 @@ public class ArticleController extends BaseController {
 		if (!UserUtils.getSubject().isPermitted("cms:article:audit")){
 			addMessage(redirectAttributes, "你没有删除或发布权限");
 		}
+		TechnologyNews news=technologyNewsService.getNewsById(article.getYijianNewsId());
 		articleService.delete(article, isRe);
+		technologyNewsService.newDelete(news);
 		addMessage(redirectAttributes, (isRe!=null&&isRe?"发布":"删除")+"文章成功");
 		return "redirect:" + adminPath + "/cms/article/?repage&category.id="+(categoryId!=null?categoryId:"");
 	}

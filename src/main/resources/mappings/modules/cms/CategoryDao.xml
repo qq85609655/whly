@@ -110,7 +110,10 @@
 			<if test="parent.id != null and parent.id != ''">
 				AND a.parent_id  = #{parent.id}
 			</if>
-			${sqlMap.dsf}
+			<if test=" site.id != null and site.id != '' and site.id != 2">
+				${sqlMap.dsf}
+			</if>
+			
 		</where>		
 			ORDER BY a.site_id,a.sort ASC
 	</select>

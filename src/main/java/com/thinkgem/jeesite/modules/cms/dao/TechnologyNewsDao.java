@@ -3,8 +3,6 @@
  */
 package com.thinkgem.jeesite.modules.cms.dao;
 
-import com.qst.entity.NewsEntity;
-import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.cms.entity.TechnologyNews;
 
@@ -18,8 +16,9 @@ import com.thinkgem.jeesite.modules.cms.entity.TechnologyNews;
 @MyBatisDao
 public interface TechnologyNewsDao{
 	
-	public TechnologyNews getNewsById(TechnologyNews news);
+	public TechnologyNews getNewsById(String id);
 	public int saveNews(TechnologyNews news);
 	public int updateNews(TechnologyNews news);
+	public int newDelete(TechnologyNews news);
 	
 }

@@ -46,7 +46,18 @@ public class Article extends DataEntity<Article> {
 	private Date endDate;	// 结束时间
 	
 	private User user;
+	private String yijianNewsId;
     
+	
+
+	public String getYijianNewsId() {
+		return yijianNewsId;
+	}
+
+	public void setYijianNewsId(String yijianNewsId) {
+		this.yijianNewsId = yijianNewsId;
+	}
+
 	public Article() {
 		super();
 		this.weight = 0;

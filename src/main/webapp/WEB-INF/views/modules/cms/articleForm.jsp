@@ -79,7 +79,7 @@
 				<span class="help-inline">多个关键字，用空格分隔。</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<%-- <div class="control-group">
 			<label class="control-label">权重:</label>
 			<div class="controls">
 				<form:input path="weight" htmlEscape="false" maxlength="200" class="input-mini required digits"/>&nbsp;
@@ -92,7 +92,7 @@
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:true});"/>
 				<span class="help-inline">数值越大排序越靠前，过期时间可为空，过期后取消置顶。</span>
 			</div>
-		</div>
+		</div> --%>
 		<div class="control-group">
 			<label class="control-label">摘要:</label>
 			<div class="controls">
@@ -106,6 +106,7 @@
 				<sys:ckfinder input="image" type="thumb" uploadPath="/cms/article" selectMultiple="false"/>
 			</div>
 		</div>
+		<input type="hidden" id="yijian_news_id" name="yijian_news_id" value="${article.yijianNewsId}" />
 		<div class="control-group">
 			<label class="control-label">正文:</label>
 			<div class="controls">
@@ -119,7 +120,7 @@
 				<form:input path="articleData.copyfrom" htmlEscape="false" maxlength="200" class="input-xlarge"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<%-- <div class="control-group">
 			<label class="control-label">相关文章:</label>
 			<div class="controls">
 				<form:hidden id="articleDataRelation" path="articleData.relation" htmlEscape="false" maxlength="200" class="input-xlarge"/>
@@ -165,19 +166,19 @@
 					});
 				</script>
 			</div>
-		</div>
-		<div class="control-group">
+		</div> --%>
+		<%-- <div class="control-group">
 			<label class="control-label">是否允许评论:</label>
 			<div class="controls">
 				<form:radiobuttons path="articleData.allowComment" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</div>
-		</div>
-		<div class="control-group">
+		</div> --%>
+		<%-- <div class="control-group">
 			<label class="control-label">推荐位:</label>
 			<div class="controls">
 				<form:checkboxes path="posidList" items="${fns:getDictList('cms_posid')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</div>
-		</div>
+		</div> --%>
 		<div class="control-group">
 			<label class="control-label">发布时间:</label>
 			<div class="controls">
@@ -214,7 +215,7 @@
                 </div>
             </div>
 		</shiro:hasPermission>
-		<c:if test="${not empty article.id}">
+		<%-- <c:if test="${not empty article.id}">
 			<div class="control-group">
 				<label class="control-label">查看评论:</label>
 				<div class="controls">
@@ -234,7 +235,7 @@
 					</script>
 				</div>
 			</div>
-		</c:if>
+		</c:if> --%>
 		<div class="form-actions">
 			<shiro:hasPermission name="cms:article:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
