@@ -161,7 +161,8 @@
 					<div class="logo_back"><img  style="margin-top: 15px;height:42px;" src="/qst/images/yijian_logo.png"></div>
 					<%--<span id="productName">${fns:getConfig('productName')}</span>--%></div>
 				<ul id="userControl" class="nav pull-right">
-					<li><a href="${pageContext.request.contextPath}${fns:getFrontPath()}/index-${fnc:getCurrentSiteId()}.html" target="_blank" title="访问网站主页"><i class="icon-home"></i></a></li>
+					<%-- <li><a href="${pageContext.request.contextPath}${fns:getFrontPath()}/index-${fnc:getCurrentSiteId()}.html" target="_blank" title="访问网站主页"><i class="icon-home"></i></a></li> --%>
+					<li><a href="http://27.223.110.114:8112/YIJIAN/index" target="_blank" title="访问网站主页"><i class="icon-home"></i></a></li>
 					<li id="themeSwitch" class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="主题切换"><i class="icon-th-large"></i></a>
 						<ul class="dropdown-menu">
@@ -231,9 +232,9 @@
 					<iframe id="mainFrame" name="mainFrame" src="" style="overflow:visible;" scrolling="yes" frameborder="no" width="100%" height="650"></iframe>
 				</div>
 			</div>
-		    <div id="footer" class="row-fluid">
+		    <%-- <div id="footer" class="row-fluid">
 	            Copyright &copy; 2012-${fns:getConfig('copyrightYear')} ${fns:getConfig('productName')} - Powered By <a href="http://jeesite.com" target="_blank">JeeSite</a> ${fns:getConfig('version')}
-			</div>
+			</div> --%>
 		</div>
 	</div>
 	<script type="text/javascript"> 
