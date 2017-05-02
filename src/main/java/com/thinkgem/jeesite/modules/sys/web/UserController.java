@@ -30,6 +30,7 @@ import com.thinkgem.jeesite.common.beanvalidator.BeanValidators;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.MD5Util;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
@@ -228,8 +229,8 @@ public class UserController extends BaseController {
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/user/accountList?repage";
 		}
-	
-		user.setPassword(SystemService.entryptPassword(user.getPassword()));
+		//前台使用MD5加密
+		user.setPassword(MD5Util.getStringMD5(user.getPassword()));
 		if (!beanValidator(model, user)){
 			return accountForm(user, model);
 		}
