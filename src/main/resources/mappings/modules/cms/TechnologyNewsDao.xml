@@ -10,6 +10,7 @@
 		<result column="Author" property="author" />
 		<result column="News_Section" property="newsSection" />
 		<result column="Text_Src" property="textSrc" />
+		<result column="Text" property="text" />
 		<result column="Category1" property="category1" />
 		<result column="Category2" property="category2" />
 		<result column="Web_Name" property="webName" />
@@ -36,6 +37,7 @@
 		a.Author as "author",
 		a.News_Section as "newsSection",
 		a.Text_Src as "textSrc",
+		a.Text as "text",
 		a.Category1 as "category1",
 		a.Category2 as "category2",
 		a.Web_Name as "webName",
@@ -70,6 +72,7 @@
 			Author,
 			News_Section,
 			Text_Src,
+			Text,
 			Category1,
 			Category2,
 			Web_Name,
@@ -92,6 +95,7 @@
 			#{author},
 			#{newsSection},
 			#{textSrc},
+			#{text},
 			#{category1},
 			#{category2},
 			#{webName},
@@ -114,6 +118,7 @@
 			Title = #{title},
 			Title_Src = #{titleSrc},
 			Text_Src = #{textSrc},
+			Text=#{text},
 			Category1 = #{category1},
 			Category2 = #{category2}
 		WHERE id = #{id}

@@ -29,6 +29,7 @@ public class TechnologyNews{
 	private String publishDate;
 	private String originaURL;// 外部链接 原始来源URL
 	private String textSrc;// 描述、摘要 标签+正文
+	private String text;
 	private String created;//采集时间
 	private String category1;//行业一级分类
 	private String category2;//行业二级分类
@@ -43,6 +44,12 @@ public class TechnologyNews{
 	private String columnURL;//栏目的URL
 	private Date insert;//插入数据的时间
 	private String webKeywords;
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
 	public String getWebKeywords() {
 		return webKeywords;
 	}

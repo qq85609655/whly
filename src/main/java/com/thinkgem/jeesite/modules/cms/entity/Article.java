@@ -48,7 +48,24 @@ public class Article extends DataEntity<Article> {
 	private User user;
 	private String yijianNewsId;
     
-	
+	private String frontCategory;
+	private String frontCategory2;
+
+	public String getFrontCategory() {
+		return frontCategory;
+	}
+
+	public void setFrontCategory(String frontCategory) {
+		this.frontCategory = frontCategory;
+	}
+
+	public String getFrontCategory2() {
+		return frontCategory2;
+	}
+
+	public void setFrontCategory2(String frontCategory2) {
+		this.frontCategory2 = frontCategory2;
+	}
 
 	public String getYijianNewsId() {
 		return yijianNewsId;

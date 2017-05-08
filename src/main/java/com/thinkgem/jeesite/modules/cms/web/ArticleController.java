@@ -108,6 +108,11 @@ public class ArticleController extends BaseController {
         model.addAttribute("contentViewList",getTplContent());
         model.addAttribute("article_DEFAULT_TEMPLATE",Article.DEFAULT_TEMPLATE);
 		model.addAttribute("article", article);
+		TechnologyNews frontNews=technologyNewsService.getNewsById(article.getYijianNewsId());
+		if(frontNews!=null){
+			article.setFrontCategory(frontNews.getCategory1());
+			article.setFrontCategory2(frontNews.getCategory2());
+		}
 		CmsUtils.addViewConfigAttribute(model, article.getCategory());
 		return "modules/cms/articleForm";
 	}
@@ -147,11 +152,12 @@ public class ArticleController extends BaseController {
 		news.setNewsSection(category.getName());
 		news.setPublishDate(dateStr);
 		news.setOriginaURL(a.getLink());
-		news.setTextSrc(a.getDescription());
+		news.setTextSrc(a.getArticleData().getContent());
+		news.setText(a.getArticleData().getContent());
 		news.setCreated(dateStr);
-		news.setCategory1("category1");
-		news.setCategory2("category2");
-		news.setWebName("webName");
+		news.setCategory1(a.getFrontCategory());
+		news.setCategory2(a.getFrontCategory2());
+		news.setWebName("CMS后台发布");
 		news.setCountryZH("中国");
 		news.setCountryEN("Chain");
 		news.setLanguage("中简");

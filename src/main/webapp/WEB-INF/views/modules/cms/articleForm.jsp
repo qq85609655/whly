@@ -55,6 +55,20 @@
 			</div>
 		</div>
 		<div class="control-group">
+				<label class="control-label">一级分类:</label>
+				<div class="controls">
+					<form:radiobuttons path="frontCategory" items="${fns:getDictList('front_category')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
+					<span class="help-inline"></span>
+				</div>
+		</div>
+		<div class="control-group">
+				<label class="control-label">二级分类:</label>
+				<div class="controls">
+					<form:radiobuttons path="frontCategory2" items="${fns:getDictList('front_category2')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
+					<span class="help-inline"></span>
+				</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">标题:</label>
 			<div class="controls">
 				<form:input path="title" htmlEscape="false" maxlength="200" class="input-xxlarge measure-input required"/>
