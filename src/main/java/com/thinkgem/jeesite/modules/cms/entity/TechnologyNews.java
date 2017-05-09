@@ -44,6 +44,13 @@ public class TechnologyNews{
 	private String columnURL;//栏目的URL
 	private Date insert;//插入数据的时间
 	private String webKeywords;
+	private String textPublish;
+	public String getTextPublish() {
+		return textPublish;
+	}
+	public void setTextPublish(String textPublish) {
+		this.textPublish = textPublish;
+	}
 	public String getText() {
 		return text;
 	}

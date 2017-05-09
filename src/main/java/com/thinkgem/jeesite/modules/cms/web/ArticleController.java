@@ -148,9 +148,10 @@ public class ArticleController extends BaseController {
 		news.setTitleSrc(a.getTitle());
 		news.setTitleOri(a.getTitle());
 		news.setTitle(a.getTitle());
-		news.setAuthor(UserUtils.getUser().getId());
+		news.setAuthor(UserUtils.getUser().getName());
 		news.setNewsSection(category.getName());
 		news.setPublishDate(dateStr);
+		news.setTextPublish(a.getArticleData().getContent());
 		news.setOriginaURL(a.getLink());
 		news.setTextSrc(a.getArticleData().getContent());
 		news.setText(a.getArticleData().getContent());

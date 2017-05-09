@@ -24,6 +24,8 @@
 		<result column="Publish_date" property="publishDate" />
 		<result column="Created" property="created" />
 		<result column="Web_Keywords" property="webKeywords" />
+		<result column="Text_Publish" property="textPublish" />
+		
 		
 		
 		
@@ -47,7 +49,8 @@
 		a.ProgramID as "programID",
 		a.TaskID as "taskID",
 		a.ColumnURL as "columnURL",
-		a.Insert as "insert"
+		a.Insert as "insert",
+		a.Text_Publish as "textPublish"
 		
 	</sql>
 	
@@ -86,7 +89,8 @@
 			Language,
 			Gatherers,
 			URL,
-			Web_Keywords
+			Web_Keywords,
+			Text_Publish
 		) VALUES (
 			#{oriId},
 			#{oriTable},
@@ -109,7 +113,8 @@
 			#{language},
 			#{gatherers},
 			#{url},
-			#{webKeywords}
+			#{webKeywords},
+			#{textPublish}
 		)
 	</insert>
 	
