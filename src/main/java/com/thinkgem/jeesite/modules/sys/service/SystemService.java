@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.sys.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -353,6 +354,15 @@ public class SystemService extends BaseService implements InitializingBean {
 		if (StringUtils.isBlank(menu.getId())){
 			menu.preInsert();
 			menuDao.insert(menu);
+			Role role=new Role();
+			if(menu.getParentIds().indexOf("09bcd13c489c4c76bb48a024ce508035")!=-1){
+				//是前台菜单 给一键管理员添加对应菜单
+				role.setId("d01b136db7c647a098a84a642ab1f551");
+				List<Menu> menuList=new ArrayList<Menu>();
+				menuList.add(menu);
+				role.setEnname(menu.getId());
+				roleDao.insertRoleMenu2(role);
+			}
 		}else{
 			menu.preUpdate();
 			menuDao.update(menu);

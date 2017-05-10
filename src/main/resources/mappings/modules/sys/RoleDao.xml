@@ -181,6 +181,11 @@
 		</foreach>
 	</insert>
 	
+	<insert id="insertRoleMenu2">
+		INSERT INTO sys_role_menu(role_id, menu_id)
+		values(#{id},#{enname})
+	</insert>
+	
 	<delete id="deleteRoleOffice">
 		DELETE FROM sys_role_office WHERE role_id = #{id}
 	</delete>
