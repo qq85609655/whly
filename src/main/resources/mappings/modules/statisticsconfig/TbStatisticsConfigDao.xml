@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.statisticsconfig.dao.TbStatisticsConfigDao">
+    
+	<sql id="tbStatisticsConfigColumns">
+		a.id AS "id",
+		a.category AS "category",
+		a.multiple AS "multiple",
+		a.accumulate AS "accumulate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="tbStatisticsConfigJoins">
+	</sql>
+    
+	<select id="get" resultType="TbStatisticsConfig">
+		SELECT 
+			<include refid="tbStatisticsConfigColumns"/>
+		FROM tb_statistics_config a
+		<include refid="tbStatisticsConfigJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TbStatisticsConfig">
+		SELECT 
+			<include refid="tbStatisticsConfigColumns"/>
+		FROM tb_statistics_config a
+		<include refid="tbStatisticsConfigJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="category != null and category != ''">
+				AND a.category = #{category}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TbStatisticsConfig">
+		SELECT 
+			<include refid="tbStatisticsConfigColumns"/>
+		FROM tb_statistics_config a
+		<include refid="tbStatisticsConfigJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tb_statistics_config(
+			id,
+			category,
+			multiple,
+			accumulate,
+			del_flag
+		) VALUES (
+			#{id},
+			#{category},
+			#{multiple},
+			#{accumulate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tb_statistics_config SET 	
+			category = #{category},
+			multiple = #{multiple},
+			accumulate = #{accumulate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tb_statistics_config SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
