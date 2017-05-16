@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.maillog.dao.TbMailLogDao">
+    
+	<sql id="tbMailLogColumns">
+		a.id AS "id",
+		a.title AS "title",
+		a.content AS "content",
+		a.mail_use AS "mailUse",
+		a.send_user AS "sendUser",
+		a.to_user AS "toUser",
+		a.created AS "created",
+		a.status AS "status",
+		a.error_msg AS "errorMsg",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="tbMailLogJoins">
+	</sql>
+    
+	<select id="get" resultType="TbMailLog">
+		SELECT 
+			<include refid="tbMailLogColumns"/>
+		FROM tb_mail_log a
+		<include refid="tbMailLogJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TbMailLog">
+		SELECT 
+			<include refid="tbMailLogColumns"/>
+		FROM tb_mail_log a
+		<include refid="tbMailLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="title != null and title != ''">
+				AND a.title LIKE 
+					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{title}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{title},'%')</if>
+			</if>
+			<if test="mailUse != null and mailUse != ''">
+				AND a.mail_use LIKE 
+					<if test="dbName == 'oracle'">'%'||#{mailUse}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{mailUse}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{mailUse},'%')</if>
+			</if>
+			<if test="beginCreated != null and endCreated != null and beginCreated != '' and endCreated != ''">
+				AND a.created BETWEEN #{beginCreated} AND #{endCreated}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TbMailLog">
+		SELECT 
+			<include refid="tbMailLogColumns"/>
+		FROM tb_mail_log a
+		<include refid="tbMailLogJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tb_mail_log(
+			id,
+			title,
+			content,
+			mail_use,
+			send_user,
+			to_user,
+			created,
+			status,
+			error_msg,
+			del_flag
+		) VALUES (
+			#{id},
+			#{title},
+			#{content},
+			#{mailUse},
+			#{sendUser},
+			#{toUser},
+			#{created},
+			#{status},
+			#{errorMsg},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tb_mail_log SET 	
+			title = #{title},
+			content = #{content},
+			mail_use = #{mailUse},
+			send_user = #{sendUser},
+			to_user = #{toUser},
+			created = #{created},
+			status = #{status},
+			error_msg = #{errorMsg}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tb_mail_log SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

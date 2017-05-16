@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.subscibe.dao.TbCategorySubscibeDao">
+    
+	<sql id="tbCategorySubscibeColumns">
+		a.id AS "id",
+		a.user_id AS "userId",
+		a.categery AS "categery",
+		a.create_date AS "createDate",
+		a.del_flag AS "delFlag",
+		f.nick_name AS "nickName",
+		f.email AS "email"
+	</sql>
+	
+	<sql id="tbCategorySubscibeJoins">
+		<!-- LEFT JOIN sys_user u2 ON u2.id = a.user_id -->
+	</sql>
+    
+	<select id="get" resultType="TbCategorySubscibe">
+		SELECT 
+			<include refid="tbCategorySubscibeColumns"/>
+		FROM tb_category_subscibe a
+		<include refid="tbCategorySubscibeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TbCategorySubscibe">
+		SELECT 
+			<include refid="tbCategorySubscibeColumns"/>
+		FROM tb_category_subscibe a LEFT JOIN tb_front_account f on a.user_id=f.id
+		<include refid="tbCategorySubscibeJoins"/>
+		<where>
+			1=1
+			<if test="categery != null and categery != ''">
+					and ( f.user_name like <if test="dbName == 'oracle'">'%'||#{categery}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{categery}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{categery},'%')</if> 
+					or  f.email like <if test="dbName == 'oracle'">'%'||#{categery}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{categery}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{categery},'%')</if>
+					 ) 
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+			<if test="userId != null and userId != ''">
+				AND a.user_id = #{userId}
+			</if>
+			<if test="flag != '1' and flag != 1">
+				and a.del_flag='0'
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TbCategorySubscibe">
+		SELECT 
+			<include refid="tbCategorySubscibeColumns"/>
+		FROM tb_category_subscibe a
+		<include refid="tbCategorySubscibeJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tb_category_subscibe(
+			id,
+			user_id,
+			categery,
+			create_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{user.id},
+			#{categery},
+			#{createDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tb_category_subscibe SET 	
+			user_id = #{user.id},
+			categery = #{categery}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tb_category_subscibe SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
