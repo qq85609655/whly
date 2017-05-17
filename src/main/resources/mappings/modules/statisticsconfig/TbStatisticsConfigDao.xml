@@ -60,13 +60,11 @@
 	
 	<insert id="insert">
 		INSERT INTO tb_statistics_config(
-			id,
 			category,
 			multiple,
 			accumulate,
 			del_flag
 		) VALUES (
-			#{id},
 			#{category},
 			#{multiple},
 			#{accumulate},

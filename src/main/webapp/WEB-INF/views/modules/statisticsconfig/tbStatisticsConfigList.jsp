@@ -21,20 +21,20 @@
 		<li class="active"><a href="${ctx}/statisticsconfig/tbStatisticsConfig/">新闻数量配置列表</a></li>
 		<shiro:hasPermission name="statisticsconfig:tbStatisticsConfig:edit"><li><a href="${ctx}/statisticsconfig/tbStatisticsConfig/form">新闻数量配置添加</a></li></shiro:hasPermission>
 	</ul>
-	<form:form id="searchForm" modelAttribute="tbStatisticsConfig" action="${ctx}/statisticsconfig/tbStatisticsConfig/" method="post" class="breadcrumb form-search">
+	<%-- <form:form id="searchForm" modelAttribute="tbStatisticsConfig" action="${ctx}/statisticsconfig/tbStatisticsConfig/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
 			<li><label>二级分类：</label>
 				<form:select path="category" class="input-medium">
 					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('front_category2')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('news_category')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
 		</ul>
-	</form:form>
+	</form:form> --%>
 	<sys:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>

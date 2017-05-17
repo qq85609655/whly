@@ -33,13 +33,19 @@
 	<form:form id="inputForm" modelAttribute="tbStatisticsConfig" action="${ctx}/statisticsconfig/tbStatisticsConfig/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
-		<div class="control-group">
+		<%-- <div class="control-group">
 			<label class="control-label">二级分类：</label>
 			<div class="controls">
 				<form:select path="category" class="input-xlarge ">
 					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('front_category2')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('news_category')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
+			</div>
+		</div> --%>
+		<div class="control-group">
+			<label class="control-label">类型名称：</label>
+			<div class="controls">
+				<form:input path="category" htmlEscape="false"  maxlength="11" class="required" />
 			</div>
 		</div>
 		<div class="control-group">
