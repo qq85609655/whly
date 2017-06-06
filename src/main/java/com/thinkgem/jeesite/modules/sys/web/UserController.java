@@ -268,22 +268,20 @@ public class UserController extends BaseController {
 	}
 	@RequiresPermissions("sys:user:edit")
 	@RequestMapping(value = "accountDelete")
-	public String accountDelete(User user, RedirectAttributes redirectAttributes) {
+	public String accountDelete(Account user, RedirectAttributes redirectAttributes) {
 		if(Global.isDemoMode()){
 			addMessage(redirectAttributes, "演示模式，不允许操作！");
 			return "redirect:" + adminPath + "/sys/user/accountList?repage";
 		}
-		/*Account a=new Account();
-		a.setId(user.getAccountId());
-		accountService.delete(a);*/
-		if (UserUtils.getUser().getId().equals(user.getId())){
+		accountService.delete(user);
+		/*if (UserUtils.getUser().getId().equals(user.getId())){
 			addMessage(redirectAttributes, "删除用户失败, 不允许删除当前用户");
 		}else if (User.isAdmin(user.getId())){
 			addMessage(redirectAttributes, "删除用户失败, 不允许删除超级管理员用户");
 		}else{
-			systemService.deleteUser(user);
+			accountService.delete(user);
 			addMessage(redirectAttributes, "删除用户成功");
-		}
+		}*/
 		return "redirect:" + adminPath + "/sys/user/accountList?repage";
 	}
 	/**
