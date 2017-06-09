@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>译见后台管理系统</title>
+	<title>译见后台管理系统</title><!-- 高新区创新发展大数据 -->
 	<meta name="decorator" content="blank"/>
 	<style type="text/css">
       html,body,table{background-color:#f5f5f5;width:100%;text-align:center;}.form-signin-heading{font-family:Helvetica, Georgia, Arial, sans-serif, 黑体;font-size:36px;margin-bottom:20px;color:#0663a2;}
