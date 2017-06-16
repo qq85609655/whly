@@ -62,9 +62,9 @@
 				<td>
 					${tbCategorySubscibe.categery}
 				</td>
-			<%-- 	<td>
+				<td>
 					<fmt:formatDate value="${tbCategorySubscibe.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
-				</td> --%>
+				</td>
 			</tr>
 		</c:forEach>
 		</tbody>
