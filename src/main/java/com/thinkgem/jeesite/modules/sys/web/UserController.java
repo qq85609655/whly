@@ -230,7 +230,9 @@ public class UserController extends BaseController {
 			return "redirect:" + adminPath + "/sys/user/accountList?repage";
 		}
 		//前台使用MD5加密
-		user.setPassword(MD5Util.getStringMD5(user.getPassword()));
+		if(user.getIsNewRecord()){
+			user.setPassword(MD5Util.getStringMD5(user.getPassword()));
+		}
 		if (!beanValidator(model, user)){
 			return accountForm(user, model);
 		}

@@ -29,7 +29,7 @@ public class QstIndexController  extends BaseController{
 	@RequestMapping("/index")
 	public String showIndex(){
 		service.index();
-		return "yijian/index";
+		return "qst/index";
 	}
 	
 }

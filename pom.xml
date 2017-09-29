@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>com.thinkgem.jeesite</groupId>
-	<artifactId>YIJIAN_ADMIN</artifactId>
+	<artifactId>whly</artifactId>
 	<version>1.2.6</version>
 	<packaging>war</packaging>
 	
-	<name>YIJIAN_ADMIN</name>
+	<name>whly</name>
 	<url>http://thinkgem.github.com/jeesite</url>
-	<inceptionYear>2012-2014</inceptionYear>
+	<inceptionYear>2017</inceptionYear>
 	
 	<!-- 项目属性 -->
 	<properties>

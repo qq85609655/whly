@@ -56,6 +56,17 @@ public abstract class BaseController {
 	protected String frontPath;
 	
 	/**
+	 * 威海前端基础路径
+	 */
+	@Value("${whlyPath}")
+	protected String whlyPath;
+	/**
+	 * 威海林业前端页面文件夹名称
+	 */
+	@Value("${whlyPage}")
+	protected String whlyPage;
+	
+	/**
 	 * 前端URL后缀
 	 */
 	@Value("${urlSuffix}")
