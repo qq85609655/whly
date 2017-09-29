@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailian.whly.dao.WhlyAccountDao">
+    <resultMap type="com.hailian.whly.entity.WhlyAccount" id="whlyAccountMap">
+        <result column="id" property="id" />
+        <result column="login_name" property="loginName"/>
+    </resultMap>
+    <select id="getWhlyAccountList" resultMap="whlyAccountMap" parameterType="com.hailian.whly.entity.WhlyAccount">
+        SELECT
+			*
+		FROM
+			whly_account
+    </select>
+   
+</mapper>
