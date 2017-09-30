@@ -13,3 +13,6 @@
 <c:set var="ctxStaticFront" value="${ctxStatic}/modules/cms/front"/>
 <c:set var="ctxStaticTheme" value="${ctxStaticFront}/themes/${site.theme}"/>
 <c:set var="urlSuffix" value="${fns:getUrlSuffix()}"/>
+
+<c:set var="whlyPath" value="${pageContext.request.contextPath}${fns:getWhlyPath()}"/>
+<c:set var="whlyPage" value="${pageContext.request.contextPath}${fns:getWhlyPage()}"/>

@@ -7,7 +7,7 @@
           <!-- 系统图标 -->
           <div class="page-logo">
               <a href="${whlyPath}/r/home">
-                  <img src="/whly/assets/layouts/layout/img/logo.png" alt="logo" class="logo-default" /> </a>
+                  <img src="/${whlyPage}/assets/layouts/layout/img/logo.png" alt="logo" class="logo-default" /> </a>
               <div class="menu-toggler sidebar-toggler"> </div>
           </div>
           <!-- 手机端 菜单控制按钮 -->
@@ -32,7 +32,7 @@
                                   <li>
                                       <a href="#">
                                           <span class="photo">
-                                              <img src="/whly/assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt=""> </span>
+                                              <img src="/${whlyPage}/assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt=""> </span>
                                           <span class="subject">
                                               <span class="from"> Lisa Wong </span>
                                               <span class="time">Just Now </span>
@@ -43,7 +43,7 @@
                                   <li>
                                       <a href="#">
                                           <span class="photo">
-                                              <img src="/whly/assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt=""> </span>
+                                              <img src="/${whlyPage}/assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt=""> </span>
                                           <span class="subject">
                                               <span class="from"> Richard Doe </span>
                                               <span class="time">16 mins </span>
@@ -54,7 +54,7 @@
                                   <li>
                                       <a href="#">
                                           <span class="photo">
-                                              <img src="/whly/assets/layouts/layout3/img/avatar1.jpg" class="img-circle" alt=""> </span>
+                                              <img src="/${whlyPage}/assets/layouts/layout3/img/avatar1.jpg" class="img-circle" alt=""> </span>
                                           <span class="subject">
                                               <span class="from"> Bob Nilson </span>
                                               <span class="time">2 hrs </span>
@@ -65,7 +65,7 @@
                                   <li>
                                       <a href="#">
                                           <span class="photo">
-                                              <img src="/whly/assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt=""> </span>
+                                              <img src="/${whlyPage}/assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt=""> </span>
                                           <span class="subject">
                                               <span class="from"> Lisa Wong </span>
                                               <span class="time">40 mins </span>
@@ -76,7 +76,7 @@
                                   <li>
                                       <a href="#">
                                           <span class="photo">
-                                              <img src="/whly/assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt=""> </span>
+                                              <img src="/${whlyPage}/assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt=""> </span>
                                           <span class="subject">
                                               <span class="from"> Richard Doe </span>
                                               <span class="time">46 mins </span>
@@ -91,24 +91,24 @@
                   <!-- 用户中心 -->
                   <li class="dropdown dropdown-user">
                       <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                          <img alt="" class="img-circle" src="/whly/assets/layouts/layout/img/avatar3_small.jpg" />
+                          <img alt="" class="img-circle" src="/${whlyPage}/assets/layouts/layout/img/avatar3_small.jpg" />
                           <span class="username username-hide-on-mobile"> Nick </span>
                           <i class="fa fa-angle-down"></i>
                       </a>
                       <ul class="dropdown-menu dropdown-menu-default">
                           <li>
-                              <a href="page_user_profile_1.html">
+                              <a href="javascript:void(0);">
                                   <i class="icon-user"></i> 个人信息 </a>
                           </li>
                           <li>
-                              <a href="app_todo.html">
+                              <a href="javascript:void(0);">
                                   <i class="icon-rocket"></i> 待办
                                   <span class="badge badge-success"> 7 </span>
                               </a>
                           </li>
                           <li class="divider"> </li>
-                          <li>
-                              <a href="page_user_login_1.html">
+                          <li  id="btnLogout">
+                              <a href="javascript:void(0);">
                                   <i class="icon-key"></i> 退出 </a>
                           </li>
                       </ul>
@@ -119,3 +119,8 @@
       </div>
       <!-- END HEADER INNER -->
   </div>
+      <script type="text/javascript">
+   		$('#btnLogout').click(function(){
+   			window.location.href="${whlyPath}/logout";
+   		});
+    </script>

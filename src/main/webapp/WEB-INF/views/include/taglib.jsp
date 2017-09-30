@@ -11,3 +11,4 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}${fns:getAdminPath()}"/>
 <c:set var="ctxStatic" value="${pageContext.request.contextPath}/static"/>
 <c:set var="whlyPath" value="${pageContext.request.contextPath}${fns:getWhlyPath()}"/>
+<c:set var="whlyPage" value="${pageContext.request.contextPath}${fns:getWhlyPage()}"/>

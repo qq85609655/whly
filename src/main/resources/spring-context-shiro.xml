@@ -27,7 +27,6 @@
 			</value>
 		</constructor-arg>
 	</bean>
-	
 	<!-- 安全认证过滤器 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" /><!-- 
@@ -44,11 +43,42 @@
 			<ref bean="shiroFilterChainDefinitions"/>
 		</property>
 	</bean>
-	
 	<!-- CAS认证过滤器 -->  
 	<bean id="casFilter" class="org.apache.shiro.cas.CasFilter">  
 		<property name="failureUrl" value="${adminPath}/login"/>
 	</bean>
+	
+	<!-- 威海林业前端安全权限 -->
+	
+	<bean name="whlyShiroFilterChainDefinitions" class="java.lang.String">
+		<constructor-arg>
+			<value>
+			    ${whlyPath}/cas = cas
+				${whlyPath}/login = authc
+				<!-- ${whlyPath}/logout = logout -->
+			</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="whlyShiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="${whlyPath}/login" />
+		<property name="successUrl" value="${whlyPath}/r/home" />
+		<property name="filters">
+            <map>
+                <entry key="cas" value-ref="whlyCasFilter"/>
+                <entry key="authc" value-ref="whlyFormAuthenticationFilter"/>
+            </map>
+        </property>
+		<property name="filterChainDefinitions">
+			<ref bean="whlyShiroFilterChainDefinitions"/>
+		</property>
+	</bean>
+		<!-- CAS认证过滤器 -->  
+	<bean id="whlyCasFilter" class="org.apache.shiro.cas.CasFilter">  
+		<property name="failureUrl" value="${whlyPath}/login"/>
+	</bean>
+
 	
 	<!-- 定义Shiro安全管理配置 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">

@@ -99,6 +99,12 @@ public class Global {
 		return getConfig("whlyPath");
 	}
 	/**
+	 * 获取威海林业前端根路径
+	 */
+	public static String getWhlyPage() {
+		return getConfig("whlyPage");
+	}
+	/**
 	 * 获取URL后缀
 	 */
 	public static String getUrlSuffix() {
