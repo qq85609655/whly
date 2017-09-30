@@ -22,15 +22,10 @@ import com.thinkgem.jeesite.common.web.BaseController;
 @RequestMapping("${whlyPath}")
 public class WhlyLoginController extends BaseController {
 	@Autowired
-	private WhlyAccountService service;
+	private WhlyAccountService whlyAccountService;
 
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request, HttpServletResponse response,Model model) {
-	/*	List<WhlyAccount> list=service.getWhlyAccountList(null);
-		for(WhlyAccount a :list){
-			System.out.println(a.getId());
-		}*/
-		model.addAttribute("id", "home");
 		return whlyPage+"/user/login";
 	}
 

@@ -1,6 +1,13 @@
 package com.hailian.whly.entity;
 
-public class WhlyAccount {
+import com.hailian.whly.commom.WhlyDataEntity;
+
+
+public class WhlyAccount extends WhlyDataEntity<WhlyAccount>{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8896976639973040621L;
 	private String id;
 	private String loginName;
 	public String getId() {

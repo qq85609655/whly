@@ -40,7 +40,7 @@ public class AjaxController extends BaseController {
             if(currentpage == null){
                 currentpage = 1;
             }
-            List<WhlyAccount> list=service.getWhlyAccountList(null);
+            List<WhlyAccount> list=service.findList(null);
           //  long count = service.getCounts(new HashMap<String, Object>());
             long count = 101l;
             PageBean bean = new PageBean();

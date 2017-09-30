@@ -25,6 +25,15 @@
     <function-signature>java.lang.String getFrontPath()</function-signature>
     <example>${fns:getFrontPath()}</example>
   </function>
+  
+    <function>
+    <description>获取威海前端路径</description>
+    <name>getWhlyPath</name>
+    <function-class>com.thinkgem.jeesite.common.config.Global</function-class>
+    <function-signature>java.lang.String getWhlyPath()</function-signature>
+    <example>${fns:getWhlyPath()}</example>
+  </function>
+  
   <function>
     <description>获取网站URL后缀</description>
     <name>getUrlSuffix</name>

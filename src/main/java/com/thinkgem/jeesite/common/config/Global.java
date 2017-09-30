@@ -92,7 +92,12 @@ public class Global {
 	public static String getFrontPath() {
 		return getConfig("frontPath");
 	}
-	
+	/**
+	 * 获取威海林业前端根路径
+	 */
+	public static String getWhlyPath() {
+		return getConfig("whlyPath");
+	}
 	/**
 	 * 获取URL后缀
 	 */

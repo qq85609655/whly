@@ -1,15 +1,82 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hailian.whly.dao.WhlyAccountDao">
-    <resultMap type="com.hailian.whly.entity.WhlyAccount" id="whlyAccountMap">
-        <result column="id" property="id" />
-        <result column="login_name" property="loginName"/>
-    </resultMap>
-    <select id="getWhlyAccountList" resultMap="whlyAccountMap" parameterType="com.hailian.whly.entity.WhlyAccount">
-        SELECT
-			*
-		FROM
-			whly_account
-    </select>
+    <sql id="tbBloggerColumns">
+		a.id AS "id",
+		a.login_name AS "loginName"
+	</sql>
+	
+	<sql id="tbBloggerJoins">
+	</sql>
+    
+	<select id="get" resultType="com.hailian.whly.entity.WhlyAccount">
+		SELECT 
+			<include refid="tbBloggerColumns"/>
+		FROM whly_account a
+		<include refid="tbBloggerJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.hailian.whly.entity.WhlyAccount">
+		SELECT 
+			<include refid="tbBloggerColumns"/>
+		FROM whly_account a
+		<include refid="tbBloggerJoins"/>
+		<where>
+			
+			<if test="loginName != null and loginName != ''">
+				AND a.login_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{loginName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{loginName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{loginName},'%')</if>
+			</if>
+		
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	
+	<insert id="insert">
+		INSERT INTO whly_account(
+			id,
+			name,
+			url,
+			title,
+			blogger_desc,
+			type,
+			img
+		) VALUES (
+			#{id},
+			#{name},
+			#{url},
+			#{title},
+			#{desc},
+			#{type},
+			#{img}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE whly_account SET 	
+			name = #{name},
+			url = #{url},
+			title = #{title},
+			blogger_desc = #{desc},
+			type = #{type},
+			img = #{img}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM whly_account
+		WHERE id = #{id}
+	</update>
    
 </mapper>
