@@ -46,7 +46,6 @@ public class Article extends DataEntity<Article> {
 	private Date endDate;	// 结束时间
 	
 	private User user;
-	private String yijianNewsId;
     
 	private String frontCategory;
 	private String frontCategory2;
@@ -67,13 +66,6 @@ public class Article extends DataEntity<Article> {
 		this.frontCategory2 = frontCategory2;
 	}
 
-	public String getYijianNewsId() {
-		return yijianNewsId;
-	}
-
-	public void setYijianNewsId(String yijianNewsId) {
-		this.yijianNewsId = yijianNewsId;
-	}
 
 	public Article() {
 		super();

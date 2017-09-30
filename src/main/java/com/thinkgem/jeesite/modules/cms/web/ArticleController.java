@@ -3,8 +3,6 @@
  */
 package com.thinkgem.jeesite.modules.cms.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,22 +20,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.utils.CookieUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.cms.entity.Article;
 import com.thinkgem.jeesite.modules.cms.entity.Category;
 import com.thinkgem.jeesite.modules.cms.entity.Site;
-import com.thinkgem.jeesite.modules.cms.entity.TechnologyNews;
 import com.thinkgem.jeesite.modules.cms.service.ArticleDataService;
 import com.thinkgem.jeesite.modules.cms.service.ArticleService;
 import com.thinkgem.jeesite.modules.cms.service.CategoryService;
 import com.thinkgem.jeesite.modules.cms.service.FileTplService;
 import com.thinkgem.jeesite.modules.cms.service.SiteService;
-import com.thinkgem.jeesite.modules.cms.service.TechnologyNewsService;
 import com.thinkgem.jeesite.modules.cms.utils.CmsUtils;
 import com.thinkgem.jeesite.modules.cms.utils.TplUtils;
-import com.thinkgem.jeesite.modules.cms.utils.YijianUtil;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
@@ -59,9 +53,6 @@ public class ArticleController extends BaseController {
    	private FileTplService fileTplService;
     @Autowired
    	private SiteService siteService;
-    
-    @Autowired
-	private TechnologyNewsService technologyNewsService;
 	
 	@ModelAttribute
 	public Article get(@RequestParam(required=false) String id) {
@@ -108,11 +99,6 @@ public class ArticleController extends BaseController {
         model.addAttribute("contentViewList",getTplContent());
         model.addAttribute("article_DEFAULT_TEMPLATE",Article.DEFAULT_TEMPLATE);
 		model.addAttribute("article", article);
-		TechnologyNews frontNews=technologyNewsService.getNewsById(article.getYijianNewsId());
-		if(frontNews!=null){
-			article.setFrontCategory(frontNews.getCategory1());
-			article.setFrontCategory2(frontNews.getCategory2());
-		}
 		CmsUtils.addViewConfigAttribute(model, article.getCategory());
 		return "modules/cms/articleForm";
 	}
@@ -123,54 +109,10 @@ public class ArticleController extends BaseController {
 		if (!beanValidator(model, article)){
 			return form(article, model);
 		}
-		TechnologyNews tnews=null;
-		if(YijianUtil.containRole(UserUtils.getUser())){
-			//科技大数据 默认 站点2
-			tnews=getTechnologyNews(article);
-			technologyNewsService.save(tnews);
-		}
-		if(tnews!=null){
-			article.setYijianNewsId(tnews.getId());
-		}
 		articleService.save(article);
 		addMessage(redirectAttributes, "保存文章'" + StringUtils.abbr(article.getTitle(),50) + "'成功");
 		String categoryId = article.getCategory()!=null?article.getCategory().getId():null;
 		return "redirect:" + adminPath + "/cms/article/?repage&category.id="+(categoryId!=null?categoryId:"");
-	}
-	public TechnologyNews getTechnologyNews(Article a){
-		Category category=a.getCategory();
-		TechnologyNews news=new TechnologyNews();
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String dateStr=sdf.format(new Date());
-		news.setId(a.getYijianNewsId());
-		news.setOriId("-999");//原表id
-		news.setOriTable("cms_article");
-		news.setTitleSrc(a.getTitle());
-		news.setTitleOri(a.getTitle());
-		news.setTitle(a.getTitle());
-		news.setAuthor(UserUtils.getUser().getName());
-		news.setNewsSection(category.getName());
-		news.setPublishDate(dateStr);
-		news.setTextPublish(a.getArticleData().getContent());
-		news.setOriginaURL(a.getLink());
-		news.setTextSrc(a.getArticleData().getContent());
-		news.setText(a.getArticleData().getContent());
-		news.setCreated(dateStr);
-		news.setCategory1(a.getFrontCategory());
-		news.setCategory2(a.getFrontCategory2());
-		news.setWebName("CMS后台发布");
-		news.setCountryZH("中国");
-		news.setCountryEN("Chain");
-		news.setLanguage("中简");
-		news.setGatherers(UserUtils.getUser().getName());
-		news.setUrl("/article?artid="+a.getYijianNewsId()+"&t="+System.currentTimeMillis());
-		news.setProgramID("-999");
-		news.setTaskID("-999");
-		news.setColumnURL("http://www.enet.com.cn/tag/energy");
-		news.setInsert(new Date());
-		news.setWebKeywords(a.getKeywords());
-		return news;
-		
 	}
 	@RequiresPermissions("cms:article:edit")
 	@RequestMapping(value = "delete")
@@ -179,9 +121,7 @@ public class ArticleController extends BaseController {
 		if (!UserUtils.getSubject().isPermitted("cms:article:audit")){
 			addMessage(redirectAttributes, "你没有删除或发布权限");
 		}
-		TechnologyNews news=technologyNewsService.getNewsById(article.getYijianNewsId());
 		articleService.delete(article, isRe);
-		technologyNewsService.newDelete(news);
 		addMessage(redirectAttributes, (isRe!=null&&isRe?"发布":"删除")+"文章成功");
 		return "redirect:" + adminPath + "/cms/article/?repage&category.id="+(categoryId!=null?categoryId:"");
 	}

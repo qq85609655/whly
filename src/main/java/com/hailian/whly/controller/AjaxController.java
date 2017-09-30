@@ -13,6 +13,8 @@ import com.hailian.utils.PageBean;
 import com.hailian.whly.entity.WhlyAccount;
 import com.hailian.whly.service.WhlyAccountService;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.cms.entity.Category;
+import com.thinkgem.jeesite.modules.cms.service.CategoryService;
 
 /**
  * 
@@ -26,7 +28,8 @@ import com.thinkgem.jeesite.common.web.BaseController;
 public class AjaxController extends BaseController {
 	@Autowired
 	private WhlyAccountService service;
-
+	@Autowired
+	private CategoryService categoryService;
 
     /**
      * 获取列表
@@ -35,21 +38,10 @@ public class AjaxController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/getAccountList")
-    public String getAccountList(Integer currentpage,HttpServletRequest request, HttpServletResponse response){
+    public String getAccountList(HttpServletRequest request, HttpServletResponse response){
         try {
-            if(currentpage == null){
-                currentpage = 1;
-            }
-            List<WhlyAccount> list=service.findList(null);
-          //  long count = service.getCounts(new HashMap<String, Object>());
-            long count = 101l;
-            PageBean bean = new PageBean();
-            bean.setPageSize(10);
-            bean.setCurrentPage(currentpage);
-            bean.setList(list);
-            bean.setTotalPage((int)Math.ceil((double) count/10));
-            bean.setTotal(count);
-            return resultSuccessData(response,"查询行业数据成功", bean);
+        	List<Category> list= categoryService.findByUserWhly(true, null,response);
+            return resultSuccessData(response,"查询行业数据成功", list);
         } catch (Exception e) {
             return resultErrorData(response,"查询数据异常", null);
         }

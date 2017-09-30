@@ -30,6 +30,7 @@ public class Category extends TreeEntity<Category> {
 //	private String parentIds;// 所有父级编号
 	private String module; 	// 栏目模型（article：文章；picture：图片；download：下载；link：链接；special：专题）
 //	private String name; 	// 栏目名称
+	private String icon;//fontawesome 图标
 	private String image; 	// 栏目图片
 	private String href; 	// 链接
 	private String target; 	// 目标（ _blank、_self、_parent、_top）
@@ -49,6 +50,7 @@ public class Category extends TreeEntity<Category> {
     private Date endDate;	// 结束时间
     private String cnt;//信息量
     private String hits;//点击量
+    private String idJoin;
 	
 	private List<Category> childList = Lists.newArrayList(); 	// 拥有子分类列表
 
@@ -85,6 +87,14 @@ public class Category extends TreeEntity<Category> {
 
 	public void setHits(String hits) {
 		this.hits = hits;
+	}
+
+	public String getIdJoin() {
+		return idJoin;
+	}
+
+	public void setIdJoin(String idJoin) {
+		this.idJoin = idJoin;
 	}
 
 	public void setSite(Site site) {
@@ -326,4 +336,12 @@ public class Category extends TreeEntity<Category> {
    	public String getUrl() {
         return CmsUtils.getUrlDynamic(this);
    	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
 }

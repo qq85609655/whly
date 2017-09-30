@@ -11,12 +11,12 @@
              
              <!-- 搜索 -->
              <li class="sidebar-search-wrapper">
-                 <form class="sidebar-search  " action="page_general_search_3.html" method="POST">
+                 <form class="sidebar-search  " action="" method="POST">
                      <a href="javascript:;" class="remove">
                          <i class="icon-close"></i>
                      </a>
                      <div class="input-group">
-                         <input type="text" class="form-control" placeholder="Search...">
+                         <input type="text" class="form-control" placeholder="查询">
                          <span class="input-group-btn">
                              <a href="javascript:;" class="btn submit">
                                  <i class="icon-magnifier"></i>
@@ -27,125 +27,92 @@
              </li>
              
              <!-- 左侧菜单项 -->
-             <li class="nav-item start active open">
-                 <a href="javascript:;" class="nav-link nav-toggle">
-                     <i class="icon-home"></i>
-                     <span class="title">Dashboard-${id }</span>
-                     <span class="selected"></span>
-                     <span class="arrow open"></span>
-                 </a>
-                 <ul class="sub-menu">
-                     <li class="nav-item start active open">
-                         <a href="index.html" class="nav-link ">
-                             <i class="icon-bar-chart"></i>
-                             <span class="title">Dashboard 1</span>
-                             <span class="selected"></span>
-                         </a>
-                     </li>
-                 </ul>
-             </li>
-             <li class="heading">
-                 <h3 class="uppercase">监管全景</h3>
-             </li>
-             <li class="nav-item  ">
-                 <a href="javascript:;" class="nav-link nav-toggle">
-                     <i class="icon-diamond"></i>
-                     <span class="title">菜单1</span>
-                     <span class="arrow"></span>
-                 </a>
-                 <ul class="sub-menu">
-                     <li class="nav-item  ">
-                         <a href="ui_colors.html" class="nav-link ">
-                             <span class="title">菜单1-1</span>
-                         </a>
-                     </li>
-                     <li class="nav-item  ">
-                         <a href="ui_general.html" class="nav-link ">
-                             <span class="title">菜单1-2</span>
-                         </a>
-                     </li>
-                 </ul>
-             </li>
-             <li class="heading">
-                 <h3 class="uppercase">机构透视</h3>
-             </li>
-             <li class="nav-item  ">
-                 <a href="javascript:;" class="nav-link nav-toggle">
-                     <i class="icon-settings"></i>
-                     <span class="title">风险画像</span>
-                     <span class="arrow"></span>
-                 </a>
-                 <ul class="sub-menu">
-                     <li class="nav-item  ">
-                         <a href="page_system_coming_soon.html" class="nav-link " target="_blank">
-                             <span class="title">菜单1</span>
-                         </a>
-                     </li>
-                     <li class="nav-item  ">
-                         <a href="page_system_404_1.html" class="nav-link ">
-                             <span class="title">菜单2</span>
-                         </a>
-                     </li>
-                    
-                 </ul>
-             </li>
-             <li class="nav-item">
-                 <a href="javascript:;" class="nav-link nav-toggle">
-                     <i class="icon-folder"></i>
-                     <span class="title">指标对比</span>
-                     <span class="arrow "></span>
-                 </a>
-                 <ul class="sub-menu">
-                     <li class="nav-item">
-                         <a href="javascript:;" class="nav-link nav-toggle">
-                             <i class="icon-settings"></i> 菜单1
-                             <span class="arrow"></span>
-                         </a>
-                         <ul class="sub-menu">
-                             <li class="nav-item">
-                                 <a href="javascript:;" target="_blank" class="nav-link">
-                                     <i class="icon-user"></i>菜单1-1
-                                     <span class="arrow nav-toggle"></span>
-                                 </a>
-                                 <ul class="sub-menu">
-                                     <li class="nav-item">
-                                         <a href="#" class="nav-link">
-                                             <i class="icon-power"></i> 菜单1-1-1</a>
-                                     </li>
-                                     <li class="nav-item">
-                                         <a href="#" class="nav-link">
-                                             <i class="icon-paper-plane"></i>菜单1-1-2</a>
-                                     </li>
-                                 </ul>
-                             </li>
-                             
-                         </ul>
-                     </li>
-                     <li class="nav-item">
-                         <a href="javascript:;" target="_blank" class="nav-link">
-                             <i class="icon-globe"></i> 菜单2
-                             <span class="arrow nav-toggle"></span>
-                         </a>
-                         <ul class="sub-menu">
-                             <li class="nav-item">
-                                 <a href="#" class="nav-link">
-                                     <i class="icon-tag"></i> 菜单2-1</a>
-                             </li>
-                             <li class="nav-item">
-                                 <a href="#" class="nav-link">
-                                     <i class="icon-pencil"></i> 菜单2-2</a>
-                             </li>
-                         </ul>
-                     </li>
-                     <li class="nav-item">
-                         <a href="#" class="nav-link">
-                             <i class="icon-bar-chart"></i> 菜单3 </a>
-                     </li>
-                 </ul>
-             </li>
+			<c:forEach items="${categoryList}" var="menu" varStatus="idxStatus">
+			<!--  一级菜单-->
+				<!-- 如果没有选择过菜单  默认选中第一个 start active open-->
+				 <c:if test="${menu.inMenu eq '1'}">
+					 <li class="nav-item <c:if test="${empty menusIds}"><c:if test="${idxStatus.index==0 }">start active open</c:if></c:if> 
+					 <c:if test="${fn:indexOf(menusIds,menu.idJoin) !=-1}">active open</c:if>" >
+					 	 <a href="javascript:;" class="nav-link nav-toggle">
+					 	 	<span onclick="intentPage('${menu.href }','${menu.target }','${menu.id }')">
+			                     <i class="${menu.icon }"></i>
+			                     <span class="title">${menu.name }</span>
+					 	 	</span>
+		                     <c:if test="${fn:length(menu.childList) >0}">
+								 <span class="arrow "></span>
+							</c:if>
+		                 </a>
+		                <c:if test="${fn:length(menu.childList) >0}">
+		                		 <!-- 二级菜单 -->
+								 <ul class="sub-menu">
+								 	  <c:forEach items="${menu.childList}" var="menu2" varStatus="idxStatus">
+								 	      <c:if test="${menu2.inMenu eq '1'}">
+										 	  <li class="nav-item <c:if test="${fn:indexOf(menusIds,menu2.idJoin) !=-1}">active open</c:if>" >
+						                         <a href="javascript:;"  class="nav-link nav-toggle">
+						                             <span onclick="intentPage('${menu2.href }','${menu2.target }','${menu2.id }')">
+							                             <i class="${menu2.icon }"></i>
+							                             ${menu2.name }
+						                             </span>
+						                             <c:if test="${fn:length(menu2.childList) >0}">
+														 <span class="arrow "></span>
+													</c:if>
+						                         </a>
+						                         <!-- 三级菜单 -->
+						                          <c:if test="${fn:length(menu2.childList) >0}">
+														 <ul class="sub-menu">
+														 	<c:forEach items="${menu2.childList}" var="menu3" varStatus="idxStatus">
+														 		<c:if test="${menu3.inMenu eq '1'}">
+																 	 <li class="nav-item <c:if test="${fn:indexOf(menusIds,menu3.idJoin) !=-1}">active open</c:if>" >
+										                                 <a href="javascript:;"  class="nav-link">
+										                                    <span onclick="intentPage('${menu3.href }','${menu3.target }','${menu3.id }')" >
+											                                     <i class="${menu3.icon }"></i>
+											                                     ${menu3.name }
+										                                    </span>
+										                                     <c:if test="${fn:length(menu3.childList) >0}">
+										                                     	<!-- 比较特殊 增加类 nav-toggle 前三级没有-->
+																				 <span class="arrow nav-toggle"></span>
+																			 </c:if>
+										                                 </a>
+										                                 <c:if test="${fn:length(menu3.childList) >0}">
+										                                 <!-- 四级菜单 -->
+																				  <ul class="sub-menu">
+																				  	 <c:forEach items="${menu3.childList}" var="menu4" varStatus="idxStatus">
+																				  	 	<c:if test="${menu4.inMenu eq '1'}">
+														                                     <li class="nav-item <c:if test="${fn:indexOf(menusIds,menu4.idJoin) !=-1}">active open</c:if>" >
+														                                         <a href="javascript:;" onclick="intentPage('${menu4.href }','${menu4.target }','${menu4.id }')" class="nav-link">
+														                                             <i class="${menu4.icon }"></i> ${menu4.name}</a>
+														                                     </li>
+																				  	 	</c:if>
+												                                     </c:forEach>
+												                                 </ul>
+																		  </c:if>
+										                                
+										                             </li>
+														 		</c:if>
+														 	</c:forEach>
+														 </ul>
+												  </c:if>
+						                       </li>
+								 	      </c:if>
+								 	  </c:forEach>
+								 </ul>
+						</c:if>
+		                 
+					 </li>
+				 </c:if>
+			</c:forEach>
          </ul>
-         <!-- END SIDEBAR MENU -->
-         <!-- END SIDEBAR MENU -->
      </div>
      <!-- END SIDEBAR -->
  </div>
+<script>
+function intentPage(url,target,parentIds){
+	if(url!=""&&url!=null&&url!=undefined){
+		if(target=="_blank"){
+			window.open(url+"?menuId="+parentIds);        
+		}else{
+			window.location.href=url+"?menuId="+parentIds;
+		}
+	}
+}
+</script>

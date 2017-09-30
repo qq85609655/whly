@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.cms.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -18,12 +19,10 @@ import com.google.common.collect.Sets;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.TreeService;
-import com.thinkgem.jeesite.common.utils.CookieUtils;
 import com.thinkgem.jeesite.modules.cms.dao.CategoryDao;
 import com.thinkgem.jeesite.modules.cms.entity.Category;
 import com.thinkgem.jeesite.modules.cms.entity.Site;
 import com.thinkgem.jeesite.modules.cms.utils.CmsUtils;
-import com.thinkgem.jeesite.modules.cms.utils.YijianUtil;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -38,6 +37,7 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 public class CategoryService extends TreeService<CategoryDao, Category> {
 
 	public static final String CACHE_CATEGORY_LIST = "categoryList";
+	public static final String CACHE_CATEGORY_LIST_WHLY = "categoryListWhly";
 	
 	private Category entity = new Category();
 	
@@ -51,15 +51,6 @@ public class CategoryService extends TreeService<CategoryDao, Category> {
 			category.setOffice(new Office());
 			category.getSqlMap().put("dsf", dataScopeFilter(user, "o", "u"));
 			category.setSite(new Site());
-			if(YijianUtil.containRole(user)){
-				//科技大数据 默认 站点2
-				Site site=new Site();
-				site.setId("2");
-				UserUtils.putCache("siteId", "2");
-				// 保存到Cookie中，下次登录后自动切换到该站点
-				CookieUtils.setCookie(response, "siteId", "2");
-				category.setSite(site);
-			}
 			category.setParent(new Category());
 			list = dao.findList(category);
 			// 将没有父节点的节点，找到父节点
@@ -107,6 +98,30 @@ public class CategoryService extends TreeService<CategoryDao, Category> {
 		}
 		return list;
 	}
+	
+public List<Category> findByUserWhly(boolean isCurrentSite, String module, HttpServletResponse response){
+		
+		List<Category> list = (List<Category>)UserUtils.getCache(CACHE_CATEGORY_LIST_WHLY);
+		if (list == null){
+			User user = UserUtils.getUser();
+			Category category = new Category();
+			category.setOffice(new Office());
+			category.getSqlMap().put("dsf", dataScopeFilter(user, "o", "u"));
+			category.setSite(new Site());
+			category.setInMenu(Global.SHOW);
+			Category p=new Category();
+			p.setId("1");
+			category.setParent(p);
+			list = dao.findList(category);
+			// 将没有父节点的节点，找到父节点
+			for (Category e : list){
+				e.setIdJoin(","+e.getId()+",");
+				e.setChildList(findByParentId(e.getId(), category.getSite().getId()));
+			}
+			UserUtils.putCache(CACHE_CATEGORY_LIST_WHLY, list);
+		}
+		return list;
+	}
 
 	public List<Category> findByParentId(String parentId, String siteId){
 		Category parent = new Category();
@@ -115,7 +130,12 @@ public class CategoryService extends TreeService<CategoryDao, Category> {
 		Site site = new Site();
 		site.setId(siteId);
 		entity.setSite(site);
-		return dao.findByParentIdAndSiteId(entity);
+		List<Category> list=dao.findByParentIdAndSiteId(entity);
+		for(Category c:list){
+			c.setIdJoin(","+c.getId()+",");
+			c.setChildList(findByParentId(c.getId(),siteId));
+		}
+		return list;
 	}
 	
 	public Page<Category> find(Page<Category> page, Category category) {
@@ -188,5 +208,31 @@ public class CategoryService extends TreeService<CategoryDao, Category> {
 		}
 		return list;
 	}
-	
+	/**
+	 * 
+	 * @time   2017年9月30日 下午6:57:17
+	 * @author zuoqb
+	 * @todo   根据菜单id获取菜单集合
+	 * @param  @param menusIds
+	 * @param  @param response
+	 * @param  @return
+	 * @return_type   List<Category>
+	 */
+	public List<Category> getMenuName(String menusIds, HttpServletResponse response) {
+		List<Category> topMenuName=new ArrayList<Category>();
+		List<Category> list=findByUser(true, null,response);
+		if(StringUtils.isBlank(menusIds)){
+			topMenuName.add(list.get(0));
+		}else{
+			String[] ids=menusIds.split(",");
+			for(String id:ids){
+				for(Category c:list){
+					if(c.getId().equals(id)){
+						topMenuName.add(c);
+					}
+				}
+			}
+		}
+		return topMenuName;
+	}
 }

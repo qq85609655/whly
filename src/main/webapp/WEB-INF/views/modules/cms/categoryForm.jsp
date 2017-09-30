@@ -23,7 +23,12 @@
 				}
 			});
 		});
+		function setIcon(obj){
+			var icon=$(obj).val();
+			$("#icon_id").removeClass().addClass(icon);
+		}
 	</script>
+	<link href="/${whlyPage}/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<ul class="nav nav-tabs">
@@ -47,7 +52,7 @@
 					title="栏目" url="/cms/category/treeData" extId="${category.id}" cssClass="required"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" style="display:none">
 			<label class="control-label">栏目模型:</label>
 			<div class="controls">
 				<form:select path="module">
@@ -63,6 +68,12 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label"><a href="http://www.stpatsfc.com/assets/plugins/line-icons/" target="_blank">图标<i style="padding-left:5px;" id="icon_id" class="${category.icon }"></i>:</a></label>
+			<div class="controls">
+				<form:input path="icon" htmlEscape="false" maxlength="50"  onchange="setIcon(this)"/>
+			</div>
+		</div>
+		<div class="control-group" style="display:none">
 			<label class="control-label">缩略图:</label>
 			<div class="controls">
 				<form:hidden path="image" htmlEscape="false" maxlength="255" class="input-xlarge"/>
@@ -89,7 +100,7 @@
 				<form:textarea path="description" htmlEscape="false" rows="4" maxlength="200" class="input-xxlarge"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" style="display:none">
 			<label class="control-label">关键字:</label>
 			<div class="controls">
 				<form:input path="keywords" htmlEscape="false" maxlength="200"/>
@@ -110,14 +121,14 @@
 				<span class="help-inline">是否在导航中显示该栏目</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" style="display:none">
 			<label class="control-label">在分类页中显示列表:</label>
 			<div class="controls">
 				<form:radiobuttons path="inList" items="${fns:getDictList('show_hide')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/>
 				<span class="help-inline">是否在分类页中显示该栏目的文章列表</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" style="display:none">
 			<label class="control-label" title="默认展现方式：有子栏目显示栏目列表，无子栏目显示内容列表。">展现方式:</label>
 			<div class="controls">
 				<form:radiobuttons path="showModes" items="${fns:getDictList('cms_show_modes')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/><%--
@@ -127,19 +138,19 @@
 				</form:select><span class="help-inline"></span> --%>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" style="display:none">
 			<label class="control-label">是否允许评论:</label>
 			<div class="controls">
 				<form:radiobuttons path="allowComment" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" style="display:none">
 			<label class="control-label">是否需要审核:</label>
 			<div class="controls">
 				<form:radiobuttons path="isAudit" items="${fns:getDictList('yes_no')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" style="display:none">
 			<label class="control-label">自定义列表视图:</label>
 			<div class="controls">
                 <form:select path="customListView">
@@ -149,7 +160,7 @@
                 <span class="help-inline">自定义列表视图名称必须以"${category_DEFAULT_TEMPLATE}"开始</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" style="display:none">
 			<label class="control-label">自定义内容视图:</label>
 			<div class="controls">
                 <form:select path="customContentView">
@@ -159,7 +170,7 @@
                 <span class="help-inline">自定义内容视图名称必须以"${article_DEFAULT_TEMPLATE}"开始</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" style="display:none">
 			<label class="control-label">自定义视图参数:</label>
 			<div class="controls">
                 <form:input path="viewConfig" htmlEscape="true"/>

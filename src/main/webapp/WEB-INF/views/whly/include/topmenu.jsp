@@ -91,26 +91,50 @@
                   <!-- 用户中心 -->
                   <li class="dropdown dropdown-user">
                       <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                          <img alt="" class="img-circle" src="/${whlyPage}/assets/layouts/layout/img/avatar3_small.jpg" />
-                          <span class="username username-hide-on-mobile"> Nick </span>
+                          <img alt="" class="img-circle" src="
+	                         <c:choose>  
+							   <c:when test="${empty fns:getUser().photo}">
+							   	/${whlyPage}/assets/layouts/layout/img/avatar3_small.jpg
+							   </c:when>  
+							   <c:otherwise>  
+							  	 ${fns:getUser().photo}
+							   </c:otherwise>  
+							</c:choose>  
+                         " />
+                          <span class="username username-hide-on-mobile"> ${fns:getUser().loginName} </span>
                           <i class="fa fa-angle-down"></i>
                       </a>
                       <ul class="dropdown-menu dropdown-menu-default">
-                          <li>
-                              <a href="javascript:void(0);">
-                                  <i class="icon-user"></i> 个人信息 </a>
-                          </li>
-                          <li>
-                              <a href="javascript:void(0);">
-                                  <i class="icon-rocket"></i> 待办
-                                  <span class="badge badge-success"> 7 </span>
-                              </a>
-                          </li>
-                          <li class="divider"> </li>
-                          <li  id="btnLogout">
-                              <a href="javascript:void(0);">
-                                  <i class="icon-key"></i> 退出 </a>
-                          </li>
+                      	   <c:choose>  
+							   <c:when test="${empty fns:getUser().id}">
+							   		<!-- 用户没有登录 -->
+							   		 <li>
+			                              <a href="${whlyPath }/login">
+			                                  <i class="icon-user"></i> 登录</a>
+			                          </li>
+			                           <li class="divider"> </li>
+							   </c:when>  
+							   <c:otherwise>  
+							   	<!-- 用户已经登录 -->
+							  	  <li>
+		                              <a href="javascript:void(0);">
+		                                  <i class="icon-user"></i> 个人信息 </a>
+		                          </li>
+		                          <li>
+		                              <a href="javascript:void(0);">
+		                                  <i class="icon-rocket"></i> 待办
+		                                  <span class="badge badge-success"> 7 </span>
+		                              </a>
+		                          </li>
+		                        
+		                          <li class="divider"> </li>
+		                          <li  id="btnLogout">
+		                              <a href="javascript:void(0);">
+		                                  <i class="icon-key"></i> 退出 </a>
+		                          </li>
+							   </c:otherwise>  
+							</c:choose>  
+                         
                       </ul>
                   </li>
               </ul>

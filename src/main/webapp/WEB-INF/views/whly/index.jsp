@@ -10,7 +10,7 @@
         <meta content="" name="description" />
         <meta content="" name="author" />
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+         <link href="/${whlyPage}/assets/global/css/fonts.googleapis.com.css" rel="stylesheet" type="text/css" />
         <link href="/${whlyPage}/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <link href="/${whlyPage}/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
         <link href="/${whlyPage}/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -56,17 +56,7 @@
             <div class="page-content-wrapper">
                 <div class="page-content">
                     <!-- page 菜单-->
-                    <div class="page-bar">
-                        <ul class="page-breadcrumb">
-                            <li>
-                                <a href="index.html">Home</a>
-                                <i class="fa fa-circle"></i>
-                            </li>
-                            <li>
-                                <span>Dashboard-${ url }</span>
-                            </li>
-                        </ul>
-                    </div>
+                    <%@ include  file="./include/topBar.jsp" %>
                     
                     <!-- 主体部分-->
                    <%--  <%@ include  file="./${url}.jsp" %> --%>

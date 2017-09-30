@@ -68,7 +68,7 @@ getAccountList();
 function getAccountList(){
 	$.ajax({
 		type : "post",
-		url : "/whly/ajax/getAccountList",
+		url : "${whlyPath}/ajax/getAccountList",
 		data:"currentPage=1",
 		dataType:'json',
 		success : function(data) {
