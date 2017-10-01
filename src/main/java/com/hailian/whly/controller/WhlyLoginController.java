@@ -65,7 +65,7 @@ public class WhlyLoginController extends BaseController {
 		
 		// 如果已经登录，则跳转到威海首页
 		if(principal != null && !principal.isMobileLogin()){
-			return "redirect:" + whlyPath+"/r/home";
+			return "redirect:" + whlyPath+"/home";
 		}
 		return whlyPage+"/user/login2";
 	}
@@ -133,7 +133,7 @@ public class WhlyLoginController extends BaseController {
 		
 		// 如果已经登录，则跳转到威海首页
 		if(principal != null && !principal.isMobileLogin()){
-			return "redirect:" + whlyPath+"/r/home";
+			return "redirect:" + whlyPath+"/home";
 		}
 		return whlyPage+"/user/login";
 	}
@@ -146,7 +146,7 @@ public class WhlyLoginController extends BaseController {
 		
 		// 如果已经登录，则跳转到管理首页
 		if(principal != null){
-			return "redirect:" + whlyPath+"/r/home";
+			return "redirect:" + whlyPath+"/home";
 		}
 		/*WhlyFormAuthenticationFilter f=new WhlyFormAuthenticationFilter();
 		AuthenticationToken token=f.createToken(request, response);
@@ -225,7 +225,7 @@ public class WhlyLoginController extends BaseController {
 			return "redirect:" + whlyPath + "/login";
 		}
 		
-		return "redirect:" + whlyPath+"/r/home";
+		return "redirect:" + whlyPath+"/home";
 	}
 	
 	/**
