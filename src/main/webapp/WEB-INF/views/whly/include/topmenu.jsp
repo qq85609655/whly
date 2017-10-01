@@ -7,7 +7,7 @@
           <!-- 系统图标 -->
           <div class="page-logo">
               <a href="${whlyPath}/r/home">
-                  <img src="/${whlyPage}/assets/layouts/layout/img/logo.png" alt="logo" class="logo-default" /> </a>
+                  <img src="${fnc:getSite(1).logo}" alt="logo" style="width:80px;" class="logo-default" /> </a>
               <div class="menu-toggler sidebar-toggler"> </div>
           </div>
           <!-- 手机端 菜单控制按钮 -->
@@ -32,7 +32,7 @@
                                   <li>
                                       <a href="#">
                                           <span class="photo">
-                                              <img src="/${whlyPage}/assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt=""> </span>
+                                              <img src="/static/${whlyPage}/assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt=""> </span>
                                           <span class="subject">
                                               <span class="from"> Lisa Wong </span>
                                               <span class="time">Just Now </span>
@@ -43,7 +43,7 @@
                                   <li>
                                       <a href="#">
                                           <span class="photo">
-                                              <img src="/${whlyPage}/assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt=""> </span>
+                                              <img src="/static/${whlyPage}/assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt=""> </span>
                                           <span class="subject">
                                               <span class="from"> Richard Doe </span>
                                               <span class="time">16 mins </span>
@@ -54,7 +54,7 @@
                                   <li>
                                       <a href="#">
                                           <span class="photo">
-                                              <img src="/${whlyPage}/assets/layouts/layout3/img/avatar1.jpg" class="img-circle" alt=""> </span>
+                                              <img src="/static/${whlyPage}/assets/layouts/layout3/img/avatar1.jpg" class="img-circle" alt=""> </span>
                                           <span class="subject">
                                               <span class="from"> Bob Nilson </span>
                                               <span class="time">2 hrs </span>
@@ -65,7 +65,7 @@
                                   <li>
                                       <a href="#">
                                           <span class="photo">
-                                              <img src="/${whlyPage}/assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt=""> </span>
+                                              <img src="/static/${whlyPage}/assets/layouts/layout3/img/avatar2.jpg" class="img-circle" alt=""> </span>
                                           <span class="subject">
                                               <span class="from"> Lisa Wong </span>
                                               <span class="time">40 mins </span>
@@ -76,7 +76,7 @@
                                   <li>
                                       <a href="#">
                                           <span class="photo">
-                                              <img src="/${whlyPage}/assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt=""> </span>
+                                              <img src="/static/${whlyPage}/assets/layouts/layout3/img/avatar3.jpg" class="img-circle" alt=""> </span>
                                           <span class="subject">
                                               <span class="from"> Richard Doe </span>
                                               <span class="time">46 mins </span>
@@ -94,7 +94,7 @@
                           <img alt="" class="img-circle" src="
 	                         <c:choose>  
 							   <c:when test="${empty fns:getUser().photo}">
-							   	/${whlyPage}/assets/layouts/layout/img/avatar3_small.jpg
+							   	/static/${whlyPage}/assets/layouts/layout/img/avatar3_small.jpg
 							   </c:when>  
 							   <c:otherwise>  
 							  	 ${fns:getUser().photo}
