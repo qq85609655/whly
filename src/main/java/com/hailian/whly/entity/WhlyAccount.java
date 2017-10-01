@@ -1,9 +1,9 @@
 package com.hailian.whly.entity;
 
-import com.hailian.whly.commom.WhlyDataEntity;
+import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 
-public class WhlyAccount extends WhlyDataEntity<WhlyAccount>{
+public class WhlyAccount extends DataEntity<WhlyAccount>{
 	/**
 	 * 
 	 */

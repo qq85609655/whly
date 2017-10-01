@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hailian.whly.commom.WhlyCrudService;
 import com.hailian.whly.dao.WhlyAccountDao;
 import com.hailian.whly.entity.WhlyAccount;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.service.CrudService;
 
 @Service
 @Transactional(readOnly = true)
-public class WhlyAccountService extends WhlyCrudService<WhlyAccountDao, WhlyAccount>{
+public class WhlyAccountService extends CrudService<WhlyAccountDao, WhlyAccount>{
 	public WhlyAccount get(String id) {
 		return super.get(id);
 	}
