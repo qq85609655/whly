@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- 左侧菜单 -->
- <div class="page-sidebar-wrapper">
+ <div class="page-sidebar-wrapper" style="padding-top:21px;">
      <!-- BEGIN SIDEBAR -->
      <div class="page-sidebar navbar-collapse collapse">
          <!-- BEGIN SIDEBAR MENU -->
@@ -109,9 +109,9 @@
 function intentPage(url,target,parentIds){
 	if(url!=""&&url!=null&&url!=undefined){
 		if(target=="_blank"){
-			window.open(url+"?menuId="+parentIds);        
+			window.open(whlyPath+url+"?menuId="+parentIds);        
 		}else{
-			window.location.href=url+"?menuId="+parentIds;
+			window.location.href=whlyPath+url+"?menuId="+parentIds;
 		}
 	}
 }

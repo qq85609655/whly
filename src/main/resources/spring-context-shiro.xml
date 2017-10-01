@@ -63,7 +63,7 @@
 	<bean id="whlyShiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="${whlyPath}/login" />
-		<property name="successUrl" value="${whlyPath}/r/home" />
+		<property name="successUrl" value="${whlyPath}/home" />
 		<property name="filters">
             <map>
                 <entry key="cas" value-ref="whlyCasFilter"/>

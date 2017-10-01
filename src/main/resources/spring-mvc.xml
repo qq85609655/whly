@@ -99,6 +99,11 @@
 			<mvc:exclude-mapping path="${whlyPath}/login"/>
 			<bean class="com.thinkgem.jeesite.modules.sys.interceptor.LogInterceptor" />
 		</mvc:interceptor>
+		<!-- 威海林业 菜单管理-->
+		<mvc:interceptor>
+			<mvc:mapping path="${whlyPath}/**" />
+			<bean class="com.hailian.whly.interceptor.MenuInterceptor" />
+		</mvc:interceptor>
 		<!-- 手机视图拦截器 -->
 <!-- 		<mvc:interceptor> -->
 <!-- 			<mvc:mapping path="/**" /> -->

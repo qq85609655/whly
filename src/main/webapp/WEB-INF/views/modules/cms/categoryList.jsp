@@ -52,7 +52,7 @@
 						   	<a href="javascript:;" target="_blank">访问</a>
 						   </c:when>  
 						   <c:otherwise>  
-						  	 <a href="${tpl.href}" target="_blank">访问</a>
+						  	 <a href="${whlyPath }${tpl.href}" target="_blank">访问</a>
 						   </c:otherwise>  
 						</c:choose>  
 						<shiro:hasPermission name="cms:category:edit">

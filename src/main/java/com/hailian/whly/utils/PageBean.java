@@ -1,4 +1,4 @@
-package com.hailian.utils;
+package com.hailian.whly.utils;
 
 import java.io.Serializable;
 import java.util.List;

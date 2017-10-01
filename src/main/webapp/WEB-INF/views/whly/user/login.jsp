@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import=" com.thinkgem.jeesite.modules.sys.security.WhlyFormAuthenticationFilter"%>
+<%@ page import="com.thinkgem.jeesite.modules.sys.security.WhlyFormAuthenticationFilter"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html lang="en">
     <!--<![endif]-->
@@ -55,7 +55,7 @@
 	// 如果在框架或在对话框中，则弹出提示并跳转到首页
 	if(self.frameElement && self.frameElement.tagName == "IFRAME" || $('#left').length > 0 || $('.jbox').length > 0){
 		alert('未登录或登录超时。请重新登录，谢谢！');
-		top.location = "${whlyPath}/r";
+		top.location = "${whlyPath}/home";
 	}
 	</script>
 

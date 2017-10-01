@@ -6,7 +6,7 @@
       
           <!-- 系统图标 -->
           <div class="page-logo">
-              <a href="${whlyPath}/r/home">
+              <a href="${whlyPath}/home">
                   <img src="${fnc:getSite(1).logo}" alt="logo" style="width:80px;" class="logo-default" /> </a>
               <div class="menu-toggler sidebar-toggler"> </div>
           </div>

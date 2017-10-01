@@ -35,7 +35,7 @@
 		// 如果在框架或在对话框中，则弹出提示并跳转到首页
 		if(self.frameElement && self.frameElement.tagName == "IFRAME" || $('#left').length > 0 || $('.jbox').length > 0){
 			alert('未登录或登录超时。请重新登录，谢谢！');
-			top.location = "${whlyPath}/r";
+			top.location = "${whlyPath}/home";
 		}
 	</script>
 </head>
