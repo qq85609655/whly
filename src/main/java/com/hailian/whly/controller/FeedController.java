@@ -47,13 +47,13 @@ public class FeedController extends BaseController {
 	public String list(WhlyAccount whlyAccount, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<WhlyAccount> page = whlyAccountService.findPage(new Page<WhlyAccount>(request, response), whlyAccount); 
 		model.addAttribute("page", page);
-		return whlyPage+"/feedList";
+		return whlyPage+"/feed/feedList";
 	}
 
 	@RequestMapping(value = "form")
 	public String form(WhlyAccount whlyAccount, Model model) {
 		model.addAttribute("whlyAccount", whlyAccount);
-		return whlyPage+"/feedForm";
+		return whlyPage+"/feed/feedForm";
 	}
 
 	@RequestMapping(value = "save")

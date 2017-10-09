@@ -7,21 +7,21 @@
     </head>
     <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
         <!-- BEGIN 顶部菜单  -->
-        <%@ include  file="./include/topmenu.jsp" %>
+        <%@ include  file="../include/topmenu.jsp" %>
         <!-- END 顶部菜单  -->
         <!-- 不能删除下面一行 否则手机端样式错乱 -->
         <div class="clearfix"> </div>
         <!-- 内容 -->
         <div class="page-container">
             <!-- BEGIN 左侧部分 -->
-           <%@ include  file="./include/leftmenu.jsp" %>
+           <%@ include  file="../include/leftmenu.jsp" %>
             <!-- END 左侧部分 -->
             
             <!-- BEGIN 右侧内容 -->
             <div class="page-content-wrapper">
                 <div class="page-content">
                     <!-- page 菜单-->
-                    <%@ include  file="./include/topBar.jsp" %>
+                    <%@ include  file="../include/topBar.jsp" %>
                     
                     <!-- 主体部分START-->
                     <jsp:include page="./${url}.jsp" />
@@ -33,6 +33,6 @@
         </div>
         <!-- END CONTAINER -->
         <!-- BEGIN FOOTER -->
-        <%@ include  file="./include/footer.jsp" %>
+        <%@ include  file="../include/footer.jsp" %>
     </body>
 </html>

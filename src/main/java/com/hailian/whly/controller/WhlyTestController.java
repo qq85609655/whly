@@ -28,5 +28,9 @@ public class WhlyTestController extends BaseController {
 	public String ui(HttpServletRequest request, HttpServletResponse response,Model model) {
 		return whlyPage+"/test/ui";
 	}
+	@RequestMapping("/news")
+	public String news(HttpServletRequest request, HttpServletResponse response,Model model) {
+		return whlyPage+"/test/news";
+	}
 
 }

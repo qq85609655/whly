@@ -16,7 +16,7 @@ import com.thinkgem.jeesite.modules.cms.service.CategoryService;
  */
 @Controller
 @RequestMapping("${whlyPath}/home")
-public class WhlyHomeController extends BaseController {
+public class HomeController extends BaseController {
 	@Autowired
 	private CategoryService categoryService;
 	/**
