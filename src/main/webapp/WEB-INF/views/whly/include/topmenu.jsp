@@ -6,9 +6,12 @@
       
           <!-- 系统图标 -->
           <div class="page-logo">
-              <a href="${whlyPath}/home">
-                  <img src="${fnc:getSite(1).logo}" alt="logo" style="width:80px;" class="logo-default" /> </a>
-              <div class="menu-toggler sidebar-toggler"> </div>
+              	   <c:if test="${not empty fnc:getSite(1).logo}">
+		              <a href="${whlyPath}/home">
+			                  <img src="${fnc:getSite(1).logo}" alt="logo"  class="logo-default" />
+		              </a>
+				   </c:if>  
+              <div class="menu-toggler sidebar-toggler my-menu"> </div>
           </div>
           <!-- 手机端 菜单控制按钮 -->
           <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
@@ -146,5 +149,15 @@
       <script type="text/javascript">
    		$('#btnLogout').click(function(){
    			window.location.href="${whlyPath}/logout";
+   		});
+   		$(".my-menu").click(function(){
+   			if(!$(this).hasClass("menu_css")){
+   				//收
+   				$(".page-logo").css("width","45px");
+   				$(this).addClass("menu_css")
+   			}else{
+   				$(".page-logo").css("width","235px");
+   				$(this).removeClass("menu_css")
+   			}
    		});
     </script>
