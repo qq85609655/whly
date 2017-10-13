@@ -104,6 +104,20 @@ public class Global {
 	public static String getWhlyPage() {
 		return getConfig("whlyPage");
 	}
+	
+	
+	/**
+	 * 前台菜单根ID
+	 */
+	public static String getFrontRootMenu() {
+		return getConfig("frontRootMenu");
+	}
+	/**
+	 * 前台公用角色ID
+	 */
+	public static String getFrontRootRole() {
+		return getConfig("frontRootRole");
+	}
 	/**
 	 * 获取URL后缀
 	 */

@@ -337,7 +337,17 @@ public class SystemService extends BaseService implements InitializingBean {
 	public List<Menu> findAllMenu(){
 		return UserUtils.getMenuList();
 	}
-	
+	/**
+	 * 
+	 * @time   2017年10月13日 上午10:43:37
+	 * @author zuoqb
+	 * @todo   前台菜单获取
+	 * @param  @return
+	 * @return_type   List<Menu>
+	 */
+	public List<Menu> findAllFrontMenu(){
+		return UserUtils.getFrontMenuList();
+	}
 	@Transactional(readOnly = false)
 	public void saveMenu(Menu menu) {
 		

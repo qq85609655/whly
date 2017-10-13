@@ -45,5 +45,13 @@ public class TagController extends BaseController {
 		model.addAttribute("value", request.getParameter("value"));
 		return "modules/sys/tagIconselect";
 	}
-	
+	/**
+	 * 图标选择标签（iconselectfront.tag）
+	 */
+	@RequiresPermissions("user")
+	@RequestMapping(value = "iconselectfront")
+	public String iconselectfront(HttpServletRequest request, Model model) {
+		model.addAttribute("value", request.getParameter("value"));
+		return "modules/sys/tagIconselectfront";
+	}
 }

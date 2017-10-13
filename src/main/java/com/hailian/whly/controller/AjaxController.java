@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hailian.whly.service.WhlyAccountService;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.cms.entity.Category;
-import com.thinkgem.jeesite.modules.cms.service.CategoryService;
+import com.thinkgem.jeesite.modules.sys.entity.Menu;
+import com.thinkgem.jeesite.modules.sys.service.SystemService;
 
 /**
  * 
@@ -27,7 +27,7 @@ public class AjaxController extends BaseController {
 	@Autowired
 	private WhlyAccountService service;
 	@Autowired
-	private CategoryService categoryService;
+	private SystemService systemService;
 
     /**
      * 获取列表
@@ -38,8 +38,8 @@ public class AjaxController extends BaseController {
     @RequestMapping(value = "/getAccountList")
     public String getAccountList(HttpServletRequest request, HttpServletResponse response){
         try {
-        	List<Category> list= categoryService.findByUserWhly(true, null,response);
-            return resultSuccessData(response,"查询行业数据成功", list);
+        	List<Menu> sourcelist = systemService.findAllFrontMenu();
+            return resultSuccessData(response,"查询数据成功", sourcelist);
         } catch (Exception e) {
             return resultErrorData(response,"查询数据异常", null);
         }

@@ -24,6 +24,7 @@
 			});
 		});
 	</script>
+	<link href="/static/${whlyPage}/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<ul class="nav nav-tabs">
@@ -64,7 +65,15 @@
 		<div class="control-group">
 			<label class="control-label">图标:</label>
 			<div class="controls">
-				<sys:iconselect id="icon" name="icon" value="${menu.icon}"/>
+				<c:choose>
+					<c:when test="${fn:indexOf(menu.parentIds, frontRootMenuId) eq -1}">
+						<sys:iconselect id="icon" name="icon" value="${menu.icon}"/>
+					</c:when>
+					<c:otherwise>
+					  <sys:iconselectfront id="icon" name="icon" value="${menu.icon}"/>
+					</c:otherwise>
+				
+				</c:choose>
 			</div>
 		</div>
 		<div class="control-group">

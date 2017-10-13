@@ -15,8 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.service.BaseService;
-import com.thinkgem.jeesite.modules.cms.entity.Category;
-import com.thinkgem.jeesite.modules.cms.service.CategoryService;
+import com.thinkgem.jeesite.modules.sys.entity.Menu;
+import com.thinkgem.jeesite.modules.sys.service.SystemService;
 
 /**
  * 
@@ -27,7 +27,7 @@ import com.thinkgem.jeesite.modules.cms.service.CategoryService;
  */
 public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 	@Autowired
-	private CategoryService categoryService;
+	private SystemService systemService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, 
@@ -43,11 +43,11 @@ public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 			String menuId=request.getParameter("menuId");
 			//处理菜单
 			Map<String,Object> model=modelAndView.getModel();
-			model.put("categoryList", categoryService.findByUserWhly(true, null,response));
-			Category menu=null;
+			
+			Menu menu=null;
 			String menusIds=null;//当前所选菜单全部父级id 包含自己
-			List<Category> list=categoryService.findByUser(true, null,response);
-			for(Category c:list){
+			List<Menu> sourcelist = systemService.findAllFrontMenu();
+			for(Menu c:sourcelist){
 				if(c.getId().equals(menuId)){
 					menu=c;
 				}
@@ -56,9 +56,12 @@ public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 				menusIds=","+menu.getParentIds()+menu.getId()+",";
 			}
 			model.put("menusIds", menusIds);
-			//获取当前菜单层级名称
-			List<Category> topMenu=categoryService.getMenuName(menusIds,response);
+			List<Menu> menuList = Menu.sortFrontList(sourcelist, Global.getFrontRootMenu(), true);
+	        model.put("menuList", menuList);
+	      //获取当前菜单层级名称
+			List<Menu> topMenu=Menu.getMenuName(sourcelist, menusIds);
 			model.put("topMenu", topMenu);
+	        
 		}
 	}
 

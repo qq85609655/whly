@@ -3,14 +3,17 @@
  */
 package com.thinkgem.jeesite.modules.sys.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
+import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.CacheUtils;
 import com.thinkgem.jeesite.common.utils.SpringContextHolder;
@@ -49,6 +52,7 @@ public class UserUtils {
 	public static final String CACHE_AREA_LIST = "areaList";
 	public static final String CACHE_OFFICE_LIST = "officeList";
 	public static final String CACHE_OFFICE_ALL_LIST = "officeAllList";
+	public static final String CACHE_FRONT_MENU_LIST = "frontmenuList";
 	
 	/**
 	 * 根据ID获取用户
@@ -139,6 +143,7 @@ public class UserUtils {
 		List<Role> roleList = (List<Role>)getCache(CACHE_ROLE_LIST);
 		if (roleList == null){
 			User user = getUser();
+			Role frontRole=roleDao.get(Global.getFrontRootRole());
 			if (user.isAdmin()){
 				roleList = roleDao.findAllList(new Role());
 			}else{
@@ -146,9 +151,42 @@ public class UserUtils {
 				role.getSqlMap().put("dsf", BaseService.dataScopeFilter(user.getCurrentUser(), "o", "u"));
 				roleList = roleDao.findList(role);
 			}
+			roleList.add(frontRole);
 			putCache(CACHE_ROLE_LIST, roleList);
 		}
 		return roleList;
+	}
+	/**
+	 * 获取当前用户前台授权菜单
+	 * @return
+	 */
+	public static List<Menu> getFrontMenuList(){
+		@SuppressWarnings("unchecked")
+		List<Menu> menuList = (List<Menu>)getCache(CACHE_FRONT_MENU_LIST);;
+		if (menuList == null||menuList.size()==0){
+			menuList=new ArrayList<Menu>();
+			User user = getUser();
+			if(user!=null&&StringUtils.isNotBlank(user.getId())){
+				//用户登录了
+				if (user.isAdmin()){
+					menuList = menuDao.findAllList(new Menu());
+				}else{
+					Menu m = new Menu();
+					m.setUserId(user.getId());
+					m.setFrontRootMenuId(Global.getFrontRootMenu());
+					m.setFrontRootRoleId(Global.getFrontRootRole());
+					menuList = menuDao.findByUserId(m);
+				}
+			}else{
+				//未登录 获取默认角色对应菜单
+				Menu m = new Menu();
+				m.setFrontRootMenuId(Global.getFrontRootMenu());
+				m.setFrontRootRoleId(Global.getFrontRootRole());
+				menuList = menuDao.findDefaultMenu(m);
+			}
+			putCache(CACHE_FRONT_MENU_LIST, menuList);
+		}
+		return menuList;
 	}
 	
 	/**
@@ -158,13 +196,16 @@ public class UserUtils {
 	public static List<Menu> getMenuList(){
 		@SuppressWarnings("unchecked")
 		List<Menu> menuList = (List<Menu>)getCache(CACHE_MENU_LIST);
-		if (menuList == null){
+		if (menuList == null||menuList.size()==0){
+			menuList=new ArrayList<Menu>();
 			User user = getUser();
+			//用户登录了
 			if (user.isAdmin()){
 				menuList = menuDao.findAllList(new Menu());
 			}else{
 				Menu m = new Menu();
 				m.setUserId(user.getId());
+				m.setFrontRootMenuId(Global.getFrontRootMenu());
 				menuList = menuDao.findByUserId(m);
 			}
 			putCache(CACHE_MENU_LIST, menuList);

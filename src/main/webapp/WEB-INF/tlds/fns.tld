@@ -33,6 +33,22 @@
 	</function>
 	
 	<function>
+		<description>获取威海前台菜单根ID</description>
+		<name>getFrontRootMenu</name>
+		<function-class>com.thinkgem.jeesite.common.config.Global</function-class>
+		<function-signature>java.lang.String getFrontRootMenu()</function-signature>
+		<example>${fns:getFrontRootMenu()}</example>
+	</function>
+	
+	<function>
+		<description>获取威海前台公用角色ID</description>
+		<name>getFrontRootRole</name>
+		<function-class>com.thinkgem.jeesite.common.config.Global</function-class>
+		<function-signature>java.lang.String getFrontRootRole()</function-signature>
+		<example>${fns:getFrontRootRole()}</example>
+	</function>
+	
+	<function>
 		<description>获取威海前端页面存放文件夹名称</description>
 		<name>getWhlyPage</name>
 		<function-class>com.thinkgem.jeesite.common.config.Global</function-class>

@@ -25,4 +25,6 @@ public interface MenuDao extends CrudDao<Menu> {
 	
 	public int updateSort(Menu menu);
 	
+	public List<Menu> findDefaultMenu(Menu menu);
+	
 }

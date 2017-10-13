@@ -15,6 +15,7 @@
 	    	$("#listForm").submit();
     	}
 	</script>
+	<link href="/static/${whlyPage}/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<ul class="nav nav-tabs">
@@ -22,6 +23,7 @@
 		<shiro:hasPermission name="sys:menu:edit"><li><a href="${ctx}/sys/menu/form">菜单添加</a></li></shiro:hasPermission>
 	</ul>
 	<sys:message content="${message}"/>
+	
 	<form id="listForm" method="post">
 		<table id="treeTable" class="table table-striped table-bordered table-condensed hide">
 			<thead><tr><th>名称</th><th>链接</th><th style="text-align:center;">排序</th><th>可见</th><th>权限标识</th><shiro:hasPermission name="sys:menu:edit"><th>操作</th></shiro:hasPermission></tr></thead>

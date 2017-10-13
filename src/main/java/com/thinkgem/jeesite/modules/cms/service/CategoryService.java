@@ -3,7 +3,6 @@
  */
 package com.thinkgem.jeesite.modules.cms.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -99,29 +98,6 @@ public class CategoryService extends TreeService<CategoryDao, Category> {
 		return list;
 	}
 	
-public List<Category> findByUserWhly(boolean isCurrentSite, String module, HttpServletResponse response){
-		
-		List<Category> list = (List<Category>)UserUtils.getCache(CACHE_CATEGORY_LIST_WHLY);
-		if (list == null){
-			User user = UserUtils.getUser();
-			Category category = new Category();
-			category.setOffice(new Office());
-			category.getSqlMap().put("dsf", dataScopeFilter(user, "o", "u"));
-			category.setSite(new Site());
-			category.setInMenu(Global.SHOW);
-			Category p=new Category();
-			p.setId("1");
-			category.setParent(p);
-			list = dao.findList(category);
-			// 将没有父节点的节点，找到父节点
-			for (Category e : list){
-				e.setIdJoin(","+e.getId()+",");
-				e.setChildList(findByParentId(e.getId(), category.getSite().getId()));
-			}
-			UserUtils.putCache(CACHE_CATEGORY_LIST_WHLY, list);
-		}
-		return list;
-	}
 
 	public List<Category> findByParentId(String parentId, String siteId){
 		Category parent = new Category();
@@ -207,32 +183,5 @@ public List<Category> findByUserWhly(boolean isCurrentSite, String module, HttpS
 			}
 		}
 		return list;
-	}
-	/**
-	 * 
-	 * @time   2017年9月30日 下午6:57:17
-	 * @author zuoqb
-	 * @todo   根据菜单id获取菜单集合
-	 * @param  @param menusIds
-	 * @param  @param response
-	 * @param  @return
-	 * @return_type   List<Category>
-	 */
-	public List<Category> getMenuName(String menusIds, HttpServletResponse response) {
-		List<Category> topMenuName=new ArrayList<Category>();
-		List<Category> list=findByUser(true, null,response);
-		if(StringUtils.isBlank(menusIds)){
-			topMenuName.add(list.get(0));
-		}else{
-			String[] ids=menusIds.split(",");
-			for(String id:ids){
-				for(Category c:list){
-					if(c.getId().equals(id)){
-						topMenuName.add(c);
-					}
-				}
-			}
-		}
-		return topMenuName;
 	}
 }

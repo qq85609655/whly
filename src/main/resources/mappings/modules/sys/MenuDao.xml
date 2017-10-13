@@ -61,9 +61,23 @@
 		JOIN sys_role_menu rm ON rm.menu_id = a.id
 		JOIN sys_role r ON r.id = rm.role_id AND r.useable='1'
 		JOIN sys_user_role ur ON ur.role_id = r.id
-		JOIN sys_user u ON u.id = ur.user_id AND u.id = #{userId}
+		JOIN sys_user u ON u.id = ur.user_id
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND r.del_flag = #{DEL_FLAG_NORMAL} AND u.del_flag = #{DEL_FLAG_NORMAL} 
-		or p.parent_id='09bcd13c489c4c76bb48a024ce508035'
+		 AND u.id = #{userId}
+		or r.id=#{frontRootRoleId}
+		ORDER BY a.sort
+	</select>
+	
+	
+	<select id="findDefaultMenu" resultType="Menu">
+		SELECT DISTINCT
+			<include refid="menuColumns"/>
+		FROM sys_menu a
+		LEFT JOIN sys_menu p ON p.id = a.parent_id
+		JOIN sys_role_menu rm ON rm.menu_id = a.id
+		JOIN sys_role r ON r.id = rm.role_id AND r.useable='1'
+		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND r.del_flag = #{DEL_FLAG_NORMAL} 
+		and r.id=#{frontRootRoleId}
 		ORDER BY a.sort
 	</select>
 	
