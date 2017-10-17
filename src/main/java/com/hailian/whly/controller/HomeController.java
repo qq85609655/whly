@@ -8,7 +8,6 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.cms.service.CategoryService;
 
 /**
- * 
  * @className WhlyLoginController.java
  * @time   2017年9月29日 上午11:27:46
  * @author zuoqb

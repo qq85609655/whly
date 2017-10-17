@@ -6,4 +6,5 @@ import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 
 @MyBatisDao
 public interface WhlyAccountDao extends CrudDao<WhlyAccount>{
+	
 }
