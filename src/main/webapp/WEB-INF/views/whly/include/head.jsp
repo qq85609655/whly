@@ -62,6 +62,8 @@
     <script src="/static/${whlyPage}/assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL PLUGINS -->
+    <script src="/static/${whlyPage}/assets/global/plugins/echarts/echarts-3.5.2.js" type="text/javascript"></script>
+     <script src="/static/${whlyPage}/assets/global/plugins/echarts/manyEcharts.js" type="text/javascript"></script>
     <!-- BEGIN THEME GLOBAL SCRIPTS -->
     <script src="/static/${whlyPage}/assets/global/scripts/app.min.js" type="text/javascript"></script>
     <!-- END THEME GLOBAL SCRIPTS -->

@@ -29,15 +29,78 @@ public class Office extends TreeEntity<Office> {
 	private String grade; 	// 机构等级（1：一级；2：二级；3：三级；4：四级）
 	private String address; // 联系地址
 	private String zipCode; // 邮政编码
-	private String master; 	// 负责人
+	private String master; 	// 企业法人
 	private String phone; 	// 电话
 	private String fax; 	// 传真
 	private String email; 	// 邮箱
 	private String useable;//是否可用
 	private User primaryPerson;//主负责人
 	private User deputyPerson;//副负责人
+	private String primaryName;//主负责姓名
+	private String deputyName;//副负责人姓名
 	private List<String> childDeptList;//快速添加子部门
+	private String industyId;//行业类型 对应字典类型front_hylx的id
+	private Dict industyType;//行业类型 对应字典类型front_hylx
+	private String primaryTel;//主负责人电话
+	private String deputyTel;//副负责人电话
+	public String getIndustyId() {
+		return industyId;
+	}
+
 	
+
+	public String getPrimaryName() {
+		return primaryName;
+	}
+
+
+
+	public void setPrimaryName(String primaryName) {
+		this.primaryName = primaryName;
+	}
+
+
+
+	public String getDeputyName() {
+		return deputyName;
+	}
+
+
+
+	public void setDeputyName(String deputyName) {
+		this.deputyName = deputyName;
+	}
+
+
+
+	public void setIndustyId(String industyId) {
+		this.industyId = industyId;
+	}
+
+	public Dict getIndustyType() {
+		return industyType;
+	}
+
+	public void setIndustyType(Dict industyType) {
+		this.industyType = industyType;
+	}
+
+	public String getPrimaryTel() {
+		return primaryTel;
+	}
+
+	public void setPrimaryTel(String primaryTel) {
+		this.primaryTel = primaryTel;
+	}
+
+	public String getDeputyTel() {
+		return deputyTel;
+	}
+
+	public void setDeputyTel(String deputyTel) {
+		this.deputyTel = deputyTel;
+	}
+
 	public Office(){
 		super();
 //		this.sort = 30;

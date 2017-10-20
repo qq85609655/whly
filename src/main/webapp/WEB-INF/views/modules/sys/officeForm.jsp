@@ -41,6 +41,14 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">归属行业:</label>
+			<div class="controls">
+				<form:select path="industyId" class="input-medium">
+					<form:options items="${fns:getDictList('front_hylx')}" itemLabel="label" itemValue="id" htmlEscape="false"/>
+				</form:select>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">归属区域:</label>
 			<div class="controls">
                 <sys:treeselect id="area" name="area.id" value="${office.area.id}" labelName="area.name" labelValue="${office.area.name}"
@@ -58,6 +66,7 @@
 			<label class="control-label">机构编码:</label>
 			<div class="controls">
 				<form:input path="code" htmlEscape="false" maxlength="50"/>
+				<!-- <span class="help-inline"><font color="red">*</font> </span> -->
 			</div>
 		</div>
 		<div class="control-group">
@@ -85,18 +94,42 @@
 				<span class="help-inline">“是”代表此账号允许登陆，“否”则表示此账号不允许登陆</span>
 			</div>
 		</div>
-		<div class="control-group">
+		<%-- <div class="control-group">
 			<label class="control-label">主负责人:</label>
 			<div class="controls">
 				 <sys:treeselect id="primaryPerson" name="primaryPerson.id" value="${office.primaryPerson.id}" labelName="office.primaryPerson.name" labelValue="${office.primaryPerson.name}"
-					title="用户" url="/sys/office/treeData?type=3" allowClear="true" notAllowSelectParent="true"/>
+					title="用户" url="/sys/office/treeData?type=3&isAll=true" allowClear="true" notAllowSelectParent="true"/>
+			</div>
+		</div> --%>
+		<div class="control-group">
+			<label class="control-label">主负责人:</label>
+			<div class="controls">
+				<form:input path="primaryName" htmlEscape="false" maxlength="50"/>
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">主负责人手机:</label>
+			<div class="controls">
+				<form:input path="primaryTel" htmlEscape="false" maxlength="50"/>
+			</div>
+		</div>
+		<%-- <div class="control-group">
 			<label class="control-label">副负责人:</label>
 			<div class="controls">
 				 <sys:treeselect id="deputyPerson" name="deputyPerson.id" value="${office.deputyPerson.id}" labelName="office.deputyPerson.name" labelValue="${office.deputyPerson.name}"
-					title="用户" url="/sys/office/treeData?type=3" allowClear="true" notAllowSelectParent="true"/>
+					title="用户" url="/sys/office/treeData?type=3&isAll=true"  allowClear="true" notAllowSelectParent="true"/>
+			</div>
+		</div> --%>
+		<div class="control-group">
+			<label class="control-label">副负责人:</label>
+			<div class="controls">
+				<form:input path="deputyName" htmlEscape="false" maxlength="50"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">副负责人手机:</label>
+			<div class="controls">
+				<form:input path="deputyTel" htmlEscape="false" maxlength="50"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -112,13 +145,13 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">负责人:</label>
+			<label class="control-label">企业法人:</label>
 			<div class="controls">
 				<form:input path="master" htmlEscape="false" maxlength="50"/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">电话:</label>
+			<label class="control-label">企业法人电话:</label>
 			<div class="controls">
 				<form:input path="phone" htmlEscape="false" maxlength="50"/>
 			</div>
