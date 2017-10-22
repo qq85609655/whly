@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailian.whly.report.dao.FrontCompanyReportDao">
+    
+	<sql id="frontCompanyReportColumns">
+		a.id AS "id",
+		a.year AS "year",
+		a.month AS "month",
+		a.report_time AS "reportTime",
+		a.company_id AS "companyId",
+		a.type_id AS "typeId",
+		a.area_id AS "area.id",
+		a.emp_quantity AS "empQuantity",
+		a.total_income AS "totalIncome",
+		a.total_profit AS "totalProfit",
+		a.total_tax AS "totalTax",
+		a.insert_time AS "insertTime",
+		a.update_time AS "updateTime",
+		a.operator AS "operator",
+		a.status AS "status",
+		a.reason AS "reason",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag",
+		a7.name AS "area.name"
+	</sql>
+	
+	<sql id="frontCompanyReportJoins">
+		LEFT JOIN sys_office o5 ON o5.id = a.company_id
+		LEFT JOIN sys_area a7 ON a7.id = a.area_id
+	</sql>
+    
+	<select id="get" resultType="com.hailian.whly.report.entity.FrontCompanyReport" >
+		SELECT 
+			<include refid="frontCompanyReportColumns"/>
+		FROM front_company_report a
+		<include refid="frontCompanyReportJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.hailian.whly.report.entity.FrontCompanyReport">
+		SELECT 
+			<include refid="frontCompanyReportColumns"/>
+		FROM front_company_report a
+		<include refid="frontCompanyReportJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="year != null and year != ''">
+				AND a.year = #{year}
+			</if>
+			<if test="month != null and month != ''">
+				AND a.month = #{month}
+			</if>
+			<if test="reportTime != null and reportTime != ''">
+				AND a.report_time = #{reportTime}
+			</if>
+			<if test="companyId != null and companyId != ''">
+				AND a.company_id = #{companyId}
+			</if>
+			<if test="area != null and area.id != null and area.id != ''">
+				AND a.area_id = #{area.id}
+			</if>
+			<if test="totalProfit != null and totalProfit != ''">
+				AND a.total_profit = #{totalProfit}
+			</if>
+			<if test="beginInsertTime != null and endInsertTime != null and beginInsertTime != '' and endInsertTime != ''">
+				AND a.insert_time BETWEEN #{beginInsertTime} AND #{endInsertTime}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.hailian.whly.report.entity.FrontCompanyReport">
+		SELECT 
+			<include refid="frontCompanyReportColumns"/>
+		FROM front_company_report a
+		<include refid="frontCompanyReportJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO front_company_report(
+			id,
+			year,
+			month,
+			report_time,
+			company_id,
+			type_id,
+			area_id,
+			emp_quantity,
+			total_income,
+			total_profit,
+			total_tax,
+			insert_time,
+			update_time,
+			operator,
+			status,
+			reason,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+			#{id},
+			#{year},
+			#{month},
+			#{reportTime},
+			#{companyId},
+			#{typeId},
+			#{area.id},
+			#{empQuantity},
+			#{totalIncome},
+			#{totalProfit},
+			#{totalTax},
+			#{insertTime},
+			#{updateTime},
+			#{operator},
+			#{status},
+			#{reason},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE front_company_report SET 	
+			year = #{year},
+			month = #{month},
+			report_time = #{reportTime},
+			company_id = #{companyId},
+			type_id = #{typeId},
+			area_id = #{area.id},
+			emp_quantity = #{empQuantity},
+			total_income = #{totalIncome},
+			total_profit = #{totalProfit},
+			total_tax = #{totalTax},
+			insert_time = #{insertTime},
+			update_time = #{updateTime},
+			operator = #{operator},
+			status = #{status},
+			reason = #{reason},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE front_company_report SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
