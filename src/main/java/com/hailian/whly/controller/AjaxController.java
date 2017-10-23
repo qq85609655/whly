@@ -1,5 +1,8 @@
 package com.hailian.whly.controller;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.hailian.whly.report.entity.FrontCompanyReport;
+import com.hailian.whly.report.service.FrontCompanyReportService;
 import com.hailian.whly.service.WhlyAccountService;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
@@ -28,6 +33,8 @@ public class AjaxController extends BaseController {
 	private WhlyAccountService service;
 	@Autowired
 	private SystemService systemService;
+	@Autowired
+	private FrontCompanyReportService frontCompanyReportService;
 
     /**
      * 获取列表
@@ -44,5 +51,38 @@ public class AjaxController extends BaseController {
             return resultErrorData(response,"查询数据异常", null);
         }
     }
-
+    /**
+     * 
+     * @time   2017年10月23日 下午5:14:14
+     * @author zuoqb
+     * @todo   按照时间（月份）统计企业上报数据
+     * @param  @param request
+     * @param  @param response
+     * @param  @return
+     * @return_type   String
+     */
+    @RequestMapping(value = "/statisticsReportByDateAjax")
+    public String statisticsReportByDateAjax(HttpServletRequest request, HttpServletResponse response){
+        try {
+        	FrontCompanyReport entity=new FrontCompanyReport();
+        	List<String> dateList=new ArrayList<String>();
+        	Calendar calendar = Calendar.getInstance();
+        	String year=calendar.get(Calendar.YEAR)+"";
+        	for(int x=1;x<13;x++){
+        		String date=year;
+        		if(x<10){
+        			date+="/0"+x;
+        		}else{
+        			date+="/"+x;
+        		}
+        		dateList.add(date);
+        	}
+        	entity.setDateList(dateList);
+        	List<FrontCompanyReport> sourcelist = frontCompanyReportService.statisticsReportByDate(entity);
+            return resultSuccessData(response,"查询数据成功", sourcelist);
+        } catch (Exception e) {
+        	e.printStackTrace();
+            return resultErrorData(response,"查询数据异常", null);
+        }
+    }
 }

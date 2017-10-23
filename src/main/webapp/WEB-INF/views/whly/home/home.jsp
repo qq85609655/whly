@@ -138,8 +138,26 @@
         <!-- BEGIN FOOTER -->
         <%@ include  file="../include/footer.jsp" %>
         <!-- js必须引用在body前面 -->
-	   <script src="/static/${whlyPage}/js/home/home.js" type="text/javascript"></script>
 	   <script>
+	   $(function(){
+			getStatisticsReportByDate();
+		});
+	   function getStatisticsReportByDate(){
+			$.ajax({
+				type : "post",
+				url : whlyPath+"/ajax/statisticsReportByDateAjax",
+				data:"currentPage=1",
+				dataType:'json',
+				success : function(data) {
+						console.log(data)
+					if(data.statusCode==200){
+						var result=data.resData;
+					}
+					
+				}			
+			});
+		}
+		
 	   var myChart2 = echarts.init(document.getElementById("echarts_line"));
        myChart2.setOption({
            title: {

@@ -1,11 +1,9 @@
 package com.hailian.whly.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.cms.service.CategoryService;
 
 /**
  * @className WhlyLoginController.java
@@ -16,8 +14,6 @@ import com.thinkgem.jeesite.modules.cms.service.CategoryService;
 @Controller
 @RequestMapping("${whlyPath}/home")
 public class HomeController extends BaseController {
-	@Autowired
-	private CategoryService categoryService;
 	/**
 	 * 
 	 * @time   2017年10月1日 下午8:43:04
@@ -30,5 +26,6 @@ public class HomeController extends BaseController {
 	public String home(){
 		return whlyPage+"/home/home";
 	}
+	
 
 }

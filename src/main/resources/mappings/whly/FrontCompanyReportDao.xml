@@ -101,6 +101,29 @@
 		</choose>
 	</select>
 	
+	<select id="statisticsReportByDate" resultType="com.hailian.whly.report.entity.FrontCompanyReport">
+		select
+			date_format(r.insert_time, '%y/%m') as name,
+			count(
+				date_format(r.insert_time, '%y/%m')
+			) as count
+		from
+			front_company_report r
+		where
+		 r.del_flag = 0
+		<if test="status != null and status != ''">
+				AND r.status = #{status}
+		</if>
+		and date_format(r.insert_time, '%y/%m') in
+		 <foreach collection="status" index="index" item="dateList" open="(" separator="," close=")">  
+	        #{item}  
+	    </foreach>  
+		group by
+			date_format(r.insert_time, '%y/%m')
+		order by
+			date_format(r.insert_time, '%y/%m') desc
+	</select>
+	
 	<insert id="insert">
 		INSERT INTO front_company_report(
 			id,

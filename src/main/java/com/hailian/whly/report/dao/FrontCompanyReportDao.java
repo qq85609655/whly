@@ -3,6 +3,8 @@
  */
 package com.hailian.whly.report.dao;
 
+import java.util.List;
+
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.hailian.whly.report.entity.FrontCompanyReport;
@@ -14,5 +16,6 @@ import com.hailian.whly.report.entity.FrontCompanyReport;
  */
 @MyBatisDao
 public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
+	public List<FrontCompanyReport> statisticsReportByDate(FrontCompanyReport entity);
 	
 }

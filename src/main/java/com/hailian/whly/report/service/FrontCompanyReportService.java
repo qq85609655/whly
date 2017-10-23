@@ -5,13 +5,14 @@ package com.hailian.whly.report.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hailian.whly.report.dao.FrontCompanyReportDao;
+import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
-import com.hailian.whly.report.entity.FrontCompanyReport;
-import com.hailian.whly.report.dao.FrontCompanyReportDao;
 
 /**
  * 企业上报Service
@@ -21,7 +22,8 @@ import com.hailian.whly.report.dao.FrontCompanyReportDao;
 @Service
 @Transactional(readOnly = true)
 public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao, FrontCompanyReport> {
-
+	@Autowired
+	private FrontCompanyReportDao dao;
 	public FrontCompanyReport get(String id) {
 		return super.get(id);
 	}
@@ -43,5 +45,8 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	public void delete(FrontCompanyReport frontCompanyReport) {
 		super.delete(frontCompanyReport);
 	}
+	public List<FrontCompanyReport> statisticsReportByDate(FrontCompanyReport entity){
+		return dao.statisticsReportByDate(entity);
+	};
 	
 }
