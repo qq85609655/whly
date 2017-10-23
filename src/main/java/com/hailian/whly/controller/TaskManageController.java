@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.cms.service.CategoryService;
 
@@ -27,7 +28,7 @@ public class TaskManageController extends BaseController {
 	 */
 	@RequestMapping({"/examine/list"})
 	public String examineList(){
-		return whlyPage+"/taskmange/examineList";
+		return Global.getWhlyPage()+"/taskmange/examineList";
 	}
 	/**
 	 * 
@@ -37,7 +38,7 @@ public class TaskManageController extends BaseController {
 	 */
 	@RequestMapping({"/company/report"})
 	public String report(){
-		return whlyPage+"/taskmange/report";
+		return Global.getWhlyPage()+"/taskmange/report";
 	}
 	/**
 	 * 
@@ -49,6 +50,6 @@ public class TaskManageController extends BaseController {
 	 */
 	@RequestMapping({"/examine/form"})
 	public String examineForm(){
-		return whlyPage+"/taskmange/examineForm";
+		return Global.getWhlyPage()+"/taskmange/examineForm";
 	}
 }

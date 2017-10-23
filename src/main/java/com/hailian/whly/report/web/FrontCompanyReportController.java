@@ -28,7 +28,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
  * @version 2017-10-22
  */
 @Controller
-@RequestMapping(value = "${adminPath}/report/frontCompanyReport")
+@RequestMapping(value = "${whlyPath}/report/frontCompanyReport")
 public class FrontCompanyReportController extends BaseController {
 
 	@Autowired
@@ -55,14 +55,14 @@ public class FrontCompanyReportController extends BaseController {
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-		return "whly/report/frontCompanyReportList";
+		return Global.getWhlyPage()+"/report/frontCompanyReportList";
 	}
 
-	@RequiresPermissions("report:frontCompanyReport:view")
+	/*@RequiresPermissions("report:frontCompanyReport:view")*/
 	@RequestMapping(value = "form")
 	public String form(FrontCompanyReport frontCompanyReport, Model model) {
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
-		return "whly/report/frontCompanyReportForm";
+		return Global.getWhlyPage()+"/report/frontCompanyReportForm";
 	}
 
 	@RequiresPermissions("report:frontCompanyReport:edit")
@@ -73,7 +73,7 @@ public class FrontCompanyReportController extends BaseController {
 		}
 		frontCompanyReportService.save(frontCompanyReport);
 		addMessage(redirectAttributes, "保存企业上报成功");
-		return "redirect:"+Global.getAdminPath()+"/report/frontCompanyReport/?repage";
+		return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/?repage";
 	}
 	
 	@RequiresPermissions("report:frontCompanyReport:edit")
@@ -81,7 +81,7 @@ public class FrontCompanyReportController extends BaseController {
 	public String delete(FrontCompanyReport frontCompanyReport, RedirectAttributes redirectAttributes) {
 		frontCompanyReportService.delete(frontCompanyReport);
 		addMessage(redirectAttributes, "删除企业上报成功");
-		return "redirect:"+Global.getAdminPath()+"/report/frontCompanyReport/?repage";
+		return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/?repage";
 	}
 
 }
