@@ -2,8 +2,9 @@ package com.hailian.whly.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.google.common.collect.Lists;
 import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.report.service.FrontCompanyReportService;
 import com.hailian.whly.service.WhlyAccountService;
@@ -53,6 +55,30 @@ public class AjaxController extends BaseController {
     }
     /**
      * 
+     * @time   2017年10月24日 上午11:42:37
+     * @author zuoqb
+     * @todo  按照状态、时间统计数量
+     * @param  @param request
+     * @param  @param response
+     * @param  @param startDate
+     * @param  @param endDate
+     * @param  @return
+     * @return_type   String
+     */
+    @RequestMapping(value = "/statisticsCountByStatus")
+    public String statisticsCountByStatus(HttpServletRequest request, HttpServletResponse response,String startDate,String endDate){
+        try {
+        	Map<String, Object> params=new HashMap<String, Object>();
+        	params.put("startDate",startDate);
+        	params.put("endDate", endDate);
+        	List<FrontCompanyReport> sourcelist = frontCompanyReportService.statisticsCountByStatus(params);
+            return resultSuccessData(response,"查询数据成功", sourcelist);
+        } catch (Exception e) {
+            return resultErrorData(response,"查询数据异常", null);
+        }
+    }
+    /**
+     * 
      * @time   2017年10月23日 下午5:14:14
      * @author zuoqb
      * @todo   按照时间（月份）统计企业上报数据
@@ -62,10 +88,9 @@ public class AjaxController extends BaseController {
      * @return_type   String
      */
     @RequestMapping(value = "/statisticsReportByDateAjax")
-    public String statisticsReportByDateAjax(HttpServletRequest request, HttpServletResponse response){
+    public String statisticsReportByDateAjax(HttpServletRequest request, HttpServletResponse response,String status){
         try {
-        	FrontCompanyReport entity=new FrontCompanyReport();
-        	List<String> dateList=new ArrayList<String>();
+        	String[] dateList=new String[12];
         	Calendar calendar = Calendar.getInstance();
         	String year=calendar.get(Calendar.YEAR)+"";
         	for(int x=1;x<13;x++){
@@ -75,13 +100,49 @@ public class AjaxController extends BaseController {
         		}else{
         			date+="/"+x;
         		}
-        		dateList.add(date);
+        		dateList[x-1]=date;
         	}
-        	entity.setDateList(dateList);
-        	List<FrontCompanyReport> sourcelist = frontCompanyReportService.statisticsReportByDate(entity);
+        	Map<String, Object> params=new HashMap<String, Object>();
+        	params.put("status", status);
+        	params.put("dateList", dateList);
+        	List<FrontCompanyReport> sourcelist = frontCompanyReportService.statisticsReportByDate(params);
+        	List<FrontCompanyReport> finalList=Lists.newArrayList();
+        	for(String time:dateList){
+        		String currentCount="0";
+        		FrontCompanyReport ff=new FrontCompanyReport();
+        		for(FrontCompanyReport f:sourcelist){
+        			if(f.getName().equals(time)){
+        				currentCount=f.getCount();
+        				ff=f;
+        				break;
+        			}
+        		}
+        		ff.setName(time);
+        		ff.setCount(currentCount);
+        		finalList.add(ff);
+        	}
+            return resultSuccessData(response,"查询数据成功", finalList);
+        } catch (Exception e) {
+            return resultErrorData(response,"查询数据异常", null);
+        }
+    }
+    /**
+     * 
+     * @time   2017年10月24日 下午1:31:45
+     * @author zuoqb
+     * @todo   按照行业类型统计数量
+     * @param  @param request
+     * @param  @param response
+     * @return_type   String
+     */
+    @RequestMapping(value = "/statisticsCountByType")
+    public String statisticsCountByType(HttpServletRequest request, HttpServletResponse response,String status){
+        try {
+        	Map<String, Object> params=new HashMap<String, Object>();
+        	params.put("status",status);
+        	List<FrontCompanyReport> sourcelist = frontCompanyReportService.statisticsCountByType(params);
             return resultSuccessData(response,"查询数据成功", sourcelist);
         } catch (Exception e) {
-        	e.printStackTrace();
             return resultErrorData(response,"查询数据异常", null);
         }
     }

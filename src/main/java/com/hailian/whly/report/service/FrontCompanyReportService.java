@@ -4,6 +4,7 @@
 package com.hailian.whly.report.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,8 +46,23 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	public void delete(FrontCompanyReport frontCompanyReport) {
 		super.delete(frontCompanyReport);
 	}
-	public List<FrontCompanyReport> statisticsReportByDate(FrontCompanyReport entity){
-		return dao.statisticsReportByDate(entity);
+	public List<FrontCompanyReport> statisticsReportByDate(Map<String, Object> params){
+		return dao.statisticsReportByDate(params);
 	};
 	
+	public List<FrontCompanyReport> statisticsCountByStatus(Map<String, Object> params){
+		return dao.statisticsCountByStatus(params);
+	};
+	/**
+	 * 
+	 * @time   2017年10月24日 上午11:11:00
+	 * @author zuoqb
+	 * @todo   按照行业类型统计数量
+	 * @param  @param params
+	 * @param  @return
+	 * @return_type   List<FrontCompanyReport>
+	 */
+	public List<FrontCompanyReport> statisticsCountByType(Map<String, Object> params){
+		return dao.statisticsCountByType(params);
+	};
 }

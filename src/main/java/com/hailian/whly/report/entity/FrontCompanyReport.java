@@ -3,15 +3,13 @@
  */
 package com.hailian.whly.report.entity;
 
+import java.util.Date;
+
 import org.hibernate.validator.constraints.Length;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.modules.sys.entity.Area;
 
 /**
  * 企业上报Entity
@@ -40,7 +38,6 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private Date endInsertTime;		// 结束 插入时间
 	private String name;
 	private String count;
-	private List<String> dateList=new ArrayList<String>();
 	
 	public FrontCompanyReport() {
 		super();
@@ -213,12 +210,6 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.count = count;
 	}
 
-	public List<String> getDateList() {
-		return dateList;
-	}
-
-	public void setDateList(List<String> dateList) {
-		this.dateList = dateList;
-	}
+	
 		
 }

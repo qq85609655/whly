@@ -31,12 +31,12 @@
 				                     <i class="fa fa-comments"></i>
 				                 </div>
 				                 <div class="details">
-				                     <div class="number">
-				                         <span data-counter="counterup" data-value="349">0</span>家
+				                     <div class="number" id="num_passed">
+				                          <span data-counter="counterup"  data-value="0">0</span>家
 				                     </div>
 				                     <div class="desc"> 已审核 </div>
 				                 </div>
-				                 <a class="more" href="javascript:;"> 查看详情
+				                 <a class="more" href="javascript:;" onclick="getBottomData('PASSED')"> 查看详情
 				                     <i class="m-icon-swapright m-icon-white"></i>
 				                 </a>
 				             </div>
@@ -47,11 +47,12 @@
 				                     <i class="fa fa-bar-chart-o"></i>
 				                 </div>
 				                 <div class="details">
-				                     <div class="number">
-				                         <span data-counter="counterup" data-value="1">0</span>家</div>
+				                     <div class="number" id="num_unpassed">
+				                         <span data-counter="counterup"  data-value="0">0</span>家
+				                     </div>
 				                     <div class="desc">未通过 </div>
 				                 </div>
-				                 <a class="more" href="javascript:;"> 查看详情
+				                 <a class="more" href="javascript:;" onclick="getBottomData('UNPASSED')"> 查看详情
 				                     <i class="m-icon-swapright m-icon-white"></i>
 				                 </a>
 				             </div>
@@ -62,12 +63,12 @@
 				                     <i class="fa fa-shopping-cart"></i>
 				                 </div>
 				                 <div class="details">
-				                     <div class="number">
-				                         <span data-counter="counterup" data-value="549">0</span>家
+				                     <div class="number" id="num_submit">
+				                         <span data-counter="counterup"  data-value="0">0</span>家
 				                     </div>
 				                     <div class="desc"> 已提交 </div>
 				                 </div>
-				                 <a class="more" href="javascript:;"> 查看详情
+				                 <a class="more" href="javascript:;" onclick="getBottomData('SUBMIT')"> 查看详情
 				                     <i class="m-icon-swapright m-icon-white"></i>
 				                 </a>
 				             </div>
@@ -78,11 +79,12 @@
 				                     <i class="fa fa-globe"></i>
 				                 </div>
 				                 <div class="details">
-				                     <div class="number"> 
-				                         <span data-counter="counterup" data-value="89"></span>家 </div>
+				                     <div class="number" id="num_unsubmit" > 
+				                         <span data-counter="counterup" data-value="0">0</span>家
+				                      </div>
 				                     <div class="desc"> 未上报 </div>
 				                 </div>
-				                 <a class="more" href="javascript:;"> 查看详情
+				                 <a class="more" href="javascript:;" onclick="getBottomData('UNSUBMIT')"> 查看详情
 				                     <i class="m-icon-swapright m-icon-white"></i>
 				                 </a>
 				             </div>
@@ -139,148 +141,174 @@
         <%@ include  file="../include/footer.jsp" %>
         <!-- js必须引用在body前面 -->
 	   <script>
+	   var myChart2 = echarts.init(document.getElementById("echarts_line"));
+       var myChartPie = echarts.init(document.getElementById("echarts_pie"));
 	   $(function(){
-			getStatisticsReportByDate();
+		    getStatisticsCountByStatus(null,null);
+		    getBottomData(null);
 		});
-	   function getStatisticsReportByDate(){
+	   //下方折现 pie图数据
+	   function getBottomData(status){
+		   getStatisticsReportByDate(status);
+		   getStatisticsCountByType(status);
+	   }
+	   //按照状态、时间统计数量
+	   function getStatisticsCountByStatus(startDate,endDate){
 			$.ajax({
 				type : "post",
-				url : whlyPath+"/ajax/statisticsReportByDateAjax",
-				data:"currentPage=1",
+				url : whlyPath+"/ajax/statisticsCountByStatus",
+				data:{"startDate":startDate,"endDate":endDate},
 				dataType:'json',
 				success : function(data) {
-						console.log(data)
 					if(data.statusCode==200){
-						var result=data.resData;
+						var dataArr=[],nameArr=[];
+						$.each(data.resData,function(index,item){
+							var html='<span data-counter="counterup"  data-value="'+item.count+'">'+item.count+'</span>家';
+							$("#num_"+(item.name.toLowerCase())).html(html);
+						});
 					}
 					
 				}			
 			});
-		}
-		
-	   var myChart2 = echarts.init(document.getElementById("echarts_line"));
-       myChart2.setOption({
-           title: {
-               text: '数量/家'
-           },
-           tooltip: {
-               trigger: 'axis'
-           },
-           legend: {
-               data: ['企业上报']
-           },
-           toolbox: {
-               show: true,
-               feature: {
-                   mark: {
-                       show: true
-                   },
-                   dataView: {
-                       show: true,
-                       readOnly: false
-                   },
-                   magicType: {
-                       show: true,
-                       type: ['line']
-                   },
-                   restore: {
-                       show: true
-                   },
-                   saveAsImage: {
-                       show: true
-                   }
-               }
-           },
-           calculable: true,
-           xAxis: [{
-               type: 'category',
-               boundaryGap: false,
-               data: ['2017/01', '2017/02', '2017/03', '2017/04', '2017/05', '2017/06', '2017/07',"2017/08", '2017/09', '2017/10', '2017/11',"2017/12"]
-           }],
-           yAxis: [{
-               type: 'value',
-               axisLabel: {
-                   formatter: '{value} 家'
-               }
-           }],
-           series: [{
-               name: '企业上报',
-               type: 'line',
-               data: [111, 151, 165, 123, 52, 63, 70,88,99,114,12,55],
-               markPoint: {
-                   data: [{
-                       type: 'max',
-                       name: 'Max'
-                   }, {
-                       type: 'min',
-                       name: 'Min'
-                   }]
-               }
-           }]
-       });
-       
-       //pie
-       var myChartPie = echarts.init(document.getElementById("echarts_pie"));
-       var option = {
-    		    title : {
-    		        text: '行业分类分析',
-    		        x:'center'
-    		    },
-    		    tooltip : {
-    		        trigger: 'item',
-    		        formatter: "{a} <br/>{b} : {c} ({d}%)"
-    		    },
-    		    legend: {
-    		        orient : 'vertical',
-    		        x : 'left',
-    		        data:['旅游休闲','现代商贸','联盟广告','金融服务','科技信息','房地产业','电子商务','商务服务','文化体育','健康养生','家庭服务']
-    		    },
-    		    toolbox: {
-    		        show : true,
-    		        feature : {
-    		            mark : {show: true},
-    		            dataView : {show: true, readOnly: false},
-    		            magicType : {
-    		                show: true, 
-    		                type: ['pie', 'funnel'],
-    		                option: {
-    		                    funnel: {
-    		                        x: '25%',
-    		                        width: '50%',
-    		                        funnelAlign: 'left',
-    		                        max: 1548
-    		                    }
-    		                }
-    		            },
-    		            restore : {show: true},
-    		            saveAsImage : {show: true}
-    		        }
-    		    },
-    		    calculable : true,
-    		    series : [
-    		        {
-    		            name:'行业分类分析',
-    		            type:'pie',
-    		            radius : '55%',
-    		            center: ['50%', '60%'],
-    		            data:[
-    		                {value:335, name:'旅游休闲'},
-    		                {value:310, name:'现代商贸'},
-    		                {value:234, name:'现代物流'},
-    		                {value:135, name:'金融服务'},
-    		                {value:1548, name:'科技信息'},
-    		                {value:35, name:'房地产业'},
-    		                {value:555, name:'电子商务'},
-    		                {value:246, name:'商务服务'},
-    		                {value:333, name:'文化体育'},
-    		                {value:44, name:'健康养生'},
-    		                {value:66, name:'家庭服务'}
-    		            ]
-    		        }
-    		    ]
-    		};
-    		                    
-       myChartPie.setOption(option);
+		};
+		//按照行业类型统计数量
+		function getStatisticsCountByType(status){
+				$.ajax({
+					type : "post",
+					url : whlyPath+"/ajax/statisticsCountByType",
+					data:{"status":status},
+					dataType:'json',
+					success : function(data) {
+						if(data.statusCode==200){
+							var nameArr=[];
+							var series=[];
+							$.each(data.resData,function(index,item){
+								nameArr.push(item.name);
+								series.push({value:item.count, name:item.name});
+							});
+							var option = {
+					    		    title : {
+					    		        text: '行业分类分析',
+					    		        x:'center'
+					    		    },
+					    		    tooltip : {
+					    		        trigger: 'item',
+					    		        formatter: "{a} <br/>{b} : {c} ({d}%)"
+					    		    },
+					    		    legend: {
+					    		        orient : 'vertical',
+					    		        x : 'left',
+					    		        data:nameArr
+					    		    },
+					    		    toolbox: {
+					    		        show : true,
+					    		        feature : {
+					    		            mark : {show: true},
+					    		            dataView : {show: true, readOnly: false},
+					    		            magicType : {
+					    		                show: true, 
+					    		                type: ['pie', 'funnel'],
+					    		                option: {
+					    		                    funnel: {
+					    		                        x: '25%',
+					    		                        width: '50%',
+					    		                        funnelAlign: 'left',
+					    		                        max: 1548
+					    		                    }
+					    		                }
+					    		            },
+					    		            saveAsImage : {show: true}
+					    		        }
+					    		    },
+					    		    calculable : true,
+					    		    series : [
+					    		        {
+					    		            name:'行业分类分析',
+					    		            type:'pie',
+					    		            radius : '55%',
+					    		            center: ['50%', '60%'],
+					    		            data:series
+					    		        }
+					    		    ]
+					    		};
+					    		                    
+					       myChartPie.setOption(option);
+						}
+						
+					}			
+				});
+			};
+	   //按照月份统计上报数量
+	   function getStatisticsReportByDate(status){
+			$.ajax({
+				type : "post",
+				url : whlyPath+"/ajax/statisticsReportByDateAjax",
+				data:{status:status},
+				dataType:'json',
+				success : function(data) {
+					if(data.statusCode==200){
+						var dataArr=[],nameArr=[];
+						$.each(data.resData,function(index,item){
+							dataArr.push(item.count);
+							nameArr.push(item.name);
+						});
+						  myChart2.setOption({
+					           title: {
+					               text: '数量/家'
+					           },
+					           tooltip: {
+					               trigger: 'axis'
+					           },
+					           legend: {
+					               data: ['企业上报']
+					           },
+					           toolbox: {
+					               show: true,
+					               feature: {
+					                   mark: {
+					                       show: true
+					                   },
+					                   dataView: {
+					                       show: true,
+					                       readOnly: false
+					                   },
+					                   saveAsImage: {
+					                       show: true
+					                   }
+					               }
+					           },
+					           calculable: true,
+					           xAxis: [{
+					               type: 'category',
+					               boundaryGap: false,
+					               data:nameArr
+					           }],
+					           yAxis: [{
+					               type: 'value',
+					               axisLabel: {
+					                   formatter: '{value} 家'
+					               }
+					           }],
+					           series: [{
+					               name: '企业上报',
+					               type: 'line',
+					               data: dataArr,
+					               markPoint: {
+					                   data: [{
+					                       type: 'max',
+					                       name: 'Max'
+					                   }, {
+					                       type: 'min',
+					                       name: 'Min'
+					                   }]
+					               }
+					           }]
+					       });
+					}
+					
+				}			
+			});
+		};
 	   </script>
     </body>
 </html>
