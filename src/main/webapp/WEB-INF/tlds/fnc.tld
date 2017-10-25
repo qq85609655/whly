@@ -99,4 +99,12 @@
     <example>${fnc:getLinkList(siteId, categoryId, number, param)}</example>  
   </function>
   
+  
+   <function>
+    <description>获取地区</description>
+    <name>getArea</name>
+    <function-class>com.thinkgem.jeesite.modules.cms.utils.CmsUtils</function-class>
+    <function-signature>java.util.List getArea(java.lang.String)</function-signature>
+    <example>${fnc:getArea(parentId)}</example>  
+  </function>
 </taglib>
