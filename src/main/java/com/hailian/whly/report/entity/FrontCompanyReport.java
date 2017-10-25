@@ -25,7 +25,8 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String month;		// 月
 	private Date reportTime;		// 上报时间 year+month
 	private String companyId;		// 上报企业
-	private String typeId;		// 行业类型
+	private String typeId;		// 行业类型ID
+	private String description;  // 行业类型
 	private Area area;		// 地区
 	private String empQuantity;		// 从业人员（人）
 	private String totalIncome;		// 营业总额（万）
@@ -54,11 +55,20 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	public String getYear() {
 		return year;
 	}
-
+	
 	public void setYear(String year) {
 		this.year = year;
 	}
 	
+	@Length(min=0, max=64, message="行业类型长度必须介于 0 和 64 之间")
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Length(min=0, max=11, message="月长度必须介于 0 和 11 之间")
 	public String getMonth() {
 		return month;

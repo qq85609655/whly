@@ -25,12 +25,14 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.del_flag AS "delFlag",
-		a7.name AS "area.name"
+		a7.name AS "area.name",
+		sd.description AS "description"
 	</sql>
 	
 	<sql id="frontCompanyReportJoins">
 		LEFT JOIN sys_office o5 ON o5.id = a.company_id
 		LEFT JOIN sys_area a7 ON a7.id = a.area_id
+		LEFT JOIN sys_dict sd ON sd.id = a.type_id
 	</sql>
     
 	<select id="get" resultType="com.hailian.whly.report.entity.FrontCompanyReport" >
@@ -47,7 +49,6 @@
 		FROM front_company_report a
 		<include refid="frontCompanyReportJoins"/>
 		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="year != null and year != ''">
 				AND a.year = #{year}
 			</if>
@@ -71,6 +72,12 @@
 			</if>
 			<if test="status != null and status != ''">
 				AND a.status = #{status}
+			</if>
+			<if test="typeId != null and typeId != ''">
+				AND a.type_id = #{typeId}
+			</if>
+			<if test="operator != null and operator != ''">
+				AND a.operator like CONCAT(CONCAT('%', #{operator}), '%')
 			</if>
 		</where>
 		<choose>

@@ -3,6 +3,9 @@
  */
 package com.hailian.whly.report.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.hailian.whly.commom.CheckStatus;
 import com.hailian.whly.report.entity.FrontCompanyReport;
+import com.hailian.whly.report.entity.FrontStatus;
 import com.hailian.whly.report.service.FrontCompanyReportService;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
@@ -50,14 +55,25 @@ public class FrontCompanyReportController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response, Model model) {
 	try {
-		Page<FrontCompanyReport> page = frontCompanyReportService.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport); 
+		Integer i = 0;
+		List<FrontStatus> status = new ArrayList<FrontStatus>();
+		while(null!=CheckStatus.getMatchByOrdinal(i)) {
+			FrontStatus list = new FrontStatus();
+			list.setValue(CheckStatus.getMatchByOrdinal(i).getValue());
+			list.setId(CheckStatus.getMatchByName(CheckStatus.getMatchByOrdinal(i).getValue()).toString());
+			status.add(list);
+			i++;
+		}
+		model.addAttribute("status", status);
+		model.addAttribute("front", frontCompanyReport);
+		Page<FrontCompanyReport> page = frontCompanyReportService.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);
 		model.addAttribute("page", page);
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
 		return Global.getWhlyPage()+"/report/frontCompanyReportList";
 	}
-
+	
 	/*@RequiresPermissions("report:frontCompanyReport:view")*/
 	@RequestMapping(value = "form")
 	public String form(FrontCompanyReport frontCompanyReport, Model model) {

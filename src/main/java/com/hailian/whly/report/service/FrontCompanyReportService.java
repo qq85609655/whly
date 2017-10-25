@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hailian.whly.commom.CheckStatus;
 import com.hailian.whly.report.dao.FrontCompanyReportDao;
 import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.thinkgem.jeesite.common.persistence.Page;
@@ -33,7 +34,19 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	}
 	
 	public Page<FrontCompanyReport> findPage(Page<FrontCompanyReport> page, FrontCompanyReport frontCompanyReport) {
-		return super.findPage(page, frontCompanyReport);
+		String year = frontCompanyReport.getYear();
+		String static1 = frontCompanyReport.getStatus();
+		if(frontCompanyReport.getYear()!=null && !frontCompanyReport.getYear().isEmpty()) {
+			frontCompanyReport.setMonth(frontCompanyReport.getYear().substring(5, 7));
+			frontCompanyReport.setYear(frontCompanyReport.getYear().substring(0, 4));
+		}
+		if(frontCompanyReport.getStatus()!=null && !frontCompanyReport.getStatus().isEmpty()) {
+			frontCompanyReport.setStatus(CheckStatus.getMatchByName(frontCompanyReport.getStatus()).toString());
+		}
+		Page<FrontCompanyReport> page1 = super.findPage(page, frontCompanyReport);
+		frontCompanyReport.setYear(year);
+		frontCompanyReport.setStatus(static1);
+		return page1;
 	}
 	
 	@Transactional(readOnly = false)

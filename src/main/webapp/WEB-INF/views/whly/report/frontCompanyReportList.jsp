@@ -3,28 +3,141 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-       <meta name="decorator" content="whly"/>
+       	<meta name="decorator" content="whly"/>
+       	<script type="text/javascript">
+			$(function() {
+				$("#reset").click(resetFrom);
+			
+			});
+        	
+			function resetFrom() {
+				$("#timeQuery").val("");
+				$("#staticQuery").val("");
+				$("#regionQuery").val("");
+				$("#industryQuery").val("");
+				$("#nameQuery").val("");
+				location.replace("http://localhost:8080/front/report/frontCompanyReport/list?menuId=7e90ace61d63482a95ebf719877cd0be");
+			}
+			
+			function page(n,s){
+				$("#pageNo").val(n);
+				$("#pageSize").val(s);
+				$("#searchForm").submit();
+	        	return false;
+	        }
+			
+			
+		</script>
+		
     </head>
-    <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
-        <!-- BEGIN 顶部菜单  -->
+    <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white ">
+		<div class="bootbox modal fade bootbox-alert in" tabindex="-1"
+			role="dialog" style="display: none; padding-right: 16px;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<button type="button" class="bootbox-close-button close"
+							data-dismiss="modal" aria-hidden="true" style="margin-top: -10px;">×</button>
+						<div class="bootbox-body">Hello world!</div>
+					</div>
+					<div class="modal-footer">
+						<button data-bb-handler="ok" type="button" class="btn btn-primary">OK</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- BEGIN 顶部菜单  -->
         <%@ include  file="../include/topmenu.jsp" %>
         <!-- END 顶部菜单  -->
         <!-- 不能删除下面一行 否则手机端样式错乱 -->
         <div class="clearfix"> </div>
         <!-- 内容 -->
-        <div class="page-container">
+        <div class="page-container " id="main"> <!-- modal-backdrop fade in -->
             <!-- BEGIN 左侧部分 -->
            <%@ include  file="../include/leftmenu.jsp" %>
             <!-- END 左侧部分 -->
             
             <!-- BEGIN 右侧内容 -->
-            <div class="page-content-wrapper">
+            <div class="page-content-wrapper ">
                 <div class="page-content">
                     <!-- page 菜单-->
                     <%@ include  file="../include/topBar.jsp" %>
-                    
+                    <div class="portlet-body">
+                    <!-- <form action="#" id="form_sample_3" class="form-horizontal"> -->
+                    <form:form id="searchForm" modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/list?menuId=7e90ace61d63482a95ebf719877cd0be" method="post" class="breadcrumb form-search">
+						<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
+						<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+	                    <div class="row form-body">
+	                    	<div class="form-group col-md-4">
+	                             <label class="control-label col-md-4">时间：</label>
+	                             <div class="col-md-8">
+	                                 <div class="input-group date date-picker" data-date-format="yyyy年mm月">
+	                                     <input type="text" class="form-control" readonly name="year" value="${front.year }" id="timeQuery">
+	                                     <span class="input-group-btn">
+	                                         <button class="btn default" type="button">
+	                                             <i class="fa fa-calendar"></i>
+	                                         </button>
+	                                     </span>
+	                                 </div>
+	                             </div>
+	                         </div>
+	                         <div class="form-group col-md-4">
+	                             <label class="control-label col-md-4">状态：</label>
+	                             <div class="col-md-8">
+	                             	 <c:set var="status3" scope="session" value="${front.status}"/>
+		                             <select class="form-control" id="staticQuery" name="status" >
+		                             	<option value="" label="全部"/>
+		                             	<c:forEach items="${status}" var="status">
+		                             		<c:if test="${status.value == status3}">
+			                                 	<option value="${status.value }" selected>${status.value }</option>
+		                             		</c:if>
+		                             		<c:if test="${status.value != status3}">
+			                                 	<option value="${status.value }" >${status.value }</option>
+		                             		</c:if>
+		                                </c:forEach>
+		                             </select>
+	                             </div>
+	                         </div>
+	                         <div class="form-group col-md-4">
+	                             <label class="control-label col-md-4">地区：</label>
+	                             <div class="col-md-8">
+		                             <select class="form-control" id="regionQuery">
+		                             	 <option value="" label="全部"/>
+		                                 <option>环翠区</option>
+		                                 <option>文登区</option>
+		                                 <option>荣成市</option>
+		                             </select>
+	                             </div>
+	                         </div>
+	                    </div>
+	                    <div class="row">
+	                    	<div class="form-group col-md-4">
+	                             <label class="control-label col-md-4">行业：</label>
+	                             <div class="col-md-8">
+		                             <form:select path="typeId" class="form-control" name="typeId" id="industryQuery">
+										<form:option value="" label="全部"/>
+										<form:options items="${fns:getDictList('front_hylx')}" itemLabel="label" itemValue="id" htmlEscape="false"/>
+									</form:select>
+	                             </div>
+	                         </div>
+	                         <div class="form-group col-md-4">
+	                             <label class="control-label col-md-4">企业名称：</label>
+	                             <div class="col-md-8">
+	                             	<input class="form-control" type="text" placeholder="" name="operator" value="${front.operator }" id="nameQuery">
+	                             </div>
+	                         </div>
+	                         <div class="form-group col-md-4">
+	                         	<button class="btn green col-md-3" id="select" type="submit" style="margin-left:15px;">检索</button>
+	                         	<div class="col-md-1"></div>
+	                         	<button class="btn green col-md-3" type="button" >导出</button>
+	                         	<div class="col-md-1"></div>
+	                         	<button class="btn green col-md-3" id="reset" type="button" >重置</button>
+	                         </div>
+	                    </div>
+                    </form:form>
+                    </div>
                     <!-- 主体部分START-->
-                   <div class="row">
+                    <div class="row">
                         <div class="col-md-12">
                             <!-- BEGIN EXAMPLE TABLE PORTLET-->
                             <div class="portlet light bordered">
@@ -34,10 +147,11 @@
                                         <span class="caption-subject bold uppercase"> 数据列表</span>
                                     </div>
                                 </div>
-                                <div class="portlet-body">
-                                    <div class="table-toolbar">
+                                <!-- <div class="portlet-body"> -->
+                                    <!-- <div class="table-toolbar">
                                         <div class="row">
-                                           <!--  <div class="col-md-6" style="">
+                                        	
+                                            <div class="col-md-6" style="">
                                                 <div class="btn-group">
                                                     <button id="sample_editable_1_new" class="btn sbold green"> Add New
                                                         <i class="fa fa-plus"></i>
@@ -64,32 +178,100 @@
                                                         </li>
                                                     </ul>
                                                 </div>
-                                            </div> -->
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div id="sample_1_wrapper" class="dataTables_wrapper no-footer"><div class="row"><div class="col-md-6 col-sm-6"><div class="dataTables_length" id="sample_1_length"><label>Show <select name="sample_1_length" aria-controls="sample_1" class="form-control input-sm input-xsmall input-inline"><option value="5">5</option><option value="15">15</option><option value="20">20</option><option value="-1">All</option></select></label></div></div><div class="col-md-6 col-sm-6"><div id="sample_1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm input-small input-inline" placeholder="" aria-controls="sample_1"></label></div></div></div><div class="table-scrollable"><table class="table table-striped table-bordered table-hover table-checkable order-column dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
-                                        <thead>
-                                            <tr role="row">
-                                                   <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=" Username : activate to sort column descending" style="width: 150px;"> 上报企业名称 </th>
-                                                   <!-- <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width:124px;"> 审批状态 </th>
+                                    </div> -->
+                                    <!-- <div id="sample_1_wrapper" class="dataTables_wrapper no-footer">
+									<div class="row">
+										<div class="col-md-6 col-sm-12">
+											<div class="dataTables_length" id="sample_1_length">
+												<label>Show <select name="sample_1_length"
+													aria-controls="sample_1"
+													class="form-control input-sm input-xsmall input-inline">
+														<option value="5">5</option>
+														<option value="15">15</option>
+														<option value="20">20</option>
+														<option value="-1">All</option>
+												</select>
+												</label>
+											</div>
+										</div>
+										<div class="col-md-6 col-sm-12">
+											<div class="col-md-7"></div>
+											<div id="sample_1_filter" class="dataTables_filter">
+												<label>Search：<input type="search"
+													class="form-control input-sm input-small input-inline"
+													placeholder="" aria-controls="sample_1">
+												</label>
+											</div>
+										</div>
+									</div> -->
+									<div class="portlet-body">
+										<table class="table table-striped table-bordered table-hover" id="sample_1">
+											<thead>
+												<tr role="row">
+													<th >状态</th>
+													<th >年</th>
+													<th >月份</th>
+													<th >上报企业名称</th>
+													<th >所属行业</th>
+													<th >所属地域</th>
+													<th >营业收入 (万元)</th>
+													<th >利润总额 (万元)</th>
+													<th >税收总额 (万元)</th>
+													<th >从业人员(人)</th>
+													<th >上报时间</th>
+													<th >操作</th>
+													<!-- <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width:124px;"> 审批状态 </th>
                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 227px;"> 所属行业 </th>
                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Points : activate to sort column ascending" style="width: 150px;"> 所属地域 </th>
                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Joined : activate to sort column ascending" style="width: 113px;"> 营业收入（万元） </th>
                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Status : activate to sort column ascending" style="width: 124px;"> 利润总额（万元） </th>
                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Status : activate to sort column ascending" style="width: 124px;"> 税收总额（万元） </th>
                                                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Status : activate to sort column ascending" style="width: 124px;"> 从业人员 </th> -->
-                                                    </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach items="${page.list}" var="frontCompanyReport">
-											<tr  class="gradeX odd" role="row">
-												<td class="center"><a href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">
-													${frontCompanyReport.area.name}
-												</a></td>
-												
-											</tr>
-										</c:forEach>
-                                         <!--  <tr class="gradeX odd" role="row">
+												</tr>
+											</thead>
+											<tbody>
+												<c:forEach items="${page.list}" var="frontCompanyReport">
+													<tr class="gradeX odd" role="row">
+														<%-- <td class="center"></td>
+															<td class="center"><a href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">
+																${frontCompanyReport.area.name}
+															</a></td> --%>
+														<c:forEach items="${status}" var="status1">
+															<c:set var="key" scope="session" value="${status1.id}"/>
+															<c:if test="${frontCompanyReport.status == key}">
+																<td>${status1.value}</td>
+															</c:if>
+														</c:forEach>
+														<td>
+															<a href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">
+																${frontCompanyReport.year} </a>
+														</td>
+														<td>${frontCompanyReport.month}</td>
+														<td>${frontCompanyReport.operator}</td>
+														<td>${frontCompanyReport.description}</td>
+														<td>${frontCompanyReport.area.name}</td>
+														<td>${frontCompanyReport.totalIncome}</td>
+														<td>${frontCompanyReport.totalProfit}</td>
+														<td>${frontCompanyReport.totalTax}</td>
+														<td>${frontCompanyReport.empQuantity}</td>
+														<td><fmt:formatDate
+																value="${frontCompanyReport.reportTime}"
+																pattern="yyyy-MM-dd HH:mm:ss" /></td>
+														<td>
+															<a href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">查看</a>
+															<%-- <shiro:hasPermission name="report:frontCompanyReport:edit"> --%>
+																<a href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">审核</a>
+															<%-- </shiro:hasPermission> --%>
+															<a href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">操作历史</a>
+															<%-- <a
+															href="${ctx}/report/frontCompanyReport/delete?id=${frontCompanyReport.id}"
+															onclick="return confirmx('确认要删除该企业上报吗？', this.href)">删除</a> --%>
+														</td>
+													</tr>
+												</c:forEach>
+												<!--  <tr class="gradeX odd" role="row">
                                                 <td><div class="checker"><span><input type="checkbox" class="checkboxes" value="1"></span></div> </td>
                                                 <td><span class="label label-sm label-success"> 已审核  </span></td>
                                                 <td class="sorting_1"> 文登市顺丰货运服务有限公司 </td>
@@ -111,10 +293,12 @@
                                                 <td  class="center">0.68</td>
                                                 <td  class="center">45</td>
                                             </tr> -->
-                                         
-                                            </tbody>
-                                    </table></div><div class="row"><div class="col-md-5 col-sm-5"><div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 5 of 25 records</div></div><div class="col-md-7 col-sm-7"><div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate"><ul class="pagination" style="visibility: visible;"><li class="prev disabled"><a href="#" title="First"><i class="fa fa-angle-double-left"></i></a></li><li class="prev disabled"><a href="#" title="Prev"><i class="fa fa-angle-left"></i></a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li class="next"><a href="#" title="Next"><i class="fa fa-angle-right"></i></a></li><li class="next"><a href="#" title="Last"><i class="fa fa-angle-double-right"></i></a></li></ul></div></div></div></div>
-                                </div>
+
+											</tbody>
+										</table>
+										<div class="pagination">${page}</div>
+									</div>
+									</div>
                             </div>
                             <!-- END EXAMPLE TABLE PORTLET-->
                         </div>
@@ -126,6 +310,7 @@
                 </div>
             </div>
         </div>
+        
         <!-- END CONTAINER -->
         <!-- BEGIN FOOTER -->
         <%@ include  file="../include/footer.jsp" %>
