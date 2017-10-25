@@ -4,13 +4,13 @@
 package com.thinkgem.jeesite.modules.cms.utils;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.utils.StringUtils;
-
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.CacheUtils;
@@ -23,6 +23,8 @@ import com.thinkgem.jeesite.modules.cms.service.ArticleService;
 import com.thinkgem.jeesite.modules.cms.service.CategoryService;
 import com.thinkgem.jeesite.modules.cms.service.LinkService;
 import com.thinkgem.jeesite.modules.cms.service.SiteService;
+import com.thinkgem.jeesite.modules.sys.entity.Area;
+import com.thinkgem.jeesite.modules.sys.service.AreaService;
 
 import javax.servlet.ServletContext;
 
@@ -40,9 +42,8 @@ public class CmsUtils {
 	private static ArticleService articleService = SpringContextHolder.getBean(ArticleService.class);
 	private static LinkService linkService = SpringContextHolder.getBean(LinkService.class);
     private static ServletContext context = SpringContextHolder.getBean(ServletContext.class);
-
+    private static AreaService areaService = SpringContextHolder.getBean(AreaService.class);
 	private static final String CMS_CACHE = "cmsCache";
-	
 	/**
 	 * 获得站点列表
 	 */
@@ -310,4 +311,15 @@ public class CmsUtils {
         	addViewConfigAttribute(model, ca.getViewConfig());
         }
     }
+    
+    /**
+	 * 获得站点列表
+	 */
+	public static List<Area> getArea(String parentId){
+		//d233fe3d43da4d10ba0a7039746a47dd
+		Map<String, Object> params=new HashMap<String, Object>();
+    	params.put("parentId",parentId);
+		List<Area> siteList = areaService.getAreaDict(params);
+		return siteList;
+	}
 }

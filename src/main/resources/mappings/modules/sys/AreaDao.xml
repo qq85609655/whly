@@ -124,4 +124,19 @@
 					<if test="dbName == 'mysql'">CONCAT('%,', #{id}, ',%')</if>
 	</update>
 	
+	
+	<select id="getAreaDict" parameterType="java.util.Map" resultType="com.thinkgem.jeesite.modules.sys.entity.Area">
+		SELECT
+			*
+		FROM
+			sys_area
+		<if test="parentId != null and parentId != ''">
+			WHERE
+				parent_id = #{parentId}
+		</if>
+		ORDER BY
+			sort
+
+	</select>
+	
 </mapper>
