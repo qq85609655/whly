@@ -3,10 +3,6 @@
  */
 package com.hailian.whly.report.web;
 
-
-import java.util.ArrayList;
-
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +28,7 @@ import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 企业上报Controller
@@ -46,7 +43,7 @@ public class FrontCompanyReportController extends BaseController {
 	@Autowired
 	private FrontCompanyReportService frontCompanyReportService;
 	
-	@ModelAttribute
+	//@ModelAttribute
 	public FrontCompanyReport get(@RequestParam(required=false) String id) {
 		FrontCompanyReport entity = null;
 		if (StringUtils.isNotBlank(id)){
@@ -75,10 +72,15 @@ public class FrontCompanyReportController extends BaseController {
 	/*@RequiresPermissions("report:frontCompanyReport:view")*/
 	@RequestMapping(value = "form")
 	public String form(FrontCompanyReport frontCompanyReport, Model model) {
+		if(UserUtils.getUser().getCompany()!=null) {
+			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
+			frontCompanyReport.setOperator(UserUtils.getUser().getName());
+		}
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
 		return Global.getWhlyPage()+"/report/frontCompanyReportForm";
 	}
 	
+	//根据上报ID查询所有问题
 	@RequestMapping(value = "getfrontCompanyReportById")
 	@ResponseBody
 	public ResultJson getfrontCompanyReportById(FrontCompanyReport frontCompanyReport, Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -97,6 +99,22 @@ public class FrontCompanyReportController extends BaseController {
 		frontCompanyReportService.save(frontCompanyReport);
 		addMessage(redirectAttributes, "保存企业上报成功");
 		frontCompanyReport.setId("");
+		if(UserUtils.getUser().getCompany()!=null) {
+			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
+		}
+		model.addAttribute("frontCompanyReport", frontCompanyReport);
+		return Global.getWhlyPage()+"/report/frontCompanyReportForm";
+	}
+	
+	//@RequiresPermissions("report:frontCompanyReport:edit")
+	@RequestMapping(value = "update")
+	public String update(FrontCompanyReport frontCompanyReport, Model model, RedirectAttributes redirectAttributes) {
+		frontCompanyReportService.update(frontCompanyReport);
+		addMessage(redirectAttributes, "更改企业上报成功");
+		frontCompanyReport.setId("");
+		if(UserUtils.getUser().getCompany()!=null) {
+			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
+		}
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
 		return Global.getWhlyPage()+"/report/frontCompanyReportForm";
 	}

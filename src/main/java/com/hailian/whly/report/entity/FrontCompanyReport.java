@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 企业上报Entity
@@ -27,6 +26,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String month;		// 月
 	private Date reportTime;		// 上报时间 year+month
 	private String companyId;		// 上报企业
+	private String companyName;		// 上报企业名字
 	private String typeId;		// 行业类型ID
 	private String description;  // 行业类型
 	private Area area;		// 地区
@@ -52,6 +52,14 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	
 	
 	
+	@ExcelField(title="上报企业", type=1, align=1, sort=4)
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 
 	public List<FrontReportQuestion> getQuestion() {
 		return question;
@@ -118,7 +126,6 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	}
 	
 	@Length(min=0, max=64, message="上报企业长度必须介于 0 和 64 之间")
-	@ExcelField(title="上报企业", type=1, align=2, sort=4)
 	public String getCompanyId() {
 		return companyId;
 	}

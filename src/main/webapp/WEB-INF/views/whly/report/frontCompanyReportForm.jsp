@@ -33,43 +33,73 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				id: id
 		};
 		if(id!=null && id!="") {
-			$('#add').attr("style","display:none;");
-			$('#delete').attr("style","display:none;");
-			$('#submit').attr("style","display:none;");
 			$.ajax({
 				type : 'POST',
 				data : data,
 				url : '<%=basePath%>front/report/frontCompanyReport/getfrontCompanyReportById',
 				dataType : 'json'
 			}).done(function(result, status, xhr) {
-				$("#company").attr('value',result.data.operator).attr('readonly','true');
-				$("#totalIncome").attr('value',result.data.totalIncome).attr('readonly','true');
-				$("#operatingCosts").attr('value',result.data.operatingCosts).attr('readonly','true');
-				$("#totalProfit").attr('value',result.data.totalProfit).attr('readonly','true');
-				$("#totalTax").attr('value',result.data.totalTax).attr('readonly','true');
-				$("#employeeCompensation").attr('value',result.data.employeeCompensation).attr('readonly','true');
-				$("#loanAmount").attr('value',result.data.loanAmount).attr('readonly','true');
-                $("#empQuantity").attr('value',result.data.empQuantity).attr('readonly','true');
-                $("#orderQuantity").attr('value',result.data.orderQuantity).attr('readonly','true');
+				var operator = $("#operator").val();
                 var question = result.data.question;
-                console.info(question);
                	var divs = $('#remarks').find("div");
-                for(var i=0; i<question.length; i++) {
-            		var remarks = '<div class="form-group">'+
-            						'<label>'+ (i + 1) +'、标题</label> ' +
-            						'<input class="form-control spinner" type="text" placeholder="" readonly value="'+ question[i].title +'" name="question['+ i +'].title">'+
-            						'<label>内容</label>'+
-            						'<textarea class="form-control" rows="3" readonly name="question['+ i +'].content">'+ question[i].content +'</textarea>'+
-            					'</div>'
-            		$("#remarks").append(remarks);
-                }
+               	
+				if(operator!=null && result.data.operator == operator && result.data.status == 'SUBMIT') {
+					$("#from").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=b3ce9351d95a4f90904022a2f1bf8134');
+					$("#company").attr('value',result.data.companyName);
+					$("#totalIncome").attr('value',result.data.totalIncome);
+					$("#operatingCosts").attr('value',result.data.operatingCosts);
+					$("#totalProfit").attr('value',result.data.totalProfit);
+					$("#totalTax").attr('value',result.data.totalTax);
+					$("#employeeCompensation").attr('value',result.data.employeeCompensation);
+					$("#loanAmount").attr('value',result.data.loanAmount);
+	                $("#empQuantity").attr('value',result.data.empQuantity);
+	                $("#orderQuantity").attr('value',result.data.orderQuantity);
+	                for(var i=0; i<question.length; i++) {
+	                	if(question[i]!=null && question[i]!="" && question[i]) {
+		            		var remarks = '<div class="form-group">'+
+		            						'<label>'+ (i + 1) +'、标题</label> ' +
+		            						'<input type="hidden" name="question['+ i +'].id" value="'+ question[i].id +'"> ' +
+		            						'<input class="form-control spinner" type="text" placeholder="" value="'+ question[i].title +'" name="question['+ i +'].title">'+
+		            						'<label>内容</label>'+
+		            						'<textarea class="form-control" rows="3" name="question['+ i +'].content">'+ question[i].content +'</textarea>'+
+		            					'</div>'
+		            		$("#remarks").append(remarks);
+	                	} 
+	                }
+				} else {
+					$('#add').attr("style","display:none;");
+					$('#delete').attr("style","display:none;");
+					$('#submit').attr("style","display:none;");
+					$("#company").attr('value',result.data.companyName).attr('readonly','true');
+					$("#totalIncome").attr('value',result.data.totalIncome).attr('readonly','true');
+					$("#operatingCosts").attr('value',result.data.operatingCosts).attr('readonly','true');
+					$("#totalProfit").attr('value',result.data.totalProfit).attr('readonly','true');
+					$("#totalTax").attr('value',result.data.totalTax).attr('readonly','true');
+					$("#employeeCompensation").attr('value',result.data.employeeCompensation).attr('readonly','true');
+					$("#loanAmount").attr('value',result.data.loanAmount).attr('readonly','true');
+	                $("#empQuantity").attr('value',result.data.empQuantity).attr('readonly','true');
+	                $("#orderQuantity").attr('value',result.data.orderQuantity).attr('readonly','true');
+	                for(var i=0; i<question.length; i++) {
+	                	if(question[i]!=null && question[i]!="" && question[i]) {
+		            		var remarks = '<div class="form-group">'+
+		            						'<label>'+ (i + 1) +'、标题</label> ' +
+		            						'<input type="hidden" name="question['+ i +'].id" value="'+ question[i].id +'"> ' +
+		            						'<input class="form-control spinner" type="text" placeholder="" readonly value="'+ question[i].title +'" name="question['+ i +'].title">'+
+		            						'<label>内容</label>'+
+		            						'<textarea class="form-control" rows="3" readonly name="question['+ i +'].content">'+ question[i].content +'</textarea>'+
+		            					'</div>'
+		            		$("#remarks").append(remarks);
+	                	} 
+	                }
+				}
+                
 			}).fail(function(xhr, status, error) {
 				
 			});
 		} else {
-			addRemarks();
+			$("#from").attr('action','<%=basePath%>front/report/frontCompanyReport/save?menuId=b3ce9351d95a4f90904022a2f1bf8134');
 			$("#return").attr("style","display:none;");
-			$("#company").attr('value',11111111).attr('readonly','true');
+			addRemarks();
 		}
 	}
 	
@@ -85,7 +115,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	
 	function deleteRemarks() {
-		var divs = $('#remarks').find("div");
+		var divs = $('#remarks').find("div").last();
+		var input = divs.find("input").last();
+		if(input.val().trim()!="") {
+			
+		}
 		divs.last().remove();
 	}
 	
@@ -119,7 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="caption font-red-sunglo">
 									<i class="icon-settings font-red-sunglo"></i> <span
 										class="caption-subject bold uppercase">
-										营业收入、利润总额、税收总额请填写企业单月数据，不要填写累计数据</span>
+										营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额请填写企业单月数据，不要填写累计数据</span>
 								</div>
 								<div class="actions">
 									<div class="btn-group">
@@ -141,7 +175,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 							</div>
 							<div class="portlet-body form">
-								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=b3ce9351d95a4f90904022a2f1bf8134" method="post">
+								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=b3ce9351d95a4f90904022a2f1bf8134" id="from" method="post">
 									<div class="form-body">
 										<div class="form-group col-md-6">
 											<label>公司名称</label>
@@ -149,7 +183,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<span class="input-group-addon"> <i
 													class="fa fa-home"></i>
 												</span> <input type="text" class="form-control"
-													placeholder="请输入公司名称" name="company" id="company">
+													placeholder="公司名称"  id="company" readonly value="${frontCompanyReport.companyName }">
 											</div>
 										</div>
 
@@ -158,7 +192,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input type="text" class="form-control"
-													placeholder="单位：（万元）" name="totalIncome" id="totalIncome">
+													placeholder="请输入营业收入" name="totalIncome" id="totalIncome">
 											</div>
 										</div>
 										<div class="form-group col-md-6">
@@ -166,7 +200,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input type="text" class="form-control" name="operatingCosts" id="operatingCosts"
-													placeholder="单位：（万元）" aria-describedby="sizing-addon1">
+													placeholder="请输入营业成本" aria-describedby="sizing-addon1">
 											</div>
 										</div>
 										<div class="form-group col-md-6">
@@ -174,7 +208,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input type="text" class="form-control" name="totalProfit" id="totalProfit"
-													placeholder="单位：（万元）" aria-describedby="sizing-addon1">
+													placeholder="请输入营业利润" aria-describedby="sizing-addon1">
 											</div>
 										</div>
 										<div class="form-group col-md-6">
@@ -182,7 +216,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input type="text" class="form-control" name="totalTax" id="totalTax"
-													placeholder="单位：（万元）" aria-describedby="sizing-addon1">
+													placeholder="请输入企业税费" aria-describedby="sizing-addon1">
 											</div>
 										</div>
 										<div class="form-group col-md-6">
@@ -190,7 +224,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input type="text" class="form-control" name="employeeCompensation"
-													id="employeeCompensation" placeholder="单位：（万元）"
+													id="employeeCompensation" placeholder="请输入应付职工薪酬"
 													aria-describedby="sizing-addon1">
 											</div>
 										</div>
@@ -199,7 +233,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input type="text" class="form-control" name="loanAmount" id="loanAmount"
-													placeholder="单位：（万元）" aria-describedby="sizing-addon1">
+													placeholder="请输入贷款金额" aria-describedby="sizing-addon1">
 											</div>
 										</div>
 										<div class="form-group col-md-6">
@@ -208,7 +242,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<span class="input-group-addon"> <i
 													class="fa fa-user"></i>
 												</span> <input type="text" class="form-control" name="empQuantity"
-													id="empQuantity" placeholder="单位：（人）">
+													id="empQuantity" placeholder="请输入从业人数">
 											</div>
 										</div>
 										<div class="form-group col-md-6">
@@ -217,7 +251,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<span class="input-group-addon"> <i
 													class="fa fa-reorder"></i>
 												</span> <input type="text" class="form-control spinner"
-													id="orderQuantity"  name="orderQuantity" placeholder="单位：（个）">
+													id="orderQuantity"  name="orderQuantity" placeholder="请输入订单数量">
 											</div>
 										</div>
 										<div class="form-group col-md-6">
@@ -228,6 +262,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</div>
 										<input type="hidden" value="${frontCompanyReport.id}"
 											id="companyId">
+										<input type="hidden" value="${frontCompanyReport.operator}"
+										id="operator">
+										<input type="hidden" value="${frontCompanyReport.id}"
+										name="id">
 									</div>
 									<div style="height:380px;"></div>
 									<div class="form-actions" id="remarks" >

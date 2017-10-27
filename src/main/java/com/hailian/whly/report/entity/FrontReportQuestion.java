@@ -21,7 +21,6 @@ public class FrontReportQuestion extends DataEntity<FrontReportQuestion> {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String id;
 	private Date month;         //上报所属年月
 	private String title;		//标题
 	private String content;		//内容
@@ -33,15 +32,6 @@ public class FrontReportQuestion extends DataEntity<FrontReportQuestion> {
 	private String remarks;		//备注
 	
 	
-	
-	
-	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public Date getMonth() {
 		return month;
 	}

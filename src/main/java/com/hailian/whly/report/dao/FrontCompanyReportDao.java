@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.report.entity.FrontReportQuestion;
 
@@ -76,8 +77,41 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 * @todo   添加问题
 	 * @param  @param params
 	 * @param  @return
-	 * @return_type   List<FrontReportQuestion>
+	 * @return_type   int
 	 */
 	public int addQuestion(FrontReportQuestion frontReportQuestion);
+	
+	/**
+	 * 
+	 * @time   2017年10月27日 上午09:18:00
+	 * @author zhouyl
+	 * @todo   查询单条企业信息
+	 * @param  @param params
+	 * @param  @return
+	 * @return_type   Office
+	 */
+	public Office findOfficeById(String companyId);
+	
+	/**
+	 * 
+	 * @time   2017年10月27日 上午16:29:00
+	 * @author zhouyl
+	 * @todo   修改上报信息
+	 * @param  @param params
+	 * @param  @return
+	 * @return_type   int
+	 */
+	public int updateReport(FrontCompanyReport frontCompanyReport);
+	
+	/**
+	 * 
+	 * @time   2017年10月27日 下午16:29:00
+	 * @author zhouyl
+	 * @todo   修改问题信息
+	 * @param  @param params
+	 * @param  @return
+	 * @return_type   int
+	 */
+	public int updateQuestion(FrontReportQuestion frontReportQuestion);
 	
 }
