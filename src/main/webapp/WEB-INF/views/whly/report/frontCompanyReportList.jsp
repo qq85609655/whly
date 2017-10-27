@@ -17,6 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			});
 			
+			
         	//重置表单
 			function resetFrom() {
 				$("#timeQuery").val("");

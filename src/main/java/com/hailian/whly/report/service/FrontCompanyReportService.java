@@ -65,17 +65,29 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			Date time= sdf.parse(sdf.format(new Date()));
 			String year = String.valueOf(c.get(Calendar.YEAR));
 			String month = String.valueOf(c.get(Calendar.MONTH)+1);
-			frontCompanyReport.setId(UUID.randomUUID().toString());
+			List<FrontReportQuestion> list = frontCompanyReport.getQuestion();
+			String reportId = UUID.randomUUID().toString();
+			frontCompanyReport.setId(reportId);
 			frontCompanyReport.setStatus("SUBMIT");
 			frontCompanyReport.setYear(year);
 			frontCompanyReport.setMonth(month);
 			frontCompanyReport.setInsertTime(time);
 			frontCompanyReport.setReportTime(time);
 			frontCompanyReport.setUpdateTime(time);
+			int i = dao.insert1(frontCompanyReport);
+			for(FrontReportQuestion front: list) {
+				front.setId(UUID.randomUUID().toString());
+				front.setMonth(time);
+				front.setReportId(reportId); //上报ID
+				front.setCreateDate(time);
+				front.setUpdateDate(time);
+				front.setCompanyId(""); // 企业ID
+				front.setOperator("");	// 操作人
+				dao.addQuestion(front);
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		int i = dao.insert1(frontCompanyReport);
 	}
 	
 	@Transactional(readOnly = false)

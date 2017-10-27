@@ -62,11 +62,21 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 * 
 	 * @time   2017年10月27日 上午09:18:00
 	 * @author zhouyl
-	 * @todo   查找所有问题
+	 * @todo   查询所有问题
 	 * @param  @param params
 	 * @param  @return
 	 * @return_type   List<FrontReportQuestion>
 	 */
 	public List<FrontReportQuestion> findQuestion(String reportId);
+	/**
+	 * 
+	 * @time   2017年10月27日 上午09:18:00
+	 * @author zhouyl
+	 * @todo   添加问题
+	 * @param  @param params
+	 * @param  @return
+	 * @return_type   List<FrontReportQuestion>
+	 */
+	public int addQuestion(FrontReportQuestion frontReportQuestion);
 	
 }

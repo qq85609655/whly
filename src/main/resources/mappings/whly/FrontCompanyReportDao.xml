@@ -201,6 +201,33 @@
 		)
 	</insert>
 	
+	<insert id="addQuestion" parameterType="com.hailian.whly.report.entity.FrontReportQuestion">
+		INSERT INTO front_report_question(
+			id,
+			month,
+			title,
+			content,
+			company_id,
+			report_id,
+			operator,
+			create_date,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{month},
+			#{title},
+			#{companyId},
+			#{reportId},
+			#{operator},
+			#{createDate},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
 	<update id="update">
 		UPDATE front_company_report SET 	
 			year = #{year},

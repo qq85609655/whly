@@ -33,6 +33,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				id: id
 		};
 		if(id!=null && id!="") {
+			$('#add').attr("style","display:none;");
+			$('#delete').attr("style","display:none;");
+			$('#submit').attr("style","display:none;");
 			$.ajax({
 				type : 'POST',
 				data : data,
@@ -48,22 +51,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$("#loanAmount").attr('value',result.data.loanAmount).attr('readonly','true');
                 $("#empQuantity").attr('value',result.data.empQuantity).attr('readonly','true');
                 $("#orderQuantity").attr('value',result.data.orderQuantity).attr('readonly','true');
-                console.info('result',result);
-                
+                var question = result.data.question;
+                console.info(question);
+               	var divs = $('#remarks').find("div");
+                for(var i=0; i<question.length; i++) {
+            		var remarks = '<div class="form-group">'+
+            						'<label>'+ (i + 1) +'、标题</label> ' +
+            						'<input class="form-control spinner" type="text" placeholder="" readonly value="'+ question[i].title +'" name="question['+ i +'].title">'+
+            						'<label>内容</label>'+
+            						'<textarea class="form-control" rows="3" readonly name="question['+ i +'].content">'+ question[i].content +'</textarea>'+
+            					'</div>'
+            		$("#remarks").append(remarks);
+                }
 			}).fail(function(xhr, status, error) {
 				
 			});
 		} else {
+			addRemarks();
 			$("#return").attr("style","display:none;");
 			$("#company").attr('value',11111111).attr('readonly','true');
 		}
 	}
 	
 	function addRemarks() {
+		var divs = $('#remarks').find("div");
 		var remarks = '<div class="form-group">'+
-						'<label>标题</label> <input class="form-control spinner" type="text" placeholder="">'+
+						'<label>'+ (divs.length + 1) +'、标题</label> '+
+						'<input class="form-control spinner" type="text" placeholder="" name="question['+ i +'].title">'+
 						'<label>内容</label>'+
-						'<textarea class="form-control" rows="3"></textarea>'+
+						'<textarea class="form-control" rows="3" name="question['+ i +'].content"></textarea>'+
 					'</div>'
 		$("#remarks").append(remarks);
 	}
@@ -204,10 +220,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													id="orderQuantity"  name="orderQuantity" placeholder="单位：（个）">
 											</div>
 										</div>
-										<div class="form-group col-md-6"> 
+										<div class="form-group col-md-6">
+											<br> 
 											<button type="button" class="btn default pull-right"
 												id="return">返回</button>
-											<button type="submit" class="btn blue pull-right">提交</button>
+											<button type="submit" class="btn blue pull-right" id="submit">提交</button>
 										</div>
 										<input type="hidden" value="${frontCompanyReport.id}"
 											id="companyId">
@@ -216,11 +233,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<div class="form-actions" id="remarks" >
 										<button type="button" class="btn btn-success" id="add">新增</button>
 										<button type="button" class="btn btn-danger" id="delete">删除</button>
-										<div class="form-group">
-											<label>标题</label> <input class="form-control spinner"
-												type="text" placeholder=""> <label>内容</label>
-											<textarea class="form-control" rows="3"></textarea>
-										</div>
 
 									</div>
 								</form>
