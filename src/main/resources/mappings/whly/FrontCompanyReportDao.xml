@@ -21,12 +21,20 @@
 		a.reason AS "reason",
 		a.remarks AS "remarks",
 		a.create_by AS "createBy.id",
-		a.create_date AS "createDate",
+		a.operating_costs AS "operatingCosts",
+		a.employee_compensation AS "employeeCompensation",
+		a.loan_amount AS "loanAmount",
+		a.order_quantity AS "orderQuantity",
+		
+		<!-- a.create_date AS "createDate", -->
 		a.update_by AS "updateBy.id",
-		a.update_date AS "updateDate",
+		<!-- a.update_date AS "updateDate", -->
 		a.del_flag AS "delFlag",
 		a7.name AS "area.name",
 		sd.description AS "description"
+		
+		
+		
 	</sql>
 	
 	<sql id="frontCompanyReportJoins">
@@ -41,6 +49,29 @@
 		FROM front_company_report a
 		<include refid="frontCompanyReportJoins"/>
 		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findQuestion" parameterType="String"  resultType="com.hailian.whly.report.entity.FrontReportQuestion">
+		SELECT
+			frq.id AS "id",
+			frq.month AS "month",
+			frq.title AS "title",
+			frq.content AS "content",
+			frq.company_id AS "companyId",
+			frq.report_id AS "reportId",
+			frq.operator AS "operator",
+			frq.create_by AS "createBy",
+			frq.create_date AS "createDate",
+			frq.update_by AS "updateBy",
+			frq.update_date AS "updateDate",
+			frq.remarks AS "remarks",
+			frq.del_flag AS "delFlag"
+		FROM 
+			front_company_report fcr 
+			LEFT JOIN  front_report_question frq ON frq.report_id = fcr.id
+		WHERE 
+			fcr.id = #{reportId}
+		ORDER BY frq.update_date DESC
 	</select>
 	
 	<select id="findList" resultType="com.hailian.whly.report.entity.FrontCompanyReport">
@@ -79,6 +110,7 @@
 			<if test="operator != null and operator != ''">
 				AND a.operator like CONCAT(CONCAT('%', #{operator}), '%')
 			</if>
+			and a.report_time is not null
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -97,6 +129,7 @@
 		<include refid="frontCompanyReportJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			and a.report_time is not null
 		</where>		
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -110,7 +143,7 @@
 	
 	
 	
-	<insert id="insert">
+	<insert id="insert1" parameterType="com.hailian.whly.report.entity.FrontCompanyReport">
 		INSERT INTO front_company_report(
 			id,
 			year,
@@ -133,6 +166,10 @@
 			create_date,
 			update_by,
 			update_date,
+			operating_costs,
+			employee_compensation,
+			loan_amount,
+			order_quantity,
 			del_flag
 		) VALUES (
 			#{id},
@@ -156,6 +193,10 @@
 			#{createDate},
 			#{updateBy.id},
 			#{updateDate},
+			#{operatingCosts},
+			#{employeeCompensation},
+			#{loanAmount},
+			#{orderQuantity},
 			#{delFlag}
 		)
 	</insert>
@@ -246,4 +287,5 @@
 		order by d.sort
 
 	</select>
+	
 </mapper>

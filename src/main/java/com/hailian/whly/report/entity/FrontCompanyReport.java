@@ -4,11 +4,13 @@
 package com.hailian.whly.report.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 
 /**
@@ -19,6 +21,7 @@ import com.thinkgem.jeesite.modules.sys.entity.Area;
 public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	
 	private static final long serialVersionUID = 1L;
+	private String id;          //ID
 	private String year;		// 年
 	private String month;		// 月
 	private Date reportTime;		// 上报时间 year+month
@@ -26,10 +29,14 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String typeId;		// 行业类型ID
 	private String description;  // 行业类型
 	private Area area;		// 地区
-	private String empQuantity;		// 从业人员（人）
-	private String totalIncome;		// 营业总额（万）
-	private String totalProfit;		// 利润总额（万）
-	private String totalTax;		// 税收总额（万）
+	private String empQuantity;		// 从业人数（人）
+	private String totalIncome;		// 营业收入（万）
+	private String totalProfit;		// 营业利润（万）
+	private String totalTax;		// 企业税费（万）
+	private String operatingCosts;  // 营业成本（万）
+	private String employeeCompensation; // 应付职工薪酬 （万）
+	private String loanAmount;      // 贷款金额 （万）
+	private String orderQuantity;   // 订单数量 （个） 
 	private Date insertTime;		// 插入时间
 	private Date updateTime;		// 更新时间
 	private String operator;		// 操作人
@@ -39,7 +46,26 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private Date endInsertTime;		// 结束 插入时间
 	private String name;
 	private String count;
+	private List<FrontReportQuestion> question; //问题信息
 	
+	
+
+	public List<FrontReportQuestion> getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(List<FrontReportQuestion> question) {
+		this.question = question;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public FrontCompanyReport() {
 		super();
 	}
@@ -49,6 +75,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	}
 
 	@Length(min=0, max=11, message="年长度必须介于 0 和 11 之间")
+	@ExcelField(title="年", type=1, align=2, sort=2)
 	public String getYear() {
 		return year;
 	}
@@ -58,6 +85,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	}
 	
 	@Length(min=0, max=64, message="行业类型长度必须介于 0 和 64 之间")
+	@ExcelField(title="所属行业", type=1, align=2, sort=5)
 	public String getDescription() {
 		return description;
 	}
@@ -67,6 +95,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	}
 
 	@Length(min=0, max=11, message="月长度必须介于 0 和 11 之间")
+	@ExcelField(title="月", type=1, align=2, sort=3)
 	public String getMonth() {
 		return month;
 	}
@@ -76,6 +105,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	}
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@ExcelField(title="上报时间", type=1, align=2, sort=2)
 	public Date getReportTime() {
 		return reportTime;
 	}
@@ -85,6 +115,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	}
 	
 	@Length(min=0, max=64, message="上报企业长度必须介于 0 和 64 之间")
+	@ExcelField(title="上报企业", type=1, align=2, sort=4)
 	public String getCompanyId() {
 		return companyId;
 	}
@@ -102,6 +133,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.typeId = typeId;
 	}
 	
+	@ExcelField(title="所属地域", type=1, align=2, sort=6)
 	public Area getArea() {
 		return area;
 	}
@@ -110,7 +142,8 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.area = area;
 	}
 	
-	@Length(min=0, max=11, message="从业人员（人）长度必须介于 0 和 11 之间")
+	@Length(min=0, max=11, message="从业人数（人）长度必须介于 0 和 11 之间")
+	@ExcelField(title="从业人数(人)", type=1, align=2, sort=14)
 	public String getEmpQuantity() {
 		return empQuantity;
 	}
@@ -119,6 +152,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.empQuantity = empQuantity;
 	}
 	
+	@ExcelField(title="营业收入(万元)", type=1, align=2, sort=7)
 	public String getTotalIncome() {
 		return totalIncome;
 	}
@@ -127,6 +161,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.totalIncome = totalIncome;
 	}
 	
+	@ExcelField(title="营业利润(万元)", type=1, align=2, sort=8)
 	public String getTotalProfit() {
 		return totalProfit;
 	}
@@ -135,6 +170,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.totalProfit = totalProfit;
 	}
 	
+	@ExcelField(title="企业税费(万元)", type=1, align=2, sort=9)
 	public String getTotalTax() {
 		return totalTax;
 	}
@@ -171,6 +207,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	}
 	
 	@Length(min=0, max=10, message="状态 未提交-UNSUBMIT 已提交-SUBMIT            审核通过-PASSED 未通过-UNPASSED长度必须介于 0 和 10 之间")
+	//@ExcelField(title="状态", type=1, align=2, sort=1)
 	public String getStatus() {
 		return status;
 	}
@@ -183,11 +220,47 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	public String getReason() {
 		return reason;
 	}
-
+	
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
 	
+	@ExcelField(title="营业成本", type=1, align=2, sort=10)
+	public String getOperatingCosts() {
+		return operatingCosts;
+	}
+
+	public void setOperatingCosts(String operatingCosts) {
+		this.operatingCosts = operatingCosts;
+	}
+	
+	@ExcelField(title="应付职工薪酬", type=1, align=2, sort=11)
+	public String getEmployeeCompensation() {
+		return employeeCompensation;
+	}
+
+	public void setEmployeeCompensation(String employeeCompensation) {
+		this.employeeCompensation = employeeCompensation;
+	}
+	
+	@ExcelField(title="贷款金额", type=1, align=2, sort=12)
+	public String getLoanAmount() {
+		return loanAmount;
+	}
+
+	public void setLoanAmount(String loanAmount) {
+		this.loanAmount = loanAmount;
+	}
+	
+	@ExcelField(title="订单数量", type=1, align=2, sort=13)
+	public String getOrderQuantity() {
+		return orderQuantity;
+	}
+
+	public void setOrderQuantity(String orderQuantity) {
+		this.orderQuantity = orderQuantity;
+	}
+
 	public Date getBeginInsertTime() {
 		return beginInsertTime;
 	}

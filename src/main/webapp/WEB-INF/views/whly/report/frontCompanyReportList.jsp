@@ -1,24 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%> 
 <!DOCTYPE html>
 <html lang="en">
     <head>
        	<meta name="decorator" content="whly"/>
        	<script type="text/javascript">
 			$(function() {
+				//重置按钮
 				$("#reset").click(resetFrom);
+				//导出按钮
+				$("#export").click(Export);
 			
 			});
-        	
+			
+        	//重置表单
 			function resetFrom() {
 				$("#timeQuery").val("");
 				$("#staticQuery").val("");
 				$("#regionQuery").val("");
 				$("#industryQuery").val("");
 				$("#nameQuery").val("");
-				location.replace("http://localhost:8080/front/report/frontCompanyReport/list?menuId=7e90ace61d63482a95ebf719877cd0be");
+				location.replace('<%=basePath%>front/report/frontCompanyReport/list?menuId=7e90ace61d63482a95ebf719877cd0be');
 			}
 			
+			//导出
+			function Export() {
+				$("#searchForm").attr("action", '<%=basePath%>front/report/frontCompanyReport/export').submit();
+				$("#searchForm").attr("action", '<%=basePath%>front/report/frontCompanyReport/list?menuId=7e90ace61d63482a95ebf719877cd0be');
+			}
+        	
+        	//分页
 			function page(n,s){
 				$("#pageNo").val(n);
 				$("#pageSize").val(s);
@@ -84,10 +99,10 @@
 	                         <div class="form-group col-md-4">
 	                             <label class="control-label col-md-4">状态：</label>
 	                             <div class="col-md-8">
-	                             	 <c:set var="status3" scope="session" value="${front.status}"/>
-		                             <select class="form-control" id="staticQuery" name="status" >
+		                            <%--  <select class="form-control" id="staticQuery" name="status" >
 		                             	<option value="" label="全部"/>
 		                             	<c:forEach items="${status}" var="status">
+		                             		<option value="${status.code }" >${status.value }</option>
 		                             		<c:if test="${status.value == status3}">
 			                                 	<option value="${status.value }" selected>${status.value }</option>
 		                             		</c:if>
@@ -95,10 +110,33 @@
 			                                 	<option value="${status.value }" >${status.value }</option>
 		                             		</c:if>
 		                                </c:forEach>
+		                             </select> --%>
+		                             <c:set var="status3" scope="session" value="${front.status}"/>
+		                             <select class="form-control" id="staticQuery" name="status" >
+		                             	<option value="" label="全部"/>
+		                             	<c:forEach items="${status}" var="status">
+		                             		<c:if test="${status.code == status3}">
+			                                 	<option value="${status.code }" selected>${status.value }</option>
+		                             		</c:if>
+		                             		<c:if test="${status.code != status3}">
+			                                 	<option value="${status.code }" >${status.value }</option>
+		                             		</c:if>
+		                                </c:forEach>
 		                             </select>
+		                           
 	                             </div>
 	                         </div>
 	                         <div class="form-group col-md-4">
+	                             <label class="control-label col-md-4">地区：</label>
+	                             <div class="col-md-8">
+		                             <form:select path="area.id"  name="area.id" class="form-control" id="industryQuery">
+										<form:option value="" label="全部"/>
+										<form:options items="${fnc:getArea('d233fe3d43da4d10ba0a7039746a47dd')}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+									</form:select>
+	                             </div>
+	                         </div>
+								
+	                        <!--  <div class="form-group col-md-4">
 	                             <label class="control-label col-md-4">地区：</label>
 	                             <div class="col-md-8">
 		                             <select class="form-control" id="regionQuery">
@@ -108,7 +146,7 @@
 		                                 <option>荣成市</option>
 		                             </select>
 	                             </div>
-	                         </div>
+	                         </div> -->
 	                    </div>
 	                    <div class="row">
 	                    	<div class="form-group col-md-4">
@@ -127,9 +165,9 @@
 	                             </div>
 	                         </div>
 	                         <div class="form-group col-md-4">
-	                         	<button class="btn green col-md-3" id="select" type="submit" style="margin-left:15px;">检索</button>
+	                         	<button class="btn green col-md-3" id="query" type="submit" style="margin-left:15px;">检索</button>
 	                         	<div class="col-md-1"></div>
-	                         	<button class="btn green col-md-3" type="button" >导出</button>
+	                         	<button class="btn green col-md-3" type="button" id="export">导出</button>
 	                         	<div class="col-md-1"></div>
 	                         	<button class="btn green col-md-3" id="reset" type="button" >重置</button>
 	                         </div>
@@ -217,9 +255,13 @@
 													<th >所属行业</th>
 													<th >所属地域</th>
 													<th >营业收入 (万元)</th>
-													<th >利润总额 (万元)</th>
-													<th >税收总额 (万元)</th>
-													<th >从业人员(人)</th>
+													<th >营业利润 (万元)</th>
+													<th >企业税费 (万元)</th>
+													<th >营业成本 (万元)</th>
+													<th >应付职工薪酬 (万元)</th>
+													<th >贷款金额 (万元)</th>
+													<th >订单数量 (个)</th>
+													<th >从业人数(人)</th>
 													<th >上报时间</th>
 													<th >操作</th>
 													<!-- <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width:124px;"> 审批状态 </th>
@@ -239,15 +281,12 @@
 																${frontCompanyReport.area.name}
 															</a></td> --%>
 														<c:forEach items="${status}" var="status1">
-															<c:set var="key" scope="session" value="${status1.id}"/>
+															<c:set var="key" scope="session" value="${status1.code}"/>
 															<c:if test="${frontCompanyReport.status == key}">
 																<td>${status1.value}</td>
 															</c:if>
 														</c:forEach>
-														<td>
-															<a href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">
-																${frontCompanyReport.year} </a>
-														</td>
+														<td>${frontCompanyReport.year}</td>
 														<td>${frontCompanyReport.month}</td>
 														<td>${frontCompanyReport.operator}</td>
 														<td>${frontCompanyReport.description}</td>
@@ -255,12 +294,16 @@
 														<td>${frontCompanyReport.totalIncome}</td>
 														<td>${frontCompanyReport.totalProfit}</td>
 														<td>${frontCompanyReport.totalTax}</td>
+														<td>${frontCompanyReport.operatingCosts}</td>
+														<td>${frontCompanyReport.employeeCompensation}</td>
+														<td>${frontCompanyReport.loanAmount}</td>
+														<td>${frontCompanyReport.orderQuantity}</td>
 														<td>${frontCompanyReport.empQuantity}</td>
 														<td><fmt:formatDate
 																value="${frontCompanyReport.reportTime}"
 																pattern="yyyy-MM-dd HH:mm:ss" /></td>
 														<td>
-															<a href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">查看</a>
+															<a href="${whlyPath}/report/frontCompanyReport/form?menuId=b3ce9351d95a4f90904022a2f1bf8134&id=${frontCompanyReport.id}">查看</a>
 															<%-- <shiro:hasPermission name="report:frontCompanyReport:edit"> --%>
 																<a href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">审核</a>
 															<%-- </shiro:hasPermission> --%>

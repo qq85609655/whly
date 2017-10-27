@@ -8,6 +8,10 @@
     <link href="/static/${whlyPage}/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/static/${whlyPage}/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
     <link href="/static/${whlyPage}/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/${whlyPage}/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/${whlyPage}/assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/${whlyPage}/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/${whlyPage}/assets/global/plugins/clockface/css/clockface.css" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN PAGE LEVEL PLUGINS -->
     <!-- END PAGE LEVEL PLUGINS -->
@@ -83,6 +87,9 @@
     <script src="/static/${whlyPage}/assets/global/scripts/datatable.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/ javascript"></script>
+    <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/global/plugins/clockface/js/clockface.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <script src="/static/${whlyPage}/assets/global/plugins/echarts/echarts-3.5.2.js" type="text/javascript"></script>
      <script src="/static/${whlyPage}/assets/global/plugins/echarts/manyEcharts.js" type="text/javascript"></script>
@@ -100,6 +107,7 @@
     <script src="/static/${whlyPage}/assets/pages/scripts/form-wizard.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/pages/scripts/table-datatables-rowreorder.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/pages/scripts/form-validation.min.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
     <!-- BEGIN THEME LAYOUT SCRIPTS -->
     <script src="/static/${whlyPage}/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>

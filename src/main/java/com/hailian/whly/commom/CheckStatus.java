@@ -1,5 +1,8 @@
  package com.hailian.whly.commom;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @className CheckStatus.java
@@ -8,13 +11,15 @@
  * @todo   TODO
  */
  public enum CheckStatus{
-   SUBMIT("已提交"), 
-   PASSED("已审核"), 
-   UNPASSED("未通过");
+   SUBMIT("SUBMIT","已提交"), 
+   PASSED("PASSED","已审核"), 
+   UNPASSED("UNPASSED","未通过");
 
+   private String code;
    private String value;
 
-	private CheckStatus(String value) {
+	private CheckStatus(String code,String value) {
+		this.code = code;
 		this.value = value;
 	}
 
@@ -33,6 +38,26 @@
 			}
 		}
 		return null;
+	}
+	public static List<CheckStatus> getAllStatus() {
+		List<CheckStatus> allStatus=new ArrayList<CheckStatus>();
+		for (CheckStatus isHave : values()) {
+			allStatus.add(isHave);
+		}
+		return allStatus;
+	}
+
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	public static CheckStatus getMatchByOrdinal(Integer ordinal) {

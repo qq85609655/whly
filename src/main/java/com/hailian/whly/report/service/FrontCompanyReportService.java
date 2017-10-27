@@ -3,8 +3,13 @@
  */
 package com.hailian.whly.report.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hailian.whly.commom.CheckStatus;
 import com.hailian.whly.report.dao.FrontCompanyReportDao;
 import com.hailian.whly.report.entity.FrontCompanyReport;
+import com.hailian.whly.report.entity.FrontReportQuestion;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 
@@ -26,8 +32,12 @@ import com.thinkgem.jeesite.common.service.CrudService;
 public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao, FrontCompanyReport> {
 	@Autowired
 	private FrontCompanyReportDao dao;
+	
 	public FrontCompanyReport get(String id) {
-		return super.get(id);
+		List<FrontReportQuestion> list = dao.findQuestion(id);
+		FrontCompanyReport frontCompanyReport = dao.get(id);
+		frontCompanyReport.setQuestion(list);
+		return frontCompanyReport;
 	}
 	
 	public List<FrontCompanyReport> findList(FrontCompanyReport frontCompanyReport) {
@@ -41,9 +51,6 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			frontCompanyReport.setMonth(frontCompanyReport.getYear().substring(5, 7));
 			frontCompanyReport.setYear(frontCompanyReport.getYear().substring(0, 4));
 		}
-		if(frontCompanyReport.getStatus()!=null && !frontCompanyReport.getStatus().isEmpty()) {
-			frontCompanyReport.setStatus(CheckStatus.getMatchByName(frontCompanyReport.getStatus()).toString());
-		}
 		Page<FrontCompanyReport> page1 = super.findPage(page, frontCompanyReport);
 		frontCompanyReport.setYear(year);
 		frontCompanyReport.setStatus(static1);
@@ -52,7 +59,23 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	
 	@Transactional(readOnly = false)
 	public void save(FrontCompanyReport frontCompanyReport) {
-		super.save(frontCompanyReport);
+		try {
+			Calendar c = Calendar.getInstance();
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			Date time= sdf.parse(sdf.format(new Date()));
+			String year = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			frontCompanyReport.setId(UUID.randomUUID().toString());
+			frontCompanyReport.setStatus("SUBMIT");
+			frontCompanyReport.setYear(year);
+			frontCompanyReport.setMonth(month);
+			frontCompanyReport.setInsertTime(time);
+			frontCompanyReport.setReportTime(time);
+			frontCompanyReport.setUpdateTime(time);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		int i = dao.insert1(frontCompanyReport);
 	}
 	
 	@Transactional(readOnly = false)
