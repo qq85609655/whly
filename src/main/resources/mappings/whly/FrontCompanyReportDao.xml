@@ -144,6 +144,7 @@
 	
 	
 	<insert id="insert1" parameterType="com.hailian.whly.report.entity.FrontCompanyReport">
+	
 		INSERT INTO front_company_report(
 			id,
 			year,
@@ -218,6 +219,7 @@
 			#{id},
 			#{month},
 			#{title},
+			#{content},
 			#{companyId},
 			#{reportId},
 			#{operator},

@@ -2,6 +2,7 @@ package com.hailian.whly.report.utils;
 
 
 public class ResultJson {  
+	
 	  
     private static final String OK = "ok";  
     private static final String ERROR = "error";  

@@ -41,6 +41,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 @Controller
 @RequestMapping(value = "${whlyPath}/report/frontCompanyReport")
 public class FrontCompanyReportController extends BaseController {
+	
 
 	@Autowired
 	private FrontCompanyReportService frontCompanyReportService;

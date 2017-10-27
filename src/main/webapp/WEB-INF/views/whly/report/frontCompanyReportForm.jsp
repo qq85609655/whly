@@ -77,9 +77,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var divs = $('#remarks').find("div");
 		var remarks = '<div class="form-group">'+
 						'<label>'+ (divs.length + 1) +'、标题</label> '+
-						'<input class="form-control spinner" type="text" placeholder="" name="question['+ i +'].title">'+
+						'<input class="form-control spinner" type="text" placeholder="" name="question['+ divs.length +'].title">'+
 						'<label>内容</label>'+
-						'<textarea class="form-control" rows="3" name="question['+ i +'].content"></textarea>'+
+						'<textarea class="form-control" rows="3" name="question['+ divs.length +'].content"></textarea>'+
 					'</div>'
 		$("#remarks").append(remarks);
 	}
@@ -233,7 +233,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<div class="form-actions" id="remarks" >
 										<button type="button" class="btn btn-success" id="add">新增</button>
 										<button type="button" class="btn btn-danger" id="delete">删除</button>
-
+										<span class="col-md-12" style="height:7px;"></span>
 									</div>
 								</form>
 							</div>

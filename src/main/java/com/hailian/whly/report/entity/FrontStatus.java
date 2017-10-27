@@ -12,6 +12,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
  * @version 2017-10-25
  */
 public class FrontStatus extends DataEntity<FrontStatus> {
+	
 
 	/**
 	 * 

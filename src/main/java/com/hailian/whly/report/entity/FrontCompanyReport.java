@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 企业上报Entity
@@ -47,6 +48,8 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String name;
 	private String count;
 	private List<FrontReportQuestion> question; //问题信息
+	
+	
 	
 	
 

@@ -18,6 +18,7 @@ import com.hailian.whly.report.entity.FrontReportQuestion;
  */
 @MyBatisDao
 public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
+	
 	/**
 	 * 
 	 * @time   2017年10月24日 上午11:11:21

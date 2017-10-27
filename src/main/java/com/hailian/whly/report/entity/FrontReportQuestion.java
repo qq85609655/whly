@@ -35,6 +35,7 @@ public class FrontReportQuestion extends DataEntity<FrontReportQuestion> {
 	
 	
 	
+	
 	public String getId() {
 		return id;
 	}

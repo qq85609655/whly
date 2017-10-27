@@ -30,6 +30,7 @@ import com.thinkgem.jeesite.common.service.CrudService;
 @Service
 @Transactional(readOnly = true)
 public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao, FrontCompanyReport> {
+	
 	@Autowired
 	private FrontCompanyReportDao dao;
 	
@@ -83,6 +84,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				front.setUpdateDate(time);
 				front.setCompanyId(""); // 企业ID
 				front.setOperator("");	// 操作人
+				front.setDelFlag("0");
 				dao.addQuestion(front);
 			}
 		} catch (ParseException e) {
