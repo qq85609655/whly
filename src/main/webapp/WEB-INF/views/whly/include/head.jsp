@@ -105,7 +105,7 @@
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="/static/${whlyPage}/assets/pages/scripts/dashboard.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/pages/scripts/form-wizard.min.js" type="text/javascript"></script>
-    <script src="/static/${whlyPage}/assets/pages/scripts/table-datatables-rowreorder.min.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/pages/scripts/table-datatables-rowreorder.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/pages/scripts/form-validation.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->

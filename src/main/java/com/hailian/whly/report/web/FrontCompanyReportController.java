@@ -3,23 +3,31 @@
  */
 package com.hailian.whly.report.web;
 
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.activiti.engine.impl.util.json.JSONObject;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.hailian.whly.commom.CheckStatus;
 import com.hailian.whly.report.entity.FrontCompanyReport;
+import com.hailian.whly.report.entity.FrontReportHistory;
 import com.hailian.whly.report.service.FrontCompanyReportService;
 import com.hailian.whly.report.utils.ResultJson;
 import com.thinkgem.jeesite.common.config.Global;
@@ -140,5 +148,64 @@ public class FrontCompanyReportController extends BaseController {
 		return "redirect:" +Global.getWhlyPath()+"/report/frontCompanyReport/?repage";
 		
     }
+	@RequestMapping(value = {"history", ""})
+	public String history(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response, Model model) {
+		try {
+			model.addAttribute("status", CheckStatus.getAllStatus());
+			model.addAttribute("front", frontCompanyReport);
+			HashMap<String, String> param = new HashMap<String, String>();
+			param.put("reportId", frontCompanyReport.getId());
+			List<FrontReportHistory> page = frontCompanyReportService.getHistory(param);
+			ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+			for(int i = 0 ; i < page.size() ; i++){
+				JSONObject json = new JSONObject(page.get(i).getDescription());
+				json.get("status");
+				HashMap<String, Object> temp = new HashMap<String, Object>();
+				temp.put("id", json.get("id"));
+				temp.put("companyName", json.get("companyName"));
+				temp.put("totalIncome", json.get("totalIncome"));
+				temp.put("totalProfit", json.get("totalProfit"));
+				temp.put("totalTax", json.get("totalTax"));
+				temp.put("empQuantity", json.get("empQuantity"));
+				temp.put("month", json.get("month"));
+				temp.put("year", json.get("year"));
+				temp.put("reportTime", json.get("reportTime"));
+				temp.put("status", json.get("status"));
+				temp.put("insertTime", json.get("insertTime"));
+				temp.put("updateTime", json.get("updateTime"));
+				temp.put("reason", json.get("reason"));
+				temp.put("operator", json.get("operator"));
+				temp.put("area", json.get("area"));
+				temp.put("type", json.get("type"));
+				temp.put("flag", json.get("flag"));
+				try{
+					temp.put("operatingCosts", json.get("operatingCosts"));
+				}catch(Exception e){
+					temp.put("operatingCosts", "");
+				}
+				try{
+					temp.put("employeeCompensation", json.get("employeeCompensation"));
+				}catch(Exception e){
+					temp.put("employeeCompensation", "");
+				}
+				try{
+					temp.put("loanAmount", json.get("loanAmount"));
+				}catch(Exception e){
+					temp.put("loanAmount", "");
+				}
+				try{
+					temp.put("orderQuantity", json.get("orderQuantity"));
+				}catch(Exception e){
+					temp.put("orderQuantity", "");
+				}
+				list.add(temp);
+			}
+			model.addAttribute("page", list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Global.getWhlyPage()+"/report/frontCompanyReportHistory";
+	}
+	
 
 }

@@ -75,6 +75,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$("#reset").click(resetFrom);
 				//导出按钮
 				$("#export").click(Export);
+				//删除多余元素
+				$("#sample_1_length").remove();
+				$("#sample_1_filter").remove();
+				$("#sample_1_info").remove();
+				$("#sample_1_paginate").remove();
 			
 			});
 			
@@ -320,7 +325,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</label>
 											</div>
 										</div>
-									</div> -->
+									</div> -->							
 							<div class="portlet-body">
 								<table class="table table-striped table-bordered table-hover"
 									id="sample_1">
@@ -384,9 +389,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													href="${whlyPath}/report/frontCompanyReport/form?menuId=b3ce9351d95a4f90904022a2f1bf8134&id=${frontCompanyReport.id}">查看</a>
 													<%-- <shiro:hasPermission name="report:frontCompanyReport:edit"> --%>
 													<a
-													href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">审核</a>
+													href="${whlyPath}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">审核</a>
 													<%-- </shiro:hasPermission> --%> <a
-													href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">操作历史</a>
+													href="${whlyPath}/report/frontCompanyReport/history?id=${frontCompanyReport.id}">操作历史</a>
 													<%-- <a
 															href="${ctx}/report/frontCompanyReport/delete?id=${frontCompanyReport.id}"
 															onclick="return confirmx('确认要删除该企业上报吗？', this.href)">删除</a> --%>

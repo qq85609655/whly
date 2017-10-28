@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hailian.whly.report.dao.FrontCompanyReportDao;
 import com.hailian.whly.report.entity.FrontCompanyReport;
+import com.hailian.whly.report.entity.FrontReportHistory;
 import com.hailian.whly.report.entity.FrontReportQuestion;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
@@ -168,6 +170,17 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	 */
 	public List<FrontCompanyReport> statisticsCountByType(Map<String, Object> params){
 		return dao.statisticsCountByType(params);
+	}
+	
+	/**
+	 * 2017-10-28 13:49:05
+	 * 查询历史操作
+	 * @author Tom
+	 * @param params
+	 * @return
+	 */
+	public List<FrontReportHistory> getHistory(HashMap<String, String> params){
+		return dao.getHistory(params);
 	}
 
 }

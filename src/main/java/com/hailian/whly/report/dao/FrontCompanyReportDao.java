@@ -3,6 +3,7 @@
  */
 package com.hailian.whly.report.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.hailian.whly.report.entity.FrontCompanyReport;
+import com.hailian.whly.report.entity.FrontReportHistory;
 import com.hailian.whly.report.entity.FrontReportQuestion;
 
 /**
@@ -113,5 +115,13 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 * @return_type   int
 	 */
 	public int updateQuestion(FrontReportQuestion frontReportQuestion);
+	
+	/***
+	 * @time 2017年10月28日13:40:05
+	 * @author Tom
+	 * @param reportId
+	 * @return
+	 */
+	public List<FrontReportHistory> getHistory(HashMap<String, String> param);
 	
 }
