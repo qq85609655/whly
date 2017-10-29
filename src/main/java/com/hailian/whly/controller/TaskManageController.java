@@ -1,5 +1,6 @@
 package com.hailian.whly.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +49,7 @@ public class TaskManageController extends BaseController {
 	 * @param  @return
 	 * @return_type   String
 	 */
+	@RequiresPermissions("report:frontCompanyReport:examine")
 	@RequestMapping({"/examine/form"})
 	public String examineForm(){
 		return Global.getWhlyPage()+"/taskmange/examineForm";

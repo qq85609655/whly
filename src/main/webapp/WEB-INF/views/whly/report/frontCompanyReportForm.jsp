@@ -11,7 +11,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta name="decorator" content="whly" />
 <script type="text/javascript">
 	$(function() {
-		
+		if("${errormsg}"!=""){
+			alert("${errormsg}");
+		}
 		//返回上一页点击事件
 		$("#return").click(returnBack);
 		//判断能不能输入文本
@@ -44,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                	var divs = $('#remarks').find("div");
                	
 				if(operator!=null && result.data.operator == operator && result.data.status == 'SUBMIT') {
-					$("#from").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=b3ce9351d95a4f90904022a2f1bf8134');
+					$("#from").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=${menuId}');
 					$("#company").attr('value',result.data.companyName);
 					$("#totalIncome").attr('value',result.data.totalIncome);
 					$("#operatingCosts").attr('value',result.data.operatingCosts);
@@ -97,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 			});
 		} else {
-			$("#from").attr('action','<%=basePath%>front/report/frontCompanyReport/save?menuId=b3ce9351d95a4f90904022a2f1bf8134');
+			$("#from").attr('action','<%=basePath%>front/report/frontCompanyReport/save?menuId=${menuId}');
 			$("#return").attr("style","display:none;");
 			addRemarks();
 		}
@@ -154,8 +156,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<i class="icon-settings font-red-sunglo"></i> <span
 										class="caption-subject bold uppercase">
 										营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额请填写企业单月数据，不要填写累计数据</span>
+									<div style="float: right;padding-top: 15px;font-size: 15px;">${topMonth.info }</div>
 								</div>
-								<div class="actions">
+								<!-- <div class="actions">
 									<div class="btn-group">
 
 										<ul class="dropdown-menu pull-right">
@@ -172,10 +175,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li><a href="javascript:;"> Make admin </a></li>
 										</ul>
 									</div>
-								</div>
+								</div> -->
 							</div>
 							<div class="portlet-body form">
-								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=b3ce9351d95a4f90904022a2f1bf8134" id="from" method="post">
+								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}" id="from" method="post">
+									<input type="hidden" name="year" value="${topMonth.year }">
+									<input type="hidden" name="month" value="${topMonth.month }">
 									<div class="form-body">
 										<div class="form-group col-md-6">
 											<label>公司名称</label>

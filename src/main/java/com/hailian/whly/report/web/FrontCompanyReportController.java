@@ -5,6 +5,7 @@ package com.hailian.whly.report.web;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.hailian.whly.commom.CheckStatus;
 import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.report.entity.FrontReportHistory;
@@ -77,7 +75,7 @@ public class FrontCompanyReportController extends BaseController {
 		return Global.getWhlyPage()+"/report/frontCompanyReportList";
 	}
 	
-	/*@RequiresPermissions("report:frontCompanyReport:view")*/
+	@RequiresPermissions("report:frontCompanyReport:view")
 	@RequestMapping(value = "form")
 	public String form(FrontCompanyReport frontCompanyReport, Model model) {
 		if(UserUtils.getUser().getCompany()!=null) {
@@ -85,6 +83,8 @@ public class FrontCompanyReportController extends BaseController {
 			frontCompanyReport.setOperator(UserUtils.getUser().getName());
 		}
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
+		Map<String, Object> topMonth=frontCompanyReportService.getTopReportMonth();
+		model.addAttribute("topMonth", topMonth);
 		return Global.getWhlyPage()+"/report/frontCompanyReportForm";
 	}
 	
@@ -98,23 +98,31 @@ public class FrontCompanyReportController extends BaseController {
 		return json;
 	}
 	
-	//@RequiresPermissions("report:frontCompanyReport:edit")
+	@RequiresPermissions("report:frontCompanyReport:edit")
 	@RequestMapping(value = "save")
 	public String save(FrontCompanyReport frontCompanyReport, Model model, RedirectAttributes redirectAttributes) {
 		if (!beanValidator(model, frontCompanyReport)){
 			return form(frontCompanyReport, model);
 		}
-		frontCompanyReportService.save(frontCompanyReport);
-		addMessage(redirectAttributes, "保存企业上报成功");
-		frontCompanyReport.setId("");
-		if(UserUtils.getUser().getCompany()!=null) {
-			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
-		}
-		model.addAttribute("frontCompanyReport", frontCompanyReport);
+		 Calendar now = Calendar.getInstance();
+		 Integer year = Integer.valueOf(now.get(1));
+		 Integer month = Integer.valueOf(now.get(2) + 1);
+		 if ((Integer.valueOf(frontCompanyReport.getYear()) >= year.intValue()) && (Integer.valueOf(frontCompanyReport.getMonth()) >= month.intValue())) {
+			 addMessage(redirectAttributes, "对不起，该月月报还无法上报！");
+			 model.addAttribute("errormsg",  "对不起，该月月报还无法上报！");
+		 }else{
+			 frontCompanyReportService.save(frontCompanyReport);
+			 addMessage(model, "保存企业上报成功");
+			 frontCompanyReport.setId("");
+			 if(UserUtils.getUser().getCompany()!=null) {
+				 frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
+			 }
+			 model.addAttribute("frontCompanyReport", frontCompanyReport);
+		 }
 		return Global.getWhlyPage()+"/report/frontCompanyReportForm";
 	}
 	
-	//@RequiresPermissions("report:frontCompanyReport:edit")
+	@RequiresPermissions("report:frontCompanyReport:edit")
 	@RequestMapping(value = "update")
 	public String update(FrontCompanyReport frontCompanyReport, Model model, RedirectAttributes redirectAttributes) {
 		frontCompanyReportService.update(frontCompanyReport);
@@ -135,19 +143,21 @@ public class FrontCompanyReportController extends BaseController {
 		return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/?repage";
 	}
 	
-	
+	@RequiresPermissions("report:frontCompanyReport:export")
 	@RequestMapping(value = "/export")
     public String exportFile(FrontCompanyReport frontCompanyReport,HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-            String fileName = "企业信息"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
+            String fileName = "企业上报信息"+DateUtils.getDate("yyyyMMddHHmmss")+".xlsx";
             List<FrontCompanyReport> list = frontCompanyReportService.findList(frontCompanyReport);
-            new ExportExcel("企业信息", FrontCompanyReport.class).setDataList(list).write(response, fileName).dispose();  
+            new ExportExcel("企业上报信息", FrontCompanyReport.class).setDataList(list).write(response, fileName).dispose();  
+            return null;
 		} catch (Exception e) {
-			addMessage(redirectAttributes, "导出数据失败！失败信息："+e.getMessage());
+			addMessage(redirectAttributes, "导出企业上报数据失败！失败信息："+e.getMessage());
 		}
 		return "redirect:" +Global.getWhlyPath()+"/report/frontCompanyReport/?repage";
 		
     }
+	@RequiresPermissions("report:frontCompanyReport:history")
 	@RequestMapping(value = {"history", ""})
 	public String history(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response, Model model) {
 		try {

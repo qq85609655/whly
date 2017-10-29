@@ -271,6 +271,7 @@
 			`front_company_report`
 		where
 			del_flag = 0
+			and `status` is not null
 		<if test="startDate != null and startDate  != ''">
 				and insert_time  &gt;= #{startDate}
 		</if>
@@ -355,6 +356,40 @@
 			t.report_id = #{reportId}
 		ORDER BY
 			t.update_date DESC
+	</select>
+	
+	<select id="getTopMonth" parameterType="java.util.Map" resultType="com.hailian.whly.report.entity.FrontCompanyReport" >
+		SELECT
+			a.id AS "id",
+		a.year AS "year",
+		a.month AS "month",
+		a.report_time AS "reportTime",
+		a.company_id AS "companyId",
+		a.type_id AS "typeId",
+		a.area_id AS "area.id",
+		a.emp_quantity AS "empQuantity",
+		a.total_income AS "totalIncome",
+		a.total_profit AS "totalProfit",
+		a.total_tax AS "totalTax",
+		a.insert_time AS "insertTime",
+		a.update_time AS "updateTime",
+		a.operator AS "operator",
+		a.status AS "status",
+		a.reason AS "reason",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.operating_costs AS "operatingCosts",
+		a.employee_compensation AS "employeeCompensation",
+		a.loan_amount AS "loanAmount",
+		a.order_quantity AS "orderQuantity"
+		FROM
+			front_company_report a
+		<if test="companyId != null and companyId != ''">
+				WHERE a.company_id = #{companyId}
+		</if>
+		ORDER BY
+			a. YEAR DESC,
+			a. MONTH DESC
 	</select>
 	
 </mapper>

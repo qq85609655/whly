@@ -39,7 +39,8 @@ public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, 
 			ModelAndView modelAndView) throws Exception {
 		//排除ajax之外  处理请求
-		if(!request.getRequestURI().startsWith(Global.getWhlyPath()+"/ajax")){
+		//if(!request.getRequestURI().startsWith(Global.getWhlyPath()+"/ajax")){
+		if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))){
 			String menuId=request.getParameter("menuId");
 			//处理菜单
 			Map<String,Object> model=modelAndView.getModel();
@@ -58,6 +59,7 @@ public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 			model.put("menusIds", menusIds);
 			List<Menu> menuList = Menu.sortFrontList(sourcelist, Global.getFrontRootMenu(), true);
 	        model.put("menuList", menuList);
+	        model.put("menuId", menuId);
 	      //获取当前菜单层级名称
 			List<Menu> topMenu=Menu.getMenuName(sourcelist, menusIds);
 			model.put("topMenu", topMenu);

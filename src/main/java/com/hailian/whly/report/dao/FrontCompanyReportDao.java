@@ -124,4 +124,8 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 */
 	public List<FrontReportHistory> getHistory(HashMap<String, String> param);
 	
+	public List<FrontCompanyReport> getTopMonth(HashMap<String, String> param);
+	
+	
+	
 }

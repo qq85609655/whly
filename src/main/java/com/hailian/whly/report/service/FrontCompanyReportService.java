@@ -82,8 +82,8 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
  			Calendar c = Calendar.getInstance();	//获取时间
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 			Date time= sdf.parse(sdf.format(new Date()));
-			String year = String.valueOf(c.get(Calendar.YEAR));
-			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			/*String year = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);*/
 			List<FrontReportQuestion> list = frontCompanyReport.getQuestion();  //获取用户填写的所有问题信息
 			Office office = dao.findOfficeById(user.getCompany().getId());
 			String reportId = UUID.randomUUID().toString();
@@ -93,9 +93,9 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			frontCompanyReport.setOperator(user.getName());  		//操作人
 			frontCompanyReport.setId(reportId);		//上报id
 			frontCompanyReport.setStatus("SUBMIT");	//状态
-			frontCompanyReport.setYear(year);		//年
+			/*frontCompanyReport.setYear(year);		//年
 			frontCompanyReport.setMonth(month);		//月
-			frontCompanyReport.setInsertTime(time);	//提交时间
+*/			frontCompanyReport.setInsertTime(time);	//提交时间
 			frontCompanyReport.setReportTime(time);	//上报时间
 			frontCompanyReport.setUpdateTime(time);	//更改时间
 			frontCompanyReport.setDelFlag("0");
@@ -181,6 +181,64 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	 */
 	public List<FrontReportHistory> getHistory(HashMap<String, String> params){
 		return dao.getHistory(params);
+	}
+	public List<FrontCompanyReport> getTopMonth(HashMap<String, String> param){
+		return dao.getTopMonth(param);
+	}
+
+	@SuppressWarnings("null")
+	public Map<String, Object> getTopReportMonth(){
+		User user = UserUtils.getUser();
+		Map<String, Object> result = new HashMap<String, Object>();
+		/*if (user == null) {
+			throw new Exception("当前登陆用户为空，请重新登录");
+		}*/
+		Office company = user.getCompany();
+		/*if (company == null) {
+			throw new Exception("当前登陆用户无所属企业，请重新登录");
+		}*/
+		Calendar now = Calendar.getInstance();
+		Integer year = Integer.valueOf(now.get(1));
+		Integer month = Integer.valueOf(now.get(2) + 1);
+		HashMap<String, String> param = new HashMap<String, String>();
+		param.put("companyId", company.getId());
+		List<FrontCompanyReport> reportList=null;
+		try {
+			reportList = getTopMonth(param);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		if (reportList == null && reportList.size() == 0) {
+			result.put("year", year);
+			result.put("month", Integer.valueOf(month.intValue() - 1));
+			result.put("info", year + "年" + (month.intValue() - 1) + "月");
+			return result;
+		}
+		FrontCompanyReport report = reportList.get(0);
+		if (report.getMonth().equals(Integer.valueOf(12))) {
+			if ((report.getYear().equals(year)) && (report.getMonth().equals(Integer.valueOf(month.intValue() - 1)))) {
+				result.put("year", Integer.valueOf(report.getYear()) + 1);
+				result.put("month", "01");
+				result.put("info", Integer.valueOf(report.getYear()) + 1 + "年01月");
+				return result;
+			}
+			result.put("year", Integer.valueOf(report.getYear()) + 1);
+			result.put("month", "01");
+			result.put("info", (Integer.valueOf(report.getYear()) + 1) + "年01月");
+			return result;
+		}
+
+		if ((report.getYear().equals(year)) && (Integer.valueOf(report.getMonth()) >= month.intValue() - 2)) {
+			result.put("year", report.getYear());
+			result.put("month", Integer.valueOf(report.getMonth())+1);
+			result.put("info", report.getYear() + "年" + (Integer.valueOf(report.getMonth())+1 ) + "月");
+			return result;
+		}
+		result.put("year", report.getYear());
+		result.put("month", Integer.valueOf(report.getMonth())+1);
+		result.put("info", report.getYear() + "年" + (Integer.valueOf(report.getMonth()) + 1) + "月");
+		return result;
 	}
 
 }

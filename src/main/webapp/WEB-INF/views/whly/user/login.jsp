@@ -91,7 +91,7 @@
                     <button type="submit" class="btn green uppercase">登 录</button>
                     <label class="rememberme check">
                         <input type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''} title="下次不需要再登录" value="1" />记住我（公共场所慎用） </label>
-                    <a href="javascript:;" id="forget-password" class="forget-password">忘记密码?</a>
+                  <!--   <a href="javascript:;" id="forget-password" class="forget-password">忘记密码?</a> -->
                 </div>
                 <!-- 第三方登陆 -->
                <!--  <div class="login-options">
@@ -111,11 +111,11 @@
                         </li>
                     </ul>
                 </div> -->
-                <div class="create-account">
+             <!--    <div class="create-account">
                     <p>
                         <a href="javascript:;" id="register-btn" class="uppercase">创建账号</a>
                     </p>
-                </div>
+                </div> -->
             </form>
             <!-- END LOGIN FORM -->
             <!-- BEGIN FORGOT PASSWORD FORM -->
@@ -193,5 +193,14 @@
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <!-- END THEME LAYOUT SCRIPTS -->
     </body>
-
+<script>
+$(function(){
+	document.onkeydown = function(e){ 
+	    var ev = document.all ? window.event : e;
+	    if(ev.keyCode==13) {
+	           $("#loginForm").submit();//处理事件
+	     }
+		}
+	});  
+</script>
 </html>

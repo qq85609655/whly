@@ -122,7 +122,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="portlet-title">
 								<div class="caption font-dark">
 									<i class="icon-settings font-dark"></i> <span
-										class="caption-subject bold uppercase"> 数据列表</span>
+										class="caption-subject bold uppercase"> 上报历史列表</span>
 								</div>
 							</div>
 							<div class="portlet-body">
