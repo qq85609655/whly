@@ -427,4 +427,26 @@
 		ORDER BY a.create_date DESC
 	</select>
 	
+	<select id="getHistory" parameterType="java.util.Map" resultType="com.hailian.whly.report.entity.FrontReportHistory">
+		SELECT
+			t.id id,
+			t.report_id reportId,
+			t.description description,
+			t.operate_time operateTime,
+			t.operation operation,
+			t.operator operator,
+			t.create_date createDate,
+			t.update_by updateBy,
+			t.update_date updateDate,
+			t.create_by createBy,
+			t.remarks remarks,
+			t.del_flag delFlag
+		FROM
+			front_report_history t
+		WHERE
+			t.report_id = #{reportId}
+		ORDER BY
+			t.update_date DESC
+	</select>
+	
 </mapper>

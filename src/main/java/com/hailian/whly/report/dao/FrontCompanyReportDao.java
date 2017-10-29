@@ -3,6 +3,7 @@
  */
 package com.hailian.whly.report.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -168,5 +169,12 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 * @return_type   List<FrontCompanyReport>
 	 */
 	public List<FrontCompanyReport> findReportByReportId(String id);
+	/***
+	 * @time 2017年10月28日13:40:05
+	 * @author Tom
+	 * @param reportId
+	 * @return
+	 */
+	public List<FrontReportHistory> getHistory(HashMap<String, String> param);
 	
 }
