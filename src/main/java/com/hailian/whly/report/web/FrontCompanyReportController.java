@@ -1,6 +1,3 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.hailian.whly.report.web;
 
 
@@ -217,5 +214,4 @@ public class FrontCompanyReportController extends BaseController {
 		return Global.getWhlyPage()+"/report/frontCompanyReportHistory";
 	}
 	
-
 }

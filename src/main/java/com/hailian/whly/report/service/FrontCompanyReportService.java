@@ -1,10 +1,8 @@
-/**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package com.hailian.whly.report.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+
+
+
+
+import org.activiti.engine.impl.util.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,7 @@ import com.hailian.whly.report.dao.FrontCompanyReportDao;
 import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.report.entity.FrontReportHistory;
 import com.hailian.whly.report.entity.FrontReportQuestion;
+import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
@@ -38,12 +42,13 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	@Autowired
 	private FrontCompanyReportDao dao;
 	
+	@Transactional(readOnly = true)
 	public FrontCompanyReport get(String id) {
 		if(id==null && id.trim()=="") {
 			return null;
 		}
-		List<FrontReportQuestion> list = dao.findQuestion(id);
 		FrontCompanyReport frontCompanyReport = dao.get(id);
+		List<FrontReportQuestion> list = dao.findQuestion(id);
 		frontCompanyReport.setQuestion(list);
 		if(UserUtils.getUser().getCompany()!=null) {
 			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
@@ -51,6 +56,17 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		return frontCompanyReport;
 	}
 	
+	@Transactional(readOnly = true)
+	public List<FrontCompanyReport> findReportById(FrontCompanyReport frontCompanyReport) {
+		List<FrontCompanyReport> report = null;
+		if(UserUtils.getUser().getCompany()!=null) {
+			frontCompanyReport.setCompanyId(UserUtils.getUser().getCompany().getId());
+			report = dao.findReport(frontCompanyReport);
+		}
+		return report;
+	}
+	
+	@Transactional(readOnly = false)
 	public List<FrontCompanyReport> findList(FrontCompanyReport frontCompanyReport) {
 		if(frontCompanyReport.getYear()!=null && !frontCompanyReport.getYear().isEmpty()) {
 			frontCompanyReport.setMonth(frontCompanyReport.getYear().substring(5, 7));
@@ -59,6 +75,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		return super.findList(frontCompanyReport);
 	}
 	
+	@Transactional(readOnly = false)
 	public Page<FrontCompanyReport> findPage(Page<FrontCompanyReport> page, FrontCompanyReport frontCompanyReport) {
 		String year = frontCompanyReport.getYear();
 		String static1 = frontCompanyReport.getStatus();
@@ -73,17 +90,24 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(FrontCompanyReport frontCompanyReport) {
+	public boolean saveReport(FrontCompanyReport frontCompanyReport) {
 		try {
 			User user = UserUtils.getUser();   //获取登录用户信息
-			if(user.getCompany()==null) {
-				return;
-			}
- 			Calendar c = Calendar.getInstance();	//获取时间
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date time= sdf.parse(sdf.format(new Date()));
-			/*String year = String.valueOf(c.get(Calendar.YEAR));
-			String month = String.valueOf(c.get(Calendar.MONTH)+1);*/
+			if(user.getCompany()==null) {
+				return false;
+			}
+		/*	List<FrontCompanyReport> Report = this.findReportById(frontCompanyReport);
+			//如果本月已经上报则不能再上报
+			for(FrontCompanyReport r: Report) {
+				if(r.getYear().equals(year) && r.getMonth().equals(month)) {
+					return false;
+				}
+			}*/
 			List<FrontReportQuestion> list = frontCompanyReport.getQuestion();  //获取用户填写的所有问题信息
 			Office office = dao.findOfficeById(user.getCompany().getId());
 			String reportId = UUID.randomUUID().toString();
@@ -93,9 +117,9 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			frontCompanyReport.setOperator(user.getName());  		//操作人
 			frontCompanyReport.setId(reportId);		//上报id
 			frontCompanyReport.setStatus("SUBMIT");	//状态
-			/*frontCompanyReport.setYear(year);		//年
+			frontCompanyReport.setYear(year);		//年
 			frontCompanyReport.setMonth(month);		//月
-*/			frontCompanyReport.setInsertTime(time);	//提交时间
+			frontCompanyReport.setInsertTime(time);	//提交时间
 			frontCompanyReport.setReportTime(time);	//上报时间
 			frontCompanyReport.setUpdateTime(time);	//更改时间
 			frontCompanyReport.setDelFlag("0");
@@ -110,38 +134,89 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				front.setOperator(user.getName());	// 操作人
 				front.setDelFlag("0");
 				dao.addQuestion(front);
+				
 			}
+			//添加日志
+			FrontReportHistory history = new FrontReportHistory();
+			String desciption = JsonMapper.toJsonString(frontCompanyReport);
+			history.setId(UUID.randomUUID().toString());
+			history.setDesciption(desciption);
+			history.setReportId(reportId);
+			history.setOperateTime(time);
+			history.setOperation("提交");
+			history.setOperator(user.getName());
+			history.setCreateDate(time);
+			history.setUpdateDate(time);
+			history.setRemarks("");   //备注
+			history.setCreateBy(user);
+			history.setDelFlag("0");
+			dao.addHistroy(history);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		return true;
 	}
 	
 	@Transactional(readOnly = false)
 	public void update(FrontCompanyReport frontCompanyReport) {
 		try {
-			if(frontCompanyReport.getId()!=null && frontCompanyReport.getId().trim()!=null) {
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			if(frontCompanyReport.getId()!=null && frontCompanyReport.getId().trim()!=null && UserUtils.getUser()!=null) {
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date time = sdf.parse(sdf.format(new Date()));
 				User user = UserUtils.getUser();   //获取登录用户信息
 				//修改上报信息
 				dao.updateReport(frontCompanyReport);
+				List<FrontReportQuestion> list = dao.findQuestion(frontCompanyReport.getId());
+				List<String> reportId = new ArrayList<String>();
 				for(FrontReportQuestion question: frontCompanyReport.getQuestion()) {
-					if(question.getId()!=null && question.getId().trim()!="") {
-						//修改所有问题信息
-						question.setUpdateDate(time);
-						dao.updateQuestion(question);
-					} else {
-						question.setId(UUID.randomUUID().toString());
-						question.setMonth(time);
-						question.setReportId(frontCompanyReport.getId()); 	//上报ID
-						question.setCreateDate(time);  	//插入时间
-						question.setUpdateDate(time);		//更改时间
-						question.setCompanyId(user.getCompany().getId()); // 企业ID
-						question.setOperator(user.getName());	// 操作人
-						question.setDelFlag("0");
-						dao.addQuestion(question);
+					if(question!=null) {
+						if(question.getId()!=null && question.getId().trim()!="") {
+							reportId.add(question.getId());
+							//修改所有问题信息
+							question.setDelFlag("0");
+							question.setUpdateDate(time);
+							dao.updateQuestion(question);
+						} else {
+							//新建信息
+							question.setId(UUID.randomUUID().toString());
+							question.setMonth(time);
+							question.setReportId(frontCompanyReport.getId()); 	//上报ID
+							question.setCreateDate(time);  	//插入时间
+							question.setUpdateDate(time);		//更改时间
+							question.setCompanyId(user.getCompany().getId()); // 企业ID
+							question.setOperator(user.getName());	// 操作人
+							question.setDelFlag("0");
+							dao.addQuestion(question);
+						}
 					}
 				}
+				//删除用户已经删除的问题
+				for(FrontReportQuestion question: list) {
+					boolean onOff = false;
+					for(String id: reportId) {
+						if(!question.getId().equals(id)) {
+							onOff = true;
+						}
+					}
+					if(onOff) {
+						question.setDelFlag("1");
+						dao.updateQuestion(question);
+					}
+				}
+				FrontReportHistory history = new FrontReportHistory();
+				String desciption = JsonMapper.toJsonString(frontCompanyReport);
+				history.setId(UUID.randomUUID().toString());
+				history.setDesciption(desciption);
+				history.setReportId(frontCompanyReport.getId());
+				history.setOperateTime(time);
+				history.setOperation("更新");
+				history.setOperator(user.getName());
+				history.setCreateDate(time);
+				history.setUpdateDate(time);
+				history.setRemarks("");   //备注
+				history.setCreateBy(user);
+				history.setDelFlag("0");
+				dao.addHistroy(history);
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -182,6 +257,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	public List<FrontReportHistory> getHistory(HashMap<String, String> params){
 		return dao.getHistory(params);
 	}
+	
 	public List<FrontCompanyReport> getTopMonth(HashMap<String, String> param){
 		return dao.getTopMonth(param);
 	}

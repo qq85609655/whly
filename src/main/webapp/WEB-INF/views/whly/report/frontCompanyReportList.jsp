@@ -304,7 +304,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														<a style="color:#337ab7;" href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}">查看</a>
 													</shiro:hasPermission>
 													<shiro:hasPermission name="report:frontCompanyReport:examine">
-														<a style="color:#337ab7;" href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}">审核</a>
+														<a style="color:#337ab7;" href="${whlyPath}/taskmange/examine/form?menuId=${menuId }&id=${frontCompanyReport.id}&companyName=${frontCompanyReport.companyName}">审核</a>
 													</shiro:hasPermission>
 													<shiro:hasPermission name="report:frontCompanyReport:history">
 														<a style="color:#337ab7;" href="${whlyPath}/report/frontCompanyReport/history?menuId=${menuId }&id=${frontCompanyReport.id}">操作历史</a>
@@ -336,3 +336,4 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- js必须引用在body前面 -->
 </body>
 </html>
+

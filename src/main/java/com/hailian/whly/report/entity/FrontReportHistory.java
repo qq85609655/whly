@@ -1,6 +1,10 @@
+/**
+ * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ */
 package com.hailian.whly.report.entity;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 import com.thinkgem.jeesite.modules.sys.entity.User;
@@ -32,6 +36,24 @@ public class FrontReportHistory extends DataEntity<FrontReportHistory>{
 	private	String	remarks	;
 	
 	private	String	delFlag	;
+	private FrontCompanyReport frontCompanyReport;
+	private String desciption;
+
+	public FrontCompanyReport getFrontCompanyReport() {
+		return frontCompanyReport;
+	}
+
+	public void setFrontCompanyReport(FrontCompanyReport frontCompanyReport) {
+		this.frontCompanyReport = frontCompanyReport;
+	}
+
+	public String getDesciption() {
+		return desciption;
+	}
+
+	public void setDesciption(String desciption) {
+		this.desciption = desciption;
+	}
 
 	public String getId() {
 		return id;

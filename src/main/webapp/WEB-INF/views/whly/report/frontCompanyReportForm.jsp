@@ -30,7 +30,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
 
 	function judgeInput() {
-		var id = $("#companyId").val();
+		var redirectAttributes = $('#redirectAttributes').attr('value');
+		if(redirectAttributes) {
+			alert(redirectAttributes);
+		}
+		var id = $("#reportId").val();
 		var data = {
 				id: id
 		};
@@ -44,7 +48,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var operator = $("#operator").val();
                 var question = result.data.question;
                	var divs = $('#remarks').find("div");
-               	
 				if(operator!=null && result.data.operator == operator && result.data.status == 'SUBMIT') {
 					$("#from").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=${menuId}');
 					$("#company").attr('value',result.data.companyName);
@@ -266,11 +269,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<button type="submit" class="btn blue pull-right" id="submit">提交</button>
 										</div>
 										<input type="hidden" value="${frontCompanyReport.id}"
-											id="companyId">
+											id="reportId">
 										<input type="hidden" value="${frontCompanyReport.operator}"
 										id="operator">
 										<input type="hidden" value="${frontCompanyReport.id}"
 										name="id">
+										<input type="hidden" value="${redirectAttributes}"
+										id="redirectAttributes">
 									</div>
 									<div style="height:380px;"></div>
 									<div class="form-actions" id="remarks" >
@@ -284,7 +289,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<!-- END SAMPLE FORM PORTLET-->
 
 					</div>
-
 
 				</div>
 				<!-- 主体部分END-->
