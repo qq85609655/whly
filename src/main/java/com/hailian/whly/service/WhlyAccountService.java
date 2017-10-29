@@ -1,18 +1,29 @@
 package com.hailian.whly.service;
 
+
+import java.util.Calendar;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hailian.whly.dao.WhlyAccountDao;
 import com.hailian.whly.entity.WhlyAccount;
+import com.hailian.whly.report.dao.FrontCompanyReportDao;
+import com.hailian.whly.report.entity.FrontCompanyReport;
+import com.hailian.whly.report.entity.FrontReportHistory;
+import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 
 @Service
 @Transactional(readOnly = true)
 public class WhlyAccountService extends CrudService<WhlyAccountDao, WhlyAccount>{
+	
+	@Autowired
+	private FrontCompanyReportDao dao;
+	
 	public WhlyAccount get(String id) {
 		return super.get(id);
 	}
@@ -33,5 +44,44 @@ public class WhlyAccountService extends CrudService<WhlyAccountDao, WhlyAccount>
 	@Transactional(readOnly = false)
 	public void delete(WhlyAccount whlyAccount) {
 		super.delete(whlyAccount);
+	}
+	
+	public List<FrontReportHistory> findHitsory(FrontReportHistory frontReportHistory) {
+		List<FrontReportHistory> list = dao.findHistroy(frontReportHistory.getReportId());
+		for(int i=0; i<list.size(); i++) {
+			FrontCompanyReport frontCompanyReport = (FrontCompanyReport) JsonMapper.fromJsonString(list.get(i).getDesciption(),FrontCompanyReport.class);
+			list.get(i).setFrontCompanyReport(frontCompanyReport);
+		}
+		
+		List<FrontCompanyReport> fcr = dao.findReportByReportId(frontReportHistory.getReportId()); //查询该企业所有的上报信息
+		FrontCompanyReport frontCompanyReport = new FrontCompanyReport();
+		frontCompanyReport.setId(frontReportHistory.getReportId());
+		List<FrontCompanyReport> fcr1 = dao.findReport(frontCompanyReport);
+		frontCompanyReport = fcr1.get(0);		//返回该企业本年本月的上报信息
+		FrontReportHistory history = new FrontReportHistory(); 
+		history.setId("本年本月");
+		history.setFrontCompanyReport(frontCompanyReport);
+		list.add(history);
+		int year = Integer.parseInt((frontCompanyReport.getYear()));
+		int month = Integer.parseInt((frontCompanyReport.getMonth()));
+		boolean a = true;
+		boolean b = true;
+		for(FrontCompanyReport r: fcr) {
+			if(r.getYear().equals(String.valueOf(year)) && r.getMonth().equals(String.valueOf(month-1)) && a) { //返回该企业上一月的上报信息
+				FrontReportHistory f1 = new FrontReportHistory();
+				f1.setId("本年上月");
+				f1.setFrontCompanyReport(r);
+				list.add(f1);
+				a = false; 
+			}
+			if(r.getYear().equals(String.valueOf(year-1)) && r.getMonth().equals(String.valueOf(month)) && b) { //返回该企业上年本月的上报信息
+				FrontReportHistory f1 = new FrontReportHistory();
+				f1.setId("上年本月");
+				f1.setFrontCompanyReport(r);
+				list.add(f1);
+				b = false;
+			}
+		}
+		return list;
 	}
 }

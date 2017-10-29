@@ -10,6 +10,7 @@ import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.hailian.whly.report.entity.FrontCompanyReport;
+import com.hailian.whly.report.entity.FrontReportHistory;
 import com.hailian.whly.report.entity.FrontReportQuestion;
 
 /**
@@ -55,7 +56,7 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 * @time   2017年10月26日 上午10:18:00
 	 * @author zhouyl
 	 * @todo   添加
-	 * @param  @param params
+	 * @param  @param frontCompanyReport
 	 * @param  @return
 	 * @return_type   int
 	 */
@@ -65,7 +66,7 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 * @time   2017年10月27日 上午09:18:00
 	 * @author zhouyl
 	 * @todo   查询所有问题
-	 * @param  @param params
+	 * @param  @param reportId
 	 * @param  @return
 	 * @return_type   List<FrontReportQuestion>
 	 */
@@ -75,7 +76,7 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 * @time   2017年10月27日 上午09:18:00
 	 * @author zhouyl
 	 * @todo   添加问题
-	 * @param  @param params
+	 * @param  @param frontReportQuestion
 	 * @param  @return
 	 * @return_type   int
 	 */
@@ -86,7 +87,7 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 * @time   2017年10月27日 上午09:18:00
 	 * @author zhouyl
 	 * @todo   查询单条企业信息
-	 * @param  @param params
+	 * @param  @param companyId
 	 * @param  @return
 	 * @return_type   Office
 	 */
@@ -97,21 +98,75 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 * @time   2017年10月27日 上午16:29:00
 	 * @author zhouyl
 	 * @todo   修改上报信息
-	 * @param  @param params
+	 * @param  @param frontCompanyReport
 	 * @param  @return
 	 * @return_type   int
 	 */
 	public int updateReport(FrontCompanyReport frontCompanyReport);
+	/**
+	 * 
+	 * @time   2017年10月28日 上午09:47:00
+	 * @author zhouyl
+	 * @todo   查询上报信息
+	 * @param  @param frontCompanyReport
+	 * @param  @return
+	 * @return_type   int
+	 */
+	public List<FrontCompanyReport> findReport(FrontCompanyReport frontCompanyReport);
 	
 	/**
 	 * 
 	 * @time   2017年10月27日 下午16:29:00
 	 * @author zhouyl
 	 * @todo   修改问题信息
-	 * @param  @param params
+	 * @param  @param frontReportQuestion
 	 * @param  @return
 	 * @return_type   int
 	 */
 	public int updateQuestion(FrontReportQuestion frontReportQuestion);
+	
+	/**
+	 * 
+	 * @time   2017年10月28日 上午09:47:00
+	 * @author zhouyl
+	 * @todo   添加上报日志信息
+	 * @param  @param frontReportHistroy
+	 * @param  @return
+	 * @return_type   int
+	 */
+	public int addHistroy(FrontReportHistory frontReportHistroy);
+	
+	/**
+	 * 
+	 * @time   2017年10月28日 上午09:47:00
+	 * @author zhouyl
+	 * @todo   查询上报日志信息
+	 * @param  @param reportId
+	 * @param  @return
+	 * @return_type   List<FrontReportHistory> 
+	 */
+	public List<FrontReportHistory> findHistroy(String reportId);
+	
+	/**
+	 * 
+	 * @time   2017年10月28日 上午09:47:00
+	 * @author zhouyl
+	 * @todo   删除问题信息
+	 * @param  @param questionId
+	 * @param  @return
+	 * @return_type   int
+	 */
+	public int deleteQuestion(String questionId);
+	
+	/**
+	 * 
+	 * @time   2017年10月29日 下午13:17:00
+	 * @author zhouyl
+	 * @todo   根据上报id查询该公司所有上报信息
+	 * @param  @param id
+	 * @param  @return
+	 * @return_type   List<FrontCompanyReport>
+	 */
+	public List<FrontCompanyReport> findReportByReportId(String id);
 	
 }

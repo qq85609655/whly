@@ -96,8 +96,12 @@ public class FrontCompanyReportController extends BaseController {
 		if (!beanValidator(model, frontCompanyReport)){
 			return form(frontCompanyReport, model);
 		}
-		frontCompanyReportService.save(frontCompanyReport);
-		addMessage(redirectAttributes, "保存企业上报成功");
+		boolean b = frontCompanyReportService.saveReport(frontCompanyReport);
+		if(b) {
+			model.addAttribute("redirectAttributes", "保存企业上报成功");
+		} else {
+			model.addAttribute("redirectAttributes", "本月已经上报！");
+		}
 		frontCompanyReport.setId("");
 		if(UserUtils.getUser().getCompany()!=null) {
 			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
@@ -110,7 +114,7 @@ public class FrontCompanyReportController extends BaseController {
 	@RequestMapping(value = "update")
 	public String update(FrontCompanyReport frontCompanyReport, Model model, RedirectAttributes redirectAttributes) {
 		frontCompanyReportService.update(frontCompanyReport);
-		addMessage(redirectAttributes, "更改企业上报成功");
+		model.addAttribute("redirectAttributes", "更改企业上报信息成功");
 		frontCompanyReport.setId("");
 		if(UserUtils.getUser().getCompany()!=null) {
 			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());

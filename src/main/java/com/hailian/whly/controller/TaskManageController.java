@@ -1,12 +1,22 @@
 package com.hailian.whly.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hailian.whly.report.entity.FrontCompanyReport;
+import com.hailian.whly.report.entity.FrontReportHistory;
+import com.hailian.whly.report.utils.ResultJson;
+import com.hailian.whly.service.WhlyAccountService;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.cms.service.CategoryService;
 
 /**
  * 
@@ -18,6 +28,10 @@ import com.thinkgem.jeesite.modules.cms.service.CategoryService;
 @Controller
 @RequestMapping("${whlyPath}/taskmange")
 public class TaskManageController extends BaseController {
+	
+	@Autowired
+	WhlyAccountService whlyAccountService;
+	
 	/**
 	 * 
 	 * @time   2017年10月1日 下午8:43:04
@@ -27,8 +41,12 @@ public class TaskManageController extends BaseController {
 	 * @return_type   String
 	 */
 	@RequestMapping({"/examine/list"})
-	public String examineList(){
-		return Global.getWhlyPage()+"/taskmange/examineList";
+	@ResponseBody
+	public ResultJson examineList(FrontReportHistory frontReportHistory, HttpServletRequest request, HttpServletResponse response, Model model){
+		ResultJson json = new ResultJson();
+		List<FrontReportHistory> list = whlyAccountService.findHitsory(frontReportHistory);
+		json.success(list);
+		return json;
 	}
 	/**
 	 * 
@@ -49,7 +67,8 @@ public class TaskManageController extends BaseController {
 	 * @return_type   String
 	 */
 	@RequestMapping({"/examine/form"})
-	public String examineForm(){
+	public String examineForm(FrontCompanyReport frontCompanyReport, Model model, HttpServletRequest request, HttpServletResponse response){
+		model.addAttribute("frontCompanyReport", frontCompanyReport);
 		return Global.getWhlyPage()+"/taskmange/examineForm";
 	}
 }

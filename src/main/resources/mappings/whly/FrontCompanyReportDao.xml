@@ -51,6 +51,21 @@
 		WHERE a.id = #{id}
 	</select>
 	
+	<select id="findReport" resultType="com.hailian.whly.report.entity.FrontCompanyReport" parameterType="com.hailian.whly.report.entity.FrontCompanyReport">
+		SELECT 
+			<include refid="frontCompanyReportColumns"/>
+		FROM front_company_report a
+		<include refid="frontCompanyReportJoins"/>
+		<where> 
+			<if test="id != null and id != ''">
+				a.id = #{id} 
+			</if>
+			<if test="companyId != null and companyId != ''">
+				a.company_id = #{companyId}
+			</if>
+		</where>
+	</select>
+	
 	
 	<select id="findList" resultType="com.hailian.whly.report.entity.FrontCompanyReport">
 		SELECT 
@@ -227,10 +242,17 @@
 	</update>
 	
 	<update id="updateQuestion" parameterType="com.hailian.whly.report.entity.FrontReportQuestion">
-		UPDATE front_report_question SET 	
-			title = #{title},
-			content = #{content},
-			update_date = #{updateDate}
+		UPDATE front_report_question SET
+			<if test="title != null and title != ''">
+				title = #{title},
+			</if>	
+			<if test="content != null and content != ''">
+				content = #{content},
+			</if>	
+			<if test="updateDate != null and updateDate != ''">
+				update_date = #{updateDate},
+			</if>	
+			del_flag = #{delFlag}
 		WHERE id = #{id}
 	</update>
 	
@@ -298,6 +320,13 @@
 
 	</select>
 	
+	<delete id="deleteQuestion" parameterType="string">
+		delete 
+			from front_report_question
+		where 
+			id = #{questionId}
+	</delete>
+	
 	<select id="findQuestion" parameterType="String"  resultType="com.hailian.whly.report.entity.FrontReportQuestion">
 		SELECT
 			frq.id AS "id",
@@ -317,7 +346,8 @@
 			front_company_report fcr 
 			LEFT JOIN  front_report_question frq ON frq.report_id = fcr.id
 		WHERE 
-			fcr.id = #{reportId}
+			fcr.id = #{reportId} and
+			frq.del_flag = "0"
 		ORDER BY frq.update_date DESC
 	</select>
 	
@@ -332,7 +362,69 @@
 		FROM 
 			sys_office so 
 		WHERE 
-			so.id = #{companyId}
+			so.id = #{companyId} and
+			so.del_flag = "0"
+	</select>
+	
+	<select id="findHistroy" parameterType="String"  resultType="com.hailian.whly.report.entity.FrontReportHistory">
+		SELECT
+			frh.id AS "id",
+			frh.report_id AS "reportId",
+			frh.description AS "description",
+			frh.operate_time AS "operateTime",
+			frh.operation AS "operation",
+			frh.operator AS "operator",
+			frh.create_date AS "createDate",
+			frh.update_date AS "updateDate",
+			frh.create_by AS "createBy.name",
+			frh.remarks AS "remarks",
+			frh.del_flag AS "delFlag"
+		FROM 
+			front_report_history frh 
+		WHERE 
+			frh.report_id = #{reportId} and
+			frh.del_flag = "0"
+		ORDER BY frh.create_date
+	</select>
+	
+	<insert id="addHistroy" parameterType="com.hailian.whly.report.entity.FrontReportHistory">
+		INSERT INTO front_report_history(
+			id,
+			report_id,
+			description,
+			operate_time,
+			operation,
+			operator,
+			create_date,
+			update_date,
+			create_by,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{reportId},
+			#{description},
+			#{operateTime},
+			#{operation},
+			#{operator},
+			#{createDate},
+			#{updateDate},
+			#{createBy.name},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<select id="findReportByReportId" parameterType="String" resultType="com.hailian.whly.report.entity.FrontCompanyReport" >
+		SELECT 
+			<include refid="frontCompanyReportColumns"/>
+		FROM front_company_report a
+			<include refid="frontCompanyReportJoins"/>
+		WHERE 
+			a.company_id = (SELECT fcr.company_id
+							FROM front_company_report fcr
+							WHERE fcr.id = #{id} )
+		ORDER BY a.create_date DESC
 	</select>
 	
 </mapper>

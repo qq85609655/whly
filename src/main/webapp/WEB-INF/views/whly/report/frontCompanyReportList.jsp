@@ -169,18 +169,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="form-group col-md-4">
 								<label class="control-label col-md-4">状态：</label>
 								<div class="col-md-8">
-									<%--  <select class="form-control" id="staticQuery" name="status" >
-		                             	<option value="" label="全部"/>
-		                             	<c:forEach items="${status}" var="status">
-		                             		<option value="${status.code }" >${status.value }</option>
-		                             		<c:if test="${status.value == status3}">
-			                                 	<option value="${status.value }" selected>${status.value }</option>
-		                             		</c:if>
-		                             		<c:if test="${status.value != status3}">
-			                                 	<option value="${status.value }" >${status.value }</option>
-		                             		</c:if>
-		                                </c:forEach>
-		                             </select> --%>
 									<c:set var="status3" scope="session" value="${front.status}" />
 									<select class="form-control" id="staticQuery" name="status">
 										<option value="" label="全部" />
@@ -208,18 +196,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</form:select>
 								</div>
 							</div>
-
-							<!--  <div class="form-group col-md-4">
-	                             <label class="control-label col-md-4">地区：</label>
-	                             <div class="col-md-8">
-		                             <select class="form-control" id="regionQuery">
-		                             	 <option value="" label="全部"/>
-		                                 <option>环翠区</option>
-		                                 <option>文登区</option>
-		                                 <option>荣成市</option>
-		                             </select>
-	                             </div>
-	                         </div> -->
 						</div>
 						<div class="row">
 							<div class="form-group col-md-4">
@@ -262,65 +238,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										class="caption-subject bold uppercase"> 数据列表</span>
 								</div>
 							</div>
-							<!-- <div class="portlet-body"> -->
-							<!-- <div class="table-toolbar">
-                                        <div class="row">
-                                        	
-                                            <div class="col-md-6" style="">
-                                                <div class="btn-group">
-                                                    <button id="sample_editable_1_new" class="btn sbold green"> Add New
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="btn-group pull-right">
-                                                    <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">工具栏
-                                                        <i class="fa fa-angle-down"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu pull-right">
-                                                        <li>
-                                                            <a href="javascript:;">
-                                                                <i class="fa fa-print"></i> 打印 </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:;">
-                                                                <i class="fa fa-file-pdf-o"></i> 保存为PDF </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="javascript:;">
-                                                                <i class="fa fa-file-excel-o"></i> 保存为Excel </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
-							<!-- <div id="sample_1_wrapper" class="dataTables_wrapper no-footer">
-									<div class="row">
-										<div class="col-md-6 col-sm-12">
-											<div class="dataTables_length" id="sample_1_length">
-												<label>Show <select name="sample_1_length"
-													aria-controls="sample_1"
-													class="form-control input-sm input-xsmall input-inline">
-														<option value="5">5</option>
-														<option value="15">15</option>
-														<option value="20">20</option>
-														<option value="-1">All</option>
-												</select>
-												</label>
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-12">
-											<div class="col-md-7"></div>
-											<div id="sample_1_filter" class="dataTables_filter">
-												<label>Search：<input type="search"
-													class="form-control input-sm input-small input-inline"
-													placeholder="" aria-controls="sample_1">
-												</label>
-											</div>
-										</div>
-									</div> -->
 							<div class="portlet-body">
 								<table class="table table-striped table-bordered table-hover"
 									id="sample_1">
@@ -342,22 +259,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<th>从业人数(人)</th>
 											<th>上报时间</th>
 											<th>操作</th>
-											<!-- <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width:124px;"> 审批状态 </th>
-                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 227px;"> 所属行业 </th>
-                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Points : activate to sort column ascending" style="width: 150px;"> 所属地域 </th>
-                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Joined : activate to sort column ascending" style="width: 113px;"> 营业收入（万元） </th>
-                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Status : activate to sort column ascending" style="width: 124px;"> 利润总额（万元） </th>
-                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Status : activate to sort column ascending" style="width: 124px;"> 税收总额（万元） </th>
-                                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Status : activate to sort column ascending" style="width: 124px;"> 从业人员 </th> -->
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${page.list}" var="frontCompanyReport">
 											<tr class="gradeX odd" role="row">
-												<%-- <td class="center"></td>
-															<td class="center"><a href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">
-																${frontCompanyReport.area.name}
-															</a></td> --%>
 												<c:forEach items="${status}" var="status1">
 													<c:set var="key" scope="session" value="${status1.code}" />
 													<c:if test="${frontCompanyReport.status == key}">
@@ -377,45 +283,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<td>${frontCompanyReport.loanAmount}</td>
 												<td>${frontCompanyReport.orderQuantity}</td>
 												<td>${frontCompanyReport.empQuantity}</td>
-												<td><fmt:formatDate
-														value="${frontCompanyReport.reportTime}"
-														pattern="yyyy-MM-dd HH:mm:ss" /></td>
-												<td><a
-													href="${whlyPath}/report/frontCompanyReport/form?menuId=b3ce9351d95a4f90904022a2f1bf8134&id=${frontCompanyReport.id}">查看</a>
+												<td><fmt:formatDate value="${frontCompanyReport.reportTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+												<td>
+													<a href="${whlyPath}/report/frontCompanyReport/form?menuId=b3ce9351d95a4f90904022a2f1bf8134&id=${frontCompanyReport.id}">查看</a>
 													<%-- <shiro:hasPermission name="report:frontCompanyReport:edit"> --%>
-													<a
-													href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">审核</a>
-													<%-- </shiro:hasPermission> --%> <a
-													href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">操作历史</a>
-													<%-- <a
-															href="${ctx}/report/frontCompanyReport/delete?id=${frontCompanyReport.id}"
-															onclick="return confirmx('确认要删除该企业上报吗？', this.href)">删除</a> --%>
+													<a href="${whlyPath}/taskmange/examine/form?menuId=7e90ace61d63482a95ebf719877cd0be&id=${frontCompanyReport.id}&companyName=${frontCompanyReport.companyName}">审核</a>
+													<%-- </shiro:hasPermission> --%>
+													<a href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">操作历史</a>
 												</td>
 											</tr>
 										</c:forEach>
-										<!--  <tr class="gradeX odd" role="row">
-                                                <td><div class="checker"><span><input type="checkbox" class="checkboxes" value="1"></span></div> </td>
-                                                <td><span class="label label-sm label-success"> 已审核  </span></td>
-                                                <td class="sorting_1"> 文登市顺丰货运服务有限公司 </td>
-                                                <td class="center">现代物流</td>
-                                                <td class="center"> 文登区</td>
-                                                <td class="center">43 </td>
-                                                <td  class="center">2.6</td>
-                                                <td  class="center">2.2</td>
-                                                <td  class="center">8</td>
-                                            </tr>
-                                            <tr class="gradeX even" role="row">
-                                                <td><div class="checker"><span><input type="checkbox" class="checkboxes" value="1"></span></div> </td>
-                                                <td><span class="label label-sm label-warning"> 未审核  </span></td>
-                                                <td class="sorting_1"> 文登市昆嵛酒店有限公司 </td>
-                                                <td class="center">旅游休闲</td>
-                                                <td class="center"> 南海新区</td>
-                                                <td class="center">22.8</td>
-                                                <td  class="center">0.8</td>
-                                                <td  class="center">0.68</td>
-                                                <td  class="center">45</td>
-                                            </tr> -->
-
 									</tbody>
 								</table>
 								<div class="pagination">${page}</div>

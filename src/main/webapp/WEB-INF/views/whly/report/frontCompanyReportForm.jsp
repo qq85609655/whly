@@ -28,7 +28,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
 
 	function judgeInput() {
-		var id = $("#companyId").val();
+		var redirectAttributes = $('#redirectAttributes').attr('value');
+		if(redirectAttributes) {
+			alert(redirectAttributes);
+		}
+		var date = new Date();
+		var year = date.getFullYear();
+		var month = date.getMonth() + 1;
+		$('#time').html(year + '年' + month + '月'); //设置显示时间
+		var id = $("#reportId").val();
 		var data = {
 				id: id
 		};
@@ -42,7 +50,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var operator = $("#operator").val();
                 var question = result.data.question;
                	var divs = $('#remarks').find("div");
-               	
 				if(operator!=null && result.data.operator == operator && result.data.status == 'SUBMIT') {
 					$("#from").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=b3ce9351d95a4f90904022a2f1bf8134');
 					$("#company").attr('value',result.data.companyName);
@@ -154,6 +161,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<i class="icon-settings font-red-sunglo"></i> <span
 										class="caption-subject bold uppercase">
 										营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额请填写企业单月数据，不要填写累计数据</span>
+										<span class="caption-subject bold uppercase" style="margin-left:94px;" id='time'></span>
 								</div>
 								<div class="actions">
 									<div class="btn-group">
@@ -261,11 +269,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<button type="submit" class="btn blue pull-right" id="submit">提交</button>
 										</div>
 										<input type="hidden" value="${frontCompanyReport.id}"
-											id="companyId">
+											id="reportId">
 										<input type="hidden" value="${frontCompanyReport.operator}"
 										id="operator">
 										<input type="hidden" value="${frontCompanyReport.id}"
 										name="id">
+										<input type="hidden" value="${redirectAttributes}"
+										id="redirectAttributes">
 									</div>
 									<div style="height:380px;"></div>
 									<div class="form-actions" id="remarks" >
@@ -279,7 +289,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<!-- END SAMPLE FORM PORTLET-->
 
 					</div>
-
 
 				</div>
 				<!-- 主体部分END-->
