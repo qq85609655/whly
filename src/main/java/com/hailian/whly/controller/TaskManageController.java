@@ -18,6 +18,7 @@ import com.hailian.whly.report.utils.ResultJson;
 import com.hailian.whly.service.WhlyAccountService;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 
@@ -70,6 +71,9 @@ public class TaskManageController extends BaseController {
 	@RequiresPermissions("report:frontCompanyReport:examine")
 	@RequestMapping({"/examine/form"})
 	public String examineForm(FrontCompanyReport frontCompanyReport, Model model, HttpServletRequest request, HttpServletResponse response){
+		if(UserUtils.getUser()==null){
+			return "redirect:" + whlyPath + "/login";
+		}
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
 		return Global.getWhlyPage()+"/taskmange/examineForm";
 	}

@@ -78,6 +78,7 @@
 		JOIN sys_role r ON r.id = rm.role_id AND r.useable='1'
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL} AND r.del_flag = #{DEL_FLAG_NORMAL} 
 		and r.id=#{frontRootRoleId}
+		and a.is_show=1
 		ORDER BY a.sort
 	</select>
 	

@@ -66,21 +66,31 @@ public class FrontCompanyReportController extends BaseController {
 		model.addAttribute("front", frontCompanyReport);
 		Page<FrontCompanyReport> page = frontCompanyReportService.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);
 		model.addAttribute("page", page);
+		System.out.println(page.getList().size());
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
 		return Global.getWhlyPage()+"/report/frontCompanyReportList";
 	}
 	
-	@RequiresPermissions("report:frontCompanyReport:view")
+	/*@RequiresPermissions("report:frontCompanyReport:view")*/
 	@RequestMapping(value = "form")
 	public String form(FrontCompanyReport frontCompanyReport, Model model) {
+		if(UserUtils.getUser()==null||StringUtils.isBlank(UserUtils.getUser().getId())){
+			return "redirect:" + whlyPath + "/login";
+		}
 		if(UserUtils.getUser().getCompany()!=null) {
-			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
 			frontCompanyReport.setOperator(UserUtils.getUser().getName());
 		}
+		Map<String, Object> topMonth=new HashMap<String, Object>();
+		if(org.apache.commons.lang3.StringUtils.isBlank(frontCompanyReport.getId())){
+			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
+			topMonth=frontCompanyReportService.getTopReportMonth();
+		}else{
+			frontCompanyReport=frontCompanyReportService.get(frontCompanyReport.getId());
+		}
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
-		Map<String, Object> topMonth=frontCompanyReportService.getTopReportMonth();
+		System.out.println(frontCompanyReport.getCompanyName());
 		model.addAttribute("topMonth", topMonth);
 		return Global.getWhlyPage()+"/report/frontCompanyReportForm";
 	}
@@ -95,31 +105,38 @@ public class FrontCompanyReportController extends BaseController {
 		return json;
 	}
 	
-	@RequiresPermissions("report:frontCompanyReport:edit")
+	/*@RequiresPermissions("report:frontCompanyReport:edit")*/
 	@RequestMapping(value = "save")
 	public String save(FrontCompanyReport frontCompanyReport, Model model, RedirectAttributes redirectAttributes) {
+		if(UserUtils.getUser()==null||StringUtils.isBlank(UserUtils.getUser().getId())){
+			return "redirect:" + whlyPath + "/login";
+		}
 		if (!beanValidator(model, frontCompanyReport)){
 			return form(frontCompanyReport, model);
 		}
 		 Calendar now = Calendar.getInstance();
 		 Integer year = Integer.valueOf(now.get(1));
 		 Integer month = Integer.valueOf(now.get(2) + 1);
+		 Map<String, Object> topMonth=frontCompanyReportService.getTopReportMonth();
+		 frontCompanyReport.setYear(topMonth.get("year")+"");
+		 frontCompanyReport.setMonth(topMonth.get("month")+"");
 		 if ((Integer.valueOf(frontCompanyReport.getYear()) >= year.intValue()) && (Integer.valueOf(frontCompanyReport.getMonth()) >= month.intValue())) {
 			 addMessage(redirectAttributes, "对不起，该月月报还无法上报！");
-			 model.addAttribute("errormsg",  "对不起，该月月报还无法上报！");
+			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/form";
 		 }else{
-			 frontCompanyReportService.save(frontCompanyReport);
+			 frontCompanyReportService.saveReport(frontCompanyReport);
 			 addMessage(model, "保存企业上报成功");
-			 frontCompanyReport.setId("");
+			/* frontCompanyReport.setId("");
 			 if(UserUtils.getUser().getCompany()!=null) {
 				 frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
-			 }
+			 }*/
 			 model.addAttribute("frontCompanyReport", frontCompanyReport);
+			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/list";
 		 }
-		return Global.getWhlyPage()+"/report/frontCompanyReportForm";
+		
 	}
 	
-	@RequiresPermissions("report:frontCompanyReport:edit")
+	/*@RequiresPermissions("report:frontCompanyReport:edit")*/
 	@RequestMapping(value = "update")
 	public String update(FrontCompanyReport frontCompanyReport, Model model, RedirectAttributes redirectAttributes) {
 		frontCompanyReportService.update(frontCompanyReport);
@@ -129,15 +146,15 @@ public class FrontCompanyReportController extends BaseController {
 			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
 		}
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
-		return Global.getWhlyPage()+"/report/frontCompanyReportForm";
+		return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/list";
 	}
 	
-	@RequiresPermissions("report:frontCompanyReport:edit")
+	/*@RequiresPermissions("report:frontCompanyReport:edit")*/
 	@RequestMapping(value = "delete")
 	public String delete(FrontCompanyReport frontCompanyReport, RedirectAttributes redirectAttributes) {
 		frontCompanyReportService.delete(frontCompanyReport);
 		addMessage(redirectAttributes, "删除企业上报成功");
-		return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/?repage";
+		return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/form";
 	}
 	
 	@RequiresPermissions("report:frontCompanyReport:export")
@@ -154,10 +171,11 @@ public class FrontCompanyReportController extends BaseController {
 		return "redirect:" +Global.getWhlyPath()+"/report/frontCompanyReport/?repage";
 		
     }
-	@RequiresPermissions("report:frontCompanyReport:history")
+	/*@RequiresPermissions("report:frontCompanyReport:history")*/
 	@RequestMapping(value = {"history", ""})
 	public String history(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response, Model model) {
 		try {
+			frontCompanyReport=frontCompanyReportService.get(frontCompanyReport.getId());
 			model.addAttribute("status", CheckStatus.getAllStatus());
 			model.addAttribute("front", frontCompanyReport);
 			HashMap<String, String> param = new HashMap<String, String>();
@@ -180,7 +198,13 @@ public class FrontCompanyReportController extends BaseController {
 				temp.put("status", json.get("status"));
 				temp.put("insertTime", json.get("insertTime"));
 				temp.put("updateTime", json.get("updateTime"));
-				temp.put("reason", json.get("reason"));
+				if(json.get("reason")==null||org.apache.commons.lang3.StringUtils.isBlank(json.get("reason")+"")
+						||"null".equals(json.get("reason")+"")){
+					temp.put("reason", "");
+				}else{
+					temp.put("reason", json.get("reason"));
+				}
+				
 				temp.put("operator", json.get("operator"));
 				temp.put("area", json.get("area"));
 				temp.put("type", json.get("type"));

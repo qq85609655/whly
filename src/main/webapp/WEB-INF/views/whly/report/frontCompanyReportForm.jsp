@@ -11,8 +11,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta name="decorator" content="whly" />
 <script type="text/javascript">
 	$(function() {
-		if("${errormsg}"!=""){
-			alert("${errormsg}");
+		if("${message}"!=""){
+			alert("${message}");
 		}
 		//返回上一页点击事件
 		$("#return").click(returnBack);
@@ -50,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                	var divs = $('#remarks').find("div");
 				if(operator!=null && result.data.operator == operator && result.data.status == 'SUBMIT') {
 					$("#from").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=${menuId}');
-					$("#company").attr('value',result.data.companyName);
+					//$("#company").attr('value',result.data.companyName);
 					$("#totalIncome").attr('value',result.data.totalIncome);
 					$("#operatingCosts").attr('value',result.data.operatingCosts);
 					$("#totalProfit").attr('value',result.data.totalProfit);
@@ -75,7 +75,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					$('#add').attr("style","display:none;");
 					$('#delete').attr("style","display:none;");
 					$('#submit').attr("style","display:none;");
-					$("#company").attr('value',result.data.companyName).attr('readonly','true');
+					//$("#company").attr('value',result.data.companyName).attr('readonly','true');
 					$("#totalIncome").attr('value',result.data.totalIncome).attr('readonly','true');
 					$("#operatingCosts").attr('value',result.data.operatingCosts).attr('readonly','true');
 					$("#totalProfit").attr('value',result.data.totalProfit).attr('readonly','true');
@@ -129,6 +129,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	
 </script>
+ <%-- <script src="/static/${whlyPage}/assets/pages/scripts/form-validation-md.min.js" type="text/javascript"></script> --%>
+<!-- <script>
+$.ready(function() {  
+	 $("#form").validate({  
+	        submitHandler:function(form){  
+	            alert("submitted");     
+	            form.submit();  
+	        }      
+	    });  
+	});  
+</script> -->
+
 </head>
 <body
 	class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
@@ -180,10 +192,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</div>
 								</div> -->
 							</div>
-							<div class="portlet-body form">
-								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}" id="from" method="post">
-									<input type="hidden" name="year" value="${topMonth.year }">
-									<input type="hidden" name="month" value="${topMonth.month }">
+							<div class="portlet-body ">
+								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}"   id="from" method="post">
+									<input type="hidden" name="frontCompanyReport.year" value="${topMonth.year }">
+									<input type="hidden" name="frontCompanyReport.month" value="${topMonth.month }">
 									<div class="form-body">
 										<div class="form-group col-md-6">
 											<label>公司名称</label>
@@ -191,7 +203,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<span class="input-group-addon"> <i
 													class="fa fa-home"></i>
 												</span> <input type="text" class="form-control"
-													placeholder="公司名称"  id="company" readonly value="${frontCompanyReport.companyName }">
+													placeholder="公司名称"   readonly value="${frontCompanyReport.companyName }" name="companyName">
 											</div>
 										</div>
 
@@ -199,15 +211,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<label>营业收入（万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
-												<input type="text" class="form-control"
-													placeholder="请输入营业收入" name="totalIncome" id="totalIncome">
+												<input  class="form-control"
+													placeholder="请输入营业收入" required type="number" name="totalIncome" id="totalIncome">
 											</div>
 										</div>
+										
 										<div class="form-group col-md-6">
 											<label>营业成本 （万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
-												<input type="text" class="form-control" name="operatingCosts" id="operatingCosts"
+												<input required type="number" class="form-control" name="operatingCosts" id="operatingCosts"
 													placeholder="请输入营业成本" aria-describedby="sizing-addon1">
 											</div>
 										</div>
@@ -215,7 +228,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<label>营业利润（万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
-												<input type="text" class="form-control" name="totalProfit" id="totalProfit"
+												<input required type="number" class="form-control" name="totalProfit" id="totalProfit"
 													placeholder="请输入营业利润" aria-describedby="sizing-addon1">
 											</div>
 										</div>
@@ -223,7 +236,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<label>企业税费（万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
-												<input type="text" class="form-control" name="totalTax" id="totalTax"
+												<input required type="number" class="form-control" name="totalTax" id="totalTax"
 													placeholder="请输入企业税费" aria-describedby="sizing-addon1">
 											</div>
 										</div>
@@ -231,7 +244,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<label>应付职工薪酬（万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
-												<input type="text" class="form-control" name="employeeCompensation"
+												<input required type="number" class="form-control" name="employeeCompensation"
 													id="employeeCompensation" placeholder="请输入应付职工薪酬"
 													aria-describedby="sizing-addon1">
 											</div>
@@ -240,7 +253,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<label>贷款金额（万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
-												<input type="text" class="form-control" name="loanAmount" id="loanAmount"
+												<input required type="number" class="form-control" name="loanAmount" id="loanAmount"
 													placeholder="请输入贷款金额" aria-describedby="sizing-addon1">
 											</div>
 										</div>
@@ -249,7 +262,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="input-group">
 												<span class="input-group-addon"> <i
 													class="fa fa-user"></i>
-												</span> <input type="text" class="form-control" name="empQuantity"
+												</span> <input required type="number" class="form-control" name="empQuantity"
 													id="empQuantity" placeholder="请输入从业人数">
 											</div>
 										</div>
@@ -258,7 +271,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="input-group">
 												<span class="input-group-addon"> <i
 													class="fa fa-reorder"></i>
-												</span> <input type="text" class="form-control spinner"
+												</span> <input required type="number" class="form-control spinner"
 													id="orderQuantity"  name="orderQuantity" placeholder="请输入订单数量">
 											</div>
 										</div>
@@ -266,7 +279,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<br> 
 											<button type="button" class="btn default pull-right"
 												id="return">返回</button>
-											<button type="submit" class="btn blue pull-right" id="submit">提交</button>
+											<button type="submit"  class="btn blue pull-right" id="submit">提交</button>
 										</div>
 										<input type="hidden" value="${frontCompanyReport.id}"
 											id="reportId">
@@ -301,5 +314,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- BEGIN FOOTER -->
 	<%@ include file="../include/footer.jsp"%>
 	<!-- js必须引用在body前面 -->
+
 </body>
 </html>

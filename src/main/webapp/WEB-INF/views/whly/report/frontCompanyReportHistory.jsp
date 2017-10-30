@@ -122,7 +122,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="portlet-title">
 								<div class="caption font-dark">
 									<i class="icon-settings font-dark"></i> <span
-										class="caption-subject bold uppercase"> 上报历史列表</span>
+										class="caption-subject bold uppercase"> 上报历史列表-<span style="color:red">${front.companyName }(${front.year }/${front.month })</span></span>
 								</div>
 							</div>
 							<div class="portlet-body">
@@ -131,11 +131,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<thead>
 										<tr role="row">
 											<th>状态</th>
-											<th>年</th>
-											<th>月份</th>
-											<th>上报企业名称</th>
-											<th>所属行业</th>
-											<th>所属地域</th>
+											<th>操作人</th>
+											<th>操作时间</th>
 											<th>营业收入 (万元)</th>
 											<th>营业利润 (万元)</th>
 											<th>企业税费 (万元)</th>
@@ -144,19 +141,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<th>贷款金额 (万元)</th>
 											<th>订单数量 (个)</th>
 											<th>从业人数(人)</th>
-											<th>上报时间</th>
-											<th>操作人</th>
+											<th>所属行业</th>
+											<th>所属地域</th>
+											<th>反馈内容</th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${page}" var="frontCompanyReportHistory">
 											<tr class="gradeX odd" role="row">
 												<td>${frontCompanyReportHistory.status}</td>
-												<td>${frontCompanyReportHistory.year}</td>
-												<td>${frontCompanyReportHistory.month}</td>
-												<td>${frontCompanyReportHistory.companyName}</td>
-												<td>${frontCompanyReportHistory.type}</td>
-												<td>${frontCompanyReportHistory.area}</td>
+												<td>${frontCompanyReportHistory.operator}</td>
+												<td>${frontCompanyReportHistory.updateTime}</td>
 												<td>${frontCompanyReportHistory.totalIncome}</td>
 												<td>${frontCompanyReportHistory.totalProfit}</td>
 												<td>${frontCompanyReportHistory.totalTax}</td>
@@ -165,8 +160,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<td>${frontCompanyReportHistory.loanAmount}</td>
 												<td>${frontCompanyReportHistory.orderQuantity}</td>
 												<td>${frontCompanyReportHistory.empQuantity}</td>
-												<td>${frontCompanyReportHistory.reportTime}</td>
-												<td>${frontCompanyReportHistory.operator}</td>
+												<td>${frontCompanyReportHistory.type}</td>
+												<td>${frontCompanyReportHistory.area}</td>
+												<td>${frontCompanyReportHistory.reason}</td>
 											</tr>
 										</c:forEach>
 

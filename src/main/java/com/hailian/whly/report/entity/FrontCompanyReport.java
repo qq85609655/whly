@@ -49,10 +49,19 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String count;
 	private List<FrontReportQuestion> question; // 问题信息
 	private List<FrontReportHistory> histroy; 	// 上报日志信息
+	private String statusName;
 	
 	
 	
 	
+	public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
+	}
+
 	@ExcelField(title="上报企业", type=1, align=1, sort=4)
 	public String getCompanyName() {
 		return companyName;

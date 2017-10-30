@@ -273,19 +273,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<tbody>
 										<c:forEach items="${page.list}" var="frontCompanyReport">
 											<tr class="gradeX odd" role="row">
-												<%-- <td class="center"></td>
-															<td class="center"><a href="${ctx}/report/frontCompanyReport/form?id=${frontCompanyReport.id}">
-																${frontCompanyReport.area.name}
-															</a></td> --%>
-												<c:forEach items="${status}" var="status1">
-													<c:set var="key" scope="session" value="${status1.code}" />
-													<c:if test="${frontCompanyReport.status == key}">
-														<td>${status1.value}</td>
-													</c:if>
-												</c:forEach>
+												<td>${frontCompanyReport.statusName}</td>
 												<td>${frontCompanyReport.year}</td>
 												<td>${frontCompanyReport.month}</td>
-												<td style="width:185px;">${frontCompanyReport.companyName}</td>
+												<td>${frontCompanyReport.companyName}</td>
 												<td>${frontCompanyReport.description}</td>
 												<td>${frontCompanyReport.area.name}</td>
 												<td>${frontCompanyReport.totalIncome}</td>
@@ -299,17 +290,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<td><fmt:formatDate
 														value="${frontCompanyReport.reportTime}"
 														pattern="yyyy-MM-dd HH:mm:ss" /></td>
+												
 												<td>
-													<shiro:hasPermission name="report:frontCompanyReport:edit">
-														<a style="color:#337ab7;" href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}">查看</a>
-													</shiro:hasPermission>
+												<%-- 	<shiro:hasPermission name="report:frontCompanyReport:edit">
+													</shiro:hasPermission> --%>
+														<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}">查看</a>
 													<shiro:hasPermission name="report:frontCompanyReport:examine">
-														<a style="color:#337ab7;" href="${whlyPath}/taskmange/examine/form?menuId=${menuId }&id=${frontCompanyReport.id}&companyName=${frontCompanyReport.companyName}">审核</a>
+														<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/taskmange/examine/form?menuId=${menuId }&id=${frontCompanyReport.id}&companyName=${frontCompanyReport.companyName}">审核</a>
 													</shiro:hasPermission>
-													<shiro:hasPermission name="report:frontCompanyReport:history">
-														<a style="color:#337ab7;" href="${whlyPath}/report/frontCompanyReport/history?menuId=${menuId }&id=${frontCompanyReport.id}">操作历史</a>
-													</shiro:hasPermission>
-												</td>
+														<a style="color:#337ab7;" target="_blank" href="${whlyPath}/report/frontCompanyReport/history?menuId=${menuId }&id=${frontCompanyReport.id}">历史</a>
+												<%-- 	<shiro:hasPermission name="report:frontCompanyReport:history">
+													</shiro:hasPermission> --%>
+												</td> 
 											</tr>
 										</c:forEach>
 
