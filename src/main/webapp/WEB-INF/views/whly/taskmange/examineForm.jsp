@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}).done(function(result, status, xhr) {
                
 		}).fail(function(xhr, status, error) {
-			
+			window.location.href='<%=basePath%>front/report/frontCompanyReport/list?menuId=${menuId}';
 		});
 		
 		
@@ -93,6 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			if(data!=null && data!="") {
 				var i = 0;
 				var now = i;
+				console.log(data)
 				for (; i < data.length; i++) {
 					if(data[i].id!='本年本月' && data[i].id!='上年本月' && data[i].id!='本年上月' ) {
 						var li = menuLi.replace('[start]',i+1).replace('[max]',data.length-1).replace('[href]','#tab'+(i+1)).replace('[number]',i+1).replace('[name]',data[i].operation);
@@ -388,8 +389,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											id="redirectAttributes">
 										<div class="form-group col-md-11">
 											<br>
-											<button type="button" class="btn green pull-right"
-												style="width: 100px;display: none" id="return">返回</button>
+											<!-- <button type="button" class="btn green pull-right"
+												style="width: 100px;display: none" id="return">返回</button> -->
 										</div>
 									</div>
 								</form>

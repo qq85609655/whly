@@ -140,11 +140,11 @@ public class FrontCompanyReportController extends BaseController {
 	@RequestMapping(value = "update")
 	public String update(FrontCompanyReport frontCompanyReport, Model model, RedirectAttributes redirectAttributes) {
 		frontCompanyReportService.update(frontCompanyReport);
-		addMessage(redirectAttributes, "更改企业上报成功");
-		frontCompanyReport.setId("");
+		addMessage(redirectAttributes, "操作成功");
+	/*	frontCompanyReport.setId("");
 		if(UserUtils.getUser().getCompany()!=null) {
 			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
-		}
+		}*/
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
 		return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/list";
 	}
