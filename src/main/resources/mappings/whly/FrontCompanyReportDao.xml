@@ -235,16 +235,34 @@
 			<if test="status != null and status != ''">
 				status = #{status},
 			</if>	
-			emp_quantity = #{empQuantity},
-			total_income = #{totalIncome},
-			total_profit = #{totalProfit},
-			total_tax = #{totalTax},
-			operating_costs = #{operatingCosts},
-			employee_compensation = #{employeeCompensation},
-			loan_amount = #{loanAmount},
-			order_quantity = #{orderQuantity},
+			<if test="empQuantity != null and empQuantity != ''">
+				emp_quantity = #{empQuantity},
+			</if>
+			<if test="totalIncome != null and totalIncome != ''">
+				total_income = #{totalIncome},
+			</if>
+			<if test="totalProfit != null and totalProfit != ''">
+				total_profit = #{totalProfit},
+			</if>
+			<if test="totalTax != null and totalTax != ''">
+				total_tax = #{totalTax},
+			</if>
+			<if test="operatingCosts != null and operatingCosts != ''">
+				operating_costs = #{operatingCosts},
+			</if>
+			<if test="employeeCompensation != null and employeeCompensation != ''">
+				employee_compensation = #{employeeCompensation},
+			</if>
+			<if test="loanAmount != null and loanAmount != ''">
+				loan_amount = #{loanAmount},
+			</if>
+			<if test="orderQuantity != null and orderQuantity != ''">
+				order_quantity = #{orderQuantity},
+			</if>
+			<if test="reason != null and reason != ''">
+				reason = #{reason},
+			</if>
 			update_time = #{updateTime}
-			
 		WHERE id = #{id}
 	</update>
 	

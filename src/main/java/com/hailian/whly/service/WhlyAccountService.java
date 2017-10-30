@@ -49,7 +49,7 @@ public class WhlyAccountService extends CrudService<WhlyAccountDao, WhlyAccount>
 	public List<FrontReportHistory> findHitsory(FrontReportHistory frontReportHistory) {
 		List<FrontReportHistory> list = dao.findHistroy(frontReportHistory.getReportId());
 		for(int i=0; i<list.size(); i++) {
-			FrontCompanyReport frontCompanyReport = (FrontCompanyReport) JsonMapper.fromJsonString(list.get(i).getDesciption(),FrontCompanyReport.class);
+			FrontCompanyReport frontCompanyReport = (FrontCompanyReport) JsonMapper.fromJsonString(list.get(i).getDescription(),FrontCompanyReport.class);
 			list.get(i).setFrontCompanyReport(frontCompanyReport);
 		}
 		

@@ -140,7 +140,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			FrontReportHistory history = new FrontReportHistory();
 			String desciption = JsonMapper.toJsonString(frontCompanyReport);
 			history.setId(UUID.randomUUID().toString());
-			history.setDesciption(desciption);
+			history.setDescription(desciption);
 			history.setReportId(reportId);
 			history.setOperateTime(time);
 			history.setOperation("提交");
@@ -168,28 +168,31 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				dao.updateReport(frontCompanyReport);
 				List<FrontReportQuestion> list = dao.findQuestion(frontCompanyReport.getId());
 				List<String> reportId = new ArrayList<String>();
-				for(FrontReportQuestion question: frontCompanyReport.getQuestion()) {
-					if(question!=null) {
-						if(question.getId()!=null && question.getId().trim()!="") {
-							reportId.add(question.getId());
-							//修改所有问题信息
-							question.setDelFlag("0");
-							question.setUpdateDate(time);
-							dao.updateQuestion(question);
-						} else {
-							//新建信息
-							question.setId(UUID.randomUUID().toString());
-							question.setMonth(time);
-							question.setReportId(frontCompanyReport.getId()); 	//上报ID
-							question.setCreateDate(time);  	//插入时间
-							question.setUpdateDate(time);		//更改时间
-							question.setCompanyId(user.getCompany().getId()); // 企业ID
-							question.setOperator(user.getName());	// 操作人
-							question.setDelFlag("0");
-							dao.addQuestion(question);
+				if(frontCompanyReport.getQuestion()!=null) {
+					for(FrontReportQuestion question: frontCompanyReport.getQuestion()) {
+						if(question!=null) {
+							if(question.getId()!=null && question.getId().trim()!="") {
+								reportId.add(question.getId());
+								//修改所有问题信息
+								question.setDelFlag("0");
+								question.setUpdateDate(time);
+								dao.updateQuestion(question);
+							} else {
+								//新建信息
+								question.setId(UUID.randomUUID().toString());
+								question.setMonth(time);
+								question.setReportId(frontCompanyReport.getId()); 	//上报ID
+								question.setCreateDate(time);  	//插入时间
+								question.setUpdateDate(time);		//更改时间
+								question.setCompanyId(user.getCompany().getId()); // 企业ID
+								question.setOperator(user.getName());	// 操作人
+								question.setDelFlag("0");
+								dao.addQuestion(question);
+							}
 						}
 					}
 				}
+				
 				//删除用户已经删除的问题
 				for(FrontReportQuestion question: list) {
 					boolean onOff = false;
@@ -206,10 +209,14 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				FrontReportHistory history = new FrontReportHistory();
 				String desciption = JsonMapper.toJsonString(frontCompanyReport);
 				history.setId(UUID.randomUUID().toString());
-				history.setDesciption(desciption);
+				history.setDescription(desciption);
 				history.setReportId(frontCompanyReport.getId());
 				history.setOperateTime(time);
-				history.setOperation("更新");
+				if(frontCompanyReport.getStatus()!=null && frontCompanyReport.getStatus().trim()!="") {
+					history.setOperation(frontCompanyReport.getStatus());
+				} else {
+					history.setOperation("更新");
+				}
 				history.setOperator(user.getName());
 				history.setCreateDate(time);
 				history.setUpdateDate(time);
