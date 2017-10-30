@@ -68,7 +68,7 @@ public class TaskManageController extends BaseController {
 	 * @param  @return
 	 * @return_type   String
 	 */
-	@RequiresPermissions("report:frontCompanyReport:examine")
+	//@RequiresPermissions("report:frontCompanyReport:examine")
 	@RequestMapping({"/examine/form"})
 	public String examineForm(FrontCompanyReport frontCompanyReport, Model model, HttpServletRequest request, HttpServletResponse response){
 		if(UserUtils.getUser()==null){

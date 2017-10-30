@@ -237,5 +237,22 @@ public class FrontCompanyReportController extends BaseController {
 		}
 		return Global.getWhlyPage()+"/report/frontCompanyReportHistory";
 	}
+	@RequestMapping(value = {"viewlist", ""})
+	public String viewlist(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response, Model model) {
+	try {
+		if(UserUtils.getUser()==null||StringUtils.isBlank(UserUtils.getUser().getId())){
+			return "redirect:" + whlyPath + "/login";
+		}
+		model.addAttribute("status", CheckStatus.getAllStatus());
+		model.addAttribute("front", frontCompanyReport);
+		frontCompanyReport.setCompanyId(UserUtils.getUser().getCompany().getId());
+		Page<FrontCompanyReport> page = frontCompanyReportService.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);
+		model.addAttribute("page", page);
+		System.out.println(page.getList().size());
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+		return Global.getWhlyPage()+"/report/frontCompanyReportListView";
+	}
 	
 }

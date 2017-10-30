@@ -147,95 +147,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="page-content">
 				<!-- page 菜单-->
 				<%@ include file="../include/topBar.jsp"%>
-				<div class="portlet-body">
-					<!-- <form action="#" id="form_sample_3" class="form-horizontal"> -->
-					<form:form id="searchForm" modelAttribute="frontCompanyReport"
-						action="${whlyPath}/report/frontCompanyReport/list?menuId=${menuId }"
-						method="post" class="breadcrumb form-search">
-						<input id="pageNo" name="pageNo" type="hidden"
-							value="${page.pageNo}" />
-						<input id="pageSize" name="pageSize" type="hidden"
-							value="${page.pageSize}" />
-						<div class="row form-body">
-							<div class="form-group col-md-4">
-								<label class="control-label col-md-4" style="padding: 6px 12px;">时间：</label>
-								<div class="col-md-8">
-									<div class="input-group date date-picker"
-										data-date-format="yyyy年mm月">
-										<input type="text" class="form-control" readonly name="year"
-											value="${front.year }" id="timeQuery"> <span
-											class="input-group-btn">
-											<button class="btn default" type="button">
-												<i class="fa fa-calendar"></i>
-											</button>
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="form-group col-md-4">
-								<label class="control-label col-md-4" style="padding: 6px 12px;">状态：</label>
-								<div class="col-md-8">
-									<c:set var="status3" scope="session" value="${front.status}" />
-									<select class="form-control" id="staticQuery" name="status">
-										<option value="" label="全部" />
-										<c:forEach items="${status}" var="status">
-											<c:if test="${status.code == status3}">
-												<option value="${status.code }" selected>${status.value }</option>
-											</c:if>
-											<c:if test="${status.code != status3}">
-												<option value="${status.code }">${status.value }</option>
-											</c:if>
-										</c:forEach>
-									</select>
-
-								</div>
-							</div>
-							<div class="form-group col-md-4">
-								<label class="control-label col-md-4" style="padding: 6px 12px;">地区：</label>
-								<div class="col-md-8">
-									<form:select path="area.id" name="area.id" class="form-control"
-										id="industryQuery">
-										<form:option value="" label="全部" />
-										<form:options
-											items="${fnc:getArea('d233fe3d43da4d10ba0a7039746a47dd')}"
-											itemLabel="name" itemValue="id" htmlEscape="false" />
-									</form:select>
-								</div>
-							</div>
-
-						</div>
-						<div class="row">
-							<div class="form-group col-md-4">
-								<label class="control-label col-md-4" style="padding: 6px 12px;">行业：</label>
-								<div class="col-md-8">
-									<form:select path="typeId" class="form-control" name="typeId"
-										id="industryQuery">
-										<form:option value="" label="全部" />
-										<form:options items="${fns:getDictList('front_hylx')}"
-											itemLabel="label" itemValue="id" htmlEscape="false" />
-									</form:select>
-								</div>
-							</div>
-							<div class="form-group col-md-4">
-								<label class="control-label col-md-4" style="padding: 6px 12px;">企业名称：</label>
-								<div class="col-md-8">
-									<input class="form-control" type="text" placeholder=""
-										name="companyName" value="${front.companyName }" id="nameQuery">
-								</div>
-							</div>
-							<div class="form-group col-md-4">
-								<button class="btn green col-md-3" id="query" type="submit"
-									style="margin-left: 15px;">检索</button>
-								<shiro:hasPermission name="report:frontCompanyReport:examine">
-									<div class="col-md-1"></div>
-									<button class="btn green col-md-3" type="button" id="export">导出</button>
-								</shiro:hasPermission>	
-								<div class="col-md-1"></div>
-								<button class="btn green col-md-3" id="reset" type="button">重置</button>
-							</div>
-						</div>
-					</form:form>
-				</div>
 				<!-- 主体部分START-->
 				<div class="row">
 					<div class="col-md-12">
@@ -256,9 +167,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<th>状态</th>
 											<th>年</th>
 											<th>月份</th>
-											<th>上报企业名称</th>
-											<th>所属行业</th>
-											<th>所属地域</th>
 											<th>营业收入 (万元)</th>
 											<th>营业利润 (万元)</th>
 											<th>企业税费 (万元)</th>
@@ -273,21 +181,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<tbody>
 										<c:forEach items="${page.list}" var="frontCompanyReport">
 											<tr class="gradeX odd" role="row">
-											<td>
-												<%-- 	<shiro:hasPermission name="report:frontCompanyReport:edit">
-													</shiro:hasPermission> --%>
-														<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}">查看</a>
-														<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/taskmange/examine/form?menuId=${menuId }&id=${frontCompanyReport.id}&companyName=${frontCompanyReport.companyName}">审核</a>
-														<a style="color:#337ab7;" target="_blank" href="${whlyPath}/report/frontCompanyReport/history?menuId=${menuId }&id=${frontCompanyReport.id}">历史</a>
-												<%-- 	<shiro:hasPermission name="report:frontCompanyReport:history">
-													</shiro:hasPermission> --%>
+												<td>
+													<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}&from=view">查看</a>
+													<a style="color:#337ab7;" target="_blank" href="${whlyPath}/report/frontCompanyReport/history?menuId=${menuId }&id=${frontCompanyReport.id}&from=view">历史</a>
 												</td> 
 												<td>${frontCompanyReport.statusName}</td>
 												<td>${frontCompanyReport.year}</td>
 												<td>${frontCompanyReport.month}</td>
-												<td>${frontCompanyReport.companyName}</td>
-												<td>${frontCompanyReport.description}</td>
-												<td>${frontCompanyReport.area.name}</td>
 												<td>${frontCompanyReport.totalIncome}</td>
 												<td>${frontCompanyReport.totalProfit}</td>
 												<td>${frontCompanyReport.totalTax}</td>
