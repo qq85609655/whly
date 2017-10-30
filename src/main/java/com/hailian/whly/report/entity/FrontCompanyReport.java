@@ -51,9 +51,17 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private List<FrontReportHistory> histroy; 	// 上报日志信息
 	private String statusName;
 	
+	private String from;
 	
 	
-	
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
 	public String getStatusName() {
 		return statusName;
 	}

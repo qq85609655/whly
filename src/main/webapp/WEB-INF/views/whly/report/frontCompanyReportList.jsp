@@ -276,9 +276,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<td>
 												<%-- 	<shiro:hasPermission name="report:frontCompanyReport:edit">
 													</shiro:hasPermission> --%>
-														<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}">查看</a>
-														<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/taskmange/examine/form?menuId=${menuId }&id=${frontCompanyReport.id}&companyName=${frontCompanyReport.companyName}">审核</a>
-														<a style="color:#337ab7;" target="_blank" href="${whlyPath}/report/frontCompanyReport/history?menuId=${menuId }&id=${frontCompanyReport.id}">历史</a>
+														<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}&frontCompanyReport.from=sh">查看</a>
+														<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/taskmange/examine/form?menuId=${menuId }&id=${frontCompanyReport.id}&companyName=${frontCompanyReport.companyName}&frontCompanyReport.from=sh">审核</a>
+														<a style="color:#337ab7;" target="_blank" href="${whlyPath}/report/frontCompanyReport/history?menuId=${menuId }&id=${frontCompanyReport.id}&frontCompanyReport.from=sh">历史</a>
 												<%-- 	<shiro:hasPermission name="report:frontCompanyReport:history">
 													</shiro:hasPermission> --%>
 												</td> 
