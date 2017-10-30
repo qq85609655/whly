@@ -207,16 +207,16 @@ $.ready(function() {
 											</div>
 										</div>
 
-										<div class=" col-md-6">
+										<div class="form-group col-md-6">
 											<label>营业收入（万元）</label>
-											<div class="form-group">
+											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input  class="form-control"
 													placeholder="请输入营业收入" required type="number"  name="totalIncome" id="totalIncome">
 											</div>
 										</div>
 										
-										<div class=" col-md-6">
+										<div class="form-group col-md-6">
 											<label>营业成本 （万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
