@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 var question = result.data.question;
                	var divs = $('#remarks').find("div");
 				if(operator!=null && result.data.operator == operator && result.data.status == 'SUBMIT') {
-					$("#from").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=${menuId}');
+					$("#form_sample_2").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=${menuId}');
 					//$("#company").attr('value',result.data.companyName);
 					$("#totalIncome").attr('value',result.data.totalIncome);
 					$("#operatingCosts").attr('value',result.data.operatingCosts);
@@ -102,7 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 			});
 		} else {
-			$("#from").attr('action','<%=basePath%>front/report/frontCompanyReport/save?menuId=${menuId}');
+			$("#form_sample_2").attr('action','<%=basePath%>front/report/frontCompanyReport/save?menuId=${menuId}');
 			$("#return").attr("style","display:none;");
 			addRemarks();
 		}
@@ -193,7 +193,7 @@ $.ready(function() {
 								</div> -->
 							</div>
 							<div class="portlet-body ">
-								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}"   id="from" method="post">
+								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}"   id="form_sample_2" method="post">
 									<input type="hidden" name="frontCompanyReport.year" value="${topMonth.year }">
 									<input type="hidden" name="frontCompanyReport.month" value="${topMonth.month }">
 									<div class="form-body">
@@ -207,16 +207,16 @@ $.ready(function() {
 											</div>
 										</div>
 
-										<div class="form-group col-md-6">
+										<div class=" col-md-6">
 											<label>营业收入（万元）</label>
-											<div class="input-group">
+											<div class="form-group">
 												<span class="input-group-addon" >￥</span>
 												<input  class="form-control"
 													placeholder="请输入营业收入" required type="number"  name="totalIncome" id="totalIncome">
 											</div>
 										</div>
 										
-										<div class="form-group col-md-6">
+										<div class=" col-md-6">
 											<label>营业成本 （万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
