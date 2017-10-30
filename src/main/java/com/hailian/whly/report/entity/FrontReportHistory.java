@@ -37,7 +37,6 @@ public class FrontReportHistory extends DataEntity<FrontReportHistory>{
 	
 	private	String	delFlag	;
 	private FrontCompanyReport frontCompanyReport;
-	private String desciption;
 
 	public FrontCompanyReport getFrontCompanyReport() {
 		return frontCompanyReport;
@@ -47,13 +46,6 @@ public class FrontReportHistory extends DataEntity<FrontReportHistory>{
 		this.frontCompanyReport = frontCompanyReport;
 	}
 
-	public String getDesciption() {
-		return desciption;
-	}
-
-	public void setDesciption(String desciption) {
-		this.desciption = desciption;
-	}
 
 	public String getId() {
 		return id;

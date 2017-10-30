@@ -16,6 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		//返回上一页点击事件
 		$("#return").click(returnBack);
 		
+		
 		loadingContent();
 	});
 
@@ -23,6 +24,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		window.history.back();
 	}
 
+	function submit1(operation) {
+		if(operation == 1) {
+			operation = "通过";
+		} else {
+			operation = "驳回";
+		}
+		var reason = $('#opinion').val();
+		var id = $("#reportId").val();
+		var data = {
+			status : operation,
+			reason : reason,
+			id : id 
+		};
+		$.ajax({
+			type : 'POST',
+			data : data,
+			url : '<%=basePath%>front/report/frontCompanyReport/update'
+		}).done(function(result, status, xhr) {
+               
+		}).fail(function(xhr, status, error) {
+			
+		});
+		
+		
+	}
+		
 	//改变当前显示的步数
 	function updateStepNumber(step, max) {
 		var progress = step / max * 100 + "%";
@@ -31,6 +58,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		if (stepNumber != null) {
 			$("#stepNumber").html("第" + step + "步"); //修改当前步数的文本
+		}
+		if(step == max) {
+			$("#return").attr('style', 'width: 100px;');
+		} else {
+			$("#return").attr('style', 'width: 100px;display: none');
 		}
 	}
 	
@@ -58,33 +90,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var thisMonth = null; //本年本月的上报信息
 			var lastMonth = null; //本年上月的上报信息
 			var lastYear = null;  //上年本月的上报信息
-			console.info(result);
 			if(data!=null && data!="") {
-				for (var i = 0; i < data.length; i++) {
-					if(data.id!='本年本月' && data.id!='上年本月' && data.id!='本年上月' ) {
-						var li = menuLi.replace('[start]',i+1).replace('[max]',data.length).replace('[href]','#tab'+(i+1)).replace('[number]',i+1).replace('[name]',data[i].operation);
+				var i = 0;
+				var now = i;
+				for (; i < data.length; i++) {
+					if(data[i].id!='本年本月' && data[i].id!='上年本月' && data[i].id!='本年上月' ) {
+						var li = menuLi.replace('[start]',i+1).replace('[max]',data.length-1).replace('[href]','#tab'+(i+1)).replace('[number]',i+1).replace('[name]',data[i].operation);
 						if(i==0) {
 							li = li.replace('[class]','active');
 						}
 						$('#menu').append(li);
 					}
 					if(data[i].operation == "提交" || data[i].operation == "更新") {
-						var question = data[i].frontCompanyReport.question;
-						var remarksDiv = "";
-						for (var j = 0; j < question.length; j++) {
-							remarksDiv = remarksDiv + remarks.replace('[number]', j+1).replace('[value]', question[j].title).replace('[textarea]',question[j].content);
-							
+						if(data[i].frontCompanyReport) {
+							var question = data[i].frontCompanyReport.question;
+							var remarksDiv = "";
+							for (var j = 0; j < question.length; j++) {
+								remarksDiv = remarksDiv + remarks.replace('[number]', j+1).replace('[value]', question[j].title).replace('[textarea]',question[j].content);
+								
+							}
+							var report = data[i].frontCompanyReport;
+							var mainDiv = fromDiv.replace('[id]', 'tab'+(i+1)).replace('[time]', time).replace('[question]', remarksDiv).replace('[公司名称]',companyName);
+							mainDiv = mainDiv.replace('[营业收入]', report.totalIncome).replace('[营业成本]', report.operatingCosts).replace('[营业利润]',report.totalProfit).replace('[企业税费]',report.totalTax).replace('[应付职工薪酬]',report.employeeCompensation).replace('[贷款金额]',report.loanAmount).replace('[从业人数]',report.empQuantity).replace('[订单数量]',report.orderQuantity);
+							if(i==0) {
+								mainDiv = mainDiv.replace('[class]','active');
+							}
+							$('#tab').append(mainDiv);
 						}
-						var report = data[i].frontCompanyReport;
-						var mainDiv = fromDiv.replace('[id]', 'tab'+(i+1)).replace('[time]', time).replace('[question]', remarksDiv).replace('[公司名称]',companyName);
-						mainDiv = mainDiv.replace('[营业收入]', report.totalIncome).replace('[营业成本]', report.operatingCosts).replace('[营业利润]',report.totalProfit).replace('[企业税费]',report.totalTax).replace('[应付职工薪酬]',report.employeeCompensation).replace('[贷款金额]',report.loanAmount).replace('[从业人数]',report.empQuantity).replace('[订单数量]',report.orderQuantity);
-						if(i==0) {
-							mainDiv = mainDiv.replace('[class]','active');
-						}
-						$('#tab').append(mainDiv);
 					}
 					if(data[i].id == '本年本月') {
 						thisMonth = data[i].frontCompanyReport;
+						now = i;
 					}
 					if(data[i].id == '本年上月') {
 						lastMonth = data[i].frontCompanyReport;
@@ -94,22 +130,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}
 				}
 				
-				var body = statementBody.replace('[name]','营业收入').replace('[value]', thisMonth.totalIncome).replace('[year]',yearOnYear(thisMonth.totalIncome, lastMonth.totalIncome));
+				var li1 = menuLi.replace('[start]',now+1).replace('[max]',data.length-1).replace('[href]','#tab'+(now+1)).replace('[number]',now+1).replace('[name]', "审核");
 				
-				/* （本期数－同期数）÷同期数×100% */
-				var statement1 = statement.replace('[time]', time);
+				var totalIncome = statementBody.replace('[name]','营业收入').replace('[value]', thisMonth.totalIncome).replace('[year]',(lastMonth && lastMonth.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastMonth.totalIncome) : '100%').replace('[lastYear]',(lastYear && lastYear.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastYear.totalIncome) : '100%');
+				var operatingCosts = statementBody.replace('[name]','营业成本').replace('[value]', thisMonth.operatingCosts).replace('[year]',(lastMonth && lastMonth.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastMonth.operatingCosts) : '100%').replace('[lastYear]',(lastYear && lastYear.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastYear.operatingCosts) : '100%');
+				var totalProfit = statementBody.replace('[name]','营业利润').replace('[value]', thisMonth.totalProfit).replace('[year]',(lastMonth && lastMonth.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastMonth.totalProfit) : '100%').replace('[lastYear]',(lastYear && lastYear.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastYear.totalProfit) : '100%');
+				var totalTax = statementBody.replace('[name]','企业税费').replace('[value]', thisMonth.totalTax).replace('[year]',(lastMonth && lastMonth.totalTax) ? yearOnYear(thisMonth.totalTax, lastMonth.totalTax) : '100%').replace('[lastYear]',(lastYear && lastYear.totalTax) ? yearOnYear(thisMonth.totalTax, lastYear.totalTax) : '100%');
+				var employeeCompensation = statementBody.replace('[name]','应付职工薪酬').replace('[value]', thisMonth.employeeCompensation).replace('[year]',(lastMonth && lastMonth.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastMonth.employeeCompensation) : '100%').replace('[lastYear]',(lastYear && lastYear.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastYear.employeeCompensation) : '100%');
+				var loanAmount = statementBody.replace('[name]','贷款金额').replace('[value]', thisMonth.loanAmount).replace('[year]',(lastMonth && lastMonth.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastMonth.loanAmount) : '100%').replace('[lastYear]',(lastYear && lastYear.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastYear.loanAmount) : '100%');
+				var empQuantity = statementBody.replace('[name]','从业人数').replace('[value]', thisMonth.empQuantity).replace('[year]',(lastMonth && lastMonth.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastMonth.empQuantity) : '100%').replace('[lastYear]',(lastYear && lastYear.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastYear.empQuantity) : '100%');
+				var orderQuantity = statementBody.replace('[name]','订单数量').replace('[value]', thisMonth.orderQuantity).replace('[year]',(lastMonth && lastMonth.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastMonth.orderQuantity) : '100%').replace('[lastYear]',(lastYear && lastYear.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastYear.orderQuantity) : '100%');
+				var tboby = totalIncome + operatingCosts + totalProfit + totalTax + employeeCompensation + loanAmount + empQuantity + orderQuantity ;
 				
-				
+				var statement1 = statement.replace('[time]', time).replace('[tbody]', tboby).replace('[id]', 'tab'+(now+1));
+				if(now+1 == 1) {
+					li1 = li1.replace('[class]','active');
+					statement1 = statement1.replace('[class]','active');
+				}
+				$('#menu').append(li1);
+				$('#tab').append(statement1);
+				updateStepNumber(1, now+1);
 			}
                
 		}).fail(function(xhr, status, error) {
 			
 		});
 		
+		/* （本期数－同期数）÷同期数×100% */
 		function yearOnYear(now, last) {
 			now = parseFloat(now).toFixed(4);
 			last = parseFloat(last).toFixed(4);
-			return ((now-last) / last*100)+'%';
+			return ((now-last) / last*100).toFixed(2)+'%';
 		}
 		
 		var statementBody = '<tr> ' +
@@ -119,7 +170,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							'	<td>[lastYear]</td>' +
 							'</tr>' ;
 		
-		var statement = '<div class="tab-pane " id="tab7"> ' +
+		var statement = '<div class="tab-pane [class] " id="[id]"> ' +
 							'<div class="portlet light bordered">' +
 							'	<div class="portlet-title">' +
 							'		<div class="caption">' +
@@ -144,13 +195,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							'		</div>' +
 							'	</div>' +
 							'	<div class="form-actions text-center">' +
-							'		<button type="button" class="btn btn-success">批准</button>' +
-							'		<button type="button" class="btn btn-danger">不批准</button>' +
+							'		<button type="button" class="btn btn-success" onclick="submit1(1)">批准</button>' +
+							'		<button type="button" class="btn btn-danger" onclick="submit1(2)">不批准</button>' +
 							'		<br> <br>' +
-							'	<div class="col-md-8 col-md-offset-2">' +
+							'	    <div class="col-md-8 col-md-offset-2">' +
 							'			<div class="form-group">' +
 							'				<label>审核意见</label>' +
-							'				<textarea class="form-control" ></textarea>' +
+							'				<textarea class="form-control" id="opinion"></textarea>' +
 							'			</div>' +
 							'		</div>' +
 							'	</div>' +
@@ -316,12 +367,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<div class="form-wizard">
 										<div class="form-body">
 											<ul class="nav nav-pills nav-justified steps " id="menu">
-												<li onclick="updateStepNumber(3,4)" id="li3"><a
-													href="#tab7" data-toggle="tab" class="step "> <span
-														class="number"> 0</span> <span class="desc"> <i
-															class="fa fa-check"></i> 审核
-													</span>
-												</a></li>
+											
 											</ul>
 										</div>
 										<div id="bar" class="progress progress-striped"
@@ -343,9 +389,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="form-group col-md-11">
 											<br>
 											<button type="button" class="btn green pull-right"
-												style="width: 100px;" id="return">返回</button>
-											<button type="submit" class="btn blue pull-right"
-												style="display: none; width: 100px;" id="submit">提交</button>
+												style="width: 100px;display: none" id="return">返回</button>
 										</div>
 									</div>
 								</form>
