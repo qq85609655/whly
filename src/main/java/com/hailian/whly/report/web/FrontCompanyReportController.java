@@ -82,6 +82,7 @@ public class FrontCompanyReportController extends BaseController {
 		if(UserUtils.getUser().getCompany()!=null) {
 			frontCompanyReport.setOperator(UserUtils.getUser().getName());
 		}
+		String from=frontCompanyReport.getFrom();
 		Map<String, Object> topMonth=new HashMap<String, Object>();
 		if(org.apache.commons.lang3.StringUtils.isBlank(frontCompanyReport.getId())){
 			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
@@ -89,6 +90,7 @@ public class FrontCompanyReportController extends BaseController {
 		}else{
 			frontCompanyReport=frontCompanyReportService.get(frontCompanyReport.getId());
 		}
+		frontCompanyReport.setFrom(from);
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
 		System.out.println(frontCompanyReport.getCompanyName());
 		model.addAttribute("topMonth", topMonth);
@@ -139,6 +141,7 @@ public class FrontCompanyReportController extends BaseController {
 	/*@RequiresPermissions("report:frontCompanyReport:edit")*/
 	@RequestMapping(value = "update")
 	public String update(FrontCompanyReport frontCompanyReport, Model model, RedirectAttributes redirectAttributes) {
+		String from=frontCompanyReport.getFrom();
 		frontCompanyReportService.update(frontCompanyReport);
 		addMessage(redirectAttributes, "操作成功");
 	/*	frontCompanyReport.setId("");
@@ -175,7 +178,9 @@ public class FrontCompanyReportController extends BaseController {
 	@RequestMapping(value = {"history", ""})
 	public String history(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response, Model model) {
 		try {
+			String from=frontCompanyReport.getFrom();
 			frontCompanyReport=frontCompanyReportService.get(frontCompanyReport.getId());
+			frontCompanyReport.setFrom(from);
 			model.addAttribute("status", CheckStatus.getAllStatus());
 			model.addAttribute("front", frontCompanyReport);
 			HashMap<String, String> param = new HashMap<String, String>();

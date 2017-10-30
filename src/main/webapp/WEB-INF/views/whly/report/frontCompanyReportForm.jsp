@@ -26,7 +26,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
 	
     function returnBack() {
-        window.history.back();
+    	if($("#from_hid").val()=="sh"){
+    		window.location.href=whlyPath+"/report/frontCompanyReport/list?menuId=${menuId}";
+    	}else if($("#from_hid").val()=="view"){
+    		window.location.href=whlyPath+"/report/frontCompanyReport/viewlist?menuId=${menuId}";
+    	}
     }
 
 	function judgeInput() {
@@ -72,9 +76,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	} 
 	                }
 				} else {
-					$('#add').attr("style","display:none;");
+					/* $('#add').attr("style","display:none;");
 					$('#delete').attr("style","display:none;");
-					$('#submit').attr("style","display:none;");
+					$('#submit').attr("style","display:none;"); */
+					$('#add').remove();
+					$('#delete').remove();
+					$('#submit').remove();
 					//$("#company").attr('value',result.data.companyName).attr('readonly','true');
 					$("#totalIncome").attr('value',result.data.totalIncome).attr('readonly','true');
 					$("#operatingCosts").attr('value',result.data.operatingCosts).attr('readonly','true');
@@ -196,6 +203,7 @@ $.ready(function() {
 								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}"   id="form_sample_2" method="post">
 									<input type="hidden" name="frontCompanyReport.year" value="${topMonth.year }">
 									<input type="hidden" name="frontCompanyReport.month" value="${topMonth.month }">
+									<input type="hidden" id="from_hid" name="frontCompanyReport.from" value="${frontCompanyReport.from }">
 									<div class="form-body">
 										<div class="form-group col-md-6">
 											<label>公司名称</label>

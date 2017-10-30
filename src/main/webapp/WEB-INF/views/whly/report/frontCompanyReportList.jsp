@@ -226,10 +226,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="form-group col-md-4">
 								<button class="btn green col-md-3" id="query" type="submit"
 									style="margin-left: 15px;">检索</button>
-								<shiro:hasPermission name="report:frontCompanyReport:examine">
 									<div class="col-md-1"></div>
 									<button class="btn green col-md-3" type="button" id="export">导出</button>
-								</shiro:hasPermission>	
 								<div class="col-md-1"></div>
 								<button class="btn green col-md-3" id="reset" type="button">重置</button>
 							</div>
@@ -276,9 +274,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<td>
 												<%-- 	<shiro:hasPermission name="report:frontCompanyReport:edit">
 													</shiro:hasPermission> --%>
-														<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}&frontCompanyReport.from=sh">查看</a>
-														<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/taskmange/examine/form?menuId=${menuId }&id=${frontCompanyReport.id}&companyName=${frontCompanyReport.companyName}&frontCompanyReport.from=sh">审核</a>
-														<a style="color:#337ab7;" target="_blank" href="${whlyPath}/report/frontCompanyReport/history?menuId=${menuId }&id=${frontCompanyReport.id}&frontCompanyReport.from=sh">历史</a>
+														<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}&from=sh">查看</a>
+														<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/taskmange/examine/form?menuId=${menuId }&id=${frontCompanyReport.id}&companyName=${frontCompanyReport.companyName}&from=sh">审核</a>
+														<a style="color:#337ab7;" target="_blank" href="${whlyPath}/report/frontCompanyReport/history?menuId=${menuId }&id=${frontCompanyReport.id}&from=sh">历史</a>
 												<%-- 	<shiro:hasPermission name="report:frontCompanyReport:history">
 													</shiro:hasPermission> --%>
 												</td> 

@@ -182,8 +182,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<c:forEach items="${page.list}" var="frontCompanyReport">
 											<tr class="gradeX odd" role="row">
 												<td>
-													<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}&frontCompanyReport.from=view">查看</a>
-													<a style="color:#337ab7;" target="_blank" href="${whlyPath}/report/frontCompanyReport/history?menuId=${menuId }&id=${frontCompanyReport.id}&frontCompanyReport.from=view">历史</a>
+													<a style="color:#337ab7;" target="_blank"  href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}&from=view">查看</a>
+													<a style="color:#337ab7;" target="_blank" href="${whlyPath}/report/frontCompanyReport/history?menuId=${menuId }&id=${frontCompanyReport.id}&from=view">历史</a>
 												</td> 
 												<td>${frontCompanyReport.statusName}</td>
 												<td>${frontCompanyReport.year}</td>
