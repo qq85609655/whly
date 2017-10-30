@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hailian.whly.commom.CheckStatus;
 import com.hailian.whly.report.dao.FrontCompanyReportDao;
 import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.report.entity.FrontReportHistory;
@@ -165,6 +166,12 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				Date time = sdf.parse(sdf.format(new Date()));
 				User user = UserUtils.getUser();   //获取登录用户信息
 				//修改上报信息
+				if(frontCompanyReport.getStatus().equals("通过")) {
+					frontCompanyReport.setStatus("PASSED");
+				} else if(frontCompanyReport.getStatus().equals("驳回")) {
+					frontCompanyReport.setStatus("UNPASSED");
+				}
+				frontCompanyReport.setUpdateTime(time);
 				dao.updateReport(frontCompanyReport);
 				List<FrontReportQuestion> list = dao.findQuestion(frontCompanyReport.getId());
 				List<String> reportId = new ArrayList<String>();
