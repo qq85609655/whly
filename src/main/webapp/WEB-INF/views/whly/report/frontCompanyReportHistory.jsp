@@ -149,7 +149,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<tbody>
 										<c:forEach items="${page}" var="frontCompanyReportHistory">
 											<tr class="gradeX odd" role="row">
-												<td>${frontCompanyReportHistory.status}</td>
+											<c:choose>
+												<c:when test="${frontCompanyReportHistory.status=='SUBMIT'}">
+													<td>已提交</td>
+												</c:when>
+												<c:when test="${frontCompanyReportHistory.status=='PASSED'}">
+													<td>已审核</td>
+												</c:when>
+												<c:otherwise>   
+												   <td>未通过</td>
+												</c:otherwise> 
+											</c:choose>
 												<td>${frontCompanyReportHistory.operator}</td>
 												<td>${frontCompanyReportHistory.updateTime}</td>
 												<td>${frontCompanyReportHistory.totalIncome}</td>
