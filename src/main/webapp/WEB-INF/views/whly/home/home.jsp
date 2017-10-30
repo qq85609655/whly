@@ -143,6 +143,76 @@
 	   <script>
 	   var myChart2 = echarts.init(document.getElementById("echarts_line"));
        var myChartPie = echarts.init(document.getElementById("echarts_pie"));
+       var option = {
+   		    title : {
+   		        text: '行业分类分析',
+   		        x:'center'
+   		    },
+   		    tooltip : {
+   		        trigger: 'item',
+   		        formatter: "{a} <br/>{b} : {c} ({d}%)"
+   		    },
+   		    legend: {
+   		        orient : 'vertical',
+   		        x : 'left',
+   		        data:["信息传输、软件和信息技术服务业","房地产业","租赁和商务服务业","科学研究和技术服务业",
+   		              "居民服务、修理和其他服务业",
+   		              "教育","文化体育和娱乐业","批发","零售","住宿和餐饮业","交通运输、仓储和邮政业","批发零售","房地产业（物业管理）","商务服务业",
+   		              "物业管理","信息技术服务业","交通运输","修理服务业"]
+   		    },
+   		    toolbox: {
+   		        show : true,
+   		        feature : {
+   		            mark : {show: true},
+   		            dataView : {show: true, readOnly: false},
+   		            magicType : {
+   		                show: true, 
+   		                type: ['pie', 'funnel'],
+   		                option: {
+   		                    funnel: {
+   		                        x: '25%',
+   		                        width: '50%',
+   		                        funnelAlign: 'left',
+   		                        max: 1548
+   		                    }
+   		                }
+   		            },
+   		            saveAsImage : {show: true}
+   		        }
+   		    },
+   		    calculable : true,
+   		    series : [
+   		        {
+   		            name:'行业分类分析',
+   		            type:'pie',
+   		            radius : '55%',
+   		            center: ['50%', '60%'],
+   		            data:[{value:125, name:"信息传输、软件和信息技术服务业"},
+   		                  {value:215, name:"房地产业"},
+   		               	  {value:88, name:"租赁和商务服务业"},
+   		                  {value:313, name:"科学研究和技术服务业"},
+		               	  {value:55, name:"居民服务、修理和其他服务业"},
+		               	  {value:78, name:"教育"},
+  		               	  {value:432, name:"文化体育和娱乐业"},
+  		                  {value:123, name:"批发"},
+		               	  {value:255, name:"零售"},
+		               	  {value:69, name:"住宿和餐饮业"},
+  		                  {value:356, name:"交通运输、仓储和邮政业"},
+		               	  {value:35, name:"批发零售"},
+		               	  {value:99, name:"房地产业（物业管理）"},
+  		                  {value:365, name:"商务服务业"},
+		               	  {value:66, name:"物业管理"},
+		               	  
+		               	 {value:45, name:"信息技术服务业"},
+		               	  {value:199, name:"交通运输"},
+ 		                  {value:21, name:"修理服务业"}
+		               	
+   		            ]
+   		        }
+   		    ]
+   		};
+   		                    
+      myChartPie.setOption(option);
 	   $(function(){
 		    getStatisticsCountByStatus(null,null);
 		    getBottomData(null);
@@ -150,7 +220,7 @@
 	   //下方折现 pie图数据
 	   function getBottomData(status){
 		   getStatisticsReportByDate(status);
-		   getStatisticsCountByType(status);
+		  // getStatisticsCountByType(status);
 	   }
 	   //按照状态、时间统计数量
 	   function getStatisticsCountByStatus(startDate,endDate){
@@ -255,7 +325,7 @@
 						});
 						  myChart2.setOption({
 					           title: {
-					               text: '数量/家'
+					               text: '数量/条'
 					           },
 					           tooltip: {
 					               trigger: 'axis'
@@ -287,7 +357,7 @@
 					           yAxis: [{
 					               type: 'value',
 					               axisLabel: {
-					                   formatter: '{value} 家'
+					                   formatter: '{value} 条'
 					               }
 					           }],
 					           series: [{

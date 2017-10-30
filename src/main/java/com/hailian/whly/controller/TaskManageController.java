@@ -1,5 +1,7 @@
 package com.hailian.whly.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,9 +70,15 @@ public class TaskManageController extends BaseController {
 	 * @param  @return
 	 * @return_type   String
 	 */
-	@RequiresPermissions("report:frontCompanyReport:examine")
+	//@RequiresPermissions("report:frontCompanyReport:examine")
 	@RequestMapping({"/examine/form"})
 	public String examineForm(FrontCompanyReport frontCompanyReport, Model model, HttpServletRequest request, HttpServletResponse response){
+		
+		try {
+			frontCompanyReport.setCompanyName(URLDecoder.decode((new String(frontCompanyReport.getCompanyName().getBytes("UTF-8"), "UTF-8")), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		if(UserUtils.getUser()==null){
 			return "redirect:" + whlyPath + "/login";
 		}

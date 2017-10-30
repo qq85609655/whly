@@ -42,9 +42,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			data : data,
 			url : '<%=basePath%>front/report/frontCompanyReport/update'
 		}).done(function(result, status, xhr) {
-               
+			window.location.href=whlyPath+"/report/frontCompanyReport/list?menuId=${menuId}";    
 		}).fail(function(xhr, status, error) {
-			window.location.href='<%=basePath%>front/report/frontCompanyReport/list?menuId=${menuId}';
+			window.location.href=whlyPath+"/report/frontCompanyReport/list?menuId=${menuId}";
 		});
 		
 		

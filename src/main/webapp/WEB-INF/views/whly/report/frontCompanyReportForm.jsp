@@ -26,7 +26,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
 	
     function returnBack() {
-        window.history.back();
+    	if($("#from_hid").val()=="sh"){
+    		window.location.href=whlyPath+"/report/frontCompanyReport/list?menuId=${menuId}";
+    	}else if($("#from_hid").val()=="view"){
+    		window.location.href=whlyPath+"/report/frontCompanyReport/viewlist?menuId=${menuId}";
+    	}
     }
 
 	function judgeInput() {
@@ -49,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 var question = result.data.question;
                	var divs = $('#remarks').find("div");
 				if(operator!=null && result.data.operator == operator && result.data.status == 'SUBMIT') {
-					$("#from").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=${menuId}');
+					$("#form_sample_2").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=${menuId}');
 					//$("#company").attr('value',result.data.companyName);
 					$("#totalIncome").attr('value',result.data.totalIncome);
 					$("#operatingCosts").attr('value',result.data.operatingCosts);
@@ -72,9 +76,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	} 
 	                }
 				} else {
-					$('#add').attr("style","display:none;");
+					/* $('#add').attr("style","display:none;");
 					$('#delete').attr("style","display:none;");
-					$('#submit').attr("style","display:none;");
+					$('#submit').attr("style","display:none;"); */
+					$('#add').remove();
+					$('#delete').remove();
+					$('#submit').remove();
 					//$("#company").attr('value',result.data.companyName).attr('readonly','true');
 					$("#totalIncome").attr('value',result.data.totalIncome).attr('readonly','true');
 					$("#operatingCosts").attr('value',result.data.operatingCosts).attr('readonly','true');
@@ -102,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 			});
 		} else {
-			$("#from").attr('action','<%=basePath%>front/report/frontCompanyReport/save?menuId=${menuId}');
+			$("#form_sample_2").attr('action','<%=basePath%>front/report/frontCompanyReport/save?menuId=${menuId}');
 			$("#return").attr("style","display:none;");
 			addRemarks();
 		}
@@ -193,9 +200,10 @@ $.ready(function() {
 								</div> -->
 							</div>
 							<div class="portlet-body ">
-								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}"   id="from" method="post">
+								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}"   id="form_sample_2" method="post">
 									<input type="hidden" name="frontCompanyReport.year" value="${topMonth.year }">
 									<input type="hidden" name="frontCompanyReport.month" value="${topMonth.month }">
+									<input type="hidden" id="from_hid" name="frontCompanyReport.from" value="${frontCompanyReport.from }">
 									<div class="form-body">
 										<div class="form-group col-md-6">
 											<label>公司名称</label>
@@ -212,7 +220,7 @@ $.ready(function() {
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input  class="form-control"
-													placeholder="请输入营业收入" required type="number" name="totalIncome" id="totalIncome">
+													placeholder="请输入营业收入" required type="number"  name="totalIncome" id="totalIncome">
 											</div>
 										</div>
 										
