@@ -212,7 +212,7 @@ $.ready(function() {
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input  class="form-control"
-													placeholder="请输入营业收入" required type="number" name="totalIncome" id="totalIncome">
+													placeholder="请输入营业收入" required type="number"  name="totalIncome" id="totalIncome">
 											</div>
 										</div>
 										
