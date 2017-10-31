@@ -57,7 +57,18 @@ public class FrontCompanyReportController extends BaseController {
 		}
 		return entity;
 	}
-	
+	/**
+	 * 
+	 * @time   2017年10月30日 下午5:51:48
+	 * @author zuoqb
+	 * @todo   审核列表
+	 * @param  @param frontCompanyReport
+	 * @param  @param request
+	 * @param  @param response
+	 * @param  @param model
+	 * @param  @return
+	 * @return_type   String
+	 */
 	/*@RequiresPermissions("report:frontCompanyReport:view")*/
 	@RequestMapping(value = {"list", ""})
 	public String list(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -66,7 +77,6 @@ public class FrontCompanyReportController extends BaseController {
 		model.addAttribute("front", frontCompanyReport);
 		Page<FrontCompanyReport> page = frontCompanyReportService.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);
 		model.addAttribute("page", page);
-		System.out.println(page.getList().size());
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
@@ -122,10 +132,10 @@ public class FrontCompanyReportController extends BaseController {
 		 Map<String, Object> topMonth=frontCompanyReportService.getTopReportMonth();
 		 frontCompanyReport.setYear(topMonth.get("year")+"");
 		 frontCompanyReport.setMonth(topMonth.get("month")+"");
-//		 if ((Integer.valueOf(frontCompanyReport.getYear()) >= year.intValue()) && (Integer.valueOf(frontCompanyReport.getMonth()) >= month.intValue())) {
-//			 addMessage(redirectAttributes, "对不起，该月月报还无法上报！");
-//			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/form";
-//		 }else{
+		 if ((Integer.valueOf(frontCompanyReport.getYear()) >= year.intValue()) && (Integer.valueOf(frontCompanyReport.getMonth()) >= month.intValue())) {
+			 addMessage(redirectAttributes, "对不起，该月月报还无法上报！");
+			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/form";
+		 }else{
 			 frontCompanyReportService.saveReport(frontCompanyReport);
 			 addMessage(model, "保存企业上报成功");
 			/* frontCompanyReport.setId("");
@@ -133,8 +143,8 @@ public class FrontCompanyReportController extends BaseController {
 				 frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
 			 }*/
 			 model.addAttribute("frontCompanyReport", frontCompanyReport);
-			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/list";
-		// }
+			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/viewlist";
+		 }
 		
 	}
 	
@@ -144,12 +154,12 @@ public class FrontCompanyReportController extends BaseController {
 		String from=frontCompanyReport.getFrom();
 		frontCompanyReportService.update(frontCompanyReport);
 		addMessage(redirectAttributes, "操作成功");
-	/*	frontCompanyReport.setId("");
-		if(UserUtils.getUser().getCompany()!=null) {
-			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
-		}*/
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
-		return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/list";
+		if("sh".equals(from)){
+			return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/list";
+		}else{
+			return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/viewlist";
+		}
 	}
 	
 	/*@RequiresPermissions("report:frontCompanyReport:edit")*/
@@ -203,17 +213,39 @@ public class FrontCompanyReportController extends BaseController {
 				temp.put("status", json.get("status"));
 				temp.put("insertTime", json.get("insertTime"));
 				temp.put("updateTime", json.get("updateTime"));
-				if(json.get("reason")==null||org.apache.commons.lang3.StringUtils.isBlank(json.get("reason")+"")
-						||"null".equals(json.get("reason")+"")){
+				try {
+					temp.put("statusName", json.get("status"));
+				} catch (Exception e) {
+					temp.put("statusName", "");
+				}
+				try{
+					if(json.get("reason")==null||org.apache.commons.lang3.StringUtils.isBlank(json.get("reason")+"")
+							||"null".equals(json.get("reason")+"")){
+						temp.put("reason", "");
+					}else{
+						temp.put("reason", json.get("reason"));
+					}
+				}catch(Exception e){
 					temp.put("reason", "");
-				}else{
-					temp.put("reason", json.get("reason"));
+				}
+				temp.put("operator", json.get("operator"));
+				try{
+					JSONObject area = new JSONObject(json.get("area"));
+					temp.put("area",area.get("name"));
+				}catch(Exception e){
+					temp.put("area", "");
+				}
+				try{
+					temp.put("type", json.get("type"));
+				}catch(Exception e){
+					temp.put("type", "");
+				}
+				try{
+					temp.put("flag", json.get("flag"));
+				}catch(Exception e){
+					temp.put("flag", "");
 				}
 				
-				temp.put("operator", json.get("operator"));
-				temp.put("area", json.get("area"));
-				temp.put("type", json.get("type"));
-				temp.put("flag", json.get("flag"));
 				try{
 					temp.put("operatingCosts", json.get("operatingCosts"));
 				}catch(Exception e){
@@ -242,6 +274,18 @@ public class FrontCompanyReportController extends BaseController {
 		}
 		return Global.getWhlyPage()+"/report/frontCompanyReportHistory";
 	}
+	/**
+	 * 
+	 * @time   2017年10月30日 下午5:51:27
+	 * @author zuoqb
+	 * @todo   查看列表
+	 * @param  @param frontCompanyReport
+	 * @param  @param request
+	 * @param  @param response
+	 * @param  @param model
+	 * @param  @return
+	 * @return_type   String
+	 */
 	@RequestMapping(value = {"viewlist", ""})
 	public String viewlist(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response, Model model) {
 	try {

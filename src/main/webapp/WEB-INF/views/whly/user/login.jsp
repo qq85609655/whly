@@ -31,13 +31,99 @@
         <!-- BEGIN PAGE LEVEL STYLES -->
         <link href="/static/${whlyPage}/assets/pages/css/login.min.css" rel="stylesheet" type="text/css" />
         <!-- END PAGE LEVEL STYLES -->
+
+
+        <style>
+            html{overflow: hidden}
+            .login {
+                background:url("/static/${whlyPage}/assets/global/img/login/loginBg.jpg") no-repeat 100% 100%!important;
+                background-size: 100% 100%!important;
+                overflow: hidden;
+            }
+            .login .content {
+                background:rgba(0,0,0,0);
+                /* margin-top:0; */
+                margin-top:200px;
+            }
+            #loginForm {
+                width:350px;
+                height:200px;
+                /* background:#dd0; */
+                /* margin-top:230px; */
+                margin-top:40px; 
+                margin-left:10px;
+            }
+            .control-label,.input-label {
+                display:inline-block;
+                color:#fff;
+                width:60px;
+                text-align: left;
+                padding-left:8px;
+            }
+           .login .content .form-control {
+                display: inline-block;
+                width:175px;
+                height:26px;
+                background:linear-gradient(to bottom,#ccc,#fff);
+            }
+            .login .content .form-signin .form-group {
+                margin-bottom:10px;
+            }
+            .login .content .form-signin .form-group2 {
+                margin-bottom:0;
+            }
+            .login .content .form-actions{
+                height: 66px;
+                padding:5px 30px;
+                border: 0;
+            }
+            .login .content .form-actions #rememberMe {
+                margin-left:8px;
+                margin-top:8px;
+                float:left;
+            }
+            .login .content .form-actions .rememberMe {
+                float:left;
+            }
+            .login .content .form-actions .btn {
+                margin-top:20px;
+                margin-left:60px;
+                background:url("/static/${whlyPage}/assets/global/img/login/loginBtn.png") no-repeat 100% 100%;
+                background-size: 100% 100%;
+                padding:5px 15px!important;
+                float:left;
+                border: 0;
+                outline: none;
+            }
+            .login .content .check {
+                color:#fff;
+                font-size: 12px;
+                float:left;
+                margin-top:5px;
+                margin-left:5px;
+            }
+
+            .alert {
+                padding:0 10px;
+                /* margin-top:-34px; */
+                margin-top:-45px;
+                margin-bottom:4px;
+            }
+            .validateCode {
+                margin-top:8px;
+            }
+            .validateCode .mid {
+                margin-top:0!important;
+                color:#fff!important;
+            }
+        </style>
         <!-- BEGIN THEME LAYOUT STYLES -->
         <!-- END THEME LAYOUT STYLES -->
-        <link rel="shortcut icon" href="favicon.ico" /> </head>
    		<script src="/static/${whlyPage}/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
-    <!-- END HEAD -->
+           <!-- END HEAD -->
 	<script>
 	$(document).ready(function() {
+    
 		$("#loginForm").validate({
 			rules: {
 				validateCode: {remote: "${pageContext.request.contextPath}/servlet/validateCodeServlet"}
@@ -49,149 +135,66 @@
 			errorLabelContainer: "#messageBox",
 			errorPlacement: function(error, element) {
 				error.appendTo($("#loginError").parent());
-			} 
+            },
+           
 		});
 	});
 	// 如果在框架或在对话框中，则弹出提示并跳转到首页
 	if(self.frameElement && self.frameElement.tagName == "IFRAME" || $('#left').length > 0 || $('.jbox').length > 0){
 		alert('未登录或登录超时。请重新登录，谢谢！');
 		top.location = "${whlyPath}/home";
-	}
+    }
+    
+    
 	</script>
 
-    <body class=" login">
+    <body class="login">
         <!-- BEGIN LOGO -->
-        <div class="logo">
+        <!-- <div class="logo">
             <a href="index.html">
                 <img src="${fnc:getSite(1).logo}" alt="" /> </a>
-        </div>
+        </div> -->
         <!-- END LOGO -->
         <!-- BEGIN LOGIN -->
         <div class="content">
             <!-- BEGIN LOGIN FORM -->
             <form id="loginForm" class="form-signin" action="${whlyPath}/login" method="post">
-                <h3 class="form-title font-green">${fnc:getSite(1).name}</h3>
+                <!-- <h3 class="form-title font-green">${fnc:getSite(1).name}</h3> -->
                 <div  id="messageBox" class="alert alert-danger ${empty message ? 'display-hide' : ''}">
                     <button class="close" data-close="alert" class="close">×</button>
                     <span id="loginError">${message}</span>
                 </div>
                 <div class="form-group">
                     <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                    <label class="control-label visible-ie8 visible-ie9">登录名</label>
-                    <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="登录名" id="username"  value="${username}" name="username" /> </div>
-                <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">密码</label>
-                    <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="密码" id="password" name="password" /> </div>
+                    <label class="control-label visible-ie8 visible-ie9">用户名:</label>
+                    <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="" id="username"  value="${username}" name="username" /> </div>
+                <div class="form-group form-group2">
+                    <label class="control-label visible-ie8 visible-ie9">密&nbsp;&nbsp;&nbsp;码:</label>
+                    <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="" id="password" name="password" /> </div>
                     
                     <c:if test="${isValidateCodeLogin}"><div class="validateCode">
-			<label class="input-label mid" for="validateCode">验证码</label>
+			<label class="input-label mid" for="validateCode">验证码:</label>
 			<sys:validateCode name="validateCode" inputCssStyle="margin-bottom:0;"/>
 		</div></c:if>
                 <div class="form-actions">
+                     
+                                <input type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''} title="下次不需要再登录" value="1" />
+                                <label class="rememberme check" for="rememberMe">记住密码</label>
                     <button type="submit" class="btn green uppercase">登 录</button>
-                    <label class="rememberme check">
-                        <input type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''} title="下次不需要再登录" value="1" />记住我（公共场所慎用） </label>
+                   
                   <!--   <a href="javascript:;" id="forget-password" class="forget-password">忘记密码?</a> -->
                 </div>
-                <!-- 第三方登陆 -->
-               <!--  <div class="login-options">
-                    <h4>Or login with</h4>
-                    <ul class="social-icons">
-                        <li>
-                            <a class="social-icon-color facebook" data-original-title="facebook" href="javascript:;"></a>
-                        </li>
-                        <li>
-                            <a class="social-icon-color twitter" data-original-title="Twitter" href="javascript:;"></a>
-                        </li>
-                        <li>
-                            <a class="social-icon-color googleplus" data-original-title="Goole Plus" href="javascript:;"></a>
-                        </li>
-                        <li>
-                            <a class="social-icon-color linkedin" data-original-title="Linkedin" href="javascript:;"></a>
-                        </li>
-                    </ul>
-                </div> -->
-             <!--    <div class="create-account">
-                    <p>
-                        <a href="javascript:;" id="register-btn" class="uppercase">创建账号</a>
-                    </p>
-                </div> -->
+              
             </form>
             <!-- END LOGIN FORM -->
-            <!-- BEGIN FORGOT PASSWORD FORM -->
-            <form class="forget-form" action="" method="post">
-                <h3 class="font-green">忘记密码 ?</h3>
-                <p> 输入注册邮箱重置密码. </p>
-                <div class="form-group">
-                    <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> </div>
-                <div class="form-actions">
-                    <button type="button" id="back-btn" class="btn btn-default">返回</button>
-                    <button type="submit" class="btn btn-success uppercase pull-right">提交</button>
-                </div>
-            </form>
-            <!-- END FORGOT PASSWORD FORM -->
-            <!-- BEGIN REGISTRATION FORM -->
-            <form class="register-form" action="index.html" method="post">
-                <h3 class="font-green">注册</h3>
-                <p class="hint">请填写一下个人信息: </p>
-                <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">姓名</label>
-                    <input class="form-control placeholder-no-fix" type="text" placeholder="姓名" name="fullname" /> </div>
-                <div class="form-group">
-                    <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-                    <label class="control-label visible-ie8 visible-ie9">邮箱</label>
-                    <input class="form-control placeholder-no-fix" type="text" placeholder="邮箱" name="email" /> </div>
-                <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">手机号</label>
-                    <input class="form-control placeholder-no-fix" type="text" placeholder="手机号" name="address" /> </div>
-               
-                <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">登录名</label>
-                    <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="登录名" name="username" /> </div>
-                <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">密码</label>
-                    <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="密码" name="password" /> </div>
-                <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">确认密码</label>
-                    <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="确认密码" name="rpassword" /> </div>
-                <div class="form-group margin-top-20 margin-bottom-20">
-                    <label class="check">
-                        <input type="checkbox" name="tnc" />我同意
-                        <a href="javascript:;">协议 </a>
-                    </label>
-                    <div id="register_tnc_error"> </div>
-                </div>
-                <div class="form-actions">
-                    <button type="button" id="register-back-btn" class="btn btn-default">返回</button>
-                    <button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">注册</button>
-                </div>
-            </form>
-            <!-- END REGISTRATION FORM -->
+            
         </div>
-        <div class="copyright"> ${fnc:getSite(1).copyright}</div>
+        <!-- <div class="copyright"> ${fnc:getSite(1).copyright}</div> -->
         <!-- BEGIN CORE PLUGINS -->
         <script src="/static/${whlyPage}/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
         <script src="/static/${whlyPage}/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="/static/${whlyPage}/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
-        <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
-        <script src="/static/${whlyPage}/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-        <script src="/static/${whlyPage}/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-        <script src="/static/${whlyPage}/assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
-        <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
-        <!-- END CORE PLUGINS -->
-        <!-- BEGIN PAGE LEVEL PLUGINS -->
         <script src="/static/${whlyPage}/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
         <script src="/static/${whlyPage}/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
-        <script src="/static/${whlyPage}/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
-        <!-- END PAGE LEVEL PLUGINS -->
-        <!-- BEGIN THEME GLOBAL SCRIPTS -->
-        <script src="/static/${whlyPage}/assets/global/scripts/app.min.js" type="text/javascript"></script>
-        <!-- END THEME GLOBAL SCRIPTS -->
-        <!-- BEGIN PAGE LEVEL SCRIPTS -->
-        <script src="/static/${whlyPage}/assets/pages/scripts/login.min.js" type="text/javascript"></script>
-        <!-- END PAGE LEVEL SCRIPTS -->
-        <!-- BEGIN THEME LAYOUT SCRIPTS -->
-        <!-- END THEME LAYOUT SCRIPTS -->
     </body>
 <script>
 $(function(){

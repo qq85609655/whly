@@ -65,6 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					$("#loanAmount").attr('value',result.data.loanAmount);
 	                $("#empQuantity").attr('value',result.data.empQuantity);
 	                $("#orderQuantity").attr('value',result.data.orderQuantity);
+	                $('#submit').css("display","block");
 	                if(question) {
 	                	 for(var i=0; i<question.length; i++) {
 	 	                	if(question[i]!=null && question[i]!="" && question[i]) {
@@ -117,6 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		} else {
 			$("#form_sample_2").attr('action','<%=basePath%>front/report/frontCompanyReport/save?menuId=${menuId}');
 			$("#return").attr("style","display:none;");
+			$("#submit").attr("style","display:block;");
 			addRemarks();
 		}
 	}
@@ -291,9 +293,9 @@ $.ready(function() {
 										</div>
 										<div class="form-group col-md-6">
 											<br> 
-											<button type="button" class="btn default pull-right"
+											<button type="button" class="btn blue pull-right"
 												id="return">返回</button>
-											<button type="submit"  class="btn blue pull-right" id="submit">提交</button>
+											<button type="submit"  class="btn blue pull-right" style="margin-right: 0.3em;display:none" id="submit">提交</button>
 										</div>
 										<input type="hidden" value="${frontCompanyReport.id}"
 											id="reportId">
