@@ -160,7 +160,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	@Transactional(readOnly = false)
 	public void update(FrontCompanyReport frontCompanyReport) {
 		try {
-			if(frontCompanyReport.getId()!=null && frontCompanyReport.getId().trim()!=null && UserUtils.getUser()!=null) {
+ 			if(frontCompanyReport.getId()!=null && frontCompanyReport.getId().trim()!=null && UserUtils.getUser()!=null) {
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date time = sdf.parse(sdf.format(new Date()));
 				User user = UserUtils.getUser();   //获取登录用户信息
@@ -201,6 +201,9 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 							}
 						}
 					}
+				}
+				if(frontCompanyReport.getQuestion()==null) {
+					reportId = null;
 				}
 				
 				//删除用户已经删除的问题
