@@ -51,9 +51,6 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		FrontCompanyReport frontCompanyReport = dao.get(id);
 		List<FrontReportQuestion> list = dao.findQuestion(id);
 		frontCompanyReport.setQuestion(list);
-		if(UserUtils.getUser().getCompany()!=null) {
-			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
-		}
 		return frontCompanyReport;
 	}
 	
@@ -165,11 +162,15 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date time = sdf.parse(sdf.format(new Date()));
 				User user = UserUtils.getUser();   //获取登录用户信息
+				String status = null;
 				//修改上报信息
-				if(frontCompanyReport.getStatus().equals("通过")) {
-					frontCompanyReport.setStatus("PASSED");
-				} else if(frontCompanyReport.getStatus().equals("驳回")) {
-					frontCompanyReport.setStatus("UNPASSED");
+				if(frontCompanyReport.getStatus()!=null && frontCompanyReport.getStatus().trim()!="" ) {
+					status = frontCompanyReport.getStatus();
+					if(frontCompanyReport.getStatus().equals("通过")) {
+						frontCompanyReport.setStatus("PASSED");
+					} else if(frontCompanyReport.getStatus().equals("驳回")) {
+						frontCompanyReport.setStatus("UNPASSED");
+					}
 				}
 				frontCompanyReport.setUpdateTime(time);
 				dao.updateReport(frontCompanyReport);
@@ -206,6 +207,9 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 					for(String id: reportId) {
 						if(!question.getId().equals(id)) {
 							onOff = true;
+						} else {
+							onOff = false;
+							break;
 						}
 					}
 					if(onOff) {
@@ -213,17 +217,24 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 						dao.updateQuestion(question);
 					}
 				}
+				
+				//添加日志
 				FrontReportHistory history = new FrontReportHistory();
-				String desciption = JsonMapper.toJsonString(frontCompanyReport);
 				history.setId(UUID.randomUUID().toString());
-				history.setDescription(desciption);
 				history.setReportId(frontCompanyReport.getId());
 				history.setOperateTime(time);
-				if(frontCompanyReport.getStatus()!=null && frontCompanyReport.getStatus().trim()!="") {
-					history.setOperation(frontCompanyReport.getStatus());
+				if(status!=null && status.trim()!="") {
+					//查询该企业的上报信息保存到日志里面
+					
+					history.setOperation(status);
 				} else {
 					history.setOperation("更新");
 				}
+				FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
+				List<FrontReportQuestion> question = dao.findQuestion(frontCompanyReport.getId());
+				frontCompanyReport2.setQuestion(question);
+				String desciption = JsonMapper.toJsonString(frontCompanyReport2);
+				history.setDescription(desciption); //上报信息
 				history.setOperator(user.getName());
 				history.setCreateDate(time);
 				history.setUpdateDate(time);
