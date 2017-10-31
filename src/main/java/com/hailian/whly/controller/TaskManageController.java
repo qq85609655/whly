@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.report.entity.FrontReportHistory;
+import com.hailian.whly.report.service.FrontCompanyReportService;
 import com.hailian.whly.report.utils.ResultJson;
 import com.hailian.whly.service.WhlyAccountService;
 import com.thinkgem.jeesite.common.config.Global;
@@ -35,7 +36,8 @@ public class TaskManageController extends BaseController {
 	
 	@Autowired
 	WhlyAccountService whlyAccountService;
-	
+	@Autowired
+	private FrontCompanyReportService frontCompanyReportService;
 	/**
 	 * 
 	 * @time   2017年10月1日 下午8:43:04
@@ -74,11 +76,12 @@ public class TaskManageController extends BaseController {
 	@RequestMapping({"/examine/form"})
 	public String examineForm(FrontCompanyReport frontCompanyReport, Model model, HttpServletRequest request, HttpServletResponse response){
 		
-		try {
+		/*try {
 			frontCompanyReport.setCompanyName(URLDecoder.decode((new String(frontCompanyReport.getCompanyName().getBytes("UTF-8"), "UTF-8")), "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-		}
+		}*/
+		frontCompanyReport=frontCompanyReportService.get(frontCompanyReport.getId());
 		if(UserUtils.getUser()==null){
 			return "redirect:" + whlyPath + "/login";
 		}

@@ -116,7 +116,7 @@ public class WhlyLoginController extends BaseController {
 		if (mobile){
 	        return renderString(response, model);
 		}
-		
+		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
 		return whlyPage+"/user/login2";
 	}
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -135,6 +135,7 @@ public class WhlyLoginController extends BaseController {
 		if(principal != null && !principal.isMobileLogin()){
 			return "redirect:" + whlyPath+"/home";
 		}
+		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
 		return whlyPage+"/user/login";
 	}
 	/**
@@ -179,12 +180,11 @@ public class WhlyLoginController extends BaseController {
 		
 		// 验证失败清空验证码
 		request.getSession().setAttribute(ValidateCodeServlet.VALIDATE_CODE, IdGen.uuid());
-		
 		// 如果是手机登录，则返回JSON字符串
 		if (mobile){
 	        return renderString(response, model);
 		}
-		
+		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
 		return whlyPage+"/user/login";
 	}
 
@@ -271,6 +271,7 @@ public class WhlyLoginController extends BaseController {
 	@RequestMapping(value = "/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response, Model model) {
 		UserUtils.getSubject().logout();
+		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
 		return "redirect:" + whlyPath+"/login";
 	}
 }

@@ -40,7 +40,7 @@ public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 			ModelAndView modelAndView) throws Exception {
 		//排除ajax之外  处理请求
 		//if(!request.getRequestURI().startsWith(Global.getWhlyPath()+"/ajax")){
-		if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))){
+		if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/login")){
 			String menuId=request.getParameter("menuId");
 			//处理菜单
 			Map<String,Object> model=modelAndView.getModel();

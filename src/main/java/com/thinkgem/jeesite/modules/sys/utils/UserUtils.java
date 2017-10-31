@@ -176,6 +176,12 @@ public class UserUtils {
 					m.setFrontRootMenuId(Global.getFrontRootMenu());
 					m.setFrontRootRoleId(Global.getFrontRootRole());
 					menuList = menuDao.findByUserId(m);
+					List<Menu> defaultMenuList = menuDao.findDefaultMenu(m);
+					if(menuList==null||menuList.size()==0){
+						menuList=defaultMenuList;
+					}else{
+						menuList.addAll(defaultMenuList);
+					}
 				}
 			}else{
 				//未登录 获取默认角色对应菜单
