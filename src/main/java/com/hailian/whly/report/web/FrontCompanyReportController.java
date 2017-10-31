@@ -102,6 +102,7 @@ public class FrontCompanyReportController extends BaseController {
 		}
 		frontCompanyReport.setFrom(from);
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
+		model.addAttribute("companyName", UserUtils.getUser().getName());
 		model.addAttribute("topMonth", topMonth);
 		return Global.getWhlyPage()+"/report/frontCompanyReportForm";
 	}
@@ -268,8 +269,8 @@ public class FrontCompanyReportController extends BaseController {
 				list.add(temp);
 			}
 			model.addAttribute("page", list);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception e) { 
+			e.printStackTrace(); 
 		}
 		return Global.getWhlyPage()+"/report/frontCompanyReportHistory";
 	}

@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			window.location.href=whlyPath+"/report/frontCompanyReport/list?menuId=${menuId}";    
 		}).fail(function(xhr, status, error) {
 			window.location.href=whlyPath+"/report/frontCompanyReport/list?menuId=${menuId}";
-		});
+		}); 
 		
 		
 	}
@@ -71,7 +71,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(redirectAttributes) {
 			alert(redirectAttributes);
 		}
-		var companyName = $('#companyName').attr('value');
 		var date = new Date();
 		var year = date.getFullYear();
 		var month = date.getMonth() + 1;
@@ -87,16 +86,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			dataType : 'json'
 		}).done(function(result, status, xhr) {
 			var data = result.data;
+			console.info('data',data);
 			var thisMonth = null; //本年本月的上报信息
 			var lastMonth = null; //本年上月的上报信息
 			var lastYear = null;  //上年本月的上报信息
+			var now = 0;
 			if(data!=null && data!="") {
+				for (var k=0; k < data.length; k++) {
+					if(data[k].id == '本年本月') {
+						thisMonth = data[k].frontCompanyReport;
+						now = k;
+					}
+					if(data[k].id == '本年上月') {
+						lastMonth = data[k].frontCompanyReport;
+					}
+					if(data[k].id == '上年本月') {
+						lastYear = data[k].frontCompanyReport;
+					}
+				}
 				var i = 0;
-				var now = i;
-				console.log(data)
 				for (; i < data.length; i++) {
 					if(data[i].id!='本年本月' && data[i].id!='上年本月' && data[i].id!='本年上月' ) {
-						var li = menuLi.replace('[start]',i+1).replace('[max]',data.length-1).replace('[href]','#tab'+(i+1)).replace('[number]',i+1).replace('[name]',data[i].operation);
+						var li = menuLi.replace('[start]',i+1).replace('[max]',now+1).replace('[href]','#tab'+(i+1)).replace('[number]',i+1).replace('[name]',data[i].operation);
 						if(i==0) {
 							li = li.replace('[class]','active');
 						}
@@ -106,12 +117,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						if(data[i].frontCompanyReport) {
 							var question = data[i].frontCompanyReport.question;
 							var remarksDiv = "";
-							for (var j = 0; j < question.length; j++) {
-								remarksDiv = remarksDiv + remarks.replace('[number]', j+1).replace('[value]', question[j].title).replace('[textarea]',question[j].content);
-								
+							if(question!=null && question!="") {
+								for (var j = 0; j < question.length; j++) {
+									remarksDiv = remarksDiv + remarks.replace('[number]', j+1).replace('[value]', question[j].title).replace('[textarea]',question[j].content);
+									
+								}
 							}
 							var report = data[i].frontCompanyReport;
-							var mainDiv = fromDiv.replace('[id]', 'tab'+(i+1)).replace('[time]', time).replace('[question]', remarksDiv).replace('[公司名称]',companyName);
+							var mainDiv = fromDiv.replace('[id]', 'tab'+(i+1)).replace('[time]', time).replace('[question]', remarksDiv).replace('[公司名称]',report.companyName);
 							mainDiv = mainDiv.replace('[营业收入]', report.totalIncome).replace('[营业成本]', report.operatingCosts).replace('[营业利润]',report.totalProfit).replace('[企业税费]',report.totalTax).replace('[应付职工薪酬]',report.employeeCompensation).replace('[贷款金额]',report.loanAmount).replace('[从业人数]',report.empQuantity).replace('[订单数量]',report.orderQuantity);
 							if(i==0) {
 								mainDiv = mainDiv.replace('[class]','active');
@@ -119,38 +132,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							$('#tab').append(mainDiv);
 						}
 					}
+					if(data[i].operation == "通过" || data[i].operation == "驳回") {
+						thisMonth = data[i].frontCompanyReport;
+						var totalIncome = statementBody.replace('[name]','营业收入').replace('[value]', thisMonth.totalIncome).replace('[year]',(lastMonth && lastMonth.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastMonth.totalIncome) : '100%').replace('[lastYear]',(lastYear && lastYear.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastYear.totalIncome) : '100%');
+						var operatingCosts = statementBody.replace('[name]','营业成本').replace('[value]', thisMonth.operatingCosts).replace('[year]',(lastMonth && lastMonth.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastMonth.operatingCosts) : '100%').replace('[lastYear]',(lastYear && lastYear.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastYear.operatingCosts) : '100%');
+						var totalProfit = statementBody.replace('[name]','营业利润').replace('[value]', thisMonth.totalProfit).replace('[year]',(lastMonth && lastMonth.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastMonth.totalProfit) : '100%').replace('[lastYear]',(lastYear && lastYear.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastYear.totalProfit) : '100%');
+						var totalTax = statementBody.replace('[name]','企业税费').replace('[value]', thisMonth.totalTax).replace('[year]',(lastMonth && lastMonth.totalTax) ? yearOnYear(thisMonth.totalTax, lastMonth.totalTax) : '100%').replace('[lastYear]',(lastYear && lastYear.totalTax) ? yearOnYear(thisMonth.totalTax, lastYear.totalTax) : '100%');
+						var employeeCompensation = statementBody.replace('[name]','应付职工薪酬').replace('[value]', thisMonth.employeeCompensation).replace('[year]',(lastMonth && lastMonth.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastMonth.employeeCompensation) : '100%').replace('[lastYear]',(lastYear && lastYear.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastYear.employeeCompensation) : '100%');
+						var loanAmount = statementBody.replace('[name]','贷款金额').replace('[value]', thisMonth.loanAmount).replace('[year]',(lastMonth && lastMonth.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastMonth.loanAmount) : '100%').replace('[lastYear]',(lastYear && lastYear.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastYear.loanAmount) : '100%');
+						var empQuantity = statementBody.replace('[name]','从业人数').replace('[value]', thisMonth.empQuantity).replace('[year]',(lastMonth && lastMonth.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastMonth.empQuantity) : '100%').replace('[lastYear]',(lastYear && lastYear.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastYear.empQuantity) : '100%');
+						var orderQuantity = statementBody.replace('[name]','订单数量').replace('[value]', thisMonth.orderQuantity).replace('[year]',(lastMonth && lastMonth.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastMonth.orderQuantity) : '100%').replace('[lastYear]',(lastYear && lastYear.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastYear.orderQuantity) : '100%');
+						var tboby = totalIncome + operatingCosts + totalProfit + totalTax + employeeCompensation + loanAmount + empQuantity + orderQuantity ;
+						
+						var statement1 = statement.replace('[time]', time).replace('[tbody]', tboby).replace('[id]', 'tab'+(i+1)).replace('[readonly]', "readonly").replace('[buttonStyle1]', "display:none;").replace('[buttonStyle2]', "display:none;").replace('[textarea]', thisMonth.reason?thisMonth.reason:'');
+						if(i+1 == 1) {
+							li1 = li1.replace('[class]','active');
+							statement1 = statement1.replace('[class]','active');
+						}
+						$('#menu').append(li1);
+						$('#tab').append(statement1);
+						updateStepNumber(1, i+1);
+					}
 					if(data[i].id == '本年本月') {
 						thisMonth = data[i].frontCompanyReport;
-						now = i;
 					}
-					if(data[i].id == '本年上月') {
-						lastMonth = data[i].frontCompanyReport;
-					}
-					if(data[i].id == '上年本月') {
-						lastYear = data[i].frontCompanyReport;
-					}
+					
 				}
-				
-				var li1 = menuLi.replace('[start]',now+1).replace('[max]',data.length-1).replace('[href]','#tab'+(now+1)).replace('[number]',now+1).replace('[name]', "审核");
-				
-				var totalIncome = statementBody.replace('[name]','营业收入').replace('[value]', thisMonth.totalIncome).replace('[year]',(lastMonth && lastMonth.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastMonth.totalIncome) : '100%').replace('[lastYear]',(lastYear && lastYear.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastYear.totalIncome) : '100%');
-				var operatingCosts = statementBody.replace('[name]','营业成本').replace('[value]', thisMonth.operatingCosts).replace('[year]',(lastMonth && lastMonth.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastMonth.operatingCosts) : '100%').replace('[lastYear]',(lastYear && lastYear.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastYear.operatingCosts) : '100%');
-				var totalProfit = statementBody.replace('[name]','营业利润').replace('[value]', thisMonth.totalProfit).replace('[year]',(lastMonth && lastMonth.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastMonth.totalProfit) : '100%').replace('[lastYear]',(lastYear && lastYear.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastYear.totalProfit) : '100%');
-				var totalTax = statementBody.replace('[name]','企业税费').replace('[value]', thisMonth.totalTax).replace('[year]',(lastMonth && lastMonth.totalTax) ? yearOnYear(thisMonth.totalTax, lastMonth.totalTax) : '100%').replace('[lastYear]',(lastYear && lastYear.totalTax) ? yearOnYear(thisMonth.totalTax, lastYear.totalTax) : '100%');
-				var employeeCompensation = statementBody.replace('[name]','应付职工薪酬').replace('[value]', thisMonth.employeeCompensation).replace('[year]',(lastMonth && lastMonth.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastMonth.employeeCompensation) : '100%').replace('[lastYear]',(lastYear && lastYear.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastYear.employeeCompensation) : '100%');
-				var loanAmount = statementBody.replace('[name]','贷款金额').replace('[value]', thisMonth.loanAmount).replace('[year]',(lastMonth && lastMonth.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastMonth.loanAmount) : '100%').replace('[lastYear]',(lastYear && lastYear.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastYear.loanAmount) : '100%');
-				var empQuantity = statementBody.replace('[name]','从业人数').replace('[value]', thisMonth.empQuantity).replace('[year]',(lastMonth && lastMonth.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastMonth.empQuantity) : '100%').replace('[lastYear]',(lastYear && lastYear.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastYear.empQuantity) : '100%');
-				var orderQuantity = statementBody.replace('[name]','订单数量').replace('[value]', thisMonth.orderQuantity).replace('[year]',(lastMonth && lastMonth.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastMonth.orderQuantity) : '100%').replace('[lastYear]',(lastYear && lastYear.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastYear.orderQuantity) : '100%');
-				var tboby = totalIncome + operatingCosts + totalProfit + totalTax + employeeCompensation + loanAmount + empQuantity + orderQuantity ;
-				
-				var statement1 = statement.replace('[time]', time).replace('[tbody]', tboby).replace('[id]', 'tab'+(now+1));
-				if(now+1 == 1) {
-					li1 = li1.replace('[class]','active');
-					statement1 = statement1.replace('[class]','active');
+				if(thisMonth.status != "PASSED") {
+					var li1 = menuLi.replace('[start]',now+1).replace('[max]',now+1).replace('[href]','#tab'+(now+1)).replace('[number]',now+1).replace('[name]', "审核");
+					
+					var totalIncome = statementBody.replace('[name]','营业收入').replace('[value]', thisMonth.totalIncome).replace('[year]',(lastMonth && lastMonth.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastMonth.totalIncome) : '100%').replace('[lastYear]',(lastYear && lastYear.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastYear.totalIncome) : '100%');
+					var operatingCosts = statementBody.replace('[name]','营业成本').replace('[value]', thisMonth.operatingCosts).replace('[year]',(lastMonth && lastMonth.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastMonth.operatingCosts) : '100%').replace('[lastYear]',(lastYear && lastYear.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastYear.operatingCosts) : '100%');
+					var totalProfit = statementBody.replace('[name]','营业利润').replace('[value]', thisMonth.totalProfit).replace('[year]',(lastMonth && lastMonth.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastMonth.totalProfit) : '100%').replace('[lastYear]',(lastYear && lastYear.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastYear.totalProfit) : '100%');
+					var totalTax = statementBody.replace('[name]','企业税费').replace('[value]', thisMonth.totalTax).replace('[year]',(lastMonth && lastMonth.totalTax) ? yearOnYear(thisMonth.totalTax, lastMonth.totalTax) : '100%').replace('[lastYear]',(lastYear && lastYear.totalTax) ? yearOnYear(thisMonth.totalTax, lastYear.totalTax) : '100%');
+					var employeeCompensation = statementBody.replace('[name]','应付职工薪酬').replace('[value]', thisMonth.employeeCompensation).replace('[year]',(lastMonth && lastMonth.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastMonth.employeeCompensation) : '100%').replace('[lastYear]',(lastYear && lastYear.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastYear.employeeCompensation) : '100%');
+					var loanAmount = statementBody.replace('[name]','贷款金额').replace('[value]', thisMonth.loanAmount).replace('[year]',(lastMonth && lastMonth.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastMonth.loanAmount) : '100%').replace('[lastYear]',(lastYear && lastYear.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastYear.loanAmount) : '100%');
+					var empQuantity = statementBody.replace('[name]','从业人数').replace('[value]', thisMonth.empQuantity).replace('[year]',(lastMonth && lastMonth.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastMonth.empQuantity) : '100%').replace('[lastYear]',(lastYear && lastYear.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastYear.empQuantity) : '100%');
+					var orderQuantity = statementBody.replace('[name]','订单数量').replace('[value]', thisMonth.orderQuantity).replace('[year]',(lastMonth && lastMonth.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastMonth.orderQuantity) : '100%').replace('[lastYear]',(lastYear && lastYear.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastYear.orderQuantity) : '100%');
+					var tboby = totalIncome + operatingCosts + totalProfit + totalTax + employeeCompensation + loanAmount + empQuantity + orderQuantity ;
+					
+					var statement1 = statement.replace('[time]', time).replace('[tbody]', tboby).replace('[id]', 'tab'+(now+1)).replace('[readonly]', "").replace('[buttonStyle1]', "").replace('[buttonStyle2]', "").replace('[textarea]', "");
+					if(now+1 == 1) {
+						li1 = li1.replace('[class]','active');
+						statement1 = statement1.replace('[class]','active');
+					}
+					$('#menu').append(li1);
+					$('#tab').append(statement1);
 				}
-				$('#menu').append(li1);
-				$('#tab').append(statement1);
-				updateStepNumber(1, now+1);
+				updateStepNumber(now, now+1);
 			}
                
 		}).fail(function(xhr, status, error) {
@@ -196,13 +225,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							'		</div>' +
 							'	</div>' +
 							'	<div class="form-actions text-center">' +
-							'		<button type="button" class="btn btn-success" onclick="submit1(1)">批准</button>' +
-							'		<button type="button" class="btn btn-danger" onclick="submit1(2)">不批准</button>' +
+							'		<button type="button" class="btn btn-success" style="[buttonStyle1]" onclick="submit1(1)">批准</button>' +
+							'		<button type="button" class="btn btn-danger" style="[buttonStyle2]" onclick="submit1(2)">不批准</button>' +
 							'		<br> <br>' +
 							'	    <div class="col-md-8 col-md-offset-2">' +
 							'			<div class="form-group">' +
 							'				<label>审核意见</label>' +
-							'				<textarea class="form-control" id="opinion"></textarea>' +
+							'				<textarea class="form-control" [readonly] id="opinion">[textarea]</textarea>' +
 							'			</div>' +
 							'		</div>' +
 							'	</div>' +

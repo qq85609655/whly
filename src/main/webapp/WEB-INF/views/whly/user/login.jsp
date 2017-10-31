@@ -34,19 +34,23 @@
 
 
         <style>
+            html{overflow: hidden}
             .login {
-                background:url("/static/${whlyPage}/assets/global/img/login/登录-4.jpg") no-repeat 100% 100%!important;
+                background:url("/static/${whlyPage}/assets/global/img/login/loginBg.jpg") no-repeat 100% 100%!important;
                 background-size: 100% 100%!important;
+                overflow: hidden;
             }
             .login .content {
                 background:rgba(0,0,0,0);
-                margin-top:0;
+                /* margin-top:0; */
+                margin-top:200px;
             }
             #loginForm {
                 width:350px;
                 height:200px;
                 /* background:#dd0; */
-                margin-top:230px;
+                /* margin-top:230px; */
+                margin-top:40px; 
                 margin-left:10px;
             }
             .control-label,.input-label {
@@ -84,7 +88,7 @@
             .login .content .form-actions .btn {
                 margin-top:20px;
                 margin-left:60px;
-                background:url("/static/${whlyPage}/assets/global/img/login/登录btn.png") no-repeat 100% 100%;
+                background:url("/static/${whlyPage}/assets/global/img/login/loginBtn.png") no-repeat 100% 100%;
                 background-size: 100% 100%;
                 padding:5px 15px!important;
                 float:left;
@@ -100,8 +104,9 @@
             }
 
             .alert {
-                padding:5px;
-                margin-top:-34px;
+                padding:0 10px;
+                /* margin-top:-34px; */
+                margin-top:-45px;
                 margin-bottom:4px;
             }
             .validateCode {

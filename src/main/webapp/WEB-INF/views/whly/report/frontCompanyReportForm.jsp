@@ -52,9 +52,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var operator = $("#operator").val();
                 var question = result.data.question;
                	var divs = $('#remarks').find("div");
-				if(operator!=null && result.data.operator == operator && result.data.status == 'SUBMIT') {
+               	console.info('operator',operator);
+               	console.info('operator1',result.data.operator);
+				if(operator!=null && result.data.operator == operator && result.data.status != 'PASSED') {
 					$("#form_sample_2").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=${menuId}');
-					//$("#company").attr('value',result.data.companyName);
+					$("#company").attr('value',result.data.companyName);
 					$("#totalIncome").attr('value',result.data.totalIncome);
 					$("#operatingCosts").attr('value',result.data.operatingCosts);
 					$("#totalProfit").attr('value',result.data.totalProfit);
@@ -64,17 +66,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                $("#empQuantity").attr('value',result.data.empQuantity);
 	                $("#orderQuantity").attr('value',result.data.orderQuantity);
 	                $('#submit').css("display","block");
-	                for(var i=0; i<question.length; i++) {
-	                	if(question[i]!=null && question[i]!="" && question[i]) {
-		            		var remarks = '<div class="form-group">'+
-		            						'<label>'+ (i + 1) +'、标题</label> ' +
-		            						'<input type="hidden" name="question['+ i +'].id" value="'+ question[i].id +'"> ' +
-		            						'<input class="form-control spinner" type="text" placeholder="" value="'+ question[i].title +'" name="question['+ i +'].title">'+
-		            						'<label>内容</label>'+
-		            						'<textarea class="form-control" rows="3" name="question['+ i +'].content">'+ question[i].content +'</textarea>'+
-		            					'</div>'
-		            		$("#remarks").append(remarks);
-	                	} 
+	                if(question) {
+	                	 for(var i=0; i<question.length; i++) {
+	 	                	if(question[i]!=null && question[i]!="" && question[i]) {
+	 		            		var remarks = '<div class="form-group">'+
+	 		            						'<label>'+ (i + 1) +'、标题</label> ' +
+	 		            						'<input type="hidden" name="question['+ i +'].id" value="'+ question[i].id +'"> ' +
+	 		            						'<input class="form-control spinner" type="text" placeholder="" value="'+ question[i].title +'" name="question['+ i +'].title">'+
+	 		            						'<label>内容</label>'+
+	 		            						'<textarea class="form-control" rows="3" name="question['+ i +'].content">'+ question[i].content +'</textarea>'+
+	 		            					'</div>'
+	 		            		$("#remarks").append(remarks);
+	 	                	} 
+	 	                }
 	                }
 				} else {
 					/* $('#add').attr("style","display:none;");
@@ -83,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					$('#add').remove();
 					$('#delete').remove();
 					$('#submit').remove();
-					//$("#company").attr('value',result.data.companyName).attr('readonly','true');
+					$("#company").attr('value',result.data.companyName).attr('readonly','true');
 					$("#totalIncome").attr('value',result.data.totalIncome).attr('readonly','true');
 					$("#operatingCosts").attr('value',result.data.operatingCosts).attr('readonly','true');
 					$("#totalProfit").attr('value',result.data.totalProfit).attr('readonly','true');
@@ -92,17 +96,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					$("#loanAmount").attr('value',result.data.loanAmount).attr('readonly','true');
 	                $("#empQuantity").attr('value',result.data.empQuantity).attr('readonly','true');
 	                $("#orderQuantity").attr('value',result.data.orderQuantity).attr('readonly','true');
-	                for(var i=0; i<question.length; i++) {
-	                	if(question[i]!=null && question[i]!="" && question[i]) {
-		            		var remarks = '<div class="form-group">'+
-		            						'<label>'+ (i + 1) +'、标题</label> ' +
-		            						'<input type="hidden" name="question['+ i +'].id" value="'+ question[i].id +'"> ' +
-		            						'<input class="form-control spinner" type="text" placeholder="" readonly value="'+ question[i].title +'" name="question['+ i +'].title">'+
-		            						'<label>内容</label>'+
-		            						'<textarea class="form-control" rows="3" readonly name="question['+ i +'].content">'+ question[i].content +'</textarea>'+
-		            					'</div>'
-		            		$("#remarks").append(remarks);
-	                	} 
+	                if(question) {
+	                	for(var i=0; i<question.length; i++) {
+		                	if(question[i]!=null && question[i]!="" && question[i]) {
+			            		var remarks = '<div class="form-group">'+
+			            						'<label>'+ (i + 1) +'、标题</label> ' +
+			            						'<input type="hidden" name="question['+ i +'].id" value="'+ question[i].id +'"> ' +
+			            						'<input class="form-control spinner" type="text" placeholder="" readonly value="'+ question[i].title +'" name="question['+ i +'].title">'+
+			            						'<label>内容</label>'+
+			            						'<textarea class="form-control" rows="3" readonly name="question['+ i +'].content">'+ question[i].content +'</textarea>'+
+			            					'</div>'
+			            		$("#remarks").append(remarks);
+		                	} 
+		                }
 	                }
 				}
                 
@@ -212,7 +218,7 @@ $.ready(function() {
 											<div class="input-group">
 												<span class="input-group-addon"> <i
 													class="fa fa-home"></i>
-												</span> <input type="text" class="form-control"
+												</span> <input type="text" class="form-control" id="company"
 													placeholder="公司名称"   readonly value="${frontCompanyReport.companyName }" name="companyName">
 											</div>
 										</div>
@@ -293,7 +299,7 @@ $.ready(function() {
 										</div>
 										<input type="hidden" value="${frontCompanyReport.id}"
 											id="reportId">
-										<input type="hidden" value="${frontCompanyReport.operator}"
+										<input type="hidden" value="${companyName}"
 										id="operator">
 										<input type="hidden" value="${frontCompanyReport.id}"
 										name="id">

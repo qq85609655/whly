@@ -7,7 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -76,15 +75,15 @@ public class TaskManageController extends BaseController {
 	@RequestMapping({"/examine/form"})
 	public String examineForm(FrontCompanyReport frontCompanyReport, Model model, HttpServletRequest request, HttpServletResponse response){
 		
+		if(UserUtils.getUser()==null){
+			return "redirect:" + whlyPath + "/login";
+		}
 		/*try {
 			frontCompanyReport.setCompanyName(URLDecoder.decode((new String(frontCompanyReport.getCompanyName().getBytes("UTF-8"), "UTF-8")), "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}*/
 		frontCompanyReport=frontCompanyReportService.get(frontCompanyReport.getId());
-		if(UserUtils.getUser()==null){
-			return "redirect:" + whlyPath + "/login";
-		}
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
 		return Global.getWhlyPage()+"/taskmange/examineForm";
 	}
