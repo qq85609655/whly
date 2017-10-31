@@ -202,7 +202,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 						}
 					}
 				}
-				if(frontCompanyReport.getQuestion()==null) {
+				if(frontCompanyReport.getQuestion()==null && status==null) {
 					reportId = null;
 				}
 				
