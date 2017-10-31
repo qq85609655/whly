@@ -183,6 +183,18 @@ public class UserUtils {
 						menuList.addAll(defaultMenuList);
 					}
 				}
+				for(Menu m:menuList){
+					if(m.getId().equals("7e90ace61d63482a95ebf719877cd0be")){
+						//包含数据审核 则去掉数据查看功能
+						for(Menu c:menuList){
+							if(c.getId().equals("e6c6c5566bf7460e94d7c28ecaaac248")){
+								menuList.remove(c);
+								break;
+							}
+						}
+						break;
+					}
+				}
 			}else{
 				//未登录 获取默认角色对应菜单
 				Menu m = new Menu();

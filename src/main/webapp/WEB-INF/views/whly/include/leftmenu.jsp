@@ -31,7 +31,9 @@
 			<!--  一级菜单-->
 				<!-- 如果没有选择过菜单  默认选中第一个 start active open-->
 				 <c:if test="${menu.isShow eq '1'}">
-					 <li class="nav-item <c:if test="${empty menusIds}"><c:if test="${idxStatus.index==0 }">start active open</c:if></c:if> 
+					<%--  <li class="nav-item <c:if test="${empty menusIds}"><c:if test="${idxStatus.index==0 }">start active open</c:if></c:if> 
+					 <c:if test="${fn:indexOf(menusIds,menu.idJoin) !=-1}">active open</c:if>" > --%>
+					  <li class="nav-item 
 					 <c:if test="${fn:indexOf(menusIds,menu.idJoin) !=-1}">active open</c:if>" >
 					 	 <a href="javascript:;" class="nav-link nav-toggle">
 					 	 	<span onclick="intentPage('${menu.href }','${menu.target }','${menu.id }')">
