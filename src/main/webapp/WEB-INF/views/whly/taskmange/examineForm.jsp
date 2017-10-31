@@ -179,7 +179,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					$('#menu').append(li1);
 					$('#tab').append(statement1);
 				}
-				updateStepNumber(1, now+1);
+				//updateStepNumber(1, now+1);
+				$("#menu").find("li:last").find("a").trigger("click");
 			}
                
 		}).fail(function(xhr, status, error) {
@@ -387,7 +388,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="caption">
 									<i class=" icon-layers font-red"></i> <span
 										class="caption-subject font-red bold uppercase"> 数据审核 -
-										<span class="step-title" id="stepNumber"> 第1步 </span>
+										<span class="step-title" id="stepNumber"> </span>
 									</span>
 								</div>
 							</div>
