@@ -52,7 +52,7 @@
 		SELECT 
 			<include refid="frontCompanyReportColumns"/>
 		FROM front_company_report a
-		<include refid="frontCompanyReportJoins"/>
+			<include refid="frontCompanyReportJoins"/>
 		WHERE a.id = #{id}
 	</select>
 	

@@ -49,14 +49,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				url : '<%=basePath%>front/report/frontCompanyReport/getfrontCompanyReportById',
 				dataType : 'json'
 			}).done(function(result, status, xhr) {
-				var operator = $("#operator").val();
+				var companyName = $("#companyName").val();
                 var question = result.data.question;
                	var divs = $('#remarks').find("div");
-               	console.info('operator',operator);
-               	console.info('operator1',result.data.operator);
-				if(operator!=null && result.data.operator == operator && result.data.status != 'PASSED') {
+				if(companyName!=null && result.data.companyName == companyName && result.data.status != 'PASSED') {
 					$("#form_sample_2").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=${menuId}');
-					$("#company").attr('value',result.data.companyName);
+					//$("#company").attr('value',result.data.companyName);
 					$("#totalIncome").attr('value',result.data.totalIncome);
 					$("#operatingCosts").attr('value',result.data.operatingCosts);
 					$("#totalProfit").attr('value',result.data.totalProfit);
@@ -87,7 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					$('#add').remove();
 					$('#delete').remove();
 					$('#submit').remove();
-					$("#company").attr('value',result.data.companyName).attr('readonly','true');
+					//$("#company").attr('value',result.data.companyName).attr('readonly','true');
 					$("#totalIncome").attr('value',result.data.totalIncome).attr('readonly','true');
 					$("#operatingCosts").attr('value',result.data.operatingCosts).attr('readonly','true');
 					$("#totalProfit").attr('value',result.data.totalProfit).attr('readonly','true');
@@ -300,7 +298,7 @@ $.ready(function() {
 										<input type="hidden" value="${frontCompanyReport.id}"
 											id="reportId">
 										<input type="hidden" value="${companyName}"
-										id="operator">
+										id="companyName">
 										<input type="hidden" value="${frontCompanyReport.id}"
 										name="id">
 										<input type="hidden" value="${redirectAttributes}"
