@@ -14,12 +14,10 @@ import java.util.UUID;
 
 
 
-import org.activiti.engine.impl.util.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hailian.whly.commom.CheckStatus;
 import com.hailian.whly.report.dao.FrontCompanyReportDao;
 import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.report.entity.FrontReportHistory;
@@ -122,21 +120,25 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			frontCompanyReport.setUpdateTime(time);	//更改时间
 			frontCompanyReport.setDelFlag("0");
 			dao.insert1(frontCompanyReport);
-			for(FrontReportQuestion front: list) {
-				front.setId(UUID.randomUUID().toString());
-				front.setMonth(time);
-				front.setReportId(reportId); 	//上报ID
-				front.setCreateDate(time);  	//插入时间
-				front.setUpdateDate(time);		//更改时间
-				front.setCompanyId(user.getCompany().getId()); // 企业ID
-				front.setOperator(user.getName());	// 操作人
-				front.setDelFlag("0");
-				dao.addQuestion(front);
-				
+			if(list!=null) {
+				for(FrontReportQuestion front: list) {
+					front.setId(UUID.randomUUID().toString());
+					front.setMonth(time);
+					front.setReportId(reportId); 	//上报ID
+					front.setCreateDate(time);  	//插入时间
+					front.setUpdateDate(time);		//更改时间
+					front.setCompanyId(user.getCompany().getId()); // 企业ID
+					front.setOperator(user.getName());	// 操作人
+					front.setDelFlag("0");
+					dao.addQuestion(front);
+					
+				}
 			}
+			
 			//添加日志
+			FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
 			FrontReportHistory history = new FrontReportHistory();
-			String desciption = JsonMapper.toJsonString(frontCompanyReport);
+			String desciption = JsonMapper.toJsonString(frontCompanyReport2);
 			history.setId(UUID.randomUUID().toString());
 			history.setDescription(desciption);
 			history.setReportId(reportId);
@@ -204,13 +206,17 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				//删除用户已经删除的问题
 				for(FrontReportQuestion question: list) {
 					boolean onOff = false;
-					for(String id: reportId) {
-						if(!question.getId().equals(id)) {
-							onOff = true;
-						} else {
-							onOff = false;
-							break;
+					if(reportId!=null) {
+						for(String id: reportId) {
+							if(!question.getId().equals(id)) {
+								onOff = true;
+							} else {
+								onOff = false;
+								break;
+							}
 						}
+					}  else {
+						onOff = true;
 					}
 					if(onOff) {
 						question.setDelFlag("1");
@@ -224,13 +230,16 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				history.setReportId(frontCompanyReport.getId());
 				history.setOperateTime(time);
 				if(status!=null && status.trim()!="") {
-					//查询该企业的上报信息保存到日志里面
-					
 					history.setOperation(status);
 				} else {
 					history.setOperation("更新");
 				}
+				//查询该企业的上报信息保存到日志里面
 				FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
+				if(status==null) {
+					frontCompanyReport2.setReason("");
+					frontCompanyReport2.setStatus("SUBMIT");
+				}
 				List<FrontReportQuestion> question = dao.findQuestion(frontCompanyReport.getId());
 				frontCompanyReport2.setQuestion(question);
 				String desciption = JsonMapper.toJsonString(frontCompanyReport2);

@@ -26,11 +26,13 @@ import com.hailian.whly.report.entity.FrontReportHistory;
 import com.hailian.whly.report.service.FrontCompanyReportService;
 import com.hailian.whly.report.utils.ResultJson;
 import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
@@ -199,6 +201,7 @@ public class FrontCompanyReportController extends BaseController {
 			ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
 			for(int i = 0 ; i < page.size() ; i++){
 				JSONObject json = new JSONObject(page.get(i).getDescription());
+				
 				json.get("status");
 				HashMap<String, Object> temp = new HashMap<String, Object>();
 				temp.put("id", json.get("id"));
@@ -213,6 +216,13 @@ public class FrontCompanyReportController extends BaseController {
 				temp.put("status", json.get("status"));
 				temp.put("insertTime", json.get("insertTime"));
 				temp.put("updateTime", json.get("updateTime"));
+				
+				
+				try {
+					temp.put("description", json.get("description"));
+				} catch (Exception e) {
+					temp.put("description", "");
+				}
 				try {
 					temp.put("statusName", json.get("status"));
 				} catch (Exception e) {
@@ -230,8 +240,10 @@ public class FrontCompanyReportController extends BaseController {
 				}
 				temp.put("operator", json.get("operator"));
 				try{
-					JSONObject area = new JSONObject(json.get("area"));
-					temp.put("area",area.get("name"));
+					/*JSONObject area = new JSONObject(json.get("area"));
+					temp.put("area",area.get("name"));*/
+					Area area = (Area)JsonMapper.fromJsonString(json.get("area").toString(),Area.class);
+					temp.put("areaName", area.getName());
 				}catch(Exception e){
 					temp.put("area", "");
 				}

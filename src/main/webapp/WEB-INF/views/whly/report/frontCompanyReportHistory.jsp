@@ -170,8 +170,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<td>${frontCompanyReportHistory.loanAmount}</td>
 												<td>${frontCompanyReportHistory.orderQuantity}</td>
 												<td>${frontCompanyReportHistory.empQuantity}</td>
-												<td>${frontCompanyReportHistory.type}</td>
-												<td>${frontCompanyReportHistory.area}</td>
+												<td>${frontCompanyReportHistory.description}</td>
+												<td>${frontCompanyReportHistory.areaName}</td>
 												<td>${frontCompanyReportHistory.reason}</td>
 											</tr>
 										</c:forEach>
