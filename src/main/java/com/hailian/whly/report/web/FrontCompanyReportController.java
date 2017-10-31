@@ -102,7 +102,7 @@ public class FrontCompanyReportController extends BaseController {
 		}
 		frontCompanyReport.setFrom(from);
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
-		model.addAttribute("companyName", UserUtils.getUser().getName());
+		model.addAttribute("companyName", UserUtils.getUser().getCompany().getName());
 		model.addAttribute("topMonth", topMonth);
 		return Global.getWhlyPage()+"/report/frontCompanyReportForm";
 	}
@@ -132,10 +132,10 @@ public class FrontCompanyReportController extends BaseController {
 		 Map<String, Object> topMonth=frontCompanyReportService.getTopReportMonth();
 		 frontCompanyReport.setYear(topMonth.get("year")+"");
 		 frontCompanyReport.setMonth(topMonth.get("month")+"");
-		 if ((Integer.valueOf(frontCompanyReport.getYear()) >= year.intValue()) && (Integer.valueOf(frontCompanyReport.getMonth()) >= month.intValue())) {
-			 addMessage(redirectAttributes, "对不起，该月月报还无法上报！");
-			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/form";
-		 }else{
+//		 if ((Integer.valueOf(frontCompanyReport.getYear()) >= year.intValue()) && (Integer.valueOf(frontCompanyReport.getMonth()) >= month.intValue())) {
+//			 addMessage(redirectAttributes, "对不起，该月月报还无法上报！");
+//			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/form";
+//		 }else{
 			 frontCompanyReportService.saveReport(frontCompanyReport);
 			 addMessage(model, "保存企业上报成功");
 			/* frontCompanyReport.setId("");
@@ -144,7 +144,7 @@ public class FrontCompanyReportController extends BaseController {
 			 }*/
 			 model.addAttribute("frontCompanyReport", frontCompanyReport);
 			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/viewlist";
-		 }
+//		 }
 		
 	}
 	

@@ -107,7 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var i = 0;
 				for (; i < data.length; i++) {
 					if(data[i].id!='本年本月' && data[i].id!='上年本月' && data[i].id!='本年上月' ) {
-						var li = menuLi.replace('[start]',i+1).replace('[max]',now+1).replace('[href]','#tab'+(i+1)).replace('[number]',i+1).replace('[name]',data[i].operation);
+						var li = menuLi.replace('[start]',i+1).replace('[max]',now).replace('[href]','#tab'+(i+1)).replace('[number]',i+1).replace('[name]',data[i].operation);
 						if(i==0) {
 							li = li.replace('[class]','active');
 						}
@@ -144,7 +144,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						var orderQuantity = statementBody.replace('[name]','订单数量').replace('[value]', thisMonth.orderQuantity).replace('[year]',(lastMonth && lastMonth.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastMonth.orderQuantity) : '100%').replace('[lastYear]',(lastYear && lastYear.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastYear.orderQuantity) : '100%');
 						var tboby = totalIncome + operatingCosts + totalProfit + totalTax + employeeCompensation + loanAmount + empQuantity + orderQuantity ;
 						
-						var statement1 = statement.replace('[time]', time).replace('[tbody]', tboby).replace('[id]', 'tab'+(i+1)).replace('[readonly]', "readonly").replace('[buttonStyle1]', "display:none;").replace('[buttonStyle2]', "display:none;").replace('[textarea]', thisMonth.reason?thisMonth.reason:'');
+						var statement1 = statement.replace('[time]', time).replace('[tbody]', tboby).replace('[id]', 'tab'+(i+1)).replace('[readonly]', "readonly").replace('[buttonStyle1]', "display:none;").replace('[buttonStyle2]', "display:none;").replace('[textarea]', data[i].frontCompanyReport.reason?data[i].frontCompanyReport.reason:'');
 						if(i+1 == 1) {
 							li1 = li1.replace('[class]','active');
 							statement1 = statement1.replace('[class]','active');
@@ -159,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
 				}
 				if(thisMonth.status != "PASSED") {
-					var li1 = menuLi.replace('[start]',now+1).replace('[max]',now+1).replace('[href]','#tab'+(now+1)).replace('[number]',now+1).replace('[name]', "审核");
+					var li1 = menuLi.replace('[start]',now).replace('[max]',now).replace('[href]','#tab'+(now+1)).replace('[number]',now+1).replace('[name]', "审核");
 					
 					var totalIncome = statementBody.replace('[name]','营业收入').replace('[value]', thisMonth.totalIncome).replace('[year]',(lastMonth && lastMonth.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastMonth.totalIncome) : '100%').replace('[lastYear]',(lastYear && lastYear.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastYear.totalIncome) : '100%');
 					var operatingCosts = statementBody.replace('[name]','营业成本').replace('[value]', thisMonth.operatingCosts).replace('[year]',(lastMonth && lastMonth.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastMonth.operatingCosts) : '100%').replace('[lastYear]',(lastYear && lastYear.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastYear.operatingCosts) : '100%');
@@ -171,7 +171,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					var orderQuantity = statementBody.replace('[name]','订单数量').replace('[value]', thisMonth.orderQuantity).replace('[year]',(lastMonth && lastMonth.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastMonth.orderQuantity) : '100%').replace('[lastYear]',(lastYear && lastYear.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastYear.orderQuantity) : '100%');
 					var tboby = totalIncome + operatingCosts + totalProfit + totalTax + employeeCompensation + loanAmount + empQuantity + orderQuantity ;
 					
-					var statement1 = statement.replace('[time]', time).replace('[tbody]', tboby).replace('[id]', 'tab'+(now+1)).replace('[readonly]', "").replace('[buttonStyle1]', "").replace('[buttonStyle2]', "").replace('[textarea]', "");
+					var statement1 = statement.replace('[time]', time).replace('[tbody]', tboby).replace('[id]', 'tab'+(now+1)).replace('[readonly]', "").replace('[buttonStyle1]', "").replace('[buttonStyle2]', "").replace('[textarea]', "").replace('[opinion]', "opinion");
 					if(now+1 == 1) {
 						li1 = li1.replace('[class]','active');
 						statement1 = statement1.replace('[class]','active');
@@ -179,7 +179,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					$('#menu').append(li1);
 					$('#tab').append(statement1);
 				}
-				updateStepNumber(now, now+1);
+				updateStepNumber(1, now+1);
 			}
                
 		}).fail(function(xhr, status, error) {
@@ -231,7 +231,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							'	    <div class="col-md-8 col-md-offset-2">' +
 							'			<div class="form-group">' +
 							'				<label>审核意见</label>' +
-							'				<textarea class="form-control" [readonly] id="opinion">[textarea]</textarea>' +
+							'				<textarea class="form-control" [readonly] id="[opinion]">[textarea]</textarea>' +
 							'			</div>' +
 							'		</div>' +
 							'	</div>' +
