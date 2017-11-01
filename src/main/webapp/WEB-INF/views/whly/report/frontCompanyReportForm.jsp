@@ -9,6 +9,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html lang="en">
 <head>
 <meta name="decorator" content="whly" />
+<style>
+
+	.btn.blue:not(.btn-outline) {
+		background:#81bde7;
+		border:0;
+	}
+	.btn-success {
+		background:#88ccd2;
+		border:0;
+	}
+	.btn-danger {
+		background:#d89ea2;
+		border:0;
+	}
+</style>
 <script type="text/javascript">
 	$(function() {
 		if("${message}"!=""){
@@ -53,7 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 var question = result.data.question;
                	var divs = $('#remarks').find("div");
 				if(companyName!=null && result.data.companyName == companyName && result.data.status != 'PASSED') {
-					$("#form_sample_2").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=${menuId}');
+					$("#action").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=${menuId}');
 					//$("#company").attr('value',result.data.companyName);
 					$("#totalIncome").attr('value',result.data.totalIncome);
 					$("#operatingCosts").attr('value',result.data.operatingCosts);
@@ -114,7 +129,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 			});
 		} else {
-			$("#form_sample_2").attr('action','<%=basePath%>front/report/frontCompanyReport/save?menuId=${menuId}');
+			$("#action").attr('action','<%=basePath%>front/report/frontCompanyReport/save?menuId=${menuId}');
 			$("#return").attr("style","display:none;");
 			$("#submit").attr("style","display:block;");
 			addRemarks();
@@ -125,9 +140,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var divs = $('#remarks').find("div");
 		var remarks = '<div class="form-group">'+
 						'<label>'+ (divs.length + 1) +'、标题</label> '+
-						'<input class="form-control spinner" type="text" placeholder="" name="question['+ divs.length +'].title">'+
+						'<input class="form-control spinner" type="text" placeholder="" required name="question['+ divs.length +'].title">'+
 						'<label>内容</label>'+
-						'<textarea class="form-control" rows="3" name="question['+ divs.length +'].content"></textarea>'+
+						'<textarea class="form-control" rows="3" required name="question['+ divs.length +'].content"></textarea>'+
 					'</div>'
 		$("#remarks").append(remarks);
 	}
@@ -183,7 +198,8 @@ $.ready(function() {
 								<div class="caption font-red-sunglo">
 									<i class="icon-settings font-red-sunglo"></i> <span
 										class="caption-subject bold uppercase">
-										营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额请填写企业单月数据，不要填写累计数据</span>
+										营业收入、营业利润、企业税费请填写企业单月数据，不要填写累计数据</span>
+										<!-- 营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额请填写企业单月数据，不要填写累计数据</span> -->
 									<div style="float: right;padding-top: 15px;font-size: 15px;">${topMonth.info }</div>
 								</div>
 								<!-- <div class="actions">
@@ -206,7 +222,7 @@ $.ready(function() {
 								</div> -->
 							</div>
 							<div class="portlet-body ">
-								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}"   id="form_sample_2" method="post">
+								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}"  id="action"  method="post">
 									<input type="hidden" name="frontCompanyReport.year" value="${topMonth.year }">
 									<input type="hidden" name="frontCompanyReport.month" value="${topMonth.month }">
 									<input type="hidden" id="from_hid" name="frontCompanyReport.from" value="${frontCompanyReport.from }">
@@ -220,7 +236,6 @@ $.ready(function() {
 													placeholder="公司名称"   readonly value="${frontCompanyReport.companyName }" name="companyName">
 											</div>
 										</div>
-
 										<div class="form-group col-md-6">
 											<label>营业收入（万元）</label>
 											<div class="input-group">
@@ -230,14 +245,14 @@ $.ready(function() {
 											</div>
 										</div>
 										
-										<div class="form-group col-md-6">
+										<!-- <div class="form-group col-md-6">
 											<label>营业成本 （万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input required type="number" class="form-control" name="operatingCosts" id="operatingCosts"
 													placeholder="请输入营业成本" aria-describedby="sizing-addon1">
 											</div>
-										</div>
+										</div> -->
 										<div class="form-group col-md-6">
 											<label>营业利润（万元）</label>
 											<div class="input-group">
@@ -254,7 +269,7 @@ $.ready(function() {
 													placeholder="请输入企业税费" aria-describedby="sizing-addon1">
 											</div>
 										</div>
-										<div class="form-group col-md-6">
+										<!-- <div class="form-group col-md-6">
 											<label>应付职工薪酬（万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
@@ -270,7 +285,7 @@ $.ready(function() {
 												<input required type="number" class="form-control" name="loanAmount" id="loanAmount"
 													placeholder="请输入贷款金额" aria-describedby="sizing-addon1">
 											</div>
-										</div>
+										</div> -->
 										<div class="form-group col-md-6">
 											<label>从业人数 （人）</label>
 											<div class="input-group">
@@ -280,7 +295,7 @@ $.ready(function() {
 													id="empQuantity" placeholder="请输入从业人数">
 											</div>
 										</div>
-										<div class="form-group col-md-6">
+										<!-- <div class="form-group col-md-6">
 											<label>订单数量（个）</label>
 											<div class="input-group">
 												<span class="input-group-addon"> <i
@@ -288,7 +303,7 @@ $.ready(function() {
 												</span> <input required type="number" class="form-control spinner"
 													id="orderQuantity"  name="orderQuantity" placeholder="请输入订单数量">
 											</div>
-										</div>
+										</div> -->
 										<div class="form-group col-md-6">
 											<br> 
 											<button type="button" class="btn blue pull-right"
@@ -304,12 +319,16 @@ $.ready(function() {
 										<input type="hidden" value="${redirectAttributes}"
 										id="redirectAttributes">
 									</div>
-									<div style="height:380px;"></div>
+									<!-- <div style="height:380px;"></div> -->
+									<div style="height:250px;"></div>
 									<div class="form-actions" id="remarks" >
 										<button type="button" class="btn btn-success" id="add">新增</button>
 										<button type="button" class="btn btn-danger" id="delete">删除</button>
 										<span class="col-md-12" style="height:7px;"></span>
+										
+									
 									</div>
+									
 								</form>
 							</div>
 						</div>

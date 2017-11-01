@@ -68,6 +68,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 .pagination  ul .controls a:hover {
 	text-decoration: none;
 }
+.btn.green:not(.btn-outline) {
+	background:#84d3da;
+	border:0;
+}
+
 
 </style>
 <script type="text/javascript">
@@ -260,10 +265,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<th>营业收入 (万元)</th>
 											<th>营业利润 (万元)</th>
 											<th>企业税费 (万元)</th>
-											<th>营业成本 (万元)</th>
+											<!-- <th>营业成本 (万元)</th>
 											<th>应付职工薪酬 (万元)</th>
 											<th>贷款金额 (万元)</th>
-											<th>订单数量 (个)</th>
+											<th>订单数量 (个)</th> -->
 											<th>从业人数(人)</th>
 											<th>上报时间</th>
 										</tr>
@@ -289,10 +294,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<td>${frontCompanyReport.totalIncome}</td>
 												<td>${frontCompanyReport.totalProfit}</td>
 												<td>${frontCompanyReport.totalTax}</td>
-												<td>${frontCompanyReport.operatingCosts}</td>
+												<%-- <td>${frontCompanyReport.operatingCosts}</td>
 												<td>${frontCompanyReport.employeeCompensation}</td>
 												<td>${frontCompanyReport.loanAmount}</td>
-												<td>${frontCompanyReport.orderQuantity}</td>
+												<td>${frontCompanyReport.orderQuantity}</td> --%>
 												<td>${frontCompanyReport.empQuantity}</td>
 												<td><fmt:formatDate
 														value="${frontCompanyReport.reportTime}"
