@@ -88,9 +88,6 @@ public class FrontCompanyReportController extends BaseController {
 	/*@RequiresPermissions("report:frontCompanyReport:view")*/
 	@RequestMapping(value = "form")
 	public String form(FrontCompanyReport frontCompanyReport, Model model) {
-		if(UserUtils.getUser()==null||StringUtils.isBlank(UserUtils.getUser().getId())){
-			return "redirect:" + whlyPath + "/login";
-		}
 		if(UserUtils.getUser().getCompany()!=null) {
 			frontCompanyReport.setOperator(UserUtils.getUser().getName());
 		}
@@ -122,9 +119,6 @@ public class FrontCompanyReportController extends BaseController {
 	/*@RequiresPermissions("report:frontCompanyReport:edit")*/
 	@RequestMapping(value = "save")
 	public String save(FrontCompanyReport frontCompanyReport, Model model, RedirectAttributes redirectAttributes) {
-		if(UserUtils.getUser()==null||StringUtils.isBlank(UserUtils.getUser().getId())){
-			return "redirect:" + whlyPath + "/login";
-		}
 		if (!beanValidator(model, frontCompanyReport)){
 			return form(frontCompanyReport, model);
 		}
@@ -301,9 +295,6 @@ public class FrontCompanyReportController extends BaseController {
 	@RequestMapping(value = {"viewlist", ""})
 	public String viewlist(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response, Model model) {
 	try {
-		if(UserUtils.getUser()==null||StringUtils.isBlank(UserUtils.getUser().getId())){
-			return "redirect:" + whlyPath + "/login";
-		}
 		model.addAttribute("status", CheckStatus.getAllStatus());
 		model.addAttribute("front", frontCompanyReport);
 		frontCompanyReport.setCompanyId(UserUtils.getUser().getCompany().getId());

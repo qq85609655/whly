@@ -44,7 +44,17 @@
 			<label class="control-label">归属行业:</label>
 			<div class="controls">
 				<form:select path="industyId" class="input-medium">
-					<form:options items="${fns:getDictList('front_hylx')}" itemLabel="label" itemValue="id" htmlEscape="false"/>
+					<c:choose>
+						<c:when test="${office.parent.id=='be9e0da458064360b214c9ca69327859' }">
+							<form:options items="${fns:getDictList('front_hylx')}" itemLabel="label" itemValue="id" htmlEscape="false"/>
+						</c:when>
+						<c:when test="${office.parent.id=='cc0cbec49fe5449da652f8db57d473ab' }">
+							<form:options items="${fns:getDictList('front_xe')}" itemLabel="label" itemValue="id" htmlEscape="false"/>
+						</c:when>
+						<c:otherwise>
+							<form:options items="${fns:getDictList('front_hylx')}" itemLabel="label" itemValue="id" htmlEscape="false"/>
+						</c:otherwise>
+					</c:choose>
 				</form:select>
 			</div>
 		</div>

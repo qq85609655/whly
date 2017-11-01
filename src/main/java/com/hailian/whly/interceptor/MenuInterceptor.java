@@ -15,8 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.service.BaseService;
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 
@@ -32,6 +34,12 @@ public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, 
 			Object handler) throws Exception {
+		if(!request.getRequestURI().startsWith(Global.getWhlyPath()+"/login")){
+			if(UserUtils.getUser()==null||StringUtils.isBlank(UserUtils.getUser().getId())){
+				   response.sendRedirect(Global.getWhlyPath() + "/login");
+				   return false;
+			}
+		}
 		return true;
 	}
 
