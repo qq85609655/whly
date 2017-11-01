@@ -27,6 +27,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private Date reportTime;		// 上报时间 year+month
 	private String companyId;		// 上报企业
 	private String companyName;		// 上报企业名字
+	private String companyParentId; // 上报企业父亲的ID
 	private String typeId;			// 行业类型ID
 	private String description;  	// 行业类型
 	private Area area;				// 地区
@@ -54,6 +55,14 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String from;
 	
 	
+	public String getCompanyParentId() {
+		return companyParentId;
+	}
+
+	public void setCompanyParentId(String companyParentId) {
+		this.companyParentId = companyParentId;
+	}
+
 	public String getFrom() {
 		return from;
 	}
