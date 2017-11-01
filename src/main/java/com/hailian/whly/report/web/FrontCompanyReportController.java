@@ -33,6 +33,8 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
@@ -75,6 +77,7 @@ public class FrontCompanyReportController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response, Model model) {
 	try {
+		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
 		model.addAttribute("status", CheckStatus.getAllStatus());
 		model.addAttribute("front", frontCompanyReport);
 		String companyParentId = UserUtils.getUser().getCompany().getParentId();

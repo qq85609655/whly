@@ -216,7 +216,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<form:select path="typeId" class="form-control" name="typeId"
 										id="industryQuery">
 										<form:option value="" label="全部" />
-										<form:options items="${fns:getDictList('front_hylx')}"
+										<c:set var="industyTypeLable" value="${industyTypeLable}"/>
+										<form:options items="${fns:getDictList(industyTypeLable)}"
 											itemLabel="label" itemValue="id" htmlEscape="false" />
 									</form:select>
 								</div>
