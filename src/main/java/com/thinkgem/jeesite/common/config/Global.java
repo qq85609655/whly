@@ -124,6 +124,18 @@ public class Global {
 	public static String getUrlSuffix() {
 		return getConfig("urlSuffix");
 	}
+	/**
+	 * 获取同比增速提示超额百分比
+	 */
+	public static String getWhlySinceThan() {
+		return getConfig("whlySinceThan");
+	}
+	/**
+	 * 获取环比增速提示超额百分比
+	 */
+	public static String getWhlyLoopThan() {
+		return getConfig("whlyLoopThan");
+	}
 	
 	/**
 	 * 是否是演示模式，演示模式下不能修改用户、角色、密码、菜单、授权

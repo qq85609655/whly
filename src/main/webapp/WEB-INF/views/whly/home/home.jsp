@@ -4,6 +4,32 @@
 <html lang="en">
     <head>
        <meta name="decorator" content="whly"/>
+       <style>
+       		.dashboard-stat.blue {
+       			background:#81c7f7;
+       		}
+       		.dashboard-stat.blue .more {
+       			background:#6ebcf1;
+       		}
+       		.dashboard-stat.red{
+       			background:#e1898f;
+       		}
+       		.dashboard-stat.red .more {
+       			background:#da7a80;
+       		}
+       		.dashboard-stat.green {
+       			background:#9ae2e9;
+       		}
+       		.dashboard-stat.green .more {
+       			background:#92d1d6;
+       		}
+       		.dashboard-stat.purple {
+       			background:#cd9fe1;	
+       		}
+       		.dashboard-stat.purple .more {
+       			background:#ae89be;
+       		}
+       </style>
     </head>
     <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
         <!-- BEGIN 顶部菜单  -->

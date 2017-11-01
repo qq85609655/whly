@@ -136,10 +136,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<th>营业收入 (万元)</th>
 											<th>营业利润 (万元)</th>
 											<th>企业税费 (万元)</th>
-											<th>营业成本 (万元)</th>
+											<!-- <th>营业成本 (万元)</th>
 											<th>应付职工薪酬 (万元)</th>
 											<th>贷款金额 (万元)</th>
-											<th>订单数量 (个)</th>
+											<th>订单数量 (个)</th> -->
 											<th>从业人数(人)</th>
 											<th>所属行业</th>
 											<th>所属地域</th>
@@ -165,10 +165,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<td>${frontCompanyReportHistory.totalIncome}</td>
 												<td>${frontCompanyReportHistory.totalProfit}</td>
 												<td>${frontCompanyReportHistory.totalTax}</td>
-												<td>${frontCompanyReportHistory.operatingCosts}</td>
+												<%-- <td>${frontCompanyReportHistory.operatingCosts}</td>
 												<td>${frontCompanyReportHistory.employeeCompensation}</td>
 												<td>${frontCompanyReportHistory.loanAmount}</td>
-												<td>${frontCompanyReportHistory.orderQuantity}</td>
+												<td>${frontCompanyReportHistory.orderQuantity}</td> --%>
 												<td>${frontCompanyReportHistory.empQuantity}</td>
 												<td>${frontCompanyReportHistory.description}</td>
 												<td>${frontCompanyReportHistory.areaName}</td>

@@ -91,6 +91,9 @@
     <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/clockface/js/clockface.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/global/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/global/plugins/jquery-bootpag/jquery.bootpag.min.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/global/plugins/holder.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <script src="/static/${whlyPage}/assets/global/plugins/echarts/echarts-3.5.2.js" type="text/javascript"></script>
      <script src="/static/${whlyPage}/assets/global/plugins/echarts/manyEcharts.js" type="text/javascript"></script>
@@ -101,14 +104,13 @@
     <script src="/static/${whlyPage}/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
     <!-- END THEME GLOBAL SCRIPTS -->
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
-    <script src="/static/${whlyPage}/assets/pages/scripts/ui-bootbox.min.js" type="text/javascript"></script>
-    <!-- END THEME GLOBAL SCRIPTS -->
-    <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <script src="/static/${whlyPage}/assets/pages/scripts/dashboard.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/pages/scripts/form-wizard.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/pages/scripts/table-datatables-rowreorder.js" type="text/javascript"></script>
    <%--  <script src="/static/${whlyPage}/assets/pages/scripts/form-validation.min.js" type="text/javascript"></script> --%>
     <script src="/static/${whlyPage}/assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/pages/scripts/ui-general.min.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/pages/scripts/ui-bootbox.min.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
     <!-- BEGIN THEME LAYOUT SCRIPTS -->
     <script src="/static/${whlyPage}/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>

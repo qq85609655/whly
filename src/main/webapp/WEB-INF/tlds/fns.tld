@@ -274,5 +274,20 @@
 		<function-signature>java.lang.String toJsonString(java.lang.Object)</function-signature>
 		<example>${fns:toJson(object)}</example>
 	</function>
+	
+	<function>
+		<description>获取同比增速提示超额百分比</description>
+		<name>getWhlySinceThan</name>
+		<function-class>com.thinkgem.jeesite.common.config.Global</function-class>
+		<function-signature>java.lang.String getWhlySinceThan()</function-signature>
+		<example>${fns:getWhlySinceThan()}</example>
+	</function>
+	<function>
+		<description>获取环比增速提示超额百分比</description>
+		<name>getWhlyLoopThan</name>
+		<function-class>com.thinkgem.jeesite.common.config.Global</function-class>
+		<function-signature>java.lang.String getWhlyLoopThan()</function-signature>
+		<example>${fns:getWhlyLoopThan()}</example>
+	</function>
 
 </taglib>
