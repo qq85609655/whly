@@ -51,6 +51,12 @@
 						<c:when test="${office.parent.id=='cc0cbec49fe5449da652f8db57d473ab' }">
 							<form:options items="${fns:getDictList('front_xe')}" itemLabel="label" itemValue="id" htmlEscape="false"/>
 						</c:when>
+							<c:when test="${office.parent.id=='d2c1c37069fa4ce189bc4a3529cc7a65' }">
+							<form:options items="${fns:getDictList('front_qt')}" itemLabel="label" itemValue="id" htmlEscape="false"/>
+						</c:when>
+							<c:when test="${office.parent.id=='ebc16b9cafd84d53a8222eae5d4340d6' }">
+							<form:options items="${fns:getDictList('front_nd')}" itemLabel="label" itemValue="id" htmlEscape="false"/>
+						</c:when>
 						<c:otherwise>
 							<form:options items="${fns:getDictList('front_hylx')}" itemLabel="label" itemValue="id" htmlEscape="false"/>
 						</c:otherwise>
