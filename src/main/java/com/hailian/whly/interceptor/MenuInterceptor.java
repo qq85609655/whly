@@ -34,9 +34,9 @@ public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, 
 			Object handler) throws Exception {
-		if(!request.getRequestURI().startsWith(Global.getWhlyPath()+"/login")){
+		if(!request.getRequestURI().startsWith(Global.getWhlyPath()+"/login")&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/industry/login")&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/choose")){
 			if(UserUtils.getUser()==null||StringUtils.isBlank(UserUtils.getUser().getId())){
-				   response.sendRedirect(Global.getWhlyPath() + "/login");
+				   response.sendRedirect(Global.getWhlyPath() + "/choose");
 				   return false;
 			}
 		}

@@ -162,7 +162,7 @@ public class UserUtils {
 	 */
 	public static List<Menu> getFrontMenuList(){
 		@SuppressWarnings("unchecked")
-		List<Menu> menuList = (List<Menu>)getCache(CACHE_FRONT_MENU_LIST);;
+		List<Menu> menuList = (List<Menu>)getCache(CACHE_FRONT_MENU_LIST);
 		if (menuList == null||menuList.size()==0){
 			menuList=new ArrayList<Menu>();
 			User user = getUser();
@@ -184,10 +184,10 @@ public class UserUtils {
 					}
 				}
 				for(Menu m:menuList){
-					if(m.getId().equals("7e90ace61d63482a95ebf719877cd0be")){
+					if(m.getId().equals(Global.getWhlyShMenuId())){
 						//包含数据审核 则去掉数据查看功能
 						for(Menu c:menuList){
-							if(c.getId().equals("e6c6c5566bf7460e94d7c28ecaaac248")){
+							if(c.getId().equals(Global.getWhlyViewMenuId())){
 								menuList.remove(c);
 								break;
 							}

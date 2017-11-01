@@ -217,5 +217,27 @@ public class Global {
 		}
 		return projectPath;
     }
+    /**
+     * 
+     * @time   2017年11月1日 下午5:58:24
+     * @author zuoqb
+     * @todo  数据审核菜单ID
+     * @param  @return
+     * @return_type   String
+     */
+    public static String getWhlyShMenuId() {
+		return getConfig("shMenuId");
+	}
+    /**
+     * 
+     * @time   2017年11月1日 下午5:58:29
+     * @author zuoqb
+     * @todo   数据查看菜单ID
+     * @param  @return
+     * @return_type   String
+     */
+    public static String getWhlyViewMenuId() {
+		return getConfig("viewMenuId");
+	}
 	
 }

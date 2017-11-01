@@ -56,8 +56,23 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
+	<!-- 企业前台 -->
 	<filter-mapping>
 		<filter-name>whlyShiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<filter>
+		<filter-name>whlyShiroFilterIndustry</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>whlyShiroFilterIndustry</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!-- PageCache, cache .html suffix. <filter> <filter-name>PageCacheFilter</filter-name> <filter-class>com.thinkgem.jeesite.common.filter.PageCachingFilter</filter-class> 

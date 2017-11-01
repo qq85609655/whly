@@ -27,7 +27,7 @@ import com.thinkgem.jeesite.common.utils.CookieUtils;
 import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.sys.security.WhlyFormAuthenticationFilter;
+import com.thinkgem.jeesite.modules.sys.security.WhlyIndustryFormAuthenticationFilter;
 import com.thinkgem.jeesite.modules.sys.security.SystemAuthorizingRealm.Principal;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
@@ -39,8 +39,8 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
  * @todo   TODO
  */
 @Controller
-@RequestMapping("${whlyPath}")
-public class WhlyLoginController extends BaseController {
+@RequestMapping("${whlyPath}/industry")
+public class WhlyIndustryLoginController extends BaseController {
 	@Autowired
 	private WhlyAccountService whlyAccountService;
 
@@ -48,6 +48,7 @@ public class WhlyLoginController extends BaseController {
 	@Autowired
 	private SessionDAO sessionDAO;
 	
+
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
 		Principal principal = UserUtils.getPrincipal();
@@ -60,34 +61,41 @@ public class WhlyLoginController extends BaseController {
 			CookieUtils.setCookie(response, "LOGINED", "false");
 		}
 		
+		
+		
+		// 如果已经登录，则跳转到威海首页
+		/*if(principal != null && !principal.isMobileLogin()){
+			return "redirect:" + whlyPath+"/home";
+		}*/
 		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
-		return whlyPage+"/user/login";
+		return whlyPage+"/user/loginIndustry";
 	}
-	/**
-	 * 登录失败，真正登录的POST请求由Filter完成
-	 */
 	@RequestMapping(value =  "/login", method = RequestMethod.POST)
 	public String loginFail(HttpServletRequest request, HttpServletResponse response, Model model) {
 		Principal principal = UserUtils.getPrincipal();
 		
-		/*WhlyFormAuthenticationFilter f=new WhlyFormAuthenticationFilter();
+		// 如果已经登录，则跳转到管理首页
+		if(principal != null){
+			return "redirect:" + whlyPath+"/news";
+		}
+		/*WhlyIndustryFormAuthenticationFilter f=new WhlyIndustryFormAuthenticationFilter();
 		AuthenticationToken token=f.createToken(request, response);
 		SecurityUtils.getSubject().login(token);*/
-		String username = WebUtils.getCleanParam(request, WhlyFormAuthenticationFilter.DEFAULT_USERNAME_PARAM);
-		boolean rememberMe = WebUtils.isTrue(request, WhlyFormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM);
-		boolean mobile = WebUtils.isTrue(request, WhlyFormAuthenticationFilter.DEFAULT_MOBILE_PARAM);
-		String exception = (String)request.getAttribute(WhlyFormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
-		String message = (String)request.getAttribute(WhlyFormAuthenticationFilter.DEFAULT_MESSAGE_PARAM);
+		String username = WebUtils.getCleanParam(request, WhlyIndustryFormAuthenticationFilter.DEFAULT_USERNAME_PARAM);
+		boolean rememberMe = WebUtils.isTrue(request, WhlyIndustryFormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM);
+		boolean mobile = WebUtils.isTrue(request, WhlyIndustryFormAuthenticationFilter.DEFAULT_MOBILE_PARAM);
+		String exception = (String)request.getAttribute(WhlyIndustryFormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
+		String message = (String)request.getAttribute(WhlyIndustryFormAuthenticationFilter.DEFAULT_MESSAGE_PARAM);
 		
 		/*if (StringUtils.isBlank(message) || StringUtils.equals(message, "null")){
 			message = "用户或密码错误, 请重试.";
 		}*/
 
-		model.addAttribute(WhlyFormAuthenticationFilter.DEFAULT_USERNAME_PARAM, username);
-		model.addAttribute(WhlyFormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM, rememberMe);
-		model.addAttribute(WhlyFormAuthenticationFilter.DEFAULT_MOBILE_PARAM, mobile);
-		model.addAttribute(WhlyFormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME, exception);
-		model.addAttribute(WhlyFormAuthenticationFilter.DEFAULT_MESSAGE_PARAM, message);
+		model.addAttribute(WhlyIndustryFormAuthenticationFilter.DEFAULT_USERNAME_PARAM, username);
+		model.addAttribute(WhlyIndustryFormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM, rememberMe);
+		model.addAttribute(WhlyIndustryFormAuthenticationFilter.DEFAULT_MOBILE_PARAM, mobile);
+		model.addAttribute(WhlyIndustryFormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME, exception);
+		model.addAttribute(WhlyIndustryFormAuthenticationFilter.DEFAULT_MESSAGE_PARAM, message);
 		
 		if (logger.isDebugEnabled()){
 			logger.debug("login fail, active session size: {}, message: {}, exception: {}", 
@@ -106,37 +114,7 @@ public class WhlyLoginController extends BaseController {
 	        return renderString(response, model);
 		}
 		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
-		return whlyPage+"/user/login";
-	}
-
-	/**
-	 * 登录成功，进入管理首页
-	 */
-	@RequiresPermissions("user")
-	@RequestMapping(value = "")
-	public String index(HttpServletRequest request, HttpServletResponse response) {
-		Principal principal = UserUtils.getPrincipal();
-
-		// 登录成功后，验证码计算器清零
-		isValidateCodeLogin(principal.getLoginName(), false, true);
-		
-		if (logger.isDebugEnabled()){
-			logger.debug("show index, active session size: {}", sessionDAO.getActiveSessions(false).size());
-		}
-		
-		// 如果已登录，再次访问主页，则退出原账号。
-		if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
-			String logined = CookieUtils.getCookie(request, "LOGINED");
-			if (StringUtils.isBlank(logined) || "false".equals(logined)){
-				CookieUtils.setCookie(response, "LOGINED", "true");
-			}else if (StringUtils.equals(logined, "true")){
-				UserUtils.getSubject().logout();
-				return "redirect:" + whlyPath + "/choose";
-			}
-		}
-		
-		
-		return "redirect:" + whlyPath+"/home";
+		return whlyPage+"/user/loginIndustry";
 	}
 	
 	/**
