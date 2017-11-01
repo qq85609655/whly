@@ -339,5 +339,25 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+	<select id="checkUser" parameterType="java.util.Map"  resultType="com.thinkgem.jeesite.modules.sys.entity.User">
+		SELECT
+			<include refid="userColumns"/>
+		FROM sys_user a
+		<include refid="userJoins"/>
+		WHERE 1=1 
+		<if test="parentId != null and parentId != ''">
+			and a.company_id IN (
+			SELECT
+				id
+			FROM
+				sys_office
+			WHERE
+				parent_id =  #{parentId}
+			OR id =  #{parentId}
+		)
+		</if>
+		<if test="loginName != null and loginName != ''">
+			AND a.login_name =  #{loginName}
+		</if>
+	</select>
 </mapper>

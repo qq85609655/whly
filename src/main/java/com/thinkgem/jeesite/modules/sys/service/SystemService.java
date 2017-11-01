@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
@@ -559,7 +560,9 @@ public class SystemService extends BaseService implements InitializingBean {
 			identityService.deleteUser(userId);
 		}
 	}
-	
+	public List<User> checkUser(Map<String, Object> params){
+		return userDao.checkUser(params);
+	}
 	///////////////// Synchronized to the Activiti end //////////////////
 	
 }

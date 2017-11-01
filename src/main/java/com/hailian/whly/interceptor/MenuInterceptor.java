@@ -34,7 +34,10 @@ public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, 
 			Object handler) throws Exception {
-		if(!request.getRequestURI().startsWith(Global.getWhlyPath()+"/login")&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/industry/login")&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/choose")){
+		if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))
+				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/login")
+				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/industry/login")
+				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/choose")){
 			if(UserUtils.getUser()==null||StringUtils.isBlank(UserUtils.getUser().getId())){
 				   response.sendRedirect(Global.getWhlyPath() + "/choose");
 				   return false;
@@ -48,7 +51,7 @@ public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 			ModelAndView modelAndView) throws Exception {
 		//排除ajax之外  处理请求
 		//if(!request.getRequestURI().startsWith(Global.getWhlyPath()+"/ajax")){
-		if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/login")){
+		if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))){
 			String menuId=request.getParameter("menuId");
 			//处理菜单
 			Map<String,Object> model=modelAndView.getModel();

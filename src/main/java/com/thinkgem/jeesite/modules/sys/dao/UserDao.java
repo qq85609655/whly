@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.modules.sys.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
@@ -71,5 +72,6 @@ public interface UserDao extends CrudDao<User> {
 	 * @return
 	 */
 	public int updateUserInfo(User user);
+	public List<User> checkUser(Map<String, Object> params);
 
 }

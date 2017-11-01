@@ -54,7 +54,7 @@ public class WhlyLoginController extends BaseController {
 		if (logger.isDebugEnabled()){
 			logger.debug("login, active session size: {}", sessionDAO.getActiveSessions(false).size());
 		}
-		
+		model.addAttribute("type", request.getParameter("type"));
 		// 如果已登录，再次访问主页，则退出原账号。
 		if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
 			CookieUtils.setCookie(response, "LOGINED", "false");
@@ -106,6 +106,7 @@ public class WhlyLoginController extends BaseController {
 	        return renderString(response, model);
 		}
 		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
+		model.addAttribute("type", request.getParameter("type"));
 		return whlyPage+"/user/login";
 	}
 

@@ -50,12 +50,12 @@
 <div class="container">
     <h1 class="text-center">威海市重点服务业企业监测平台入口</h1>
     <div class="row">
-        <div class="col-md-4 col-md-offset-2">
-            <div class="chooseBox"><a href="${whlyPath}/login">重点服务业企业监测</a></div>
+        <div class="col-md-4 col-md-offset-2" onclick="loginPage(1)">
+            <div class="chooseBox"><a href="#">重点服务业企业监测</a></div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4"  onclick="loginPage(2)">
             <%-- <div class="chooseBox"><a href="${whlyPath}/industry/login">限额以下服务业企业监测</a></div> --%>
-            <div class="chooseBox"><a href="${whlyPath}/login">限额以下服务业企业监测</a></div>
+            <div class="chooseBox"><a href="#">限额以下服务业企业监测</a></div>
         </div>
     </div>
     <div class="row">
@@ -68,4 +68,9 @@
     </div>
 </div>
 </body>
+<script>
+function loginPage(type){
+	window.location.href="${whlyPath}/login?type="+type;
+}
+</script>
 </html>

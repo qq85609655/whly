@@ -1,6 +1,5 @@
 package com.hailian.whly.controller;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +18,7 @@ import com.hailian.whly.report.service.FrontCompanyReportService;
 import com.hailian.whly.service.WhlyAccountService;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
 
 /**
@@ -143,6 +143,38 @@ public class AjaxController extends BaseController {
         	List<FrontCompanyReport> sourcelist = frontCompanyReportService.statisticsCountByType(params);
             return resultSuccessData(response,"查询数据成功", sourcelist);
         } catch (Exception e) {
+            return resultErrorData(response,"查询数据异常", null);
+        }
+    }
+    @RequestMapping(value = "/checkUser")
+    public String checkUser(HttpServletRequest request, HttpServletResponse response,String type,String loginName){
+        try {
+        	Map<String, Object> params=new HashMap<String, Object>();
+        	params.put("loginName",loginName);
+        	switch (Integer.valueOf(type)) {
+			case 1:
+				params.put("parentId","be9e0da458064360b214c9ca69327859");
+				break;
+			case 2:
+				params.put("parentId","cc0cbec49fe5449da652f8db57d473ab");
+				break;
+			case 3:
+				params.put("parentId","d2c1c37069fa4ce189bc4a3529cc7a65");
+				break;
+			case 4:
+				params.put("parentId","ebc16b9cafd84d53a8222eae5d4340d6");
+				break;
+			default:
+				break;
+			}
+        	List<User> userlist = systemService.checkUser(params);
+        	if(userlist!=null&&userlist.size()>0){
+        		 return resultSuccessData(response,"查询数据成功", true);
+        	}else{
+        		 return resultSuccessData(response,"查询数据成功", false);
+        	}
+        } catch (Exception e) {
+        	e.printStackTrace();
             return resultErrorData(response,"查询数据异常", null);
         }
     }
