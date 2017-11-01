@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$.ajax({
 			type : 'POST',
 			data : data,
-			url : '<%=basePath%>front/report/frontCompanyReport/update'
+			url : whlyPath + '/report/frontCompanyReport/update'
 		}).done(function(result, status, xhr) {
 			window.location.href=whlyPath+"/report/frontCompanyReport/list?menuId=${menuId}";    
 		}).fail(function(xhr, status, error) {
@@ -93,11 +89,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$.ajax({
 			type : 'POST',
 			data : data,
-			url : '<%=basePath%>front/taskmange/examine/list',
+			url : whlyPath + '/taskmange/examine/list',
 			dataType : 'json'
 		}).done(function(result, status, xhr) {
 			var data = result.data;
-			console.info('data',data);
 			var thisMonth = null; //本年本月的上报信息
 			var lastMonth = null; //本年上月的上报信息
 			var lastYear = null;  //上年本月的上报信息
