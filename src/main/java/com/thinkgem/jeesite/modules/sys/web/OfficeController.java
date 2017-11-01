@@ -89,6 +89,7 @@ public class OfficeController extends BaseController {
 			office.setCode(office.getParent().getCode() + StringUtils.leftPad(String.valueOf(size > 0 ? size+1 : 1), 3, "0"));
 		}
 		model.addAttribute("office", office);
+		
 		return "modules/sys/officeForm";
 	}
 	
