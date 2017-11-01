@@ -61,6 +61,8 @@ public class WhlyLoginController extends BaseController {
 			CookieUtils.setCookie(response, "LOGINED", "false");
 		}
 		
+		
+		
 		// 如果已经登录，则跳转到威海首页
 		if(principal != null && !principal.isMobileLogin()){
 			return "redirect:" + whlyPath+"/home";

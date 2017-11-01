@@ -195,12 +195,12 @@ $.ready(function() {
 						<!-- BEGIN SAMPLE FORM PORTLET-->
 						<div class="portlet light bordered">
 							<div class="portlet-title">
-								<div class="caption font-red-sunglo">
+								<div class="caption font-red-sunglo col-md-12">
 									<i class="icon-settings font-red-sunglo"></i> <span
-										class="caption-subject bold uppercase">
+										class="caption-subject bold uppercase col-md-10">
 										营业收入、营业利润、企业税费请填写企业单月数据，不要填写累计数据</span>
 										<!-- 营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额请填写企业单月数据，不要填写累计数据</span> -->
-									<div style="float: right;padding-top: 15px;font-size: 15px;">${topMonth.info }</div>
+									<div style="float: right;font-size: 15px;" class="actions">${topMonth.info }</div>
 								</div>
 								<!-- <div class="actions">
 									<div class="btn-group">
