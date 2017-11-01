@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,13 +93,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$("#regionQuery").val("");
 				$("#industryQuery").val("");
 				$("#nameQuery").val("");
-				location.replace('<%=basePath%>front/report/frontCompanyReport/list?menuId=${menuId}');
+				location.replace(whlyPath + '/report/frontCompanyReport/list?menuId=${menuId}');
 			}
 			
 			//导出
 			function Export() {
-				$("#searchForm").attr("action", '<%=basePath%>front/report/frontCompanyReport/export').submit();
-				$("#searchForm").attr("action", '<%=basePath%>front/report/frontCompanyReport/list?menuId=${menuId}');
+				$("#searchForm").attr("action", whlyPath + '/report/frontCompanyReport/export').submit();
+				$("#searchForm").attr("action", whlyPath + '/report/frontCompanyReport/list?menuId=${menuId}');
 			}
         	
         	//分页

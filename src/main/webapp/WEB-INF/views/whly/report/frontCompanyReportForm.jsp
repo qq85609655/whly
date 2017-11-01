@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,14 +57,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$.ajax({
 				type : 'POST',
 				data : data,
-				url : '<%=basePath%>front/report/frontCompanyReport/getfrontCompanyReportById',
+				url : whlyPath + '/report/frontCompanyReport/getfrontCompanyReportById',
 				dataType : 'json'
 			}).done(function(result, status, xhr) {
 				var companyName = $("#companyName").val();
                 var question = result.data.question;
                	var divs = $('#remarks').find("div");
 				if(companyName!=null && result.data.companyName == companyName && result.data.status != 'PASSED') {
-					$("#action").attr('action','<%=basePath%>front/report/frontCompanyReport/update?menuId=${menuId}');
+					$("#action").attr('action', whlyPath + '/report/frontCompanyReport/update?menuId=${menuId}');
 					//$("#company").attr('value',result.data.companyName);
 					$("#totalIncome").attr('value',result.data.totalIncome);
 					$("#operatingCosts").attr('value',result.data.operatingCosts);
@@ -129,7 +125,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 			});
 		} else {
-			$("#action").attr('action','<%=basePath%>front/report/frontCompanyReport/save?menuId=${menuId}');
+			$("#action").attr('action', whlyPath + '/report/frontCompanyReport/save?menuId=${menuId}');
 			$("#return").attr("style","display:none;");
 			$("#submit").attr("style","display:block;");
 			addRemarks();
