@@ -34,194 +34,229 @@
 
 
         <style>
-            /* 1366*768 */
-            /* 1920*1080 */
-            @media screen and (max-width:1400px){
-            html{overflow: hidden;font-size: 16px}
-            .login {
-                background:url("/static/${whlyPage}/assets/global/img/login/loginBg.jpg") no-repeat 100% 100%!important;
-                background-size: 100% 100%!important;
-                overflow: hidden;
-            }
-            .login .content {
-                background:rgba(0,0,0,0);
-                /* margin-top:0; */
-                margin-top:200px;
-            }
-            #loginForm {
-                width:18rem;
-                height:12rem;
-                /* background:#dd0; */
-                /* margin-top:230px; */
-                margin-top:2.4rem; 
-                margin-left:1rem;
-            }
-            .control-label,.input-label {
-                display:inline-block;
-                color:#fff;
-                width:60px;
-                text-align: left;
-                padding-left:8px;
-            }
-           .login .content .form-control {
-                display: inline-block;
-                width:12rem;
-                height:1.6rem;
-                background:linear-gradient(to bottom,#ccc,#fff);
-            }
-            .login .content .form-signin .form-group {
-                margin-bottom:10px;
-            }
-            .login .content .form-signin .form-group2 {
-                margin-bottom:0;
-            }
-            .login .content .form-actions{
-                height: 66px;
-                padding:5px 30px;
-                border: 0;
-            }
-            .login .content .form-actions #rememberMe {
-                margin-left:8px;
-                margin-top:8px;
-                float:left;
-            }
-            .login .content .form-actions .rememberMe {
-                float:left;
-            }
-            .login .content .form-actions .btn {
-                margin-top:20px;
-                margin-left:60px;
-                background:url("/static/${whlyPage}/assets/global/img/login/loginBtn.png") no-repeat 100% 100%;
-                background-size: 100% 100%;
-                padding:5px 15px!important;
-                float:left;
-                border: 0;
-                outline: none;
-            }
-            .login .content .check {
-                color:#fff;
-                font-size: 12px;
-                float:left;
-                margin-top:5px;
-                margin-left:5px;
-            }
+/* 1366*768 */
+/* 1920*1080 */
+@media screen and (max-width:1400px) {
+	html {
+		overflow: hidden;
+		font-size: 16px
+	}
+	.login {
+		background:
+			url("/static/${whlyPage}/assets/global/img/login/bg.png")
+			no-repeat 100% 100% !important;
+		background-size: 100% 100% !important;
+		overflow: hidden;
+	}
+	.login .content {
+		background: rgba(0, 0, 0, 0);
+		/* margin-top:0; */
+		margin-top: 200px;
+	}
+	#loginForm {
+		width: 18rem;
+		height: 12rem;
+		/* background:#dd0; */
+		/* margin-top:230px; */
+		margin-top: 2.4rem;
+		margin-left: 1rem;
+	}
+	.control-label, .input-label {
+		display: inline-block;
+		color: #fff;
+		width: 60px;
+		text-align: left;
+		padding-left: 8px;
+	}
+	.login .content .form-control {
+		display: inline-block;
+		width: 12rem;
+		height: 1.6rem;
+		background: linear-gradient(to bottom, #ccc, #fff);
+	}
+	.login .content .form-signin .form-group {
+		margin-bottom: 10px;
+	}
+	.login .content .form-signin .form-group2 {
+		margin-bottom: 0;
+	}
+	.login .content .form-actions {
+		height: 66px;
+		padding: 5px 30px;
+		border: 0;
+	}
+	.login .content .form-actions #rememberMe {
+		margin-left: 8px;
+		margin-top: 8px;
+		float: left;
+	}
+	.login .content .form-actions .rememberMe {
+		float: left;
+	}
+	.login .content .form-actions .btn {
+		margin-top: 20px;
+		margin-left: 60px;
+		background:
+			url("/static/${whlyPage}/assets/global/img/login/loginBtn.png")
+			no-repeat 100% 100%;
+		background-size: 100% 100%;
+		padding: 5px 15px !important;
+		float: left;
+		border: 0;
+		outline: none;
+	}
+	.login .content .check {
+		color: #fff;
+		font-size: 12px;
+		float: left;
+		margin-top: 5px;
+		margin-left: 5px;
+	}
+	.alert {
+		padding: 2px 10px;
+		/* margin-top:-34px; */
+		margin-top: -45px;
+		margin-bottom: 4px;
+	}
+	.validateCode {
+		margin-top: 8px;
+	}
+	.validateCode .mid {
+		margin-top: 0 !important;
+		color: #fff !important;
+	}
+	.loginBg{
+		position: absolute;
+		top: 10.5em;
+		left: 50%;
+		transform: translateX(-50%);
+		height: 24em;
+		width: 30em;
+		background: url(/static/whly/assets/global/img/login/bg_login.png);
+		background-size: 100% 100%;
+	}
+}
 
-            .alert {
-                padding:2px 10px;
-                /* margin-top:-34px; */
-                margin-top:-45px;
-                margin-bottom:4px;
-            }
-            .validateCode {
-                margin-top:8px;
-            }
-            .validateCode .mid {
-                margin-top:0!important;
-                color:#fff!important;
-            }
-            }
-            @media screen and (min-width:1400px) and (max-width:2000px){
-                html{overflow: hidden;font-size: 30px}
-                body{font-size:18px}
-                .login {
-                    background:url("/static/${whlyPage}/assets/global/img/login/loginBg.jpg") no-repeat 100% 100%!important;
-                    background-size: 100% 100%!important;
-                    overflow: hidden;
-                }
-                .login .content {
-                    width:490px;
-                    background:rgba(0,0,0,0);
-                    /* margin-top:0; */
-                    margin-top:200px;margin-left:690px;
-                }
-                #loginForm {
-                    width:18rem;
-                    height:12rem;
-                    /* background:#dd0; */
-                    /* margin-top:230px; */
-                    margin-top:6rem; 
-                    margin-left:1rem;
-                }
-                .control-label,.input-label {
-                    display:inline-block;
-                    color:#fff;
-                    width:80px;
-                    text-align: left;
-                    padding-left:8px;
-                    font-size: 22px;
-                }
-               .login .content .form-control {
-                    display: inline-block;
-                    width:10rem;
-                    height:1.6rem;
-                    background:linear-gradient(to bottom,#ccc,#fff);
-                    font-size: 22px;
-                }
-                .login .content .form-signin .form-group {
-                    margin-bottom:10px;
-                }
-                .login .content .form-signin .form-group2 {
-                    margin-bottom:0;
-                }
-                .login .content .form-actions{
-                    height: 66px;
-                    padding:5px 30px;
-                    border: 0;
-                }
-                .login .content .form-actions #rememberMe {
-                    margin-left:8px;
-                    margin-top:8px;
-                    float:left;
-                    width:32px;
-                    height:25px;
-                }
-                .login .content .form-actions .rememberMe {
-                    font-size: 22px;
-                    float:left;
-                }
-                .login .content .form-actions .btn {
-                    margin-top:20px;
-                    margin-left:60px;
-                    background:url("/static/${whlyPage}/assets/global/img/login/loginBtn.png") no-repeat 100% 100%;
-                    background-size: 100% 100%;
-                    padding:20px 50px!important;
-                    float:left;
-                    border: 0;
-                    outline: none;
-                    font-size: 22px;
-                }
-                .login .content .check {
-                    color:#fff;
-                    font-size: 12px;
-                    float:left;
-                    margin-top:5px;
-                    margin-left:5px;
-                }
-    
-                .alert {
-                    padding:2px 10px;
-                    /* margin-top:-34px; */
-                    margin-top:-45px;
-                    margin-bottom:4px;
-                }
-                #validateCode{
-                    width:80px!important;
-                    height:40px!important;
-                    font-size:24px;
-                }
-                .validateCode {
-                    margin-top:8px;
-                    /* width:80px!important;
+@media screen and (min-width:1400px) and (max-width:2000px) {
+	html {
+		overflow: hidden;
+		font-size: 30px
+	}
+	body {
+		font-size: 18px
+	}
+	.login {
+		background: url("/static/${whlyPage}/assets/global/img/login/bg.png")
+			no-repeat 100% 100% !important;
+		background-size: 100% 100% !important;
+		overflow: hidden;
+	}
+	.login .content {
+		width: 490px;
+		background: rgba(0, 0, 0, 0);
+		/* margin-top:0; */
+		margin-top: 200px;
+		margin-left: 690px;
+	}
+	#loginForm {
+		width: 18rem;
+		height: 12rem;
+		/* background:#dd0; */
+		/* margin-top:230px; */
+		margin-top: 6rem;
+		margin-left: 1rem;
+	}
+	.control-label, .input-label {
+		display: inline-block;
+		color: #fff;
+		width: 80px;
+		text-align: left;
+		padding-left: 8px;
+		font-size: 22px;
+	}
+	.login .content .form-control {
+		display: inline-block;
+		width: 10rem;
+		height: 1.6rem;
+		background: linear-gradient(to bottom, #ccc, #fff);
+		font-size: 22px;
+	}
+	.login .content .form-signin .form-group {
+		margin-bottom: 10px;
+	}
+	.login .content .form-signin .form-group2 {
+		margin-bottom: 0;
+	}
+	.login .content .form-actions {
+		height: 66px;
+		padding: 5px 30px;
+		border: 0;
+	}
+	.login .content .form-actions #rememberMe {
+		margin-left: 8px;
+		margin-top: 8px;
+		float: left;
+		width: 32px;
+		height: 25px;
+	}
+	.login .content .form-actions .rememberMe {
+		font-size: 22px;
+		float: left;
+	}
+	.login .content .form-actions .btn {
+		margin-top: 20px;
+		margin-left: 60px;
+		background:
+			url("/static/${whlyPage}/assets/global/img/login/loginBtn.png")
+			no-repeat 100% 100%;
+		background-size: 100% 100%;
+		padding: 20px 50px !important;
+		float: left;
+		border: 0;
+		outline: none;
+		font-size: 22px;
+	}
+	.login .content .check {
+		color: #fff;
+		font-size: 12px;
+		float: left;
+		margin-top: 5px;
+		margin-left: 5px;
+	}
+	.alert {
+		padding: 2px 10px;
+		/* margin-top:-34px; */
+		margin-top: -45px;
+		margin-bottom: 4px;
+	}
+	#validateCode {
+		width: 80px !important;
+		height: 40px !important;
+		font-size: 24px;
+	}
+	.validateCode {
+		margin-top: 8px;
+		/* width:80px!important;
                     height:40px!important; */
-                }
-                .validateCode .mid {
-                    width:100px;
-                    margin-top:0!important;
-                    color:#fff!important;
-                    font-size: 22px;
-                }
-            }
-        </style>
+	}
+	.validateCode .mid {
+		width: 100px;
+		margin-top: 0 !important;
+		color: #fff !important;
+		font-size: 22px;
+	}
+	.loginBg {
+		position: absolute;
+		top: 14.5em;
+		left: 50%;
+		transform: translateX(-50%);
+		height: 28em;
+		width: 30em;
+		background: url(/static/whly/assets/global/img/login/bg_login.png);
+		background-size: 100% 100%;
+	}
+}
+</style>
         <!-- BEGIN THEME LAYOUT STYLES -->
         <!-- END THEME LAYOUT STYLES -->
    		<script src="/static/${whlyPage}/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
@@ -261,6 +296,7 @@
         </div> -->
         <!-- END LOGO -->
         <!-- BEGIN LOGIN -->
+        <div class="loginBg"></div>
         <div class="content">
             <!-- BEGIN LOGIN FORM -->
             <form id="loginForm" class="form-signin" action="${whlyPath}/login" method="post">
@@ -274,7 +310,7 @@
                     <label class="control-label visible-ie8 visible-ie9">用户名:</label>
                     <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="" id="username"  value="${username}" name="username" /> </div>
                 <div class="form-group form-group2">
-                    <label class="control-label visible-ie8 visible-ie9">密&nbsp;&nbsp;&nbsp;码:</label>
+                    <label class="control-label visible-ie8 visible-ie9">密&emsp;码:</label>
                     <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="" id="password" name="password" /> </div>
                     
                     <c:if test="${isValidateCodeLogin}"><div class="validateCode">
