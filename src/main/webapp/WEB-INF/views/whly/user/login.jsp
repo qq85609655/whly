@@ -135,15 +135,15 @@
 		background: url(/static/whly/assets/global/img/login/bg_login.png);
 		background-size: 100% 100%;
 	}
-	.loginBg{
+	/* .loginBg{
 			box-shadow: 0.2em 0.2em 1em 0.3em rgba(0,0,0,.6);
-	}
+	} */
 }
 
 @media screen and (min-width:1400px) and (max-width:2000px) {
-.loginBg{
+/* .loginBg{
 			box-shadow: 0.2em 0.2em 1em 0.3em rgba(0,0,0,.6);
-	}
+	} */
 	html {
 		overflow: hidden;
 		font-size: 30px

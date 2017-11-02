@@ -194,7 +194,7 @@ $.ready(function() {
 								<div class="caption font-red-sunglo col-md-12">
 									<i class="icon-settings font-red-sunglo"></i> <span
 										class="caption-subject bold uppercase col-md-10">
-										营业收入、营业利润、企业税费请填写企业单月数据，不要填写累计数据</span>
+										营业收入、营业成本 、营业利润、企业税费请填写企业单月数据，不要填写累计数据</span>
 										<!-- 营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额请填写企业单月数据，不要填写累计数据</span> -->
 									<div style="float: right;font-size: 15px;" class="actions">${topMonth.info }</div>
 								</div>
@@ -241,14 +241,14 @@ $.ready(function() {
 											</div>
 										</div>
 										
-										<!-- <div class="form-group col-md-6">
+										<div class="form-group col-md-6">
 											<label>营业成本 （万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input required type="number" class="form-control" name="operatingCosts" id="operatingCosts"
 													placeholder="请输入营业成本" aria-describedby="sizing-addon1">
 											</div>
-										</div> -->
+										</div>
 										<div class="form-group col-md-6">
 											<label>营业利润（万元）</label>
 											<div class="input-group">
@@ -257,14 +257,14 @@ $.ready(function() {
 													placeholder="请输入营业利润" aria-describedby="sizing-addon1">
 											</div>
 										</div>
-										<div class="form-group col-md-6">
+										<!-- <div class="form-group col-md-6">
 											<label>企业税费（万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input required type="number" class="form-control" name="totalTax" id="totalTax"
 													placeholder="请输入企业税费" aria-describedby="sizing-addon1">
 											</div>
-										</div>
+										</div> -->
 										<!-- <div class="form-group col-md-6">
 											<label>应付职工薪酬（万元）</label>
 											<div class="input-group">
