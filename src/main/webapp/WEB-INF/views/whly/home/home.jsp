@@ -12,22 +12,25 @@
        			background:#6ebcf1;
        		}
        		.dashboard-stat.red{
-       			background:#e1898f;
+       			background:#81c7f7;
        		}
        		.dashboard-stat.red .more {
-       			background:#da7a80;
+       			background:#6ebcf1;
        		}
        		.dashboard-stat.green {
-       			background:#9ae2e9;
+       			background:#81c7f7;
        		}
        		.dashboard-stat.green .more {
-       			background:#92d1d6;
+       			background:#6ebcf1;
        		}
        		.dashboard-stat.purple {
-       			background:#cd9fe1;	
+       			background:#81c7f7;
        		}
        		.dashboard-stat.purple .more {
-       			background:#ae89be;
+       			background:#6ebcf1;
+       		}
+       		.page-bar .page-breadcrumb > li > i {
+       			font-size:11px;
        		}
        </style>
     </head>
