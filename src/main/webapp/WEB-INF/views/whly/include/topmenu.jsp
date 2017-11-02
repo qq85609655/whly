@@ -125,6 +125,11 @@
 		                          </li>
 		                          <li>
 		                              <a href="javascript:void(0);">
+		                                  <i class="fa fa-lock"></i> 更改密码
+		                              </a>
+		                          </li>
+		                          <li>
+		                              <a href="javascript:void(0);">
 		                                  <i class="icon-rocket"></i> 待办
 		                                  <span class="badge badge-success"> 7 </span>
 		                              </a>

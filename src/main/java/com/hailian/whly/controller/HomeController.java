@@ -44,7 +44,8 @@ public class HomeController extends BaseController {
 			}
 		}
 		if(!canSh){
-			return whlyPage+"/home/news";
+			//return whlyPage+"/home/news";
+			return whlyPage+"/home/home";
 		}else{
 			return whlyPage+"/home/home";
 		}
