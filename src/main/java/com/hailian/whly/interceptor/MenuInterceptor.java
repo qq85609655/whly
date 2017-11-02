@@ -37,7 +37,9 @@ public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 		if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))
 				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/login")
 				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/industry/login")
-				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/choose")){
+				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/choose")
+				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/logout")
+				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/ajax/checkUser")){
 			if(UserUtils.getUser()==null||StringUtils.isBlank(UserUtils.getUser().getId())){
 				   response.sendRedirect(Global.getWhlyPath() + "/choose");
 				   return false;
@@ -51,7 +53,8 @@ public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 			ModelAndView modelAndView) throws Exception {
 		//排除ajax之外  处理请求
 		//if(!request.getRequestURI().startsWith(Global.getWhlyPath()+"/ajax")){
-		if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))){
+		if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))
+				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/logout")){
 			String menuId=request.getParameter("menuId");
 			//处理菜单
 			Map<String,Object> model=modelAndView.getModel();

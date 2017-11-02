@@ -300,6 +300,7 @@
         <div class="content">
             <!-- BEGIN LOGIN FORM -->
             <form id="loginForm" class="form-signin" action="${whlyPath}/login" method="post">
+             <input type="hidden" name="type" id="typeId" value="${type }"/>
                 <!-- <h3 class="form-title font-green">${fnc:getSite(1).name}</h3> -->
                 <div  id="messageBox" class="alert alert-danger ${empty message ? 'display-hide' : ''}">
                     <button class="close" data-close="alert" class="close">×</button>
@@ -312,7 +313,7 @@
                 <div class="form-group form-group2">
                     <label class="control-label visible-ie8 visible-ie9">密&emsp;码:</label>
                     <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="" id="password" name="password" /> </div>
-                    <input type="hidden" name="type" id="typeId" value="${type }"/>
+                   
                     <c:if test="${isValidateCodeLogin}"><div class="validateCode">
 			<label class="input-label mid" for="validateCode">验证码:</label>
 			<sys:validateCode name="validateCode" inputCssStyle="margin-bottom:0;"/>
@@ -321,7 +322,7 @@
                      
                                 <input type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''} title="下次不需要再登录" value="1" />
                                 <label class="rememberme check" for="rememberMe">记住密码</label>
-                    <button type="button" id="submitBtn" onclick="submitMethod()" class="btn green uppercase">登 录</button>
+                    <button type="submit" id="submitBtn"  class="btn green uppercase">登 录</button>
                    
                   <!--   <a href="javascript:;" id="forget-password" class="forget-password">忘记密码?</a> -->
                 </div>
@@ -342,37 +343,10 @@ $(function(){
 	document.onkeydown = function(e){ 
 	    var ev = document.all ? window.event : e;
 	    if(ev.keyCode==13) {
-	           //$("#loginForm").submit();//处理事件
-	    	submitMethod();
+	           $("#loginForm").submit();//处理事件
+	    	//submitMethod();
 	     }
 		}
 	}); 
-function submitMethod(){
-	var type=$("#typeId").val();
-	var username=$("#username").val();
-	var password=$("#password").val();
-	if(username==""||password==""){
-		$("#loginForm").submit();
-	}else{
-		//校验输入的用户是否在相应的分组里面
-		$.ajax({
-			type : "post",
-			url : "${whlyPath}/ajax/checkUser",
-			data:{"type":type,"loginName":username},
-			dataType:'json',
-			success : function(data) {
-				if(data.statusCode==200){
-					if(data.resData==false){
-						$("#loginError").html("模块分类选择错误，请重新选择！");
-						$("#messageBox").removeClass("display-hide").css("display","block");
-					}else{
-						$("#loginForm").submit();
-					}
-				}
-				
-			}
-		});
-	}
-}
 </script>
 </html>

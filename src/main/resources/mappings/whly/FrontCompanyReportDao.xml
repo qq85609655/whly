@@ -109,7 +109,7 @@
 				AND o5.name like CONCAT(CONCAT('%', #{companyName}), '%')
 			</if>
 			<if test="companyParentId != null and companyParentId != ''">
-				AND o5.parent_id = #{companyParentId }
+				AND o5.parent_id = #{companyParentId } 
 			</if>
 			and a.report_time is not null
 		</where>
