@@ -100,7 +100,12 @@ public class FrontCompanyReportController extends BaseController {
 		Map<String, Object> topMonth=new HashMap<String, Object>();
 		if(org.apache.commons.lang3.StringUtils.isBlank(frontCompanyReport.getId())){
 			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
-			topMonth=frontCompanyReportService.getTopReportMonth();
+			try {
+				topMonth=frontCompanyReportService.getTopReportMonth();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 		}else{
 			frontCompanyReport=frontCompanyReportService.get(frontCompanyReport.getId());
 		}

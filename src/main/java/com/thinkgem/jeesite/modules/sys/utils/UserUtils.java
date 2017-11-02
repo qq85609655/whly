@@ -4,7 +4,10 @@
 package com.thinkgem.jeesite.modules.sys.utils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -202,11 +205,20 @@ public class UserUtils {
 				m.setFrontRootRoleId(Global.getFrontRootRole());
 				menuList = menuDao.findDefaultMenu(m);
 			}
+			menuList=removeDuplicateWithOrder(menuList);
 			putCache(CACHE_FRONT_MENU_LIST, menuList);
 		}
 		return menuList;
 	}
-	
+	public  static   List<Menu>  removeDuplicateWithOrder(List<Menu> list)   { 
+		List<Menu> listTemp = new ArrayList();  
+        for(int i=0;i<list.size();i++){  
+            if(!listTemp.contains(list.get(i))){  
+                listTemp.add(list.get(i));  
+            }  
+        }  
+        return listTemp;  
+	} 
 	/**
 	 * 获取当前用户授权菜单
 	 * @return

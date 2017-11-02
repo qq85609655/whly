@@ -19,6 +19,7 @@ import com.hailian.whly.service.WhlyAccountService;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 
@@ -104,6 +105,7 @@ public class AjaxController extends BaseController {
         	Map<String, Object> params=new HashMap<String, Object>();
         	params.put("status", status);
         	params.put("dateList", dateList);
+        	params.put("companyId", UserUtils.getUser().getCompany().getParentId());
         	List<FrontCompanyReport> sourcelist = frontCompanyReportService.statisticsReportByDate(params);
         	List<FrontCompanyReport> finalList=Lists.newArrayList();
         	for(String time:dateList){

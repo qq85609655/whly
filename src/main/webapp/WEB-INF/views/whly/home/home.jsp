@@ -54,6 +54,7 @@
                     
                     <!-- 主体部分START-->
                     <div class="row">
+                    <input type="hidden" id="companyIdDiv" value="${fns:getUser().company.parentId}">
 				         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 				             <div class="dashboard-stat blue">
 				                 <div class="visual">
@@ -158,7 +159,6 @@
 				     
 				     
 				     
-				     
                      <!-- 主体部分END-->
                     
                     <div class="clearfix"></div>
@@ -170,8 +170,10 @@
         <%@ include  file="../include/footer.jsp" %>
         <!-- js必须引用在body前面 -->
 	   <script>
+	   
 	   var myChart2 = echarts.init(document.getElementById("echarts_line"));
        var myChartPie = echarts.init(document.getElementById("echarts_pie"));
+       var companyParentId=$("#companyIdDiv").val();
        var option = {
    		    title : {
    		        text: '行业分类分析',
@@ -235,13 +237,17 @@
    		                    
       myChartPie.setOption(option);
 	   $(function(){
+		   if(companyParentId=="be9e0da458064360b214c9ca69327859"){
 		    getStatisticsCountByStatus(null,null);
+		   }
 		    getBottomData(null);
 		});
 	   //下方折现 pie图数据
 	   function getBottomData(status){
 		   getStatisticsReportByDate(status);
-		  // getStatisticsCountByType(status);
+		   if(companyParentId=="be9e0da458064360b214c9ca69327859"){
+			   getStatisticsCountByType(status);
+		   }
 	   }
 	   //按照状态、时间统计数量
 	   function getStatisticsCountByStatus(startDate,endDate){
@@ -254,10 +260,10 @@
 					if(data.statusCode==200){
 						var dataArr=[],nameArr=[];
 						//以下三行为获取真实数据，应客户要求先注释
-						// $.each(data.resData,function(index,item){
-						// 	var html='<span data-counter="counterup"  data-value="'+item.count+'">'+item.count+'</span>家';
-						// 	$("#num_"+(item.name.toLowerCase())).html(html);
-						// });
+						 $.each(data.resData,function(index,item){
+						 	var html='<span data-counter="counterup"  data-value="'+item.count+'">'+item.count+'</span>家';
+						 	$("#num_"+(item.name.toLowerCase())).html(html);
+						 });
 					}
 					
 				}			

@@ -322,7 +322,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		if (reportList == null && reportList.size() == 0) {
+		if (reportList == null || reportList.size() == 0) {
 			result.put("year", year);
 			result.put("month", Integer.valueOf(month.intValue() - 1));
 			result.put("info", year + "年" + (month.intValue() - 1) + "月");

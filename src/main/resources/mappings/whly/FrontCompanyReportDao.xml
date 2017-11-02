@@ -303,6 +303,10 @@
 		<if test="status != null and status != ''">
 				AND r.status = #{status}
 		</if>
+		<if test="companyId != null and companyId != ''">
+				AND r.company_id in(select id from sys_office where parent_id=#{companyId}) 
+		</if>
+		
 		and date_format(r.insert_time, '%Y/%m') in
 		 <foreach collection="dateList" index="index" item="item" open="(" separator="," close=")">  
 	        #{item}  
