@@ -1,4 +1,4 @@
-package com.qst.dto;
+package com.hailian.whly.commom;
 
 import java.io.Serializable;
 

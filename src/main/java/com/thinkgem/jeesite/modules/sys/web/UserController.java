@@ -3,7 +3,6 @@
  */
 package com.thinkgem.jeesite.modules.sys.web;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +24,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.qst.entity.KeyValue;
 import com.thinkgem.jeesite.common.beanvalidator.BeanValidators;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.DateUtils;
-import com.thinkgem.jeesite.common.utils.MD5Util;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
@@ -179,127 +176,6 @@ public class UserController extends BaseController {
 		return page;
 	}*/
 
-	@RequiresPermissions("sys:user:view")
-	@RequestMapping(value = "accountForm")
-	public String accountForm(Account user, Model model) {
-		/*if (user.getCompany()==null || user.getCompany().getId()==null){
-			user.setCompany(UserUtils.getUser().getCompany());
-		}
-		if (user.getOffice()==null || user.getOffice().getId()==null){
-			user.setOffice(UserUtils.getUser().getOffice());
-		}*/
-		//新闻类型 0-重大新闻 1-公告新闻 2-普通新闻
-		List<KeyValue> delFlagList=new ArrayList<KeyValue>();
-		String[] newsTypeArr=new String[]{"未删除","已删除"};
-		for(int x=0;x<newsTypeArr.length;x++){
-			KeyValue v=new KeyValue();
-			v.setLabel(x+"");
-			v.setValue(newsTypeArr[x]);
-			delFlagList.add(v);
-		}
-		model.addAttribute("delFlagList", delFlagList);
-		Account muser=accountService.get(user.getId());
-		List<Role> allRoles=systemService.findAllRole();
-		if(muser!=null){
-			List<Role> roleList = Lists.newArrayList();
-			List<String> roleIdList = new ArrayList<String>();
-			if(StringUtils.isNotBlank(muser.getRoleId())){
-				String[] ids=muser.getRoleId().split(",");
-				for(String id:ids){
-					roleIdList.add(id);
-				}
-			}
-			for (Role r : allRoles){
-				if (roleIdList.contains(r.getId())){
-					roleList.add(r);
-				}
-			}
-			muser.setRoleList(roleList);
-			user=muser;
-		}
-		model.addAttribute("user", user);
-		model.addAttribute("allRoles",allRoles );
-		return "modules/sys/accountForm";
-	}
-
-	@RequiresPermissions("sys:user:edit")
-	@RequestMapping(value = "accountSave")
-	public String accountSave(Account user, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
-		if(Global.isDemoMode()){
-			addMessage(redirectAttributes, "演示模式，不允许操作！");
-			return "redirect:" + adminPath + "/sys/user/accountList?repage";
-		}
-		//前台使用MD5加密
-		if(user.getIsNewRecord()){
-			user.setPassword(MD5Util.getStringMD5(user.getPassword()));
-		}
-		if (!beanValidator(model, user)){
-			return accountForm(user, model);
-		}
-		/*if (!"true".equals(checkLoginName(user.getUserName(), user.getUserName()))){
-			addMessage(model, "保存用户'" + user.getLoginName() + "'失败，登录名已存在");
-			return accountForm(user, model);
-		}*/
-		// 角色数据有效性验证，过滤不在授权内的角色
-		List<Role> roleList = Lists.newArrayList();
-		List<String> roleIdList = user.getRoleIdList();
-		String roleIds="";
-		for (Role r : systemService.findAllRole()){
-			if (roleIdList.contains(r.getId())){
-				roleList.add(r);
-				roleIds+=","+r.getId()+",";
-			}
-		}
-		user.setRoleId(roleIds);
-		user.setRoleList(roleList);
-		//Account a=getAccount(user);
-		if(StringUtils.isBlank(user.getId())){
-			accountService.insert(user);
-		}else{
-			accountService.update(user);
-		}
-		// 保存用户信息
-		//systemService.saveUser(user);
-		// 清除当前用户缓存
-	/*	if (user.getLoginName().equals(UserUtils.getUser().getLoginName())){
-			UserUtils.clearCache();
-			//UserUtils.getCacheMap().clear();
-		}*/
-		addMessage(redirectAttributes, "保存用户'" + user.getUserName() + "'成功");
-		return "redirect:" + adminPath + "/sys/user/accountList?repage";
-	}
-	@RequiresPermissions("sys:user:edit")
-	@RequestMapping(value = "accountDelete")
-	public String accountDelete(Account user, RedirectAttributes redirectAttributes) {
-		if(Global.isDemoMode()){
-			addMessage(redirectAttributes, "演示模式，不允许操作！");
-			return "redirect:" + adminPath + "/sys/user/accountList?repage";
-		}
-		accountService.delete(user);
-		/*if (UserUtils.getUser().getId().equals(user.getId())){
-			addMessage(redirectAttributes, "删除用户失败, 不允许删除当前用户");
-		}else if (User.isAdmin(user.getId())){
-			addMessage(redirectAttributes, "删除用户失败, 不允许删除超级管理员用户");
-		}else{
-			accountService.delete(user);
-			addMessage(redirectAttributes, "删除用户成功");
-		}*/
-		return "redirect:" + adminPath + "/sys/user/accountList?repage";
-	}
-	/**
-	 * 验证邮箱是否有效
-	 * @return
-	 */
-	@ResponseBody
-	@RequiresPermissions("sys:user:edit")
-	@RequestMapping(value = "checkAccountEmail")
-	public String checkAccountEmail(String email) {
-		List<Account> a=accountService.getByEmail(email);
-		if(a==null||a.size()==0){
-			return "true";
-		}
-		return "false";
-	}
 
 	@RequiresPermissions("sys:user:edit")
 	@RequestMapping(value = "delete")
