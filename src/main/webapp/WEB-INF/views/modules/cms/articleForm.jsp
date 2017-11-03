@@ -120,7 +120,6 @@
 				<sys:ckfinder input="image" type="thumb" uploadPath="/cms/article" selectMultiple="false"/>
 			</div>
 		</div>
-		<input type="hidden" id="yijian_news_id" name="yijian_news_id" value="${article.yijianNewsId}" />
 		<div class="control-group">
 			<label class="control-label">正文:</label>
 			<div class="controls">
