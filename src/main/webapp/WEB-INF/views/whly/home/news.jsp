@@ -3,33 +3,48 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-       <meta name="decorator" content="whly"/>
-       <style>
-       		.dashboard-stat.blue {
-       			background:#81c7f7;
-       		}
-       		.dashboard-stat.blue .more {
-       			background:#6ebcf1;
-       		}
-       		.dashboard-stat.red{
-       			background:#e1898f;
-       		}
-       		.dashboard-stat.red .more {
-       			background:#da7a80;
-       		}
-       		.dashboard-stat.green {
-       			background:#9ae2e9;
-       		}
-       		.dashboard-stat.green .more {
-       			background:#92d1d6;
-       		}
-       		.dashboard-stat.purple {
-       			background:#cd9fe1;	
-       		}
-       		.dashboard-stat.purple .more {
-       			background:#ae89be;
-       		}
-       </style>
+		<meta name="decorator" content="whly"/>
+		<style>
+				.dashboard-stat.blue {
+					background:#81c7f7;
+				}
+				.dashboard-stat.blue .more {
+					background:#6ebcf1;
+				}
+				.dashboard-stat.red{
+					background:#e1898f;
+				}
+				.dashboard-stat.red .more {
+					background:#da7a80;
+				}
+				.dashboard-stat.green {
+					background:#9ae2e9;
+				}
+				.dashboard-stat.green .more {
+					background:#92d1d6;
+				}
+				.dashboard-stat.purple {
+					background:#cd9fe1;	
+				}
+				.dashboard-stat.purple .more {
+					background:#ae89be;
+				}
+		</style>
+		<script type="text/javascript">
+				$(function() {
+					//alert();
+				});
+				
+				function alert() {
+					bootbox.alert({ 
+						  size: "small",
+						  title: "Your Title",
+						  message: "Your message here…", 
+						  callback: function(){ /* your callback code */ }
+						});
+				}
+				
+		</script>
     </head>
     <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
         <!-- BEGIN 顶部菜单  -->
@@ -76,7 +91,7 @@
                                                             <div class="cont">
                                                                 <div class="cont-col2">
                                                                     <div class="desc" style="margin-left:16px;">
-                                                                    	<a href="#"> 第122届广交会第三期开幕 众多轻工制造业企业参展</a>
+                                                                    	<a href="#" onclick="alert()"> 第122届广交会第三期开幕 众多轻工制造业企业参展</a>
                                                                     </div>
                                                                 </div>
                                                             </div>
