@@ -3,6 +3,7 @@
  */
 package com.hailian.whly.interceptor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,18 +31,22 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 	@Autowired
 	private SystemService systemService;
-	
+	private static final String PATH=Global.getWhlyPath();
+	/**
+	 *不需要特殊处理路径equals
+	 */
+	@SuppressWarnings("serial")
+	public final static List<String> passUrlsEquals= new ArrayList<String>(){{
+		add(PATH+"/login");
+		add(PATH+"/logout");
+		add(PATH+"/ajax/checkUser");
+	}};
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, 
 			Object handler) throws Exception {
-		if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))
-				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/login")
-				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/industry/login")
-				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/choose")
-				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/logout")
-				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/ajax/checkUser")){
+		if(!isAjax(request)&&!isPassStartWith(request.getRequestURI())){
 			if(UserUtils.getUser()==null||StringUtils.isBlank(UserUtils.getUser().getId())){
-				   response.sendRedirect(Global.getWhlyPath() + "/choose");
+				   response.sendRedirect(Global.getWhlyPath() + "/login");
 				   return false;
 			}
 		}
@@ -52,35 +57,72 @@ public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, 
 			ModelAndView modelAndView) throws Exception {
 		//排除ajax之外  处理请求
-		//if(!request.getRequestURI().startsWith(Global.getWhlyPath()+"/ajax")){
-		if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))
-				&&!request.getRequestURI().startsWith(Global.getWhlyPath()+"/logout")){
-			String menuId=request.getParameter("menuId");
-			//处理菜单
-			Map<String,Object> model=modelAndView.getModel();
-			
-			Menu menu=null;
-			String menusIds=null;//当前所选菜单全部父级id 包含自己
-			List<Menu> sourcelist = systemService.findAllFrontMenu();
-			for(Menu c:sourcelist){
-				if(c.getId().equals(menuId)){
-					menu=c;
-				}
-			}
-			if(menu!=null){
-				menusIds=","+menu.getParentIds()+menu.getId()+",";
-			}
-			model.put("menusIds", menusIds);
-			List<Menu> menuList = Menu.sortFrontList(sourcelist, Global.getFrontRootMenu(), true);
-	        model.put("menuList", menuList);
-	        model.put("menuId", menuId);
-	      //获取当前菜单层级名称
-			List<Menu> topMenu=Menu.getMenuName(sourcelist, menusIds);
-			model.put("topMenu", topMenu);
-	        
+		if(!isAjax(request)&&!isPassStartWith(request.getRequestURI())){
+			dealMenu(request, modelAndView);
 		}
 	}
-
+	/**
+	 * 
+	 * @time   2017年11月3日 下午9:26:18
+	 * @author zuoqb
+	 * @todo   处理菜单
+	 * @param  @param request
+	 * @param  @param modelAndView
+	 * @return_type   void
+	 */
+	private void dealMenu(HttpServletRequest request, ModelAndView modelAndView) {
+		String menuId=request.getParameter("menuId");
+		//处理菜单
+		Map<String,Object> model=modelAndView.getModel();
+		
+		Menu menu=null;
+		String menusIds=null;//当前所选菜单全部父级id 包含自己
+		List<Menu> sourcelist = systemService.findAllFrontMenu();
+		for(Menu c:sourcelist){
+			if(c.getId().equals(menuId)){
+				menu=c;
+			}
+		}
+		if(menu!=null){
+			menusIds=","+menu.getParentIds()+menu.getId()+",";
+		}
+		model.put("menusIds", menusIds);
+		List<Menu> menuList = Menu.sortFrontList(sourcelist, Global.getFrontRootMenu(), true);
+		model.put("menuList", menuList);
+		model.put("menuId", menuId);
+     //获取当前菜单层级名称
+		List<Menu> topMenu=Menu.getMenuName(sourcelist, menusIds);
+		model.put("topMenu", topMenu);
+	}
+	/**
+	 * 
+	 * @time   2017年11月3日 下午9:24:48
+	 * @author zuoqb
+	 * @todo  判断请求是否是ajax
+	 * @param  @param request
+	 * @param  @return
+	 * @return_type   boolean
+	 */
+	public boolean isAjax(HttpServletRequest request){
+		return "XMLHttpRequest".equals(request.getHeader("x-requested-with"));
+	}
+	/**
+	 * 
+	 * @time   2017年11月3日 下午9:19:33
+	 * @author zuoqb
+	 * @todo   是否放行，不需要特殊处理
+	 * @param  @param action_key
+	 * @param  @return
+	 * @return_type   boolean
+	 */
+	private boolean isPassStartWith(String action_key){
+		for (String string : passUrlsEquals) {
+			if(action_key.startsWith(string)){
+				return true;
+			}
+		}
+		return false;
+	}
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, 
 			Object handler, Exception ex) throws Exception {

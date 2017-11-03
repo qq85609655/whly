@@ -308,7 +308,6 @@
         <div class="content">
             <!-- BEGIN LOGIN FORM -->
             <form id="loginForm" class="form-signin" action="${whlyPath}/login" method="post">
-             <input type="hidden" name="type" id="typeId" value="${type }"/>
                 <!-- <h3 class="form-title font-green">${fnc:getSite(1).name}</h3> -->
                 <div  id="messageBox" class="alert alert-danger ${empty message ? 'display-hide' : ''}">
                     <button class="close" data-close="alert" class="close">×</button>

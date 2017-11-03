@@ -1,9 +1,5 @@
 package com.thinkgem.jeesite.modules.sys.security;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +9,9 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.sys.entity.User;
-import com.thinkgem.jeesite.modules.sys.service.SystemService;
 
 /**
  * 
@@ -37,13 +30,11 @@ public class WhlyFormAuthenticationFilter extends org.apache.shiro.web.filter.au
 	private String captchaParam = DEFAULT_CAPTCHA_PARAM;
 	private String mobileLoginParam = DEFAULT_MOBILE_PARAM;
 	private String messageParam = DEFAULT_MESSAGE_PARAM;
-	@Autowired
-	private SystemService systemService;
+	
 
 	public AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
 		String username = getUsername(request);
 		String password = getPassword(request);
-		String type=request.getParameter("type");
 		if (password==null){
 			password = "";
 		}
@@ -51,30 +42,7 @@ public class WhlyFormAuthenticationFilter extends org.apache.shiro.web.filter.au
 		String host = StringUtils.getRemoteAddr((HttpServletRequest)request);
 		String captcha = getCaptcha(request);
 		boolean mobile = isMobileLogin(request);
-		Map<String, Object> params=new HashMap<String, Object>();
-    	params.put("loginName",username);
-    	switch (Integer.valueOf(type)) {
-		case 1:
-			params.put("parentId","be9e0da458064360b214c9ca69327859");
-			break;
-		case 2:
-			params.put("parentId","cc0cbec49fe5449da652f8db57d473ab");
-			break;
-		case 3:
-			params.put("parentId","d2c1c37069fa4ce189bc4a3529cc7a65");
-			break;
-		case 4:
-			params.put("parentId","ebc16b9cafd84d53a8222eae5d4340d6");
-			break;
-		default:
-			params.put("parentId","be9e0da458064360b214c9ca69327859");
-		}
-    	List<User> userlist = systemService.checkUser(params);
-    	if(userlist!=null&&userlist.size()>0){
-    		return new UsernamePasswordToken(username, password.toCharArray(), rememberMe, host, captcha, mobile);
-    	}else{
-    		return new UsernamePasswordToken("", password.toCharArray(), rememberMe, host, captcha, mobile);
-    	}
+		return new UsernamePasswordToken(username, password.toCharArray(), rememberMe, host, captcha, mobile);
 	}
 
 	public String getCaptchaParam() {

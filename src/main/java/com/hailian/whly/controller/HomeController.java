@@ -10,7 +10,6 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * @className WhlyLoginController.java
@@ -33,7 +32,6 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping({"","/index"})
 	public String home(){
-		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
 		List<Menu> menuList = systemService.findAllFrontMenu();
 		boolean canSh=false;
 		for(Menu m:menuList){
