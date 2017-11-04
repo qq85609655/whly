@@ -31,7 +31,7 @@
 				}
 				
 				.modal-content {
-			        width: 196%;
+			        width: 193%;
 				    margin-left: -37%;
 				    height: 100%;
 				}
@@ -45,6 +45,12 @@
 				    text-align: right;
 				    line-height: 40px;
 				}
+				.feeds li .col2 {
+				    float: left;
+				    width: 161px;
+				    margin-left: -161px;
+				}
+				
 		</style>
 		<script type="text/javascript">
 				$(function() {
@@ -66,7 +72,21 @@
 						var newsLi = $('#newsLi');
 						var noticeLi = $('#noticeLi');
 		                for (var i = 0; i < data.length; i++) {
-							var li1 = li.replace('[id]', "'" + data[i].id + "'").replace('[title]', data[i].title).replace('[time]', getHour(nowTime,data[i].updateDate));
+		                	var dataTitle = "";
+		                	if(data[i].title.length >= 25) {
+		                		var s1 = new Date(nowTime.replace(/-/g, '/'));
+		    			        var s2 = new Date(data[i].updateDate.replace(/-/g, '/'));
+		    			        var ms = Math.abs(s1.getTime() - s2.getTime());
+		    			        var time = Math.floor(ms/1000/60/60);
+		    			        if(time > 24) {
+		    			        	dataTitle = data[i].title.substring(0,28) + '...';
+		    			        } else {
+		    			        	dataTitle = data[i].title;
+		    			        }
+		                	} else {
+		                		dataTitle = data[i].title;
+		                	}
+							var li1 = li.replace('[id]', "'" + data[i].id + "'").replace('[title]', dataTitle).replace('[title1]', data[i].title).replace('[time]', getHour(nowTime,data[i].updateDate));
 							if(data[i].categoryType == "1") {
 								newsLi.append(li1);
 							} else if(data[i].categoryType == "2"){
@@ -93,9 +113,9 @@
 			        	}
 			        	return time + "分钟前";
 			        }
-			        /* if(time > 24) {
+			        if(time > 24) {
 			        	return s3; 
-			        } */
+			        }
 			        return time + "小时前";
 			    }
 				
@@ -118,6 +138,7 @@
 						bootbox.dialog({ 
 							  size: "dialog",
 							  title: title,
+							  onEscape: true,
 							  message: '<h3 style="text-align:center;font-weight:bold;color:'+ result.data[0].color +';">' + result.data[0].title + '</h3><br>' + result.data[0].content,
 							  callback: function(){ /* your callback code */ }
 							});
@@ -135,7 +156,7 @@
 			             '              <div class="cont">' +
 			             '                  <div class="cont-col2">' +
 			             '                      <div class="desc" style="margin-left:16px;">' +
-			             '                      	<a href="#" onclick="alert([id])">  [title]</a>' +
+			             '                      	<a href="#" onclick="alert([id])" title="[title1]">  [title]</a>' +
 			             '                      </div>' +
 			             '                  </div>' +
 			             '              </div>' +
