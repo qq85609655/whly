@@ -226,12 +226,12 @@
 								</div>
 							</div>
 							<div class="form-group col-md-4">
-								<button class="btn green col-md-3" id="query" type="submit"
+								<button class="btn demo-loading-btn green col-md-3" id="query" type="submit" 
 									style="margin-left: 15px;">检索</button>
 									<div class="col-md-1"></div>
 									<button class="btn green col-md-3" type="button" id="export">导出</button>
 								<div class="col-md-1"></div>
-								<button class="btn green col-md-3" id="reset" type="button">重置</button>
+								<button class="btn green col-md-3" id="reset" type="button" >重置</button>
 							</div>
 						</div>
 					</form:form>

@@ -25,6 +25,24 @@
 	<sql id="frontNotificationJoins">
 	</sql>
     
+    <select id="getfrontNotification" resultType="com.hailian.whly.frontnotification.entity.FrontNotification" parameterType="com.hailian.whly.frontnotification.entity.FrontNotification">
+		SELECT 
+			<include refid="frontNotificationColumns"/>
+		FROM front_notification a
+			<include refid="frontNotificationJoins"/>
+		<where>
+			a.del_flag = 0
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="categoryType != null and categoryType != ''">
+				AND a.category_type = #{categoryType}
+			</if>
+			
+		</where>
+		ORDER BY a.update_date DESC
+	</select>
+    
 	<select id="get" resultType="com.hailian.whly.frontnotification.entity.FrontNotification">
 		SELECT 
 			<include refid="frontNotificationColumns"/>

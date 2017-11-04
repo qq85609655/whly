@@ -3,6 +3,8 @@
  */
 package com.hailian.whly.frontnotification.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
@@ -21,6 +24,8 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.hailian.whly.frontnotification.entity.FrontNotification;
 import com.hailian.whly.frontnotification.service.FrontNotificationService;
+import com.hailian.whly.report.entity.FrontCompanyReport;
+import com.hailian.whly.report.utils.ResultJson;
 
 /**
  * 新闻公告Controller
@@ -44,6 +49,15 @@ public class FrontNotificationController extends BaseController {
 			entity = new FrontNotification();
 		}
 		return entity;
+	}
+	
+	@RequestMapping(value = "getfrontNotification")
+	@ResponseBody
+	public ResultJson getfrontNotification(FrontNotification frontNotification, HttpServletRequest request, HttpServletResponse response, Model model) {
+		ResultJson json = new ResultJson();
+		List<FrontNotification> list = frontNotificationService.getfrontNotification(frontNotification);
+		json.success(list);
+		return json;
 	}
 	
 /*	@RequiresPermissions("frontnotification:frontNotification:view")*/

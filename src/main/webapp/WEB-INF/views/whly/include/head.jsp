@@ -94,6 +94,7 @@
     <script src="/static/${whlyPage}/assets/global/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/jquery-bootpag/jquery.bootpag.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/holder.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/pages/scripts/ui-buttons.min.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <script src="/static/${whlyPage}/assets/global/plugins/echarts/echarts-3.5.2.js" type="text/javascript"></script>
      <script src="/static/${whlyPage}/assets/global/plugins/echarts/manyEcharts.js" type="text/javascript"></script>

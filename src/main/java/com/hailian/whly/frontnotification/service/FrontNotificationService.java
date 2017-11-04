@@ -6,6 +6,7 @@ package com.hailian.whly.frontnotification.service;
 import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,8 @@ import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.hailian.whly.frontnotification.entity.FrontNotification;
+import com.hailian.whly.report.dao.FrontCompanyReportDao;
+import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.frontnotification.dao.FrontNotificationDao;
 
 /**
@@ -25,6 +28,9 @@ import com.hailian.whly.frontnotification.dao.FrontNotificationDao;
 @Transactional(readOnly = true)
 public class FrontNotificationService extends CrudService<FrontNotificationDao, FrontNotification> {
 
+	@Autowired
+	private FrontNotificationDao dao;
+	
 	public FrontNotification get(String id) {
 		return super.get(id);
 	}
@@ -53,6 +59,14 @@ public class FrontNotificationService extends CrudService<FrontNotificationDao, 
 	@Transactional(readOnly = false)
 	public void delete(FrontNotification frontNotification) {
 		super.delete(frontNotification);
+	}
+
+	public List<FrontNotification> getfrontNotification(FrontNotification frontNotification) {
+		List<FrontNotification> list = dao.getfrontNotification(frontNotification);
+		
+		
+		
+		return list;
 	}
 	
 }
