@@ -9,51 +9,79 @@
     <title>${fnc:getSite(1).title}</title>
     <link href="/static/${whlyPage}/assets/global/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <style>
-        * {
-            font-family: 微软雅黑, sans-serif;
-        }
-        html, body {
-            height: 100%;
-            color: #fff;
-            background: linear-gradient(to bottom, lightblue, deepskyblue) no-repeat;
-        }
-        h1{
-            margin: 2em 0 1.5em;
-            text-shadow: 0.06em 0.06em 0.1em rgba(0,0,0,.6);
-            font-size: 2.4em;
-        }
-        .chooseBox {
-            position: relative;
-            margin-bottom: 1em;
-            line-height: 8em;
-            font-weight: bold;
-            background: linear-gradient(to right bottom,  #fff 0% , #51d6ff 60%) no-repeat;;
-            text-align: center;
-            font-size: 1.5em;
-            box-shadow: .3em .3em .3em rgba(0,0,0,.5);
-        }
-        .chooseBox:hover{
-            left:.1em;
-            top:.1em;
-        }
-        @media (min-width: 1600px){
-            .container {
-                width: 1480px;
-            }
-            body{
-                font-size: 2.4em;
-            }
-        }
+* {
+	font-family: 微软雅黑, sans-serif;
+}
 
-		.forbid{
-		-webkit-touch-callout: none;
-		-webkit-user-select: none;
-		-khtml-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-		}
-    </style>
+html, body {
+	height: 100%;
+	color: #fff;
+	background: linear-gradient(to bottom, lightblue, deepskyblue) no-repeat;
+}
+
+h1 {
+	margin: 2em 0 1.5em;
+	text-shadow: 0.06em 0.06em 0.1em rgba(0, 0, 0, .6);
+	font-size: 2.4em;
+}
+
+.chooseBox {
+	position: relative;
+	margin-bottom: 1em;
+	line-height: 8em;
+	font-weight: bold;
+	background: linear-gradient(to right bottom, #fff 0%, #51d6ff 60%)
+		no-repeat;
+	text-align: center;
+	font-size: 1.5em;
+	box-shadow: .3em .3em .3em rgba(0, 0, 0, .5);
+}
+
+.chooseBox:hover {
+	left: .1em;
+	top: .1em;
+}
+
+.chooseBox.disable {
+	cursor: not-allowed;
+	background: linear-gradient(to right bottom,  #fff 0% , #ccc 60%) no-repeat;
+ 
+}
+.chooseBox.disable a{
+	cursor: not-allowed;
+}
+.chooseBox.disable a:hover,
+.chooseBox.disable a:link,
+.chooseBox.disable a:active,
+.chooseBox.disable a:visited{
+	text-decoration: none;
+	color:#337ab7
+}
+
+
+.disable:hover {
+	left: .0;
+	top: .0;
+}
+
+@media ( min-width : 1600px) {
+	.container {
+		width: 1480px;
+	}
+	body {
+		font-size: 2.4em;
+	}
+}
+
+.forbid {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+</style>
 </head>
 <body>
 <div class="container">
@@ -64,12 +92,12 @@
 		       		<c:choose>
 		       			<c:when test="${comPanyType==company.type }">
 		       				<div class="col-md-4 col-md-offset-2" onclick="loginPage()">
-					            <div class="chooseBox"><a href="#">${company.name }</a></div>
+					            <div class="chooseBox "><a href="javascript:void(0);">${company.name }</a></div>
 					        </div>
 		       			</c:when>
 			       		<c:otherwise>
 			       			<div class="col-md-4 col-md-offset-2 forbid" >
-					            <div class="chooseBox"><a href="#">${company.name }</a></div>
+					            <div class="chooseBox disable"><a href="javascript:void(0);">${company.name }</a></div>
 					        </div>
 			       		</c:otherwise>
 		       		</c:choose>
@@ -78,12 +106,12 @@
 		       		  <c:choose>
 		       			<c:when test="${comPanyType==company.type }">
 		       				<div class="col-md-4 " onclick="loginPage()">
-					            <div class="chooseBox"><a href="#">${company.name }</a></div>
+					            <div class="chooseBox disable"><a href="javascript:void(0);">${company.name }</a></div>
 					        </div>
 		       			</c:when>
 			       		<c:otherwise>
 			       			<div class="col-md-4 forbid" >
-					            <div class="chooseBox"><a href="#">${company.name }</a></div>
+					            <div class="chooseBox disable"><a href="javascript:void(0);">${company.name }</a></div>
 					        </div>
 			       		</c:otherwise>
 		       		</c:choose>

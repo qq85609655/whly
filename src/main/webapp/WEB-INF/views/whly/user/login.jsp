@@ -36,15 +36,15 @@
         <style>
 /* 1366*768 */
 /* 1920*1080 */
+body{
+		background: linear-gradient(to bottom,rgba(47, 175, 204, 0.94),#cce8ff)!important;
+}
 @media screen and (max-width:1400px) {
 	html {
 		overflow: hidden;
 		font-size: 16px
 	}
 	.login {
-		background:
-			url("/static/${whlyPage}/assets/global/img/login/bg.png")
-			no-repeat 100% 100% !important;
 		background-size: 100% 100% !important;
 		overflow: hidden;
 	}
@@ -125,25 +125,24 @@
 		margin-top: 0 !important;
 		color: #fff !important;
 	}
-	.loginBg{
+	.loginBg {
 		position: absolute;
-		top: 10.5em;
+		top: 10em;
 		left: 50%;
 		transform: translateX(-50%);
-		height: 24em;
+		height: 19em;
 		width: 30em;
 		background: url(/static/whly/assets/global/img/login/bg_login.png);
-		background-size: 100% 100%;
+		background-size: 101% 132%;
+		border-radius: 1em !important;
+		box-shadow: 0.2em 0.2em 1em 0.3em rgba(0, 0, 0, .6);
 	}
-	/* .loginBg{
-			box-shadow: 0.2em 0.2em 1em 0.3em rgba(0,0,0,.6);
-	} */
 }
 
 @media screen and (min-width:1400px) and (max-width:2000px) {
-/* .loginBg{
-			box-shadow: 0.2em 0.2em 1em 0.3em rgba(0,0,0,.6);
-	} */
+	.loginBg {
+		
+	}
 	html {
 		overflow: hidden;
 		font-size: 30px
@@ -152,13 +151,11 @@
 		font-size: 18px
 	}
 	.login {
-		background: url("/static/${whlyPage}/assets/global/img/login/bg.png")
-			no-repeat 100% 100% !important;
+		/* background: url("/static/${whlyPage}/assets/global/img/login/bg.png")
+			no-repeat 100% 100% !important; */
 		background-size: 100% 100% !important;
 		overflow: hidden;
-		    
 	}
-	
 	.login .content {
 		width: 490px;
 		background: rgba(0, 0, 0, 0);
@@ -255,13 +252,15 @@
 	}
 	.loginBg {
 		position: absolute;
-		top: 14.5em;
+		top: 14em;
 		left: 50%;
 		transform: translateX(-50%);
-		height: 28em;
 		width: 30em;
 		background: url(/static/whly/assets/global/img/login/bg_login.png);
-		background-size: 100% 100%;
+		background-size: 101% 132%;
+		height: 22em;
+		border-radius: 1em !important;
+		box-shadow: 0.2em 0.2em 1em 0.3em rgba(0, 0, 0, .6);
 	}
 }
 </style>
@@ -310,8 +309,8 @@
             <form id="loginForm" class="form-signin" action="${whlyPath}/login" method="post">
                 <!-- <h3 class="form-title font-green">${fnc:getSite(1).name}</h3> -->
                 <div  id="messageBox" class="alert alert-danger ${empty message ? 'display-hide' : ''}">
-                    <button class="close" data-close="alert" class="close">×</button>
-                    <span id="loginError">${message}</span>
+<!--                     <button class="close" data-close="alert" class="close">×</button>
+ -->                    <span id="loginError">${message}</span>
                 </div>
                 <div class="form-group">
                     <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
