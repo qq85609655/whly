@@ -51,7 +51,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>发布类型</th>
+				<th style="width:65px;">发布类型</th>
 				<th>标题</th>
 				<th>关键字</th>
 				<th>摘要</th>

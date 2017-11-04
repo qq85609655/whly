@@ -1,5 +1,8 @@
 package com.hailian.whly.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.thinkgem.jeesite.common.config.Global;
+import org.springframework.ui.Model;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
@@ -32,7 +36,7 @@ public class HomeController extends BaseController {
 	 * @return_type   String
 	 */
 	@RequestMapping({"","/index"})
-	public String home(){
+	public String home(Model model){
 		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
 		List<Menu> menuList = systemService.findAllFrontMenu();
 		boolean canSh=false;
@@ -44,6 +48,9 @@ public class HomeController extends BaseController {
 			}
 		}
 		if(!canSh){
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String time= sdf.format(new Date());
+			model.addAttribute("time", time);
 			return whlyPage+"/home/news";
 		}else{
 			return whlyPage+"/home/home";

@@ -29,20 +29,125 @@
 				.dashboard-stat.purple .more {
 					background:#ae89be;
 				}
+				
+				.modal-content {
+			        width: 196%;
+				    margin-left: -37%;
+				    height: 100%;
+				}
+				.portlet.light>.portlet-title>.caption {
+					float:left;
+				}
+				.text-right {
+					height: 40px;
+				    float: left;
+				    width: 481px;
+				    text-align: right;
+				    line-height: 40px;
+				}
 		</style>
 		<script type="text/javascript">
 				$(function() {
-					//alert();
+					
+					//加载企业新闻和系统公告
+					loadSohoads();
 				});
 				
-				function alert() {
-					bootbox.alert({ 
-						  size: "small",
-						  title: "Your Title",
-						  message: "Your message here…", 
-						  callback: function(){ /* your callback code */ }
-						});
+				function loadSohoads() {
+					var nowTime =$('#nowTime').attr('value');
+					console.info(nowTime);
+					$.ajax({
+						type : 'POST',
+						url : 'http://localhost:8080/a/frontnotification/frontNotification/getfrontNotification',
+						dataType : 'json'
+					}).done(function(result, status, xhr) {
+						console.info(result);
+						var data = result.data;
+						var newsLi = $('#newsLi');
+						var noticeLi = $('#noticeLi');
+		                for (var i = 0; i < data.length; i++) {
+							var li1 = li.replace('[id]', "'" + data[i].id + "'").replace('[title]', data[i].title).replace('[time]', getHour(nowTime,data[i].updateDate));
+							if(data[i].categoryType == "1") {
+								newsLi.append(li1);
+							} else if(data[i].categoryType == "2"){
+								noticeLi.append(li1);
+							}
+						}
+					}).fail(function(xhr, status, error) {
+						
+					});
+					
 				}
+				
+				function getHour(s1,s2) {
+					var s3 = s2;
+			        s1 = new Date(s1.replace(/-/g, '/'));
+			        s2 = new Date(s2.replace(/-/g, '/'));
+			        var ms = Math.abs(s1.getTime() - s2.getTime());
+			        var time = Math.floor(ms/1000/60/60);
+			        if(time==0) {
+			        	time = Math.floor(ms/1000/60);
+			        	if(time==0) {
+			        		time = Math.floor(ms/1000);
+			        		return time + "秒前";
+			        	}
+			        	return time + "分钟前";
+			        }
+			        /* if(time > 24) {
+			        	return s3; 
+			        } */
+			        return time + "小时前";
+			    }
+				
+				function alert(id) {
+					var data = {
+							id : id
+					}
+					$.ajax({
+						type : 'POST',
+						url : 'http://localhost:8080/a/frontnotification/frontNotification/getfrontNotification',
+						data : data,
+						dataType : 'json'
+					}).done(function(result, status, xhr) {
+						var title = "";
+						if(result.data[0].categoryType == "1") {
+							title = "企业新闻";
+						} else if(result.data[0].categoryType == "2"){
+							title = "系统公告";
+						}
+						bootbox.dialog({ 
+							  size: "dialog",
+							  title: title,
+							  message: '<h3 style="text-align:center;font-weight:bold;color:'+ result.data[0].color +';">' + result.data[0].title + '</h3><br>' + result.data[0].content,
+							  callback: function(){ /* your callback code */ }
+							});
+					}).fail(function(xhr, status, error) {
+						
+					});
+					
+					
+					
+				}
+				
+				var li = '  <li> ' +
+			             '     <a href="javascript:;">' +
+			             '          <div class="col1">' +
+			             '              <div class="cont">' +
+			             '                  <div class="cont-col2">' +
+			             '                      <div class="desc" style="margin-left:16px;">' +
+			             '                      	<a href="#" onclick="alert([id])">  [title]</a>' +
+			             '                      </div>' +
+			             '                  </div>' +
+			             '              </div>' +
+			             '          </div>' +
+			             '          <div class="col2">' +
+			             '              <div class="date"> [time]</div>' +
+			             '          </div>' +
+			             '      </a>' +
+			             '  </li>' ;
+				
+				
+				
 				
 		</script>
     </head>
@@ -75,17 +180,24 @@
                                 <i class="fa fa-bullhorn font-green-sharp"></i>
                                 <span class="caption-subject font-green-sharp bold uppercase">企业新闻</span>
                             </div>
+                            <div class="text-right">
+                            	<a action="#">
+	                                <span class="caption-subject grey-cascade  uppercase">查看更多</span>
+	                                <i class="fa fa-angle-double-right grey-cascade" ></i>
+                                </a>
+                            </div>
                         </div>
                         <div class="portlet-body">
                             <!--BEGIN TABS-->
                             <div class="tab-content">
                                 <div class="tab-pane active" >
+                                	<input type="hidden" value="${time}" id="nowTime">
                                     <div class="slimScrollDiv"
-                                         style="position: relative; overflow: hidden; width: auto; height: 339px;">
-                                        <div class="scroller" style="height: 339px; overflow: hidden; width: auto;"
+                                         style="position: relative; overflow: hidden; width: auto; height: 100%;">
+                                        <div class="scroller" style="height: 458px; overflow: hidden; width: auto;"
                                              data-always-visible="1" data-rail-visible="0" data-initialized="1">
-                                            <ul class="feeds">
-                                                <li>
+                                            <ul class="feeds" id="newsLi">
+                                               <!--  <li>
                                                  <a href="javascript:;">
                                                         <div class="col1">
                                                             <div class="cont">
@@ -260,7 +372,7 @@
                                                             <div class="date"> 13小时前</div>
                                                         </div>
                                                     </a>
-                                                </li>
+                                                </li> -->
                                               
                                             </ul>
                                         </div>
@@ -276,9 +388,15 @@
                     <!-- BEGIN PORTLET-->
                     <div class="portlet light bordered">
                         <div class="portlet-title tabbable-line">
-                            <div class="caption">
-                                <i class="fa fa-bell-o font-green-sharp"></i>
+                             <div class="caption">
+                                <i class="fa fa-bullhorn font-green-sharp"></i>
                                 <span class="caption-subject font-green-sharp bold uppercase">系统公告</span>
+                            </div>
+                            <div class="text-right">
+                            	<a action="#">
+	                                <span class="caption-subject grey-cascade  uppercase">查看更多</span>
+	                                <i class="fa fa-angle-double-right grey-cascade" ></i>
+                                </a>
                             </div>
                         </div>
                         <div class="portlet-body">
@@ -286,11 +404,11 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" >
                                     <div class="slimScrollDiv"
-                                         style="position: relative; overflow: hidden; width: auto; height: 339px;">
-                                        <div class="scroller" style="height: 339px; overflow: hidden; width: auto;"
+                                         style="position: relative; overflow: hidden; width: auto; height: 100%;">
+                                        <div class="scroller" style="height: 458px; overflow: hidden; width: auto;"
                                              data-always-visible="1" data-rail-visible="0" data-initialized="1">
-                                            <ul class="feeds">
-                                                <li>
+                                            <ul class="feeds" id="noticeLi">
+                                               <!--  <li>
                                                     <a href="javascript:;">
                                                         <div class="col1">
                                                             <div class="cont">
@@ -414,7 +532,7 @@
                                                     <div class="col2">
                                                         <div class="date"> 12小时前</div>
                                                     </div>
-                                                </li>
+                                                </li> -->
                                             </ul>
                                         </div>
                                     </div>
