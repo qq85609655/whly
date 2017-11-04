@@ -5,8 +5,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.web.util.WebUtils;
@@ -27,8 +25,8 @@ import com.thinkgem.jeesite.common.utils.CookieUtils;
 import com.thinkgem.jeesite.common.utils.IdGen;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.sys.security.WhlyFormAuthenticationFilter;
 import com.thinkgem.jeesite.modules.sys.security.SystemAuthorizingRealm.Principal;
+import com.thinkgem.jeesite.modules.sys.security.WhlyFormAuthenticationFilter;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
@@ -50,11 +48,9 @@ public class WhlyLoginController extends BaseController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
-		Principal principal = UserUtils.getPrincipal();
 		if (logger.isDebugEnabled()){
 			logger.debug("login, active session size: {}", sessionDAO.getActiveSessions(false).size());
 		}
-		model.addAttribute("type", request.getParameter("type"));
 		// 如果已登录，再次访问主页，则退出原账号。
 		if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
 			CookieUtils.setCookie(response, "LOGINED", "false");
@@ -68,8 +64,6 @@ public class WhlyLoginController extends BaseController {
 	 */
 	@RequestMapping(value =  "/login", method = RequestMethod.POST)
 	public String loginFail(HttpServletRequest request, HttpServletResponse response, Model model) {
-		Principal principal = UserUtils.getPrincipal();
-		
 		/*WhlyFormAuthenticationFilter f=new WhlyFormAuthenticationFilter();
 		AuthenticationToken token=f.createToken(request, response);
 		SecurityUtils.getSubject().login(token);*/
@@ -106,7 +100,6 @@ public class WhlyLoginController extends BaseController {
 	        return renderString(response, model);
 		}
 		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
-		model.addAttribute("type", request.getParameter("type"));
 		return whlyPage+"/user/login";
 	}
 
@@ -132,7 +125,7 @@ public class WhlyLoginController extends BaseController {
 				CookieUtils.setCookie(response, "LOGINED", "true");
 			}else if (StringUtils.equals(logined, "true")){
 				UserUtils.getSubject().logout();
-				return "redirect:" + whlyPath + "/choose";
+				return "redirect:" + whlyPath + "/login";
 			}
 		}
 		

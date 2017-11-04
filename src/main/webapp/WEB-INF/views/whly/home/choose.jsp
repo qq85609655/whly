@@ -44,33 +44,57 @@
                 font-size: 2.4em;
             }
         }
+
+		.forbid{
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		}
     </style>
 </head>
 <body>
 <div class="container">
     <h1 class="text-center">威海市重点服务业企业监测平台入口</h1>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-2" onclick="loginPage(1)">
-            <div class="chooseBox"><a href="#">重点服务业企业监测</a></div>
-        </div>
-        <div class="col-md-4"  onclick="loginPage(2)">
-            <%-- <div class="chooseBox"><a href="${whlyPath}/industry/login">限额以下服务业企业监测</a></div> --%>
-            <div class="chooseBox"><a href="#">限额以下服务业企业监测</a></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-2">
-            <div class="chooseBox"><a href="#">年度扶持项目监测</a></div>
-        </div>
-        <div class="col-md-4">
-            <div class="chooseBox"><a href="#">其它</a></div>
-        </div>
-    </div>
+	    <c:forEach items="${companyEnum}" var="company" varStatus="status">
+	    	<c:choose>
+		       <c:when test="${status.index==0 ||status.index==2 }">
+		       		<c:choose>
+		       			<c:when test="${comPanyType==company.type }">
+		       				<div class="col-md-4 col-md-offset-2" onclick="loginPage()">
+					            <div class="chooseBox"><a href="#">${company.name }</a></div>
+					        </div>
+		       			</c:when>
+			       		<c:otherwise>
+			       			<div class="col-md-4 col-md-offset-2 forbid" >
+					            <div class="chooseBox"><a href="#">${company.name }</a></div>
+					        </div>
+			       		</c:otherwise>
+		       		</c:choose>
+		       </c:when>
+		       <c:otherwise>
+		       		  <c:choose>
+		       			<c:when test="${comPanyType==company.type }">
+		       				<div class="col-md-4 " onclick="loginPage()">
+					            <div class="chooseBox"><a href="#">${company.name }</a></div>
+					        </div>
+		       			</c:when>
+			       		<c:otherwise>
+			       			<div class="col-md-4 forbid" >
+					            <div class="chooseBox"><a href="#">${company.name }</a></div>
+					        </div>
+			       		</c:otherwise>
+		       		</c:choose>
+		       </c:otherwise>
+	    	</c:choose>
+	    </c:forEach>
 </div>
 </body>
 <script>
 function loginPage(type){
-	window.location.href="${whlyPath}/login?type="+type;
+	window.location.href="${whlyPath}/home";
 }
 </script>
 </html>

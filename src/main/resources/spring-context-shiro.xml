@@ -63,7 +63,7 @@
 	<bean id="whlyShiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="${whlyPath}/login" />
-		<property name="successUrl" value="${whlyPath}/home" />
+		<property name="successUrl" value="${whlyPath}/choose" />
 		<property name="filters">
             <map>
                 <entry key="cas" value-ref="whlyCasFilter"/>
@@ -78,40 +78,6 @@
 	<bean id="whlyCasFilter" class="org.apache.shiro.cas.CasFilter">  
 		<property name="failureUrl" value="${whlyPath}/login"/>
 	</bean>
-	
-	
-	<!-- 企业 -->
-	
-	
-	<bean name="whlyShiroFilterChainDefinitionsIndustry" class="java.lang.String">
-		<constructor-arg>
-			<value>
-			    ${whlyPath}/cas = cas
-				${whlyPath}/industry/login = authc
-				<!-- ${whlyPath}/logout = logout -->
-			</value>
-		</constructor-arg>
-	</bean>
-	
-	<bean id="whlyShiroFilterIndustry" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="${whlyPath}/industry/login" />
-		<property name="successUrl" value="${whlyPath}/news" />
-		<property name="filters">
-            <map>
-                <entry key="cas" value-ref="whlyCasFilterIndustry"/>
-                <entry key="authc" value-ref="whlyIndustryFormAuthenticationFilter"/>
-            </map>
-        </property>
-		<property name="filterChainDefinitions">
-			<ref bean="whlyShiroFilterChainDefinitionsIndustry"/>
-		</property>
-	</bean>
-		<!-- CAS认证过滤器 -->  
-	<bean id="whlyCasFilterIndustry" class="org.apache.shiro.cas.CasFilter">  
-		<property name="failureUrl" value="${whlyPath}/industry/login"/>
-	</bean>
-	
 	
 	
 	
