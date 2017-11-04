@@ -240,7 +240,7 @@ $.ready(function() {
 													placeholder="请输入营业收入" required type="number"  name="totalIncome" id="totalIncome">
 											</div>
 										</div>
-										
+										<!-- 
 										<div class="form-group col-md-6">
 											<label>营业成本 （万元）</label>
 											<div class="input-group">
@@ -248,7 +248,7 @@ $.ready(function() {
 												<input required type="number" class="form-control" name="operatingCosts" id="operatingCosts"
 													placeholder="请输入营业成本" aria-describedby="sizing-addon1">
 											</div>
-										</div>
+										</div> -->
 										<div class="form-group col-md-6">
 											<label>营业利润（万元）</label>
 											<div class="input-group">
@@ -257,14 +257,14 @@ $.ready(function() {
 													placeholder="请输入营业利润" aria-describedby="sizing-addon1">
 											</div>
 										</div>
-										<!-- <div class="form-group col-md-6">
+										<div class="form-group col-md-6">
 											<label>企业税费（万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input required type="number" class="form-control" name="totalTax" id="totalTax"
 													placeholder="请输入企业税费" aria-describedby="sizing-addon1">
 											</div>
-										</div> -->
+										</div>
 										<!-- <div class="form-group col-md-6">
 											<label>应付职工薪酬（万元）</label>
 											<div class="input-group">
