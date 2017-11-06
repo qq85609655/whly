@@ -37,7 +37,7 @@
 /* 1366*768 */
 /* 1920*1080 */
 body{
-		background: linear-gradient(to bottom,rgba(47, 175, 204, 0.94),#cce8ff)!important;
+		    background: linear-gradient(to bottom,rgba(13, 141, 171, 0.94),#50a7df)!important;
 }
 @media screen and (max-width:1400px) {
 	html {

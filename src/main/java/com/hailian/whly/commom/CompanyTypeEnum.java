@@ -11,10 +11,10 @@ import java.util.List;
  * @todo   公司类型枚举
  */
  public enum CompanyTypeEnum{
-   ZDFW("重点服务业企业监测","front_hylx","be9e0da458064360b214c9ca69327859"), 
+   ZDFW("重点服务业企业监测板块","front_hylx","be9e0da458064360b214c9ca69327859"), 
    XEYX("限额以下服务业企业监测板块","front_xe","cc0cbec49fe5449da652f8db57d473ab"), 
    NDFC("年度扶持项目监测板块","","ebc16b9cafd84d53a8222eae5d4340d6"),
-   OTHER("其他","","d2c1c37069fa4ce189bc4a3529cc7a65");
+   OTHER("其他板块","","d2c1c37069fa4ce189bc4a3529cc7a65");
    private String name;
    private String type;
    private String rootId;
