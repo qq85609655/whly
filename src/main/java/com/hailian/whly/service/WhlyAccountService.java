@@ -66,16 +66,16 @@ public class WhlyAccountService extends CrudService<WhlyAccountDao, WhlyAccount>
 		boolean a = true;
 		boolean b = true;
 		for(FrontCompanyReport r: fcr) {
-			if(r.getYear().equals(String.valueOf(year)) && r.getMonth().equals(String.valueOf(month-1)) && a) { //返回该企业上一月的上报信息
+			if(r.getYear().equals(String.valueOf(year-1)) && r.getMonth().equals(String.valueOf(month)) && a) { //返回该企业去年本月的上报信息
 				FrontReportHistory f1 = new FrontReportHistory();
-				f1.setId("本年上月");
+				f1.setId("上年本月");
 				f1.setFrontCompanyReport(r);
 				list.add(f1);
 				a = false; 
 			}
-			if(r.getYear().equals(String.valueOf(year-1)) && r.getMonth().equals(String.valueOf(month)) && b) { //返回该企业上年本月的上报信息
+			if(r.getYear().equals(String.valueOf(year-1)) && r.getMonth().equals(String.valueOf(month-1)) && b) { //返回该企业去年上月的上报信息
 				FrontReportHistory f1 = new FrontReportHistory();
-				f1.setId("上年本月");
+				f1.setId("上年上月");
 				f1.setFrontCompanyReport(r);
 				list.add(f1);
 				b = false;
