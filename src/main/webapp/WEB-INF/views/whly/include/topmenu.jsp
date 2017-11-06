@@ -120,11 +120,11 @@
 							   <c:otherwise>  
 							   	<!-- 用户已经登录 -->
 							  	  <li>
-		                              <a href="javascript:void(0);">
+		                              <a href="/front/user/userInfo">
 		                                  <i class="icon-user"></i> 个人信息 </a>
 		                          </li>
 		                          <li>
-		                              <a href="javascript:void(0);">
+		                              <a href="/front/user/userPwdPage">
 		                                  <i class="fa fa-lock"></i> 更改密码
 		                              </a>
 		                          </li>
