@@ -73,11 +73,18 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	
 	@Transactional(readOnly = false)
 	public Page<FrontCompanyReport> findPage(Page<FrontCompanyReport> page, FrontCompanyReport frontCompanyReport) {
+		
 		String year = frontCompanyReport.getYear();
 		String static1 = frontCompanyReport.getStatus();
 		if(frontCompanyReport.getYear()!=null && !frontCompanyReport.getYear().isEmpty()) {
 			frontCompanyReport.setMonth(frontCompanyReport.getYear().substring(5, 7));
 			frontCompanyReport.setYear(frontCompanyReport.getYear().substring(0, 4));
+		} else {
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year1 = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			frontCompanyReport.setMonth(month);
+			frontCompanyReport.setYear(year1);
 		}
 		Page<FrontCompanyReport> page1 = super.findPage(page, frontCompanyReport);
 		frontCompanyReport.setYear(year);

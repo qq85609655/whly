@@ -105,6 +105,7 @@
 				$("#regionQuery").val("");
 				$("#industryQuery").val("");
 				$("#nameQuery").val("");
+				$("#month").val("");
 				location.replace(whlyPath + '/report/frontCompanyReport/list?menuId=${menuId}');
 			}
 			
@@ -169,6 +170,7 @@
 						<input id="pageSize" name="pageSize" type="hidden"
 							value="${page.pageSize}" />
 						<input type="hidden" value="${companyParentType}" id="companyParentType">
+						<input type="hidden" value="${month}" id="month">
 						<div class="row form-body">
 							<div class="form-group col-md-4">
 								<label class="control-label col-md-4" style="padding: 6px 12px;">时间：</label>
