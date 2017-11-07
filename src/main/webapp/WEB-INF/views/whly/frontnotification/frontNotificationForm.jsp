@@ -28,7 +28,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/frontnotification/frontNotification/">新闻公告列表</a></li>
-		<li class="active"><a href="${ctx}/frontnotification/frontNotification/form?id=${frontNotification.id}">新闻公告${not empty frontNotification.id?'修改':'添加'}<%-- <shiro:hasPermission name="frontnotification:frontNotification:edit"></shiro:hasPermission><shiro:lacksPermission name="frontnotification:frontNotification:edit">查看</shiro:lacksPermission> --%></a></li>
+		<li class="active"><a href="${ctx}/frontnotification/frontNotification/form?id=${frontNotification.id}">新闻公告${not empty frontNotification.id?'修改':'发布'}<%-- <shiro:hasPermission name="frontnotification:frontNotification:edit"></shiro:hasPermission><shiro:lacksPermission name="frontnotification:frontNotification:edit">查看</shiro:lacksPermission> --%></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="frontNotification" action="${ctx}/frontnotification/frontNotification/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
@@ -72,8 +72,8 @@
 		</div>
 		<div class="control-group">
 			<label class="control-label">正文:</label>
-			<div class="controls">
-				<form:textarea htmlEscape="true" path="content" rows="4" maxlength="1024" class="input-xxlarge"/>
+			<div class="controls" style="width:1120px;">
+				<form:textarea htmlEscape="true" path="content" rows="4" maxlength="2048" class="input-xxlarge"/>
 				<sys:ckeditor replace="content" uploadPath="/cms/article" />
 			</div>
 		</div>

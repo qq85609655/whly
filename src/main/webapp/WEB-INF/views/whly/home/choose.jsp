@@ -106,7 +106,7 @@ h1 {
 		       		  <c:choose>
 		       			<c:when test="${comPanyType==company.type }">
 		       				<div class="col-md-4 " onclick="loginPage()">
-					            <div class="chooseBox disable"><a href="javascript:void(0);">${company.name }</a></div>
+					            <div class="chooseBox "><a href="javascript:void(0);">${company.name }</a></div>
 					        </div>
 		       			</c:when>
 			       		<c:otherwise>

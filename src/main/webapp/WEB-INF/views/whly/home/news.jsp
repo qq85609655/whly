@@ -61,13 +61,12 @@
 				
 				function loadSohoads() {
 					var nowTime =$('#nowTime').attr('value');
-					console.info(nowTime);
 					$.ajax({
 						type : 'POST',
-						url : 'http://localhost:8080/a/frontnotification/frontNotification/getfrontNotification',
+						url : '../a/frontnotification/frontNotification/getfrontNotification',
 						dataType : 'json'
 					}).done(function(result, status, xhr) {
-						console.info(result);
+						//console.info(result);
 						var data = result.data;
 						var newsLi = $('#newsLi');
 						var noticeLi = $('#noticeLi');
@@ -77,7 +76,7 @@
 		                		var s1 = new Date(nowTime.replace(/-/g, '/'));
 		    			        var s2 = new Date(data[i].updateDate.replace(/-/g, '/'));
 		    			        var ms = Math.abs(s1.getTime() - s2.getTime());
-		    			        var time = Math.floor(ms/1000/60/60);
+		    			        var time = Math.floor(ms / 1000 / 60 / 60);
 		    			        if(time > 24) {
 		    			        	dataTitle = data[i].title.substring(0,28) + '...';
 		    			        } else if(data[i].title.length > 32) {
@@ -89,9 +88,9 @@
 		                		dataTitle = data[i].title;
 		                	}
 							var li1 = li.replace('[id]', "'" + data[i].id + "'").replace('[title]', dataTitle).replace('[title1]', data[i].title).replace('[time]', getHour(nowTime,data[i].updateDate));
-							if(data[i].categoryType == "1") {
+							if(data[i].categoryType == "1" && newsLi.find('li').length <= 13) {
 								newsLi.append(li1);
-							} else if(data[i].categoryType == "2"){
+							} else if(data[i].categoryType == "2" && noticeLi.find('li').length <= 13){
 								noticeLi.append(li1);
 							}
 						}
@@ -101,6 +100,7 @@
 					
 				}
 				
+				//获取新闻发布时间相对于当前时间的时间差
 				function getHour(s1,s2) {
 					var s3 = s2;
 			        s1 = new Date(s1.replace(/-/g, '/'));
@@ -121,13 +121,14 @@
 			        return time + "小时前";
 			    }
 				
+				//查看首页动态详细内容
 				function alert(id) {
 					var data = {
 							id : id
 					}
 					$.ajax({
 						type : 'POST',
-						url : 'http://localhost:8080/a/frontnotification/frontNotification/getfrontNotification',
+						url : '../a/frontnotification/frontNotification/getfrontNotification',
 						data : data,
 						dataType : 'json'
 					}).done(function(result, status, xhr) {

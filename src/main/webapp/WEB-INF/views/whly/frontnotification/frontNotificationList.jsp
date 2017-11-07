@@ -19,7 +19,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/frontnotification/frontNotification/">新闻公告列表</a></li>
-		<li><a href="${ctx}/frontnotification/frontNotification/form">新闻公告添加</a></li>
+		<li><a href="${ctx}/frontnotification/frontNotification/form">新闻公告发布</a></li>
 		<%-- <shiro:hasPermission name="frontnotification:frontNotification:edit"><li><a href="${ctx}/frontnotification/frontNotification/form">新闻公告添加</a></li></shiro:hasPermission> --%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="frontNotification" action="${ctx}/frontnotification/frontNotification/" method="post" class="breadcrumb form-search">
@@ -52,14 +52,14 @@
 		<thead>
 			<tr>
 				<th style="width:65px;">发布类型</th>
-				<th>标题</th>
+				<th style="width:300px;">标题</th>
 				<th>关键字</th>
 				<th>摘要</th>
-				<th>点击数</th>
-				<th>发布者</th>
-				<th>备注信息</th>
-				<th>创建时间</th>
-				<th>操作</th>
+				<th style="width:50px;">点击数</th>
+				<th style="width:70px;">发布者</th>
+				<th style="width:70px;">备注信息</th>
+				<th style="width:70px;">创建时间</th>
+				<th style="width:70px;">操作</th>
 				<%-- <shiro:hasPermission name="frontnotification:frontNotification:edit"><th>操作</th></shiro:hasPermission> --%>
 			</tr>
 		</thead>
