@@ -22,8 +22,6 @@
 		
 		//返回上一页点击事件
 		$("#return").click(returnBack);
-		$(".tooltips").tooltip();
-		 $("[data-toggle='tooltip']").tooltip(); 
 		loadingContent();
 	});
 
@@ -75,6 +73,7 @@
 	
 	function loadingContent() {
 		var redirectAttributes = $('#redirectAttributes').attr('value');
+		var type = $('#companyParentType').val();
 		if(redirectAttributes) {
 			alert(redirectAttributes);
 		}
@@ -135,23 +134,29 @@
 							}
 							var report = data[i].frontCompanyReport;
 							var mainDiv = fromDiv.replace('[id]', 'tab'+(i+1)).replace('[time]', time).replace('[question]', remarksDiv).replace('[公司名称]',report.companyName);
-							//mainDiv = mainDiv.replace('[营业收入]', report.totalIncome).replace('[营业成本]', report.operatingCosts).replace('[营业利润]',report.totalProfit).replace('[企业税费]',report.totalTax).replace('[应付职工薪酬]',report.employeeCompensation).replace('[贷款金额]',report.loanAmount).replace('[从业人数]',report.empQuantity).replace('[订单数量]',report.orderQuantity);
-							mainDiv = mainDiv.replace('[营业收入]', report.totalIncome).replace('[营业利润]',report.totalProfit).replace('[企业税费]',report.totalTax).replace('[从业人数]',report.empQuantity);
+							if(type == '1') {
+								mainDiv = mainDiv.replace('[营业收入]', report.totalIncome? report.totalIncome: 0).replace('[营业成本]', report.operatingCosts? report.operatingCosts: 0).replace('[营业利润]',report.totalProfit? report.totalProfit: 0).replace('[企业税费]',report.totalTax? report.totalTax: 0).replace('[应付职工薪酬]',report.employeeCompensation? report.employeeCompensation: 0).replace('[贷款金额]',report.loanAmount? report.loanAmount: 0).replace('[从业人数]',report.empQuantity? report.empQuantity: 0).replace('[订单数量]',report.orderQuantity? report.orderQuantity: 0);
+							} else if(type == '2') {
+								mainDiv = mainDiv.replace('[营业收入]', report.totalIncome? report.totalIncome: 0).replace('[营业利润]',report.totalProfit? report.totalProfit: 0).replace('[企业税费]',report.totalTaxreport.totalTax? report.totalTax: 0).replace('[从业人数]',report.empQuantity? report.empQuantity: 0);
+							}
 							$('#tab').append(mainDiv);
 						}
 					}
 					if(data[i].operation == "通过" || data[i].operation == "驳回") {
 						thisMonth = data[i].frontCompanyReport;
-						var totalIncome = statementBody.replace('[name]','营业收入').replace('[value]', thisMonth.totalIncome).replace('[year]',(lastMonth && lastMonth.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastMonth.totalIncome) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastYear.totalIncome) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalIncome)? exceededDetection(thisMonth.totalIncome, lastYear.totalIncome, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalIncome)? exceededDetection(thisMonth.totalIncome, lastYear.totalIncome, false): '没有可比较的上报信息" style="color:#36c6d3;"');
-						//var operatingCosts = statementBody.replace('[name]','营业成本').replace('[value]', thisMonth.operatingCosts).replace('[year]',(lastMonth && lastMonth.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastMonth.operatingCosts) : '100%').replace('[lastYear]',(lastYear && lastYear.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastYear.operatingCosts) : '100%');
-						var totalProfit = statementBody.replace('[name]','营业利润').replace('[value]', thisMonth.totalProfit).replace('[year]',(lastMonth && lastMonth.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastMonth.totalProfit) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastYear.totalProfit) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalProfit)? exceededDetection(thisMonth.totalProfit, lastYear.totalProfit, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalProfit)? exceededDetection(thisMonth.totalProfit, lastYear.totalProfit, false): '没有可比较的上报信息" style="color:#36c6d3;"');
-						var totalTax = statementBody.replace('[name]','企业税费').replace('[value]', thisMonth.totalTax).replace('[year]',(lastMonth && lastMonth.totalTax) ? yearOnYear(thisMonth.totalTax, lastMonth.totalTax) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalTax) ? yearOnYear(thisMonth.totalTax, lastYear.totalTax) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalTax)? exceededDetection(thisMonth.totalTax, lastYear.totalTax, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalTax)? exceededDetection(thisMonth.totalTax, lastYear.totalTax, false): '没有可比较的上报信息" style="color:yellow;"');
-						//var employeeCompensation = statementBody.replace('[name]','应付职工薪酬').replace('[value]', thisMonth.employeeCompensation).replace('[year]',(lastMonth && lastMonth.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastMonth.employeeCompensation) : '100%').replace('[lastYear]',(lastYear && lastYear.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastYear.employeeCompensation) : '100%');
-						//var loanAmount = statementBody.replace('[name]','贷款金额').replace('[value]', thisMonth.loanAmount).replace('[year]',(lastMonth && lastMonth.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastMonth.loanAmount) : '100%').replace('[lastYear]',(lastYear && lastYear.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastYear.loanAmount) : '100%');
-						var empQuantity = statementBody.replace('[name]','从业人数').replace('[value]', thisMonth.empQuantity).replace('[year]',(lastMonth && lastMonth.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastMonth.empQuantity) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastYear.empQuantity) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.empQuantity)? exceededDetection(thisMonth.empQuantity, lastYear.empQuantity, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.empQuantity)? exceededDetection(thisMonth.empQuantity, lastYear.empQuantity, false): '没有可比较的上报信息" style="color:#36c6d3;"');
-						//var orderQuantity = statementBody.replace('[name]','订单数量').replace('[value]', thisMonth.orderQuantity).replace('[year]',(lastMonth && lastMonth.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastMonth.orderQuantity) : '100%').replace('[lastYear]',(lastYear && lastYear.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastYear.orderQuantity) : '100%');
-						//var tboby = totalIncome + operatingCosts + totalProfit + totalTax + employeeCompensation + loanAmount + empQuantity + orderQuantity ;
-						var tboby = totalIncome + totalProfit + totalTax + empQuantity;
+						var totalIncome = statementBody.replace('[name]','营业收入').replace('[value]', thisMonth.totalIncome? thisMonth.totalIncome: 0).replace('[year]',(lastMonth && lastMonth.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastMonth.totalIncome) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastYear.totalIncome) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalIncome)? exceededDetection(thisMonth.totalIncome, lastYear.totalIncome, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalIncome)? exceededDetection(thisMonth.totalIncome, lastYear.totalIncome, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+						var operatingCosts = statementBody.replace('[name]','营业成本').replace('[value]', thisMonth.operatingCosts? thisMonth.operatingCosts: 0).replace('[year]',(lastMonth && lastMonth.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastMonth.operatingCosts) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastYear.operatingCosts) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.operatingCosts)? exceededDetection(thisMonth.operatingCosts, lastYear.operatingCosts, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.operatingCosts)? exceededDetection(thisMonth.operatingCosts, lastYear.operatingCosts, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+						var totalProfit = statementBody.replace('[name]','营业利润').replace('[value]', thisMonth.totalProfit? thisMonth.totalProfit: 0).replace('[year]',(lastMonth && lastMonth.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastMonth.totalProfit) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastYear.totalProfit) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalProfit)? exceededDetection(thisMonth.totalProfit, lastYear.totalProfit, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalProfit)? exceededDetection(thisMonth.totalProfit, lastYear.totalProfit, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+						var totalTax = statementBody.replace('[name]','企业税费').replace('[value]', thisMonth.totalTax? thisMonth.totalTax: 0).replace('[year]',(lastMonth && lastMonth.totalTax) ? yearOnYear(thisMonth.totalTax, lastMonth.totalTax) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalTax) ? yearOnYear(thisMonth.totalTax, lastYear.totalTax) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalTax)? exceededDetection(thisMonth.totalTax, lastYear.totalTax, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalTax)? exceededDetection(thisMonth.totalTax, lastYear.totalTax, false): '没有可比较的上报信息" style="color:yellow;"');
+						var employeeCompensation = statementBody.replace('[name]','应付职工薪酬').replace('[value]', thisMonth.employeeCompensation? thisMonth.employeeCompensation: 0).replace('[year]',(lastMonth && lastMonth.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastMonth.employeeCompensation) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastYear.employeeCompensation) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.employeeCompensation)? exceededDetection(thisMonth.employeeCompensation, lastYear.employeeCompensation, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.employeeCompensation)? exceededDetection(thisMonth.employeeCompensation, lastYear.employeeCompensation, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+						var loanAmount = statementBody.replace('[name]','贷款金额').replace('[value]', thisMonth.loanAmount? thisMonth.loanAmount: 0).replace('[year]',(lastMonth && lastMonth.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastMonth.loanAmount) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastYear.loanAmount) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.loanAmount)? exceededDetection(thisMonth.loanAmount, lastYear.loanAmount, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.loanAmount)? exceededDetection(thisMonth.loanAmount, lastYear.loanAmount, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+						var empQuantity = statementBody.replace('[name]','从业人数').replace('[value]', thisMonth.empQuantity? thisMonth.empQuantity: 0).replace('[year]',(lastMonth && lastMonth.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastMonth.empQuantity) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastYear.empQuantity) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.empQuantity)? exceededDetection(thisMonth.empQuantity, lastYear.empQuantity, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.empQuantity)? exceededDetection(thisMonth.empQuantity, lastYear.empQuantity, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+						var orderQuantity = statementBody.replace('[name]','订单数量').replace('[value]', thisMonth.orderQuantity? thisMonth.orderQuantity: 0).replace('[year]',(lastMonth && lastMonth.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastMonth.orderQuantity) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastYear.orderQuantity) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.orderQuantity)? exceededDetection(thisMonth.orderQuantity, lastYear.orderQuantity, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.orderQuantity)? exceededDetection(thisMonth.orderQuantity, lastYear.orderQuantity, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+						if(type == '1') {
+							var tboby = totalIncome + operatingCosts + totalProfit + totalTax + employeeCompensation + loanAmount + empQuantity + orderQuantity ;
+						} else if(type == '2') {
+							var tboby = totalIncome + totalProfit + totalTax + empQuantity;
+						}
 						var statement1 = statement.replace('[time]', time).replace('[tbody]', tboby).replace('[id]', 'tab'+(i+1)).replace('[readonly]', "readonly").replace('[buttonStyle1]', "display:none;").replace('[buttonStyle2]', "display:none;").replace('[textarea]', data[i].frontCompanyReport.reason?data[i].frontCompanyReport.reason:'');
 						
 						$('#tab').append(statement1);
@@ -165,21 +170,25 @@
 				if(thisMonth.status != "PASSED") {
 					var li1 = menuLi.replace('[start]',now+1).replace('[max]',max).replace('[href]','#tab'+(now+1)).replace('[number]',now+1).replace('[name]', "审核");
 					
-					var totalIncome = statementBody.replace('[name]','营业收入').replace('[value]', thisMonth.totalIncome).replace('[year]',(lastMonth && lastMonth.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastMonth.totalIncome) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastYear.totalIncome) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalIncome)? exceededDetection(thisMonth.totalIncome, lastYear.totalIncome, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalIncome)? exceededDetection(thisMonth.totalIncome, lastYear.totalIncome, false): '没有可比较的上报信息" style="color:#36c6d3;"');
-					//var operatingCosts = statementBody.replace('[name]','营业成本').replace('[value]', thisMonth.operatingCosts).replace('[year]',(lastMonth && lastMonth.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastMonth.operatingCosts) : '100%').replace('[lastYear]',(lastYear && lastYear.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastYear.operatingCosts) : '100%');
-					var totalProfit = statementBody.replace('[name]','营业利润').replace('[value]', thisMonth.totalProfit).replace('[year]',(lastMonth && lastMonth.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastMonth.totalProfit) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastYear.totalProfit) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalProfit)? exceededDetection(thisMonth.totalProfit, lastYear.totalProfit, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalProfit)? exceededDetection(thisMonth.totalProfit, lastYear.totalProfit, false): '没有可比较的上报信息" style="color:#36c6d3;"');
-					var totalTax = statementBody.replace('[name]','企业税费').replace('[value]', thisMonth.totalTax).replace('[year]',(lastMonth && lastMonth.totalTax) ? yearOnYear(thisMonth.totalTax, lastMonth.totalTax) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalTax) ? yearOnYear(thisMonth.totalTax, lastYear.totalTax) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalTax)? exceededDetection(thisMonth.totalTax, lastYear.totalTax, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalTax)? exceededDetection(thisMonth.totalTax, lastYear.totalTax, false): '没有可比较的上报信息" style="color:#36c6d3;"');
-					//var employeeCompensation = statementBody.replace('[name]','应付职工薪酬').replace('[value]', thisMonth.employeeCompensation).replace('[year]',(lastMonth && lastMonth.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastMonth.employeeCompensation) : '100%').replace('[lastYear]',(lastYear && lastYear.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastYear.employeeCompensation) : '100%');
-					//var loanAmount = statementBody.replace('[name]','贷款金额').replace('[value]', thisMonth.loanAmount).replace('[year]',(lastMonth && lastMonth.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastMonth.loanAmount) : '100%').replace('[lastYear]',(lastYear && lastYear.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastYear.loanAmount) : '100%');
-					var empQuantity = statementBody.replace('[name]','从业人数').replace('[value]', thisMonth.empQuantity).replace('[year]',(lastMonth && lastMonth.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastMonth.empQuantity) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastYear.empQuantity) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.empQuantity)? exceededDetection(thisMonth.empQuantity, lastYear.empQuantity, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.empQuantity)? exceededDetection(thisMonth.empQuantity, lastYear.empQuantity, false): '没有可比较的上报信息" style="color:#36c6d3;"');
-					//var orderQuantity = statementBody.replace('[name]','订单数量').replace('[value]', thisMonth.orderQuantity).replace('[year]',(lastMonth && lastMonth.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastMonth.orderQuantity) : '100%').replace('[lastYear]',(lastYear && lastYear.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastYear.orderQuantity) : '100%');
-					//var tboby = totalIncome + operatingCosts + totalProfit + totalTax + employeeCompensation + loanAmount + empQuantity + orderQuantity ;
-					var tboby = totalIncome + totalProfit + totalTax + empQuantity;
+					var totalIncome = statementBody.replace('[name]','营业收入').replace('[value]', thisMonth.totalIncome? thisMonth.totalIncome: 0).replace('[year]',(lastMonth && lastMonth.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastMonth.totalIncome) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastYear.totalIncome) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalIncome)? exceededDetection(thisMonth.totalIncome, lastYear.totalIncome, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalIncome)? exceededDetection(thisMonth.totalIncome, lastYear.totalIncome, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+					var operatingCosts = statementBody.replace('[name]','营业成本').replace('[value]', thisMonth.operatingCosts? thisMonth.operatingCosts: 0).replace('[year]',(lastMonth && lastMonth.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastMonth.operatingCosts) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastYear.operatingCosts) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.operatingCosts)? exceededDetection(thisMonth.operatingCosts, lastYear.operatingCosts, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.operatingCosts)? exceededDetection(thisMonth.operatingCosts, lastYear.operatingCosts, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+					var totalProfit = statementBody.replace('[name]','营业利润').replace('[value]', thisMonth.totalProfit? thisMonth.totalProfit: 0).replace('[year]',(lastMonth && lastMonth.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastMonth.totalProfit) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalProfit) ? yearOnYear(thisMonth.totalProfit, lastYear.totalProfit) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalProfit)? exceededDetection(thisMonth.totalProfit, lastYear.totalProfit, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalProfit)? exceededDetection(thisMonth.totalProfit, lastYear.totalProfit, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+					var totalTax = statementBody.replace('[name]','企业税费').replace('[value]', thisMonth.totalTax? thisMonth.totalTax: 0).replace('[year]',(lastMonth && lastMonth.totalTax) ? yearOnYear(thisMonth.totalTax, lastMonth.totalTax) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalTax) ? yearOnYear(thisMonth.totalTax, lastYear.totalTax) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalTax)? exceededDetection(thisMonth.totalTax, lastYear.totalTax, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalTax)? exceededDetection(thisMonth.totalTax, lastYear.totalTax, false): '没有可比较的上报信息" style="color:yellow;"');
+					var employeeCompensation = statementBody.replace('[name]','应付职工薪酬').replace('[value]', thisMonth.employeeCompensation? thisMonth.employeeCompensation: 0).replace('[year]',(lastMonth && lastMonth.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastMonth.employeeCompensation) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.employeeCompensation) ? yearOnYear(thisMonth.employeeCompensation, lastYear.employeeCompensation) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.employeeCompensation)? exceededDetection(thisMonth.employeeCompensation, lastYear.employeeCompensation, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.employeeCompensation)? exceededDetection(thisMonth.employeeCompensation, lastYear.employeeCompensation, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+					var loanAmount = statementBody.replace('[name]','贷款金额').replace('[value]', thisMonth.loanAmount? thisMonth.loanAmount: 0).replace('[year]',(lastMonth && lastMonth.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastMonth.loanAmount) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastYear.loanAmount) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.loanAmount)? exceededDetection(thisMonth.loanAmount, lastYear.loanAmount, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.loanAmount)? exceededDetection(thisMonth.loanAmount, lastYear.loanAmount, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+					var empQuantity = statementBody.replace('[name]','从业人数').replace('[value]', thisMonth.empQuantity? thisMonth.empQuantity: 0).replace('[year]',(lastMonth && lastMonth.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastMonth.empQuantity) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastYear.empQuantity) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.empQuantity)? exceededDetection(thisMonth.empQuantity, lastYear.empQuantity, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.empQuantity)? exceededDetection(thisMonth.empQuantity, lastYear.empQuantity, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+					var orderQuantity = statementBody.replace('[name]','订单数量').replace('[value]', thisMonth.orderQuantity? thisMonth.orderQuantity: 0).replace('[year]',(lastMonth && lastMonth.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastMonth.orderQuantity) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastYear.orderQuantity) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.orderQuantity)? exceededDetection(thisMonth.orderQuantity, lastYear.orderQuantity, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.orderQuantity)? exceededDetection(thisMonth.orderQuantity, lastYear.orderQuantity, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+					if(type == '1') {
+						var tboby = totalIncome + operatingCosts + totalProfit + totalTax + employeeCompensation + loanAmount + empQuantity + orderQuantity ;
+					} else if(type == '2') {
+						var tboby = totalIncome + totalProfit + totalTax + empQuantity;
+					}
 					var statement1 = statement.replace('[time]', time).replace('[tbody]', tboby).replace('[id]', 'tab'+(now+1)).replace('[readonly]', "").replace('[buttonStyle1]', "").replace('[buttonStyle2]', "").replace('[textarea]', "").replace('[opinion]', "opinion");
 					
 					$('#menu').append(li1);
 					$('#tab').append(statement1);
 				}
+				contentShow();
 				//updateStepNumber(1, now+1);
 				$("#menu").find("li:last").find("a").trigger("click");
 				
@@ -188,6 +197,18 @@
 		}).fail(function(xhr, status, error) {
 			
 		});
+		
+		// 根据当前登录用户企业所属类型 来页面展示的内容
+		function contentShow() {
+			console.info(10);
+			var type = $('#companyParentType').val();
+			if(type == "1") {
+				console.info(1);
+				$('.type_emphasis').show();
+			} else if(type == "2") {
+				$('.type_quota').show();
+			}
+		}
 		
 		/* （本期数－同期数）÷同期数×100% */
 		function yearOnYear(now, last) {
@@ -278,10 +299,10 @@
 						'<div class="portlet light bordered">' +
 						'	<div class="portlet-title">' +
 						'		<div class="caption font-red-sunglo col-md-12">' +
-						'			<i class="icon-settings font-red-sunglo"></i> <span' +
-						'				class="caption-subject bold uppercase col-md-10">' +
-						//'				营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额是企业单月数据</span>' +
-						'				营业收入、营业利润、企业税费是企业单月数据</span>' +
+						'			<i class="icon-settings font-red-sunglo"></i> <span class="caption-subject bold uppercase col-md-10 type_quota" style="display:none;">' +
+						'				营业收入、营业成本 、营业利润、从业人数请填写企业单月数据，不要填写累计数据</span>' +
+						'				<span class="caption-subject bold uppercase col-md-10 type_emphasis" style="display:none;">' +
+						'				营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额请填写企业单月数据，不要填写累计数据</span>' +
 						'				<span style="float: right;font-size: 15px;" class="actions" >[time]</span>' +
 						'		</div>' +
 						'	</div>' +
@@ -296,7 +317,7 @@
 						'							placeholder="公司名称"  readonly value="[公司名称]"> ' +
 						'					</div>' +
 						'				</div>' +
-				'						<div class="form-group col-md-6">' +
+				'						<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">' +
 				'							<label>营业收入（万元）</label>' +
 				'							<div class="input-group">' +
 				'								<span class="input-group-addon" >￥</span>' +
@@ -304,15 +325,15 @@
 				'									placeholder="营业收入" readonly value="[营业收入]">' +
 				'							</div>' +
 				'						</div>' +
-				/* '						<div class="form-group col-md-6">' +
+				'						<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">' +
 				'							<label>营业成本 （万元）</label>' +
 				'							<div class="input-group">' +
 				'								<span class="input-group-addon" >￥</span>' +
 				'								<input type="text" class="form-control" ' +
 				'									placeholder="营业成本" readonly value="[营业成本]">' +
 				'							</div>' +
-				'						</div>' + */
-				'						<div class="form-group col-md-6">' +
+				'						</div>' + 
+				'						<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">' +
 				'							<label>营业利润（万元）</label>' +
 				'							<div class="input-group">' +
 				'								<span class="input-group-addon" >￥</span>' +
@@ -320,7 +341,7 @@
 				'									placeholder="营业利润" readonly value="[营业利润]">' +
 				'							</div>' +
 				'						</div>' +
-				'						<div class="form-group col-md-6">' +
+				'						<div class="form-group col-md-6 type_emphasis" style="display:none;">' +
 				'							<label>企业税费（万元）</label>' +
 				'							<div class="input-group">' +
 				'								<span class="input-group-addon" >￥</span>' +
@@ -328,7 +349,7 @@
 				'									placeholder="企业税费" readonly value="[企业税费]">' +
 				'							</div>' +
 				'						</div>' +
-				/* '						<div class="form-group col-md-6">' +
+				'						<div class="form-group col-md-6 type_emphasis" style="display:none;">' +
 				'							<label>应付职工薪酬（万元）</label>' +
 				'							<div class="input-group">' +
 				'								<span class="input-group-addon" >￥</span>' +
@@ -336,15 +357,15 @@
 				'									readonly value="[应付职工薪酬]">' +
 				'							</div>' +
 				'						</div>' +
-				'						<div class="form-group col-md-6">' +
+				'						<div class="form-group col-md-6 type_emphasis" style="display:none;">' +
 				'							<label>贷款金额（万元）</label>' +
 				'							<div class="input-group">' +
 				'								<span class="input-group-addon" >￥</span>' +
 				'								<input type="text" class="form-control"  ' +
 				'									readonly placeholder="贷款金额" value="[贷款金额]">' +
 				'							</div>' +
-				'						</div>' + */
-				'						<div class="form-group col-md-6">' +
+				'						</div>' + 
+				'						<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">' +
 				'							<label>从业人数 （人）</label>' +
 				'							<div class="input-group">' +
 				'								<span class="input-group-addon"> <i' +
@@ -353,7 +374,7 @@
 				'									readonly  placeholder="从业人数" value="[从业人数]">' +
 				'							</div>' +
 				'						</div>' +
-				/* '						<div class="form-group col-md-6">' +
+				'						<div class="form-group col-md-6 type_emphasis" style="display:none;">' +
 				'							<label>订单数量（个）</label>' +
 				'							<div class="input-group">' +
 				'								<span class="input-group-addon"> <i' +
@@ -361,10 +382,10 @@
 				'								</span> <input type="text" class="form-control spinner"' +
 				'									  readonly  placeholder="订单数量" value="[订单数量]">' +
 				'							</div>' +
-				'						</div>' + */
+				'						</div>' + 
 				'					</div>' +
-				/* '					<div style="height:380px;"></div>' + */
-				'					<div style="height:250px;"></div>' +
+				 '					<div style="height:380px;display:none;" class="type_emphasis" ></div>' + 
+				'					<div style="height:250px;display:none;" class="type_quota" ></div>' +
 				'					<div class="form-actions"  >' +
 				'						[question]' +
 				'					</div>' +
@@ -410,7 +431,7 @@
 				<!-- 主体部分START-->
 				<div class="row">
 					<div class="col-md-12">
-
+						<input type="hidden" value="${companyParentType}" id="companyParentType">
 						<div class="portlet light bordered" id="form_wizard_1">
 							<div class="portlet-title">
 								<div class="caption">

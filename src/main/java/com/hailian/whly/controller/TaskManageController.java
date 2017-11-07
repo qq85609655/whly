@@ -87,6 +87,7 @@ public class TaskManageController extends BaseController {
 			e.printStackTrace();
 		}*/
 		frontCompanyReport=frontCompanyReportService.get(frontCompanyReport.getId());
+		model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
 		return Global.getWhlyPage()+"/taskmange/examineForm";
 	}

@@ -72,8 +72,20 @@
 		$("#sample_1_filter").remove();
 		$("#sample_1_info").remove();
 		$("#sample_1_paginate").remove();
-	
+		// 根据当前登录用户企业所属类型 来页面展示的内容
+		contentShow();
+		
 	});
+	
+	// 根据当前登录用户企业所属类型 来页面展示的内容
+	function contentShow() {
+		var type = $('#companyParentType').val();
+		if(type == "1") {
+			$('.type_emphasis').show();
+		} else if(type == "2") {
+			$('.type_quota').show();
+		}
+	}
 </script>
 </head>
 <body
@@ -113,6 +125,7 @@
 				<!-- 主体部分START-->
 				<div class="row">
 					<div class="col-md-12">
+						<input type="hidden" value="${companyParentType}" id="companyParentType">
 						<!-- BEGIN EXAMPLE TABLE PORTLET-->
 						<div class="portlet light bordered">
 							<div class="portlet-title">
@@ -129,14 +142,14 @@
 											<th>状态</th>
 											<th>操作人</th>
 											<th>操作时间</th>
-											<th>营业收入 (万元)</th>
-											<th>营业利润 (万元)</th>
-											<th>企业税费 (万元)</th>
-											<!-- <th>营业成本 (万元)</th>
-											<th>应付职工薪酬 (万元)</th>
-											<th>贷款金额 (万元)</th>
-											<th>订单数量 (个)</th> -->
-											<th>从业人数(人)</th>
+											<th class="type_emphasis type_quota" style="display:none;">营业收入 (万元)</th>
+											<th class="type_emphasis type_quota" style="display:none;">营业利润 (万元)</th>
+											<th class="type_emphasis " style="display:none;">企业税费 (万元)</th>
+											<th class="type_emphasis type_quota" style="display:none;">营业成本 (万元)</th>
+											<th class="type_emphasis " style="display:none;">应付职工薪酬 (万元)</th>
+											<th class="type_emphasis " style="display:none;">贷款金额 (万元)</th>
+											<th class="type_emphasis " style="display:none;">订单数量 (个)</th>
+											<th class="type_emphasis type_quota" style="display:none;">从业人数(人)</th>
 											<th>所属行业</th>
 											<th>所属地域</th>
 											<th>反馈内容</th>
@@ -158,14 +171,14 @@
 											</c:choose>
 												<td>${frontCompanyReportHistory.operator}</td>
 												<td>${frontCompanyReportHistory.updateTime}</td>
-												<td>${frontCompanyReportHistory.totalIncome}</td>
-												<td>${frontCompanyReportHistory.totalProfit}</td>
-												<td>${frontCompanyReportHistory.totalTax}</td>
-												<%-- <td>${frontCompanyReportHistory.operatingCosts}</td>
-												<td>${frontCompanyReportHistory.employeeCompensation}</td>
-												<td>${frontCompanyReportHistory.loanAmount}</td>
-												<td>${frontCompanyReportHistory.orderQuantity}</td> --%>
-												<td>${frontCompanyReportHistory.empQuantity}</td>
+												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReportHistory.totalIncome}</td>
+												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReportHistory.totalProfit}</td>
+												<td class="type_emphasis " style="display:none;">${frontCompanyReportHistory.totalTax}</td>
+												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReportHistory.operatingCosts}</td>
+												<td class="type_emphasis " style="display:none;">${frontCompanyReportHistory.employeeCompensation}</td>
+												<td class="type_emphasis " style="display:none;">${frontCompanyReportHistory.loanAmount}</td>
+												<td class="type_emphasis " style="display:none;">${frontCompanyReportHistory.orderQuantity}</td>
+												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReportHistory.empQuantity}</td>
 												<td>${frontCompanyReportHistory.description}</td>
 												<td>${frontCompanyReportHistory.areaName}</td>
 												<td>${frontCompanyReportHistory.reason}</td>

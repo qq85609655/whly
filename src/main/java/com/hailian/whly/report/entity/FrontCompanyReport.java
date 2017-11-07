@@ -35,10 +35,10 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String totalIncome;		// 营业收入（万）
 	private String totalProfit;		// 营业利润（万）
 	private String totalTax;		// 企业税费（万）
-	private String operatingCosts;  // 营业成本（万）
 	private String employeeCompensation; // 应付职工薪酬 （万）
 	private String loanAmount;      // 贷款金额 （万）
 	private String orderQuantity;   // 订单数量 （个） 
+	private String operatingCosts;  // 营业成本（万）
 	private Date insertTime;		// 插入时间
 	private Date updateTime;		// 更新时间
 	private String operator;		// 操作人

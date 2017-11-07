@@ -78,7 +78,20 @@
 				$("#sample_1_info").remove();
 				$("#sample_1_paginate").remove();
 			
+				// 根据当前登录用户企业所属类型 来页面展示的内容
+				contentShow();
+				
 			});
+			
+			// 根据当前登录用户企业所属类型 来页面展示的内容
+			function contentShow() {
+				var type = $('#companyParentType').val();
+				if(type == "1") {
+					$('.type_emphasis').show();
+				} else if(type == "2") {
+					$('.type_quota').show();
+				}
+			}
 			
 			
         	//重置表单
@@ -146,6 +159,7 @@
 				<!-- 主体部分START-->
 				<div class="row">
 					<div class="col-md-12">
+						<input type="hidden" value="${companyParentType}" id="companyParentType">
 						<!-- BEGIN EXAMPLE TABLE PORTLET-->
 						<div class="portlet light bordered">
 							<div class="portlet-title">
@@ -163,14 +177,14 @@
 											<th>状态</th>
 											<th>年</th>
 											<th>月份</th>
-											<th>营业收入 (万元)</th>
-											<th>营业利润 (万元)</th>
-											<th>企业税费 (万元)</th>
-											<!-- <th>营业成本 (万元)</th>
-											<th>应付职工薪酬 (万元)</th>
-											<th>贷款金额 (万元)</th>
-											<th>订单数量 (个)</th> -->
-											<th>从业人数(人)</th>
+											<th class="type_emphasis type_quota" style="display:none;">营业收入 (万元)</th>
+											<th class="type_emphasis type_quota" style="display:none;">营业利润 (万元)</th>
+											<th class="type_emphasis " style="display:none;">企业税费 (万元)</th>
+											<th class="type_emphasis type_quota" style="display:none;">营业成本 (万元)</th>
+											<th class="type_emphasis " style="display:none;">应付职工薪酬 (万元)</th>
+											<th class="type_emphasis " style="display:none;">贷款金额 (万元)</th>
+											<th class="type_emphasis " style="display:none;">订单数量 (个)</th>
+											<th class="type_emphasis type_quota" style="display:none;">从业人数(人)</th>
 											<th>上报时间</th>
 										</tr>
 									</thead>
@@ -184,14 +198,14 @@
 												<td>${frontCompanyReport.statusName}</td>
 												<td>${frontCompanyReport.year}</td>
 												<td>${frontCompanyReport.month}</td>
-												<td>${frontCompanyReport.totalIncome}</td>
-												<td>${frontCompanyReport.totalProfit}</td>
-												<td>${frontCompanyReport.totalTax}</td>
-												<%-- <td>${frontCompanyReport.operatingCosts}</td>
-												<td>${frontCompanyReport.employeeCompensation}</td>
-												<td>${frontCompanyReport.loanAmount}</td>
-												<td>${frontCompanyReport.orderQuantity}</td> --%>
-												<td>${frontCompanyReport.empQuantity}</td>
+												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReport.totalIncome}</td>
+												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReport.totalProfit}</td>
+												<td class="type_emphasis " style="display:none;">${frontCompanyReport.totalTax}</td>
+												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReport.operatingCosts}</td>
+												<td class="type_emphasis " style="display:none;">${frontCompanyReport.employeeCompensation}</td>
+												<td class="type_emphasis " style="display:none;">${frontCompanyReport.loanAmount}</td>
+												<td class="type_emphasis " style="display:none;">${frontCompanyReport.orderQuantity}</td>
+												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReport.empQuantity}</td>
 												<td><fmt:formatDate
 														value="${frontCompanyReport.reportTime}"
 														pattern="yyyy-MM-dd HH:mm:ss" /></td>

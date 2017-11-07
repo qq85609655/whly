@@ -119,6 +119,18 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			frontCompanyReport.setReportTime(time);	//上报时间
 			frontCompanyReport.setUpdateTime(time);	//更改时间
 			frontCompanyReport.setDelFlag("0");
+			if(frontCompanyReport.getTotalTax().trim().equals("")) {
+				frontCompanyReport.setTotalTax(null);
+			}
+			if(frontCompanyReport.getEmployeeCompensation().trim().equals("")) {
+				frontCompanyReport.setEmployeeCompensation(null);
+			}
+			if(frontCompanyReport.getLoanAmount().trim().equals("")) {
+				frontCompanyReport.setLoanAmount(null);
+			}
+			if(frontCompanyReport.getOrderQuantity().trim().equals("")) {
+				frontCompanyReport.setOrderQuantity(null);
+			}
 			dao.insert1(frontCompanyReport);
 			if(list!=null) {
 				for(FrontReportQuestion front: list) {
@@ -245,6 +257,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				}
 				List<FrontReportQuestion> question = dao.findQuestion(frontCompanyReport.getId());
 				frontCompanyReport2.setQuestion(question);
+				frontCompanyReport2.setReason(frontCompanyReport.getReason());
 				String desciption = JsonMapper.toJsonString(frontCompanyReport2);
 				history.setDescription(desciption); //上报信息
 				history.setOperator(user.getName());
@@ -259,6 +272,31 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			e.printStackTrace();
 		}
 	};
+	
+	
+	/**
+	 * 
+	 * @time   2017年11月07日 上午11:18:00
+	 * @author zhouyl
+	 * @todo   获取当前登陆用户所在企业的所属类型;1:重点服务业企业监测板块, 2:限额以下服务业企业监测板块 , 3:年度扶持项目监测板块, 4:其他
+	 * @param  @param null
+	 * @param  @return 
+	 * @return_type   int
+	 */
+	public int getCompanyParentType(){
+		int companyParentType = 0;
+		String parentId = UserUtils.getUser().getCompany().getParentId();
+		if(parentId.equals("be9e0da458064360b214c9ca69327859")) {  			//重点服务业企业监测板块
+			companyParentType = 1;
+		} else if(parentId.equals("cc0cbec49fe5449da652f8db57d473ab")) {	//限额以下服务业企业监测板块
+			companyParentType = 2;
+		} else if(parentId.equals("ebc16b9cafd84d53a8222eae5d4340d6")) {	//年度扶持项目监测板块
+			companyParentType = 3;
+		} else if(parentId.equals("d2c1c37069fa4ce189bc4a3529cc7a65")) {	//其他
+			companyParentType = 4;
+		}
+		return companyParentType;
+	}
 	
 	@Transactional(readOnly = false)
 	public void delete(FrontCompanyReport frontCompanyReport) {

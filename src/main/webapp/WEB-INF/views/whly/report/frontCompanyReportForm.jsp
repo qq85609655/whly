@@ -33,8 +33,22 @@
 		$("#add").click(addRemarks);
 		//删除按钮
 		$("#delete").click(deleteRemarks);
+		
+		// 根据当前登录用户企业所属类型 来页面展示的内容
+		contentShow();
 	
 	});
+	
+	// 根据当前登录用户企业所属类型 来页面展示的内容
+	function contentShow() {
+		var type = $('#companyParentType').val();
+		if(type == "1") {
+			$('.type_emphasis').show();
+		} else if(type == "2") {
+			$('.type_quota').show();
+			$('.input_quota').removeAttr('required');
+		}
+	}
 	
     function returnBack() {
     	if($("#from_hid").val()=="sh"){
@@ -192,38 +206,21 @@ $.ready(function() {
 						<div class="portlet light bordered">
 							<div class="portlet-title">
 								<div class="caption font-red-sunglo col-md-12">
-									<i class="icon-settings font-red-sunglo"></i> <span
-										class="caption-subject bold uppercase col-md-10">
+									<i class="icon-settings font-red-sunglo"></i> <span class="caption-subject bold uppercase col-md-10 type_quota" style="display:none;">
 										营业收入、营业成本 、营业利润、从业人数请填写企业单月数据，不要填写累计数据</span>
-										<!-- 营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额请填写企业单月数据，不要填写累计数据</span> -->
+										<span class="caption-subject bold uppercase col-md-10 type_emphasis" style="display:none;">
+										营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额请填写企业单月数据，不要填写累计数据</span> 
 									<div style="float: right;font-size: 15px;" class="actions">${topMonth.info }</div>
 								</div>
-								<!-- <div class="actions">
-									<div class="btn-group">
-
-										<ul class="dropdown-menu pull-right">
-											<li><a href="javascript:;"> <i class="fa fa-pencil"></i>
-													Edit
-											</a></li>
-											<li><a href="javascript:;"> <i class="fa fa-trash-o"></i>
-													Delete
-											</a></li>
-											<li><a href="javascript:;"> <i class="fa fa-ban"></i>
-													Ban
-											</a></li>
-											<li class="divider"></li>
-											<li><a href="javascript:;"> Make admin </a></li>
-										</ul>
-									</div>
-								</div> -->
 							</div>
 							<div class="portlet-body ">
 								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}"  id="action"  method="post">
 									<input type="hidden" name="frontCompanyReport.year" value="${topMonth.year }">
 									<input type="hidden" name="frontCompanyReport.month" value="${topMonth.month }">
 									<input type="hidden" id="from_hid" name="frontCompanyReport.from" value="${frontCompanyReport.from }">
+									<input type="hidden" value="${companyParentType}" id="companyParentType">
 									<div class="form-body">
-										<div class="form-group col-md-6">
+										<div class="form-group col-md-6 ">
 											<label>公司名称</label>
 											<div class="input-group">
 												<span class="input-group-addon"> <i
@@ -232,7 +229,7 @@ $.ready(function() {
 													placeholder="公司名称"   readonly value="${frontCompanyReport.companyName }" name="companyName">
 											</div>
 										</div>
-										<div class="form-group col-md-6">
+										<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
 											<label>营业收入（万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
@@ -240,16 +237,15 @@ $.ready(function() {
 													placeholder="请输入营业收入" required type="number"  name="totalIncome" id="totalIncome">
 											</div>
 										</div>
-										<!-- 
-										<div class="form-group col-md-6">
+										<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
 											<label>营业成本 （万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
 												<input required type="number" class="form-control" name="operatingCosts" id="operatingCosts"
 													placeholder="请输入营业成本" aria-describedby="sizing-addon1">
 											</div>
-										</div> -->
-										<div class="form-group col-md-6">
+										</div>
+										<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
 											<label>营业利润（万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
@@ -257,32 +253,32 @@ $.ready(function() {
 													placeholder="请输入营业利润" aria-describedby="sizing-addon1">
 											</div>
 										</div>
-										<div class="form-group col-md-6">
+										<div class="form-group col-md-6 type_emphasis" style="display:none;">
 											<label>企业税费（万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
-												<input required type="number" class="form-control" name="totalTax" id="totalTax"
+												<input required type="number" class="form-control input_quota" name="totalTax" id="totalTax"
 													placeholder="请输入企业税费" aria-describedby="sizing-addon1">
 											</div>
 										</div>
-										<!-- <div class="form-group col-md-6">
+										<div class="form-group col-md-6 type_emphasis" style="display:none;">
 											<label>应付职工薪酬（万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
-												<input required type="number" class="form-control" name="employeeCompensation"
+												<input required type="number" class="form-control input_quota" name="employeeCompensation"
 													id="employeeCompensation" placeholder="请输入应付职工薪酬"
 													aria-describedby="sizing-addon1">
 											</div>
 										</div>
-										<div class="form-group col-md-6">
+										<div class="form-group col-md-6 type_emphasis" style="display:none;">
 											<label>贷款金额（万元）</label>
 											<div class="input-group">
 												<span class="input-group-addon" >￥</span>
-												<input required type="number" class="form-control" name="loanAmount" id="loanAmount"
+												<input required type="number" class="form-control input_quota" name="loanAmount" id="loanAmount"
 													placeholder="请输入贷款金额" aria-describedby="sizing-addon1">
 											</div>
-										</div> -->
-										<div class="form-group col-md-6">
+										</div>
+										<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
 											<label>从业人数 （人）</label>
 											<div class="input-group">
 												<span class="input-group-addon"> <i
@@ -291,32 +287,29 @@ $.ready(function() {
 													id="empQuantity" placeholder="请输入从业人数">
 											</div>
 										</div>
-										<!-- <div class="form-group col-md-6">
+										<div class="form-group col-md-6 type_emphasis" style="display:none;">
 											<label>订单数量（个）</label>
 											<div class="input-group">
 												<span class="input-group-addon"> <i
 													class="fa fa-reorder"></i>
-												</span> <input required type="number" class="form-control spinner"
+												</span> <input required type="number" class="form-control spinner input_quota"
 													id="orderQuantity"  name="orderQuantity" placeholder="请输入订单数量">
 											</div>
-										</div> -->
+										</div>
 										<div class="form-group col-md-6">
 											<br> 
 											<button type="button" class="btn blue pull-right"
 												id="return">返回</button>
 											<button type="submit"  class="btn blue pull-right" style="margin-right: 0.3em;display:none" id="submit">提交</button>
 										</div>
-										<input type="hidden" value="${frontCompanyReport.id}"
-											id="reportId">
-										<input type="hidden" value="${companyName}"
-										id="companyName">
-										<input type="hidden" value="${frontCompanyReport.id}"
-										name="id">
-										<input type="hidden" value="${redirectAttributes}"
-										id="redirectAttributes">
+										<input type="hidden" value="${frontCompanyReport.id}" id="reportId">
+										<input type="hidden" value="${companyName}" id="companyName">
+										<input type="hidden" value="${frontCompanyReport.id}" name="id">
+										<input type="hidden" value="${redirectAttributes}" id="redirectAttributes">
+										<input type="hidden" value="${companyParentType}" id="companyParentType">
 									</div>
-									<!-- <div style="height:380px;"></div> -->
-									<div style="height:250px;"></div>
+									<div style="height:380px;display:none;" class="type_emphasis" ></div> 
+									<div style="height:250px;display:none;" class="type_quota" ></div>
 									<div class="form-actions" id="remarks" >
 										<button type="button" class="btn btn-success" id="add">新增</button>
 										<button type="button" class="btn btn-danger" id="delete">删除</button>

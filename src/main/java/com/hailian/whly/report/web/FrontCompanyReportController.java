@@ -75,6 +75,7 @@ public class FrontCompanyReportController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response, Model model) {
 		try {
+			model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
 			model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
 			model.addAttribute("status", CheckStatus.getAllStatus());
 			model.addAttribute("front", frontCompanyReport);
@@ -108,6 +109,7 @@ public class FrontCompanyReportController extends BaseController {
 			frontCompanyReport=frontCompanyReportService.get(frontCompanyReport.getId());
 		}
 		frontCompanyReport.setFrom(from);
+		model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
 		model.addAttribute("companyName", UserUtils.getUser().getCompany().getName());
 		model.addAttribute("topMonth", topMonth);
@@ -136,10 +138,10 @@ public class FrontCompanyReportController extends BaseController {
 		 Map<String, Object> topMonth=frontCompanyReportService.getTopReportMonth();
 		 frontCompanyReport.setYear(topMonth.get("year")+"");
 		 frontCompanyReport.setMonth(topMonth.get("month")+"");
-		 if ((Integer.valueOf(frontCompanyReport.getYear()) >= year.intValue()) && (Integer.valueOf(frontCompanyReport.getMonth()) >= month.intValue())) {
+		/* if ((Integer.valueOf(frontCompanyReport.getYear()) >= year.intValue()) && (Integer.valueOf(frontCompanyReport.getMonth()) >= month.intValue())) {
 			 addMessage(redirectAttributes, "对不起，该月月报还无法上报！");
 			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/form";
-		 }else{
+		 }else{*/
 			 frontCompanyReportService.saveReport(frontCompanyReport);
 			 addMessage(model, "保存企业上报成功");
 			/* frontCompanyReport.setId("");
@@ -148,7 +150,7 @@ public class FrontCompanyReportController extends BaseController {
 			 }*/
 			 model.addAttribute("frontCompanyReport", frontCompanyReport);
 			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/viewlist";
-		 }
+		 //}
 		
 	}
 	
@@ -208,10 +210,6 @@ public class FrontCompanyReportController extends BaseController {
 				HashMap<String, Object> temp = new HashMap<String, Object>();
 				temp.put("id", json.get("id"));
 				temp.put("companyName", json.get("companyName"));
-				temp.put("totalIncome", json.get("totalIncome"));
-				temp.put("totalProfit", json.get("totalProfit"));
-				temp.put("totalTax", json.get("totalTax"));
-				temp.put("empQuantity", json.get("empQuantity"));
 				temp.put("month", json.get("month"));
 				temp.put("year", json.get("year"));
 				temp.put("reportTime", json.get("reportTime"));
@@ -219,7 +217,26 @@ public class FrontCompanyReportController extends BaseController {
 				temp.put("insertTime", json.get("insertTime"));
 				temp.put("updateTime", json.get("updateTime"));
 				
-				
+				try {
+					temp.put("empQuantity", json.get("empQuantity"));
+				} catch (Exception e) {
+					temp.put("empQuantity", "");
+				}
+				try {
+					temp.put("totalProfit", json.get("totalProfit"));
+				} catch (Exception e) {
+					temp.put("totalProfit", "");
+				}
+				try {
+					temp.put("totalIncome", json.get("totalIncome"));
+				} catch (Exception e) {
+					temp.put("totalIncome", "");
+				}
+				try {
+					temp.put("totalTax", json.get("totalTax"));
+				} catch (Exception e) {
+					temp.put("totalTax", "");
+				}
 				try {
 					temp.put("description", json.get("description"));
 				} catch (Exception e) {
@@ -282,6 +299,7 @@ public class FrontCompanyReportController extends BaseController {
 				}
 				list.add(temp);
 			}
+			model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
 			model.addAttribute("page", list);
 		} catch (Exception e) { 
 			e.printStackTrace(); 
@@ -303,6 +321,7 @@ public class FrontCompanyReportController extends BaseController {
 	@RequestMapping(value = {"viewlist", ""})
 	public String viewlist(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response, Model model) {
 	try {
+		model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
 		model.addAttribute("status", CheckStatus.getAllStatus());
 		model.addAttribute("front", frontCompanyReport);
 		frontCompanyReport.setCompanyId(UserUtils.getUser().getCompany().getId());
