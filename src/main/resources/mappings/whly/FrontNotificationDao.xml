@@ -40,7 +40,7 @@
 			</if>
 			
 		</where>
-		ORDER BY a.update_date DESC
+		ORDER BY a.weight, a.update_date DESC
 	</select>
     
 	<select id="get" resultType="com.hailian.whly.frontnotification.entity.FrontNotification">
@@ -76,10 +76,10 @@
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
+				ORDER BY a.weight, ${page.orderBy} 
 			</when>
 			<otherwise>
-				ORDER BY a.create_date DESC
+				ORDER BY a.weight, a.update_date DESC
 			</otherwise>
 		</choose>
 	</select>
@@ -97,7 +97,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.create_date DESC
+				ORDER BY a.weight, a.update_date DESC
 			</otherwise>
 		</choose>
 	</select>

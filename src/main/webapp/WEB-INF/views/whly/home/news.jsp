@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
     <head>
 		<meta name="decorator" content="whly"/>
 		<style>
@@ -41,7 +41,7 @@
 				.text-right {
 					height: 40px;
 				    float: left;
-				    width: 481px;
+				    width: 84%;
 				    text-align: right;
 				    line-height: 40px;
 				}
@@ -66,10 +66,12 @@
 						url : '../a/frontnotification/frontNotification/getfrontNotification',
 						dataType : 'json'
 					}).done(function(result, status, xhr) {
-						//console.info(result);
+						console.info(result);
 						var data = result.data;
 						var newsLi = $('#newsLi');
 						var noticeLi = $('#noticeLi');
+						var newsWeight = null;
+						var noticeWeight = null;
 		                for (var i = 0; i < data.length; i++) {
 		                	var dataTitle = "";
 		                	if(data[i].title.length > 28) {
@@ -78,9 +80,9 @@
 		    			        var ms = Math.abs(s1.getTime() - s2.getTime());
 		    			        var time = Math.floor(ms / 1000 / 60 / 60);
 		    			        if(time > 24) {
-		    			        	dataTitle = data[i].title.substring(0,28) + '...';
+		    			        	dataTitle = data[i].title.substring(0,27) + '...';
 		    			        } else if(data[i].title.length > 32) {
-		    			        	dataTitle = data[i].title.substring(0,32) + '...';
+		    			        	dataTitle = data[i].title.substring(0,29) + '...';
 		    			        } else {
 		    			        	dataTitle = data[i].title;
 		    			        }
@@ -88,10 +90,31 @@
 		                		dataTitle = data[i].title;
 		                	}
 							var li1 = li.replace('[id]', "'" + data[i].id + "'").replace('[title]', dataTitle).replace('[title1]', data[i].title).replace('[time]', getHour(nowTime,data[i].updateDate));
-							if(data[i].categoryType == "1" && newsLi.find('li').length <= 13) {
-								newsLi.append(li1);
-							} else if(data[i].categoryType == "2" && noticeLi.find('li').length <= 13){
-								noticeLi.append(li1);
+							
+							if(data[i].categoryType == "1" && newsLi.find('li').length < 13) {
+								if(data[i].weight == 0) {
+									if(newsWeight == null) {
+										newsLi.prepend(li1.replace('[weight]', '<span class="badge badge-danger"> 置顶 </span>'));
+										newsWeight = 0;
+									} else {
+										newsLi.find('li').eq(newsWeight).after(li1.replace('[weight]', '<span class="badge badge-danger"> 置顶 </span>'));
+										newsWeight ++;
+									}
+								} else {
+									newsLi.append(li1.replace('[weight]', ''));
+								}
+							} else if(data[i].categoryType == "2" && noticeLi.find('li').length < 13){
+								if(data[i].weight == 0) {
+									if(noticeWeight == null) {
+										noticeLi.prepend(li1.replace('[weight]', '<span class="badge badge-danger"> 置顶 </span>'));
+										noticeWeight = 0;
+									} else {
+										noticeLi.find('li').eq(noticeWeight).after(li1.replace('[weight]', '<span class="badge badge-danger"> 置顶 </span>'));
+										noticeWeight ++;
+									}
+								} else {
+									noticeLi.append(li1.replace('[weight]', ''));
+								}
 							}
 						}
 					}).fail(function(xhr, status, error) {
@@ -142,11 +165,11 @@
 							  size: "dialog",
 							  title: title,
 							  onEscape: true,
-							  message: '<h3 style="text-align:center;font-weight:bold;color:'+ result.data[0].color +';">' + result.data[0].title + '</h3><br>' + result.data[0].content,
+							  message: '<h3 style="text-align:center;font-weight:bold;color:'+ result.data[0].color +';">' + result.data[0].title + '</h3><div class="date" style="text-align: center;padding: 0 0 20px 0;font-size: 12px;color: #888;font-family: "宋体";">'+ result.data[0].updateDate +'</div><br>' + result.data[0].content,
 							  callback: function(){ /* your callback code */ }
 							});
 					}).fail(function(xhr, status, error) {
-						
+					    
 					});
 					
 					
@@ -160,6 +183,7 @@
 			             '                  <div class="cont-col2">' +
 			             '                      <div class="desc" style="margin-left:16px;">' +
 			             '                      	<a href="#" onclick="alert([id])" title="[title1]">  [title]</a>' +
+			             ' 							[weight]' +
 			             '                      </div>' +
 			             '                  </div>' +
 			             '              </div>' +
@@ -196,7 +220,7 @@
                     <!-- 主体部分START-->
 				     
                      <div class="row">
-                <div class="col-md-6 col-sm-6">
+                <div class="col-sm-6">
                     <!-- BEGIN PORTLET-->
                     <div class="portlet light bordered">
                         <div class="portlet-title tabbable-line">
@@ -205,7 +229,7 @@
                                 <span class="caption-subject font-green-sharp bold uppercase">企业新闻</span>
                             </div>
                             <div class="text-right">
-                            	<a action="#">
+                            	<a href="../a/frontnotification/frontNotification/listPage?categoryType=1">
 	                                <span class="caption-subject grey-cascade  uppercase">查看更多</span>
 	                                <i class="fa fa-angle-double-right grey-cascade" ></i>
                                 </a>
@@ -417,7 +441,7 @@
                                 <span class="caption-subject font-green-sharp bold uppercase">系统公告</span>
                             </div>
                             <div class="text-right">
-                            	<a action="#">
+                            	<a href="../a/frontnotification/frontNotification/listPage?categoryType=2">
 	                                <span class="caption-subject grey-cascade  uppercase">查看更多</span>
 	                                <i class="fa fa-angle-double-right grey-cascade" ></i>
                                 </a>

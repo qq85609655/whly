@@ -223,8 +223,8 @@
 		var statementBody = '<tr> ' +
 							'	<td>[name]</td>' +
 							'	<td>[value]</td>' +
-							'	<td title="[title1]">[year]</td>' +
-							'	<td title="[title2]">[lastYear]</td>' +
+							'	<td title="[title1]" >[year]</td>' +
+							'	<td title="[title2]" >[lastYear]</td>' +
 							'</tr>' ;
 		
 		var statement = '<div class="tab-pane [class] " id="[id]"> ' +

@@ -63,9 +63,6 @@ public class FrontNotificationService extends CrudService<FrontNotificationDao, 
 
 	public List<FrontNotification> getfrontNotification(FrontNotification frontNotification) {
 		List<FrontNotification> list = dao.getfrontNotification(frontNotification);
-		
-		
-		
 		return list;
 	}
 	

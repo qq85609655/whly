@@ -74,17 +74,17 @@ public class FrontCompanyReportController extends BaseController {
 	/*@RequiresPermissions("report:frontCompanyReport:view")*/
 	@RequestMapping(value = {"list", ""})
 	public String list(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response, Model model) {
-	try {
-		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
-		model.addAttribute("status", CheckStatus.getAllStatus());
-		model.addAttribute("front", frontCompanyReport);
-		String companyParentId = UserUtils.getUser().getCompany().getParentId();
-		frontCompanyReport.setCompanyParentId(companyParentId);
-		Page<FrontCompanyReport> page = frontCompanyReportService.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);
-		model.addAttribute("page", page);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
+		try {
+			model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+			model.addAttribute("status", CheckStatus.getAllStatus());
+			model.addAttribute("front", frontCompanyReport);
+			String companyParentId = UserUtils.getUser().getCompany().getParentId();
+			frontCompanyReport.setCompanyParentId(companyParentId);
+			Page<FrontCompanyReport> page = frontCompanyReportService.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);
+			model.addAttribute("page", page);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return Global.getWhlyPage()+"/report/frontCompanyReportList";
 	}
 	

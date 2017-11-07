@@ -44,7 +44,7 @@
     <!-- 先引用 Jquery 让content页面可以使用 顺序不用改-->
 	<script src="/static/${whlyPage}/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
        <!-- BEGIN CORE PLUGINS -->
-    <script src="/static/${whlyPage}/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/global/plugins/bootstrap/js/bootstrap.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
@@ -112,6 +112,7 @@
     <script src="/static/${whlyPage}/assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/pages/scripts/ui-general.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/pages/scripts/ui-bootbox.min.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/pages/scripts/ui-blockui.min.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
     <!-- BEGIN THEME LAYOUT SCRIPTS -->
     <script src="/static/${whlyPage}/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>

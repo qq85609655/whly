@@ -3,6 +3,8 @@
  */
 package com.hailian.whly.frontnotification.web;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.hailian.whly.frontnotification.entity.FrontNotification;
 import com.hailian.whly.frontnotification.service.FrontNotificationService;
@@ -58,6 +61,29 @@ public class FrontNotificationController extends BaseController {
 		List<FrontNotification> list = frontNotificationService.getfrontNotification(frontNotification);
 		json.success(list);
 		return json;
+	}
+	
+	@RequestMapping({"/listData"})
+	@ResponseBody
+	public ResultJson listData(FrontNotification frontNotification, HttpServletRequest request, HttpServletResponse response, Model model) {
+		ResultJson json = new ResultJson();
+		Page<FrontNotification> page = frontNotificationService.findPage(new Page<FrontNotification>(request, response), frontNotification);
+		model.addAttribute("page", page);
+		json.success(page);
+		return json;
+	}
+	
+	@RequestMapping({"/listPage"})
+	public String listPage(FrontNotification frontNotification,HttpServletRequest request, HttpServletResponse response, Model model) {
+		try {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String time= sdf.format(new Date());
+			model.addAttribute("time", time);
+			model.addAttribute("categoryType", frontNotification.getCategoryType());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Global.getWhlyPage() +"/home/moreNews";
 	}
 	
 /*	@RequiresPermissions("frontnotification:frontNotification:view")*/
