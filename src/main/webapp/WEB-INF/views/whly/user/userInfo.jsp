@@ -80,7 +80,7 @@
                                                 <div class="tab-content">
                                                     <!-- PERSONAL INFO TAB -->
                                                     <div class="tab-pane active" id="tab_1_1">
-                                                        <form role="form" action="/front/user/userInfo" onsubmit="return checkSubmit(this)">
+                                                        <form role="form" action="/front/user/saveUserInfo" onsubmit="return checkSubmit(this)">
                                                         <!-- <sys:message content="${message}"/> -->
                                                          		<div  id="messageBox" class="alert alert-danger ${empty message ? 'display-hide' : ''}">
                     													<button class="close" data-close="alert" class="close">×</button>
@@ -167,6 +167,7 @@
 		var ss="邮箱:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		var flag=true;
 		function checkEmail(obj){
+			
 			if(!email.test(obj.value.trim())){
 				$("#messageBox").css("display","block");
 				$("#loginError").html("邮箱错误");
@@ -181,6 +182,7 @@
 		}
 		
 		function checkSubmit(obj){
+			flag=true;
 			var email=document.getElementById("emailValue");
 			checkEmail(email);
 			return flag;

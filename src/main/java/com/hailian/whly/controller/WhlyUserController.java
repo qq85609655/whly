@@ -42,19 +42,28 @@ public class WhlyUserController extends BaseController {
 	@RequestMapping(value = "userInfo")
 	public String info(User user, HttpServletResponse response, Model model) {
 		User currentUser = UserUtils.getUser();
-		if (StringUtils.isNotBlank(user.getName())){
-			currentUser.setEmail(user.getEmail());
-			currentUser.setPhone(user.getPhone());
-			currentUser.setMobile(user.getMobile());
-			currentUser.setRemarks(user.getRemarks());
-			currentUser.setPhoto(user.getPhoto());
-			systemService.updateUserInfo(currentUser);
-			model.addAttribute("message", "保存用户信息成功");
-		}
 		model.addAttribute("user", currentUser);
 		model.addAttribute("Global", new Global());
 		return whlyPage+"/user/userInfo";
 	}
+	/*
+	 * 重写修改用户信息
+	 */
+	@RequestMapping(value = "saveUserInfo")
+	public String saveUserInfo(User user, HttpServletResponse response, Model model) {
+		User currentUser = UserUtils.getUser();
+		currentUser.setEmail(user.getEmail());
+		currentUser.setPhone(user.getPhone());
+		currentUser.setMobile(user.getMobile());
+		currentUser.setPhoto(user.getPhoto());
+		systemService.updateUserInfo(currentUser);
+		model.addAttribute("message", "保存用户信息成功");
+	
+		model.addAttribute("user", currentUser);
+		model.addAttribute("Global", new Global());
+		return whlyPage+"/user/userInfo";
+	}
+	
 	//user修改密码
 	@RequestMapping(value = "modifyPwd")
 	public String modifyPwd(String oldPassword, String newPassword, Model model) {
