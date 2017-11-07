@@ -143,7 +143,6 @@
 						data : data,
 						dataType : 'json'
 					}).done(function(result, status, xhr) {
-						console.info(result);
 						var data = result.data.list;
 						var dataLi = $('#dataLi');
 						$('.pagination').html(result.data.html);

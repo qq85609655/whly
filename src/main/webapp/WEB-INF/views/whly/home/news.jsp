@@ -66,7 +66,6 @@
 						url : '../a/frontnotification/frontNotification/getfrontNotification',
 						dataType : 'json'
 					}).done(function(result, status, xhr) {
-						console.info(result);
 						var data = result.data;
 						var newsLi = $('#newsLi');
 						var noticeLi = $('#noticeLi');

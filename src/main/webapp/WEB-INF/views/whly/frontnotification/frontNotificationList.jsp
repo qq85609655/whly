@@ -59,6 +59,7 @@
 				<th style="width:70px;">发布者</th>
 				<th style="width:70px;">备注信息</th>
 				<th style="width:70px;">创建时间</th>
+				<th style="width:40px;">是否置顶</th>
 				<th style="width:70px;">操作</th>
 				<%-- <shiro:hasPermission name="frontnotification:frontNotification:edit"><th>操作</th></shiro:hasPermission> --%>
 			</tr>
@@ -90,6 +91,16 @@
 				<td>
 					<fmt:formatDate value="${frontNotification.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
+				<c:if test="${frontNotification.weight == 0}">
+					<td>
+						是
+					</td>
+				</c:if>
+				<c:if test="${frontNotification.weight == 1}">
+					<td>
+						否
+					</td>
+				</c:if>
 				<td>
     				<a href="${ctx}/frontnotification/frontNotification/form?id=${frontNotification.id}">修改</a>
 					<a href="${ctx}/frontnotification/frontNotification/delete?id=${frontNotification.id}" onclick="return confirmx('确认要删除该新闻公告吗？', this.href)">删除</a>

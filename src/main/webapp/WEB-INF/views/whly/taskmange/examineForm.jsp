@@ -203,10 +203,8 @@
 		
 		// 根据当前登录用户企业所属类型 来页面展示的内容
 		function contentShow() {
-			console.info(10);
 			var type = $('#companyParentType').val();
 			if(type == "1") {
-				console.info(1);
 				$('.type_emphasis').show();
 			} else if(type == "2") {
 				$('.type_quota').show();
