@@ -19,6 +19,9 @@
 		background:#d89ea2;
 		border:0;
 	}
+	.col-md-10 {
+   		width: 84.33333%;
+	}
 </style>
 <script type="text/javascript">
 	$(function() {
@@ -159,10 +162,6 @@
 	
 	function deleteRemarks() {
 		var divs = $('#remarks').find("div").last();
-		var input = divs.find("input").last();
-		if(input.val().trim()!="") {
-			
-		}
 		divs.last().remove();
 	}
 	
