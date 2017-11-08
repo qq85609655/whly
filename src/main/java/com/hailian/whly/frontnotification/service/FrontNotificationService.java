@@ -51,6 +51,7 @@ public class FrontNotificationService extends CrudService<FrontNotificationDao, 
 		User user = UserUtils.getUser();
 		if(frontNotification.getId().trim().equals("") || frontNotification.getId()==null) {
 			frontNotification.setCreateName(user.getName());
+			frontNotification.setCompanyType(UserUtils.getUser().getCompany().getParentId());
 			frontNotification.setHits("0");
 		}
 		super.save(frontNotification);

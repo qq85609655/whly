@@ -36,8 +36,8 @@ import com.hailian.whly.report.utils.ResultJson;
  * @version 2017-11-02
  */
 @Controller
-@RequestMapping(value = "${adminPath}/frontnotification/frontNotification")
-public class FrontNotificationController extends BaseController {
+@RequestMapping(value = "${whlyPath}/report/frontNotificationList")
+public class FrontNotificationListController extends BaseController {
 
 	@Autowired
 	private FrontNotificationService frontNotificationService;
@@ -58,47 +58,35 @@ public class FrontNotificationController extends BaseController {
 	@ResponseBody
 	public ResultJson getfrontNotification(FrontNotification frontNotification, HttpServletRequest request, HttpServletResponse response, Model model) {
 		ResultJson json = new ResultJson();
-		frontNotification.setCategoryType(UserUtils.getUser().getCompany().getParentId());
+		frontNotification.setCompanyType(UserUtils.getUser().getCompany().getParentId());
 		List<FrontNotification> list = frontNotificationService.getfrontNotification(frontNotification);
 		json.success(list);
 		return json;
 	}
 	
-	
-	
-/*	@RequiresPermissions("frontnotification:frontNotification:view")*/
-	@RequestMapping(value = {"list", ""})
-	public String list(FrontNotification frontNotification, HttpServletRequest request, HttpServletResponse response, Model model) {
+	@RequestMapping({"/listData"})
+	@ResponseBody
+	public ResultJson listData(FrontNotification frontNotification, HttpServletRequest request, HttpServletResponse response, Model model) {
+		ResultJson json = new ResultJson();
 		frontNotification.setCompanyType(UserUtils.getUser().getCompany().getParentId());
-		Page<FrontNotification> page = frontNotificationService.findPage(new Page<FrontNotification>(request, response), frontNotification); 
+		Page<FrontNotification> page = frontNotificationService.findPage(new Page<FrontNotification>(request, response), frontNotification);
 		model.addAttribute("page", page);
-		return "whly/frontnotification/frontNotificationList";
-	}
-
-	/*@RequiresPermissions("frontnotification:frontNotification:view")*/
-	@RequestMapping(value = "form")
-	public String form(FrontNotification frontNotification, Model model) {
-		model.addAttribute("frontNotification", frontNotification);
-		return "whly/frontnotification/frontNotificationForm";
-	}
-
-//	@RequiresPermissions("frontnotification:frontNotification:edit")
-	@RequestMapping(value = "save")
-	public String save(FrontNotification frontNotification, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, frontNotification)){
-			return form(frontNotification, model);
-		}
-		frontNotificationService.save(frontNotification);
-		addMessage(redirectAttributes, "保存新闻公告成功");
-		return "redirect:"+Global.getAdminPath()+"/frontnotification/frontNotification/?repage";
+		json.success(page);
+		return json;
 	}
 	
-//	@RequiresPermissions("frontnotification:frontNotification:edit")
-	@RequestMapping(value = "delete")
-	public String delete(FrontNotification frontNotification, RedirectAttributes redirectAttributes) {
-		frontNotificationService.delete(frontNotification);
-		addMessage(redirectAttributes, "删除新闻公告成功");
-		return "redirect:"+Global.getAdminPath()+"/frontnotification/frontNotification/?repage";
+	@RequestMapping({"/listPage"})
+	public String listPage(FrontNotification frontNotification,HttpServletRequest request, HttpServletResponse response, Model model) {
+		try {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String time= sdf.format(new Date());
+			model.addAttribute("time", time);
+			model.addAttribute("categoryType", frontNotification.getCategoryType());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Global.getWhlyPage() +"/home/moreNews";
 	}
+	
 
 }
