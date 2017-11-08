@@ -1,6 +1,8 @@
 package com.hailian.whly.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,8 +71,11 @@ public class AjaxController extends BaseController {
     public String statisticsCountByStatus(HttpServletRequest request, HttpServletResponse response,String startDate,String endDate){
         try {
         	Map<String, Object> params=new HashMap<String, Object>();
-        	params.put("startDate",startDate);
-        	params.put("endDate", endDate);
+        	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	Calendar c = Calendar.getInstance();	//获取时间
+        	String date = sdf.format(new Date());
+        	params.put("startDate",String.valueOf(c.get(Calendar.YEAR))+"-"+String.valueOf(c.get(Calendar.MONTH)+1)+"-01 00:00:00");
+        	params.put("endDate", date);
         	List<FrontCompanyReport> sourcelist = frontCompanyReportService.statisticsCountByStatus(params);
             return resultSuccessData(response,"查询数据成功", sourcelist);
         } catch (Exception e) {
