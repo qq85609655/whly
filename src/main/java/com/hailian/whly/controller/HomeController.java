@@ -37,7 +37,7 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping({"","/index"})
 	public String home(Model model){
-		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
+		//UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
 		List<Menu> menuList = systemService.findAllFrontMenu();
 		boolean canSh=false;
 		for(Menu m:menuList){
