@@ -38,7 +38,7 @@ public class HomeController extends BaseController {
 	@RequestMapping({"","/index"})
 	public String home(Model model){
 		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
-		List<Menu> menuList = systemService.findAllFrontMenu();
+		/*List<Menu> menuList = systemService.findAllFrontMenu();
 		boolean canSh=false;
 		for(Menu m:menuList){
 			if(m!=null&&Global.getWhlyShMenuId().equals(m.getId())){
@@ -46,7 +46,8 @@ public class HomeController extends BaseController {
 				canSh=true;
 				break;
 			}
-		}
+		}*/
+		boolean canSh = systemService.findUserCanSh();
 		if(!canSh){
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String time= sdf.format(new Date());

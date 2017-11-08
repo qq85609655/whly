@@ -78,11 +78,14 @@ public class FrontCompanyReportController extends BaseController {
 			model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
 			model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
 			model.addAttribute("status", CheckStatus.getAllStatus());
-			if(frontCompanyReport.getYear()==null || frontCompanyReport.getYear().isEmpty()) {
+			if((frontCompanyReport.getYear()==null || frontCompanyReport.getYear().trim().equals("")) && frontCompanyReport.getMonth()==null) {
 				Calendar c = Calendar.getInstance();	//获取时间
 				String year1 = String.valueOf(c.get(Calendar.YEAR));
 				String month = String.valueOf(c.get(Calendar.MONTH)+1);
 				frontCompanyReport.setYear(year1 + "年" + month + "月");
+			}
+			if((frontCompanyReport.getYear()==null || frontCompanyReport.getYear().trim().equals("")) && frontCompanyReport.getMonth()!=null) {
+				frontCompanyReport.setMonth("");
 			}
 			model.addAttribute("front", frontCompanyReport);
 			String companyParentId = UserUtils.getUser().getCompany().getParentId();
@@ -129,6 +132,16 @@ public class FrontCompanyReportController extends BaseController {
 		ResultJson json = new ResultJson();
 		FrontCompanyReport front = frontCompanyReportService.get(frontCompanyReport.getId());
 		json.success(front);
+		return json;
+	}
+	
+	//获取待办数
+	@RequestMapping(value = "getBancklogNumber")
+	@ResponseBody
+	public ResultJson getBancklogNumber(FrontCompanyReport frontCompanyReport, Model model, HttpServletRequest request, HttpServletResponse response) {
+		ResultJson json = new ResultJson();
+		int bancklogNumber = frontCompanyReportService.getBancklogNumber(frontCompanyReport);
+		json.success(bancklogNumber);
 		return json;
 	}
 	

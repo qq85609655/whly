@@ -62,6 +62,13 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		return report;
 	}
 	
+	@Transactional(readOnly = true)
+	public int getBancklogNumber(FrontCompanyReport frontCompanyReport) {
+		frontCompanyReport.setCompanyParentId(UserUtils.getUser().getCompany().getParentId());
+		int bancklogNumber = dao.getBancklogNumber(frontCompanyReport);
+		return bancklogNumber;
+	}
+	
 	@Transactional(readOnly = false)
 	public List<FrontCompanyReport> findList(FrontCompanyReport frontCompanyReport) {
 		if(frontCompanyReport.getYear()!=null && !frontCompanyReport.getYear().isEmpty()) {
@@ -79,13 +86,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		if(frontCompanyReport.getYear()!=null && !frontCompanyReport.getYear().isEmpty()) {
 			frontCompanyReport.setMonth(frontCompanyReport.getYear().substring(5, 7));
 			frontCompanyReport.setYear(frontCompanyReport.getYear().substring(0, 4));
-		} else {
-			Calendar c = Calendar.getInstance();	//获取时间
-			String year1 = String.valueOf(c.get(Calendar.YEAR));
-			String month = String.valueOf(c.get(Calendar.MONTH)+1);
-			frontCompanyReport.setMonth(month);
-			frontCompanyReport.setYear(year1);
-		}
+		} 
 		Page<FrontCompanyReport> page1 = super.findPage(page, frontCompanyReport);
 		frontCompanyReport.setYear(year);
 		frontCompanyReport.setStatus(static1);
@@ -191,7 +192,9 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 						frontCompanyReport.setStatus("PASSED");
 					} else if(frontCompanyReport.getStatus().equals("驳回")) {
 						frontCompanyReport.setStatus("UNPASSED");
-					}
+					} 
+				} else {
+					frontCompanyReport.setStatus("SUBMIT");
 				}
 				frontCompanyReport.setUpdateTime(time);
 				dao.updateReport(frontCompanyReport);

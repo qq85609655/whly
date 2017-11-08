@@ -56,6 +56,15 @@
 		WHERE a.id = #{id}
 	</select>
 	
+	<select id="getBancklogNumber" resultType="int"  parameterType="com.hailian.whly.report.entity.FrontCompanyReport" >
+		SELECT 
+			count(a.id)
+		FROM front_company_report a
+			<include refid="frontCompanyReportJoins"/>
+		WHERE a.status = #{status }  
+			  AND o5.parent_id = #{companyParentId }
+	</select>
+	
 	<select id="findReport" resultType="com.hailian.whly.report.entity.FrontCompanyReport" parameterType="com.hailian.whly.report.entity.FrontCompanyReport">
 		SELECT 
 			<include refid="frontCompanyReportColumns"/>
@@ -111,7 +120,6 @@
 			<if test="companyParentId != null and companyParentId != ''">
 				AND o5.parent_id = #{companyParentId } 
 			</if>
-			and a.report_time is not null
 		</where>
 		<!-- <choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

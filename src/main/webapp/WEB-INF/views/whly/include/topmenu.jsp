@@ -128,12 +128,12 @@
 		                                  <i class="fa fa-lock"></i> 更改密码
 		                              </a>
 		                          </li>
-		                          <li>
-		                              <a href="javascript:void(0);">
+		                          <%-- <li>
+		                              <a href="${whlyPath}/report/frontCompanyReport/list?status=SUBMIT&month=1&menuId=${menuId }">
 		                                  <i class="icon-rocket"></i> 待办
-		                                  <span class="badge badge-success"> 7 </span>
+		                                  <span class="badge badge-success" id="bancklogNumber">  </span>
 		                              </a>
-		                          </li>
+		                          </li> --%>
 		                        
 		                          <li class="divider"> </li>
 		                          <li  id="btnLogout">
@@ -165,4 +165,24 @@
    				$(this).removeClass("menu_css")
    			}
    		});
+   		
+   		$(function() {
+   			
+   			/* //更改代办显示数量
+   			updateBancklogNumber(); */
+   		});
+   		
+   		/* function updateBancklogNumber() {
+   			$.ajax({
+				type : 'GET',
+				url : whlyPath + '/report/frontCompanyReport/getBancklogNumber?status=SUBMIT',
+				dataType : 'json'
+			}).done(function(result, status, xhr) {
+				$("#bancklogNumber").text(result.data);
+				
+			}).fail(function(xhr, status, error) {
+				
+			});
+   		} */
+   		
     </script>

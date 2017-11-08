@@ -75,8 +75,25 @@ public class FrontNotificationListController extends BaseController {
 		return json;
 	}
 	
-	@RequestMapping({"/listPage"})
+	@RequestMapping(value = {"listPage", ""})
 	public String listPage(FrontNotification frontNotification,HttpServletRequest request, HttpServletResponse response, Model model) {
+		try {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String time= sdf.format(new Date());
+			model.addAttribute("time", time);
+			if(frontNotification.getCategoryType()==null || frontNotification.getCategoryType().equals("")) {
+				model.addAttribute("categoryType","1");
+			} else {
+				model.addAttribute("categoryType", frontNotification.getCategoryType());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Global.getWhlyPage() +"/home/moreNews";
+	}
+	
+	@RequestMapping(value = {"listNoticePage", ""})
+	public String listNoticePage(FrontNotification frontNotification,HttpServletRequest request, HttpServletResponse response, Model model) {
 		try {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String time= sdf.format(new Date());
@@ -87,6 +104,8 @@ public class FrontNotificationListController extends BaseController {
 		}
 		return Global.getWhlyPage() +"/home/moreNews";
 	}
+	
+	
 	
 
 }

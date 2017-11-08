@@ -27,7 +27,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private Date reportTime;		// 上报时间 year+month
 	private String companyId;		// 上报企业
 	private String companyName;		// 上报企业名字
-	private String companyParentId; // 上报企业父亲的ID
+	private String companyParentId; // 上报企业上级的ID
 	private String typeId;			// 行业类型ID
 	private String description;  	// 行业类型
 	private Area area;				// 地区
@@ -42,7 +42,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private Date insertTime;		// 插入时间
 	private Date updateTime;		// 更新时间
 	private String operator;		// 操作人
-	private String status;		// 状态 未提交-UNSUBMIT 已提交-SUBMIT            审核通过-PASSED 未通过-UNPASSED
+	private String status;		// 状态 已提交-SUBMIT   已审核-PASSED 未通过-UNPASSED
 	private String reason;		// 原因
 	private Date beginInsertTime;	// 开始 插入时间
 	private Date endInsertTime;		// 结束 插入时间

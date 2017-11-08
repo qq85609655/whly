@@ -299,7 +299,7 @@ $.ready(function() {
 											<br> 
 											<button type="button" class="btn blue pull-right"
 												id="return">返回</button>
-											<button type="submit"  class="btn blue pull-right" style="margin-right: 0.3em;display:none" id="submit">提交</button>
+											<button type="submit"  class="btn blue demo-loading-btn pull-right" style="margin-right: 0.3em;display:none" id="submit">提交</button>
 										</div>
 										<input type="hidden" value="${frontCompanyReport.id}" id="reportId">
 										<input type="hidden" value="${companyName}" id="companyName">

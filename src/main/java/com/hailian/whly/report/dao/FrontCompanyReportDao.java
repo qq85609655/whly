@@ -169,6 +169,19 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 * @return_type   List<FrontCompanyReport>
 	 */
 	public List<FrontCompanyReport> findReportByReportId(String id);
+	
+	/**
+	 * 
+	 * @time   2017年11月08日 下午14:00:00
+	 * @author zhouyl
+	 * @todo   获取当前用户所在公司类型下所有已提交数量
+	 * @param  @param id
+	 * @param  @return
+	 * @return_type   List<FrontCompanyReport>
+	 */
+	public int getBancklogNumber(FrontCompanyReport frontCompanyReport);
+	
+	
 	/***
 	 * @time 2017年10月28日13:40:05
 	 * @author Tom
