@@ -19,16 +19,23 @@ public class FrontNotification extends DataEntity<FrontNotification> {
 	private String title;		// 标题
 	private String content;		// 内容
 	private String color;		// 标题颜色
-	private String image;		// 文章图片
 	private String keywords;		// 关键字
 	private String description;		// 描述、摘要
-	private String weight;		// 置顶
-	private String hits;		// 点击数
-	private String createName;  // 创建人名字
+	private String weight;		 // 置顶
+	private String hits;		 // 点击数
+	private String createName;   // 创建人名字
+	private String companyType;  //所属企业类型：重点服务业企业监测板块、限额以下服务业企业监测板块 、年度扶持项目监测板块、其他
 	
 	
 	
-	
+	public String getCompanyType() {
+		return companyType;
+	}
+
+	public void setCompanyType(String companyType) {
+		this.companyType = companyType;
+	}
+
 	public FrontNotification() {
 		super();
 	}
@@ -64,7 +71,7 @@ public class FrontNotification extends DataEntity<FrontNotification> {
 		this.title = title;
 	}
 	
-	@Length(min=0, max=255, message="内容长度必须介于 0 和 255 之间")
+	@Length(min=0, max=5000, message="内容长度必须介于 0 和 255 之间")
 	public String getContent() {
 		return content;
 	}
@@ -80,15 +87,6 @@ public class FrontNotification extends DataEntity<FrontNotification> {
 
 	public void setColor(String color) {
 		this.color = color;
-	}
-	
-	@Length(min=0, max=255, message="文章图片长度必须介于 0 和 255 之间")
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
 	}
 	
 	@Length(min=0, max=255, message="关键字长度必须介于 0 和 255 之间")

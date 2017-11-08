@@ -58,6 +58,7 @@ public class FrontNotificationListController extends BaseController {
 	@ResponseBody
 	public ResultJson getfrontNotification(FrontNotification frontNotification, HttpServletRequest request, HttpServletResponse response, Model model) {
 		ResultJson json = new ResultJson();
+		frontNotification.setCompanyType(UserUtils.getUser().getCompany().getParentId());
 		List<FrontNotification> list = frontNotificationService.getfrontNotification(frontNotification);
 		json.success(list);
 		return json;
@@ -67,6 +68,7 @@ public class FrontNotificationListController extends BaseController {
 	@ResponseBody
 	public ResultJson listData(FrontNotification frontNotification, HttpServletRequest request, HttpServletResponse response, Model model) {
 		ResultJson json = new ResultJson();
+		frontNotification.setCompanyType(UserUtils.getUser().getCompany().getParentId());
 		Page<FrontNotification> page = frontNotificationService.findPage(new Page<FrontNotification>(request, response), frontNotification);
 		model.addAttribute("page", page);
 		json.success(page);

@@ -8,11 +8,11 @@
 		a.title AS "title",
 		a.content AS "content",
 		a.color AS "color",
-		a.image AS "image",
 		a.keywords AS "keywords",
 		a.description AS "description",
 		a.weight AS "weight",
 		a.hits AS "hits",
+		<!-- a.company_type AS "companyType", -->
 		a.create_name AS "createName",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -38,7 +38,7 @@
 			<if test="categoryType != null and categoryType != ''">
 				AND a.category_type = #{categoryType}
 			</if>
-			
+			AND a.company_type = #{companyType}
 		</where>
 		ORDER BY a.weight, a.update_date DESC
 	</select>
@@ -51,7 +51,7 @@
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="com.hailian.whly.frontnotification.entity.FrontNotification">
+	<select id="findList" resultType="com.hailian.whly.frontnotification.entity.FrontNotification" parameterType="com.hailian.whly.frontnotification.entity.FrontNotification">
 		SELECT 
 			<include refid="frontNotificationColumns"/>
 		FROM front_notification a
@@ -72,6 +72,9 @@
 			</if>
 			<if test="createDate != null and createDate != ''">
 				AND date_format(a.create_date, '%Y/%m%d') =  date_format(#{createDate}, '%Y/%m%d') 
+			</if>
+			<if test="companyType != null and companyType != ''">
+				AND a.company_type = #{companyType } 
 			</if>
 		</where>
 		<choose>
@@ -109,11 +112,11 @@
 			title,
 			content,
 			color,
-			image,
 			keywords,
 			description,
 			weight,
 			hits,
+			company_type,
 			create_name,
 			create_by,
 			create_date,
@@ -127,11 +130,11 @@
 			#{title},
 			#{content},
 			#{color},
-			#{image},
 			#{keywords},
 			#{description},
 			#{weight},
 			#{hits},
+			#{companyType},
 			#{createName},
 			#{createBy.id},
 			#{createDate},
@@ -148,11 +151,11 @@
 			title = #{title},
 			content = #{content},
 			color = #{color},
-			image = #{image},
 			keywords = #{keywords},
 			description = #{description},
 			weight = #{weight},
 			hits = #{hits},
+			company_type = #{companyType},
 			create_name = #{createName},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},

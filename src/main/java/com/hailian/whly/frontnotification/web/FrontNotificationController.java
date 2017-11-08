@@ -58,6 +58,7 @@ public class FrontNotificationController extends BaseController {
 	@ResponseBody
 	public ResultJson getfrontNotification(FrontNotification frontNotification, HttpServletRequest request, HttpServletResponse response, Model model) {
 		ResultJson json = new ResultJson();
+		frontNotification.setCategoryType(UserUtils.getUser().getCompany().getParentId());
 		List<FrontNotification> list = frontNotificationService.getfrontNotification(frontNotification);
 		json.success(list);
 		return json;
@@ -68,6 +69,7 @@ public class FrontNotificationController extends BaseController {
 /*	@RequiresPermissions("frontnotification:frontNotification:view")*/
 	@RequestMapping(value = {"list", ""})
 	public String list(FrontNotification frontNotification, HttpServletRequest request, HttpServletResponse response, Model model) {
+		frontNotification.setCompanyType(UserUtils.getUser().getCompany().getParentId());
 		Page<FrontNotification> page = frontNotificationService.findPage(new Page<FrontNotification>(request, response), frontNotification); 
 		model.addAttribute("page", page);
 		return "whly/frontnotification/frontNotificationList";
@@ -83,9 +85,9 @@ public class FrontNotificationController extends BaseController {
 //	@RequiresPermissions("frontnotification:frontNotification:edit")
 	@RequestMapping(value = "save")
 	public String save(FrontNotification frontNotification, Model model, RedirectAttributes redirectAttributes) {
-		/*if (!beanValidator(model, frontNotification)){
+		if (!beanValidator(model, frontNotification)){
 			return form(frontNotification, model);
-		}*/
+		}
 		frontNotificationService.save(frontNotification);
 		addMessage(redirectAttributes, "保存新闻公告成功");
 		return "redirect:"+Global.getAdminPath()+"/frontnotification/frontNotification/?repage";
