@@ -139,7 +139,7 @@
 					};
 					$.ajax({
 						type : 'POST',
-						url : '../frontNotification/listData',
+						url : whlyPath+'/report/frontNotificationList/listData',
 						data : data,
 						dataType : 'json'
 					}).done(function(result, status, xhr) {
@@ -212,7 +212,7 @@
 					}
 					$.ajax({
 						type : 'POST',
-						url : '../frontNotification/getfrontNotification',
+						url : whlyPath+'/report/frontNotificationList/getfrontNotification',
 						data : data,
 						dataType : 'json'
 					}).done(function(result, status, xhr) {
