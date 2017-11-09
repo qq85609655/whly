@@ -92,12 +92,14 @@ public class FrontNotificationListController extends BaseController {
 		return Global.getWhlyPage() +"/home/moreNews";
 	}
 	
+	//获取系统公告列表
 	@RequestMapping(value = {"listNoticePage", ""})
 	public String listNoticePage(FrontNotification frontNotification,HttpServletRequest request, HttpServletResponse response, Model model) {
 		try {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String time= sdf.format(new Date());
 			model.addAttribute("time", time);
+			frontNotification.setCategoryType("2");
 			model.addAttribute("categoryType", frontNotification.getCategoryType());
 		} catch (Exception e) {
 			e.printStackTrace();
