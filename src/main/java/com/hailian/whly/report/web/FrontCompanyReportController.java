@@ -1,6 +1,7 @@
 package com.hailian.whly.report.web;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -157,10 +158,10 @@ public class FrontCompanyReportController extends BaseController {
 		 Map<String, Object> topMonth=frontCompanyReportService.getTopReportMonth();
 		 frontCompanyReport.setYear(topMonth.get("year")+"");
 		 frontCompanyReport.setMonth(topMonth.get("month")+"");
-		if ((Integer.valueOf(frontCompanyReport.getYear()) >= year.intValue()) && (Integer.valueOf(frontCompanyReport.getMonth()) >= month.intValue())) {
-			 addMessage(redirectAttributes, "对不起，该月月报还无法上报！");
-			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/form";
-		 }else{
+//		if ((Integer.valueOf(frontCompanyReport.getYear()) >= year.intValue()) && (Integer.valueOf(frontCompanyReport.getMonth()) >= month.intValue())) {
+//			 addMessage(redirectAttributes, "对不起，该月月报还无法上报！");
+//			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/form";
+//		 }else{
 			 frontCompanyReportService.saveReport(frontCompanyReport);
 			 addMessage(model, "保存企业上报成功");
 			/* frontCompanyReport.setId("");
@@ -169,7 +170,7 @@ public class FrontCompanyReportController extends BaseController {
 			 }*/
 			 model.addAttribute("frontCompanyReport", frontCompanyReport);
 			 return "redirect:"+Global.getWhlyPath()+"/report/frontCompanyReport/viewlist";
-		 }
+//		 }
 		
 	}
 	
@@ -221,6 +222,7 @@ public class FrontCompanyReportController extends BaseController {
 			HashMap<String, String> param = new HashMap<String, String>();
 			param.put("reportId", frontCompanyReport.getId());
 			List<FrontReportHistory> page = frontCompanyReportService.getHistory(param);
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
 			for(int i = 0 ; i < page.size() ; i++){
 				JSONObject json = new JSONObject(page.get(i).getDescription());
@@ -234,7 +236,7 @@ public class FrontCompanyReportController extends BaseController {
 				temp.put("reportTime", json.get("reportTime"));
 				temp.put("status", json.get("status"));
 				temp.put("insertTime", json.get("insertTime"));
-				temp.put("updateTime", json.get("updateTime"));
+				temp.put("updateTime", sdf.format(page.get(i).getUpdateDate()));
 				
 				try {
 					temp.put("empQuantity", json.get("empQuantity"));
@@ -276,7 +278,7 @@ public class FrontCompanyReportController extends BaseController {
 				}catch(Exception e){
 					temp.put("reason", "");
 				}
-				temp.put("operator", json.get("operator"));
+				temp.put("operator", page.get(i).getOperator());
 				try{
 					/*JSONObject area = new JSONObject(json.get("area"));
 					temp.put("area",area.get("name"));*/

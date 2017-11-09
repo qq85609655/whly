@@ -25,6 +25,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String year;			// 年
 	private String month;			// 月
 	private Date reportTime;		// 上报时间 year+month
+	private String notificationId;  // 上报邮件ID 
 	private String companyId;		// 上报企业
 	private String companyName;		// 上报企业名字
 	private String companyParentId; // 上报企业上级的ID
@@ -55,6 +56,14 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String from;
 	
 	
+	public String getNotificationId() {
+		return notificationId;
+	}
+
+	public void setNotificationId(String notificationId) {
+		this.notificationId = notificationId;
+	}
+
 	public String getCompanyParentId() {
 		return companyParentId;
 	}
