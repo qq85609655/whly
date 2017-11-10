@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailian.whly.reportstatistics.dao.ReportStatisticsDao">
+    
+	<sql id="reportStatisticsColumns">
+		a.id AS "id",
+		a.year AS "year",
+		a.month AS "month",
+		a.year_month AS "yearMonth",
+		a.total_income AS "totalIncome",
+		a.total_profit AS "totalProfit",
+		a.total_tax AS "totalTax",
+		a.emp_quantity AS "empQuantity",
+		a.employee_compensation AS "employeeCompensation",
+		a.loan_amount AS "loanAmount",
+		a.order_quantity AS "orderQuantity",
+		a.operating_costs AS "operatingCosts",
+		a.status AS "status",
+		a.company_id AS "companyId",
+		a.company_name AS "companyName",
+		a.area_id AS "area.id",
+		a.area_name AS "areaName",
+		a.type_id AS "typeId",
+		a.type_name AS "typeName",
+		a16.name AS "area.name"
+	</sql>
+	
+	<sql id="reportStatisticsJoins">
+		LEFT JOIN sys_area a16 ON a16.id = a.area_id
+	</sql>
+    
+	<select id="get" resultType="com.hailian.whly.reportstatistics.entity.ReportStatistics">
+		SELECT 
+			<include refid="reportStatisticsColumns"/>
+		FROM statis_view a
+		<include refid="reportStatisticsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.hailian.whly.reportstatistics.entity.ReportStatistics">
+		SELECT 
+			<include refid="reportStatisticsColumns"/>
+		FROM statis_view a
+		<include refid="reportStatisticsJoins"/>
+		<where>
+			
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="year != null and year != ''">
+				AND a.year = #{year}
+			</if>
+			<if test="month != null and month != ''">
+				AND a.month = #{month}
+			</if>
+			<if test="yearMonth != null and yearMonth != ''">
+				AND a.year_month = #{yearMonth}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="companyId != null and companyId != ''">
+				AND a.company_id = #{companyId}
+			</if>
+			<if test="companyName != null and companyName != ''">
+				AND a.company_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{companyName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{companyName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{companyName},'%')</if>
+			</if>
+			<if test="area != null and area.id != null and area.id != ''">
+				AND a.area_id = #{area.id}
+			</if>
+			<if test="areaName != null and areaName != ''">
+				AND a.area_name = #{areaName}
+			</if>
+			<if test="typeId != null and typeId != ''">
+				AND a.type_id = #{typeId}
+			</if>
+			<if test="typeName != null and typeName != ''">
+				AND a.type_name = #{typeName}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.hailian.whly.reportstatistics.entity.ReportStatistics">
+		SELECT 
+			<include refid="reportStatisticsColumns"/>
+		FROM statis_view a
+		<include refid="reportStatisticsJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<select id="getStaitic" parameterType="com.hailian.whly.reportstatistics.entity.ReportStatistics" resultType="com.hailian.whly.reportstatistics.entity.ReportStatistics">
+		SELECT
+			SUM(total_income) as "totalIncome",SUM(total_profit) as "totalProfit",SUM(total_tax) as "totalTax",SUM(emp_quantity) as "empQuantity",
+			SUM(employee_compensation) as "employeeCompensation",SUM(loan_amount) as "loanAmount",SUM(order_quantity) as "orderQuantity",SUM(operating_costs) as "operatingCosts",
+			month as "month", year as "year"
+		FROM
+			statis_view
+		<where>
+			<if test="typeId != null and typeId != ''">
+				AND type_id = #{typeId}
+			</if>
+			<if test="areaName != null and areaName != ''">
+				AND area_name = #{areaName}
+			</if>
+			<if test="companyId != null and companyId != ''">
+				AND company_id = #{companyId}
+			</if>
+		</where> 
+		
+		GROUP BY
+			year, month
+	
+	</select>
+	
+	
+	
+	
+</mapper>
