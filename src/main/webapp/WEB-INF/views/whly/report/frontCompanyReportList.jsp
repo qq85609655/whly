@@ -116,7 +116,8 @@
 			
 			//导出
 			function Export() {
-				$("#searchForm").attr("action", whlyPath + '/report/frontCompanyReport/export').submit();
+				//$("#searchForm").attr("action", whlyPath + '/report/frontCompanyReport/export').submit();
+				$("#searchForm").attr("action", whlyPath + '/reportstatistics/reportStatistics/getStatic').submit();
 				$("#searchForm").attr("action", whlyPath + '/report/frontCompanyReport/list?menuId=${menuId}');
 			}
         	
