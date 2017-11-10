@@ -48,6 +48,10 @@ public class WhlyLoginController extends BaseController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
+		if(UserUtils.getUser()!=null){
+			return "redirect:" + whlyPath+"/home";
+		}
+		
 		if (logger.isDebugEnabled()){
 			logger.debug("login, active session size: {}", sessionDAO.getActiveSessions(false).size());
 		}
