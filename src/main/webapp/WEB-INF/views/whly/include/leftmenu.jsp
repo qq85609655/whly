@@ -113,7 +113,11 @@ function intentPage(url,target,parentIds){
 		if(target=="_blank"){
 			window.open(whlyPath+url+"?menuId="+parentIds);        
 		}else{
-			window.location.href=whlyPath+url+"?menuId="+parentIds;
+			if(url.indexOf("?")==-1){
+				window.location.href=whlyPath+url+"?menuId="+parentIds;
+			}else{
+				window.location.href=whlyPath+url+"&menuId="+parentIds;
+			}
 		}
 	}
 }

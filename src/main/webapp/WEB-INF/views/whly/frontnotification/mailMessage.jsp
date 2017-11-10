@@ -119,36 +119,33 @@
 					
 					//加载企业新闻和系统公告
 					loadSohoads();
-					var categoryType = $('#categoryType').attr('value');
-					if(categoryType == 1) {
-						$('#title').text('企业新闻');
-					} else {
-						$('#title').text('系统公告');
-					}
 				});
 				
 				
 				function loadSohoads() {
-					var nowTime = $('#nowTime').attr('value');
 					var pageNo = $('#pageNo').attr('value');
 					var pageSize = $('#pageSize').attr('value'); 
 					var categoryType = $('#categoryType').attr('value');
 					var data = {
-						categoryType : categoryType,
 						pageNo : pageNo,
 						pageSize : pageSize
 					};
 					$.ajax({
-						type : 'POST',
-						url : whlyPath+'/report/frontNotificationList/listData',
+						type : 'GET',
+						url : whlyPath + '/report/frontNotificationList/listData?categoryType=3',
 						data : data,
 						dataType : 'json'
 					}).done(function(result, status, xhr) {
-						var data = result.data.list;
+						var data = result.data.page;
+						if(!data.list) {
+							
+							return;
+						}
+						data = data.list;
 						var dataLi = $('#dataLi');
-						$('.pagination').html(result.data.html);
+						var nowTime = result.data.time;
+						$('.pagination').html(result.data.page.html);
 						dataLi.empty();
-						//var newsWeight = null;
 		                for (var i = 0; i < data.length; i++) {
 		                	var dataTitle = "";
 		                	if(data[i].title.length > 50) {
@@ -166,12 +163,15 @@
 		                	} else {
 		                		dataTitle = data[i].title;
 		                	}
-							var li1 = li.replace('[id]', "'" + data[i].id + "'").replace('[title]', dataTitle).replace('[title1]', data[i].title).replace('[time]', getHour(nowTime,data[i].updateDate));
-							if(data[i].weight == 0) {
-								dataLi.append(li1.replace('[weight]', '<span class="badge badge-danger"> 置顶 </span>'));
+							var li1 = li.replace('[title]', dataTitle).replace('[time]', getHour(nowTime,data[i].updateDate));
+							if(data[i].keywords == 1) {
+								li1 = li1.replace('[href]', whlyPath + '/taskmange/examine/form?menuId=7e90ace61d63482a95ebf719877cd0be&id=' + data[i].reportId + '&from=sh');
+							} else if(data[i].keywords == 2){
+								li1 = li1.replace('[href]', whlyPath + '/report/frontCompanyReport/history?menuId=e6c6c5566bf7460e94d7c28ecaaac248&id=' + data[i].reportId + '&from=view');
 							} else {
-								dataLi.append(li1.replace('[weight]', ''));
+								li1 = li1.replace('[href]', '#');
 							}
+							dataLi.append(li1);
 						}
 					}).fail(function(xhr, status, error) {
 						bootbox.alert({ 
@@ -206,42 +206,6 @@
 			        return time + "小时前";
 			    }
 				
-				//查看首页动态详细内容
-				function alert(id) {
-					var data = {
-							id : id
-					}
-					$.ajax({
-						type : 'POST',
-						url : whlyPath+'/report/frontNotificationList/getfrontNotification',
-						data : data,
-						dataType : 'json'
-					}).done(function(result, status, xhr) {
-						var title = "";
-						if(result.data[0].categoryType == "1") {
-							title = "企业新闻";
-						} else if(result.data[0].categoryType == "2"){
-							title = "系统公告";
-						}
-						bootbox.dialog({ 
-							  size: "dialog",
-							  title: title,
-							  onEscape: true,
-							  message: '<h3 style="text-align:center;font-weight:bold;color:'+ result.data[0].color +';">' + result.data[0].title + '</h3><div class="date" style="text-align: center;padding: 0 0 20px 0;font-size: 12px;color: #888;font-family: "宋体";">'+ result.data[0].updateDate +'</div><br>' + result.data[0].content,
-							  callback: function(){
-								  
-							  }
-							});
-					}).fail(function(xhr, status, error) {
-						bootbox.alert({ 
-							  size: "small",
-							  title: "错误提示",
-							  message: "无法获取到数据", 
-							  callback: function(){ /* your callback code */ }
-						});
-					});
-				}
-				
 				//分页
 				function page(n,s){
 					$("#pageNo").val(n);
@@ -256,8 +220,7 @@
 			             '              <div class="cont">' +
 			             '                  <div class="cont-col2">' +
 			             '                      <div class="desc" style="margin-left:16px;">' +
-			             '                      	<a href="#" onclick="alert([id])" title="[title1]" data-toggle="tooltip" data-placement="right">  [title]</a>' +
-			             ' 							[weight]' +
+			             '                      	<a href="[href]" data-toggle="tooltip" title="点击跳转" data-placement="right">  [title]</a>' +
 			             '                      </div>' +
 			             '                  </div>' +
 			             '              </div>' +
@@ -302,15 +265,13 @@
 							<div class="portlet-title tabbable-line">
 								<div class="caption">
 									<i class="fa fa-bullhorn font-green-sharp"></i> <span
-										class="caption-subject font-green-sharp bold uppercase" id="title"></span>
+										class="caption-subject font-green-sharp bold uppercase" id="title">系统邮件</span>
 								</div>
 							</div>
 								<div class="portlet-body">
 									<!--BEGIN TABS-->
 									<div class="tab-content">
 										<div class="tab-pane active">
-											<input type="hidden" value="${time}" id="nowTime">
-											<input type="hidden" value="${categoryType}" id="categoryType">
 											<input id="pageNo" name="pageNo" type="hidden"
 												value="" />
 											<input id="pageSize" name="pageSize" type="hidden"

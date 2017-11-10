@@ -12,7 +12,9 @@
 		a.description AS "description",
 		a.weight AS "weight",
 		a.hits AS "hits",
-		<!-- a.company_type AS "companyType", -->
+		a.company_type AS "companyType",
+		a.report_id AS "reportId",
+		fcr.company_id AS "companyId",
 		a.create_name AS "createName",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -23,6 +25,8 @@
 	</sql>
 	
 	<sql id="frontNotificationJoins">
+		LEFT JOIN front_company_report fcr ON fcr.id = a.report_id
+		LEFT JOIN sys_office o5 ON o5.id = fcr.company_id
 	</sql>
     
     <select id="getfrontNotification" resultType="com.hailian.whly.frontnotification.entity.FrontNotification" parameterType="com.hailian.whly.frontnotification.entity.FrontNotification">
@@ -76,6 +80,12 @@
 			<if test="companyType != null and companyType != ''">
 				AND a.company_type = #{companyType } 
 			</if>
+			<if test="keywords != null and keywords != ''">
+				AND a.keywords = #{keywords } 
+			</if>
+			<if test="companyId != null and companyId != ''">
+				AND o5.id = #{companyId } 
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -108,6 +118,7 @@
 	<insert id="insert">
 		INSERT INTO front_notification(
 			id,
+			report_id,
 			category_type,
 			title,
 			content,
@@ -126,6 +137,7 @@
 			del_flag
 		) VALUES (
 			#{id},
+			#{reportId},
 			#{categoryType},
 			#{title},
 			#{content},
@@ -146,20 +158,47 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE front_notification SET 	
-			category_type = #{categoryType},
-			title = #{title},
-			content = #{content},
-			color = #{color},
-			keywords = #{keywords},
-			description = #{description},
-			weight = #{weight},
-			hits = #{hits},
-			company_type = #{companyType},
-			create_name = #{createName},
-			update_by = #{updateBy.id},
-			update_date = #{updateDate},
-			remarks = #{remarks}
+		UPDATE front_notification SET 
+			<if test="categoryType != null and categoryType != ''">
+				category_type = #{categoryType},
+			</if>
+			<if test="title != null and title != ''">
+				title = #{title},
+			</if>
+			<if test="content != null and content != ''">
+				content = #{content},
+			</if>
+			<if test="color != null and color != ''">
+				color = #{color},
+			</if>
+			<if test="keywords != null and keywords != ''">
+				keywords = #{keywords}, 
+			</if>
+			<if test="description != null and description != ''">
+				description = #{description}, 
+			</if>
+			<if test="weight != null and weight != ''">
+				weight = #{weight},
+			</if>
+			<if test="hits != null and hits != ''">
+				hits = #{hits}, 
+			</if>
+			<if test="companyType != null and companyType != ''">
+				company_type = #{companyType}, 
+			</if>
+			<if test="createName != null and createName != ''">
+				create_name = #{createName}, 
+			</if>
+			<if test="updateBy.id != null and updateBy.id != ''">
+				update_by = #{updateBy.id},
+			</if>
+			<if test="remarks != null and remarks != ''">
+				remarks = #{remarks},
+			</if>
+			<if test="updateDate != null and updateDate != ''">
+				update_date = #{updateDate}
+			</if>
+			
 		WHERE id = #{id}
 	</update>
 	

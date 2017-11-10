@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hailian.whly.frontnotification.entity.FrontNotification;
+import com.hailian.whly.frontnotification.service.FrontNotificationService;
 import com.hailian.whly.report.dao.FrontCompanyReportDao;
 import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.report.entity.FrontReportHistory;
@@ -41,6 +43,9 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	@Autowired
 	private FrontCompanyReportDao dao;
 	
+	@Autowired
+	private FrontNotificationService frontNotificationService;
+	
 	@Transactional(readOnly = true)
 	public FrontCompanyReport get(String id) {
 		if(id==null && id.trim()=="") {
@@ -62,6 +67,13 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		return report;
 	}
 	
+	@Transactional(readOnly = true)
+	public int getBancklogNumber(FrontCompanyReport frontCompanyReport) {
+		frontCompanyReport.setCompanyParentId(UserUtils.getUser().getCompany().getParentId());
+		int bancklogNumber = dao.getBancklogNumber(frontCompanyReport);
+		return bancklogNumber;
+	}
+	
 	@Transactional(readOnly = false)
 	public List<FrontCompanyReport> findList(FrontCompanyReport frontCompanyReport) {
 		if(frontCompanyReport.getYear()!=null && !frontCompanyReport.getYear().isEmpty()) {
@@ -79,13 +91,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		if(frontCompanyReport.getYear()!=null && !frontCompanyReport.getYear().isEmpty()) {
 			frontCompanyReport.setMonth(frontCompanyReport.getYear().substring(5, 7));
 			frontCompanyReport.setYear(frontCompanyReport.getYear().substring(0, 4));
-		} else {
-			Calendar c = Calendar.getInstance();	//获取时间
-			String year1 = String.valueOf(c.get(Calendar.YEAR));
-			String month = String.valueOf(c.get(Calendar.MONTH)+1);
-			frontCompanyReport.setMonth(month);
-			frontCompanyReport.setYear(year1);
-		}
+		} 
 		Page<FrontCompanyReport> page1 = super.findPage(page, frontCompanyReport);
 		frontCompanyReport.setYear(year);
 		frontCompanyReport.setStatus(static1);
@@ -154,6 +160,16 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				}
 			}
 			
+			//添加邮件信息
+			FrontNotification frontNotification = new FrontNotification();
+			frontNotification.setReportId(reportId);
+			frontNotification.setTitle(user.getCompany().getName() + "，已提交上报信息，请审核！");
+			frontNotification.setCategoryType("3");
+			frontNotification.setKeywords("1");
+			frontNotification.setDescription("提交");
+			frontNotification.setCreateName(user.getName());
+			frontNotificationService.save(frontNotification);
+			
 			//添加日志
 			FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
 			FrontReportHistory history = new FrontReportHistory();
@@ -191,7 +207,9 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 						frontCompanyReport.setStatus("PASSED");
 					} else if(frontCompanyReport.getStatus().equals("驳回")) {
 						frontCompanyReport.setStatus("UNPASSED");
-					}
+					} 
+				} else {
+					frontCompanyReport.setStatus("SUBMIT");
 				}
 				frontCompanyReport.setUpdateTime(time);
 				dao.updateReport(frontCompanyReport);
@@ -246,6 +264,28 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 					}
 				}
 				
+				//查询该企业的上报信息保存到日志里面
+				FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
+				
+				//添加邮件信息
+				FrontNotification frontNotification = new FrontNotification();
+				frontNotification.setId(frontCompanyReport2.getNotificationId());
+				if(status!=null && status.equals("驳回")) {
+					frontNotification.setTitle(user.getCompany().getName() + "，您的上报信息被驳回，请查看！");
+					frontNotification.setDescription(status);
+					frontNotification.setKeywords("2");
+				} else if(status!=null && status.equals("通过")) {
+					frontNotification.setTitle(user.getCompany().getName() + "，您的上报信息以通过，请查看！");
+					frontNotification.setDescription(status);
+					frontNotification.setKeywords("2");
+				} else {
+					frontNotification.setTitle(user.getCompany().getName() + "，已修改上报信息，请审核！");
+					frontNotification.setDescription("修改");
+					frontNotification.setKeywords("1");
+				}
+				frontNotification.setCreateName(user.getName());
+				frontNotificationService.save(frontNotification);
+				
 				//添加日志
 				FrontReportHistory history = new FrontReportHistory();
 				history.setId(UUID.randomUUID().toString());
@@ -256,8 +296,6 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				} else {
 					history.setOperation("更新");
 				}
-				//查询该企业的上报信息保存到日志里面
-				FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
 				if(status==null) {
 					frontCompanyReport2.setReason("");
 					frontCompanyReport2.setStatus("SUBMIT");

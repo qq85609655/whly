@@ -565,4 +565,19 @@ public class SystemService extends BaseService implements InitializingBean {
 	}
 	///////////////// Synchronized to the Activiti end //////////////////
 	
+	/**
+	 * 获取当前用户是否具有审批权限
+	 * @return 具有审批权限返回true
+	 */
+	public boolean findUserCanSh() {
+		List<Menu> menuList = this.findAllFrontMenu();
+		for(Menu m:menuList){
+			if(m!=null&&Global.getWhlyShMenuId().equals(m.getId())){
+				//包含数据审核 则去掉数据查看功能
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

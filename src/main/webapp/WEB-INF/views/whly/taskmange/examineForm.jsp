@@ -274,8 +274,8 @@
 							'		</div>' +
 							'	</div>' +
 							'	<div class="form-actions text-center">' +
-							'		<button type="button" class="btn btn-success " style="[buttonStyle1]" onclick="submit1(1)">批准</button>' +
-							'		<button type="button" class="btn btn-danger" style="[buttonStyle2]" onclick="submit1(2)">不批准</button>' +
+							'		<button type="button" class="btn demo-loading-btn btn-success " style="[buttonStyle1]" onclick="submit1(1)">批准</button>' +
+							'		<button type="button" class="btn demo-loading-btn btn-danger" style="[buttonStyle2]" onclick="submit1(2)">不批准</button>' +
 							'		<br> <br>' +
 							'	    <div class="col-md-8 col-md-offset-2">' +
 							'			<div class="form-group">' +

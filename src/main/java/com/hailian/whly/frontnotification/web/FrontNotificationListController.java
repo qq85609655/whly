@@ -5,6 +5,7 @@ package com.hailian.whly.frontnotification.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,24 +69,56 @@ public class FrontNotificationListController extends BaseController {
 	@ResponseBody
 	public ResultJson listData(FrontNotification frontNotification, HttpServletRequest request, HttpServletResponse response, Model model) {
 		ResultJson json = new ResultJson();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time= sdf.format(new Date());
 		frontNotification.setCompanyType(UserUtils.getUser().getCompany().getParentId());
 		Page<FrontNotification> page = frontNotificationService.findPage(new Page<FrontNotification>(request, response), frontNotification);
-		model.addAttribute("page", page);
-		json.success(page);
+		if(frontNotification.getCategoryType().equals("3")) { //查看邮件用
+			HashMap<String, Object> data = new HashMap<String, Object>();
+			data.put("page", page);
+			data.put("time", time);
+			json.success(data);
+		} else {
+			json.success(page);
+		}
 		return json;
 	}
 	
-	@RequestMapping({"/listPage"})
+	@RequestMapping(value = {"listPage", ""})
 	public String listPage(FrontNotification frontNotification,HttpServletRequest request, HttpServletResponse response, Model model) {
 		try {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String time= sdf.format(new Date());
 			model.addAttribute("time", time);
+			if(frontNotification.getCategoryType()==null || frontNotification.getCategoryType().equals("")) {
+				model.addAttribute("categoryType","1");
+			} else {
+				model.addAttribute("categoryType", frontNotification.getCategoryType());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Global.getWhlyPage() +"/home/moreNews";
+	}
+	
+	//获取系统公告列表
+	@RequestMapping(value = {"listNoticePage", ""})
+	public String listNoticePage(FrontNotification frontNotification,HttpServletRequest request, HttpServletResponse response, Model model) {
+		try {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String time= sdf.format(new Date());
+			model.addAttribute("time", time);
+			frontNotification.setCategoryType("2");
 			model.addAttribute("categoryType", frontNotification.getCategoryType());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return Global.getWhlyPage() +"/home/moreNews";
+	}
+	
+	@RequestMapping(value = {"listMailPage", ""})
+	public String listMailPage(FrontNotification frontNotification,HttpServletRequest request, HttpServletResponse response, Model model) {
+		return Global.getWhlyPage() +"/frontnotification/mailMessage";
 	}
 	
 

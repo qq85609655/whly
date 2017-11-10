@@ -30,7 +30,7 @@
 		a.employee_compensation AS "employeeCompensation",
 		a.loan_amount AS "loanAmount",
 		a.order_quantity AS "orderQuantity",
-		
+		fn.id AS "notificationId",
 		<!-- a.create_date AS "createDate", -->
 		a.update_by AS "updateBy.id",
 		<!-- a.update_date AS "updateDate", -->
@@ -46,6 +46,7 @@
 		LEFT JOIN sys_office o5 ON o5.id = a.company_id
 		LEFT JOIN sys_area a7 ON a7.id = a.area_id
 		LEFT JOIN sys_dict sd ON sd.id = a.type_id
+		LEFT JOIN front_notification fn ON fn.report_id = a.id
 	</sql>
     
 	<select id="get" resultType="com.hailian.whly.report.entity.FrontCompanyReport" >
@@ -54,6 +55,15 @@
 		FROM front_company_report a
 			<include refid="frontCompanyReportJoins"/>
 		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getBancklogNumber" resultType="int"  parameterType="com.hailian.whly.report.entity.FrontCompanyReport" >
+		SELECT 
+			count(a.id)
+		FROM front_company_report a
+			<include refid="frontCompanyReportJoins"/>
+		WHERE a.status = #{status }  
+			  AND o5.parent_id = #{companyParentId }
 	</select>
 	
 	<select id="findReport" resultType="com.hailian.whly.report.entity.FrontCompanyReport" parameterType="com.hailian.whly.report.entity.FrontCompanyReport">
@@ -111,7 +121,6 @@
 			<if test="companyParentId != null and companyParentId != ''">
 				AND o5.parent_id = #{companyParentId } 
 			</if>
-			and a.report_time is not null
 		</where>
 		<!-- <choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

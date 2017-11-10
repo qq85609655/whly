@@ -62,7 +62,7 @@
 				                 </div>
 				                 <div class="details">
 				                     <div class="number" id="num_passed">
-				                          <span data-counter="counterup"  data-value="0">0</span>家
+				                          <span data-counter="counterup"  data-value="0">0</span>条
 				                     </div>
 				                     <div class="desc"> 已审核 </div>
 				                 </div>
@@ -78,7 +78,7 @@
 				                 </div>
 				                 <div class="details">
 				                     <div class="number" id="num_unpassed">
-				                         <span data-counter="counterup"  data-value="0">0</span>家
+				                         <span data-counter="counterup"  data-value="0">0</span>条
 				                     </div>
 				                     <div class="desc">未通过 </div>
 				                 </div>
@@ -94,7 +94,7 @@
 				                 </div>
 				                 <div class="details">
 				                     <div class="number" id="num_submit">
-				                         <span data-counter="counterup"  data-value="0">0</span>家
+				                         <span data-counter="counterup"  data-value="0">0</span>条
 				                     </div>
 				                     <div class="desc"> 已提交 </div>
 				                 </div>
@@ -110,7 +110,7 @@
 				                 </div>
 				                 <div class="details">
 				                     <div class="number" id="num_unsubmit" > 
-				                         <span data-counter="counterup" data-value="30">30</span>家
+				                         <span data-counter="counterup" data-value="30">30</span>条
 				                      </div>
 				                     <div class="desc"> 未上报 </div>
 				                 </div>
@@ -261,7 +261,7 @@
 						var dataArr=[],nameArr=[];
 						//以下三行为获取真实数据，应客户要求先注释
 						 $.each(data.resData,function(index,item){
-						 	var html='<span data-counter="counterup"  data-value="'+item.count+'">'+item.count+'</span>家';
+						 	var html='<span data-counter="counterup"  data-value="'+item.count+'">'+item.count+'</span>条';
 						 	$("#num_"+(item.name.toLowerCase())).html(html);
 						 });
 					}

@@ -1,6 +1,7 @@
 package com.hailian.whly.report.web;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -78,11 +79,14 @@ public class FrontCompanyReportController extends BaseController {
 			model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
 			model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
 			model.addAttribute("status", CheckStatus.getAllStatus());
-			if(frontCompanyReport.getYear()==null || frontCompanyReport.getYear().isEmpty()) {
+			if((frontCompanyReport.getYear()==null || frontCompanyReport.getYear().trim().equals("")) && frontCompanyReport.getMonth()==null) {
 				Calendar c = Calendar.getInstance();	//获取时间
 				String year1 = String.valueOf(c.get(Calendar.YEAR));
 				String month = String.valueOf(c.get(Calendar.MONTH)+1);
 				frontCompanyReport.setYear(year1 + "年" + month + "月");
+			}
+			if((frontCompanyReport.getYear()==null || frontCompanyReport.getYear().trim().equals("")) && frontCompanyReport.getMonth()!=null) {
+				frontCompanyReport.setMonth("");
 			}
 			model.addAttribute("front", frontCompanyReport);
 			String companyParentId = UserUtils.getUser().getCompany().getParentId();
@@ -129,6 +133,16 @@ public class FrontCompanyReportController extends BaseController {
 		ResultJson json = new ResultJson();
 		FrontCompanyReport front = frontCompanyReportService.get(frontCompanyReport.getId());
 		json.success(front);
+		return json;
+	}
+	
+	//获取待办数
+	@RequestMapping(value = "getBancklogNumber")
+	@ResponseBody
+	public ResultJson getBancklogNumber(FrontCompanyReport frontCompanyReport, Model model, HttpServletRequest request, HttpServletResponse response) {
+		ResultJson json = new ResultJson();
+		int bancklogNumber = frontCompanyReportService.getBancklogNumber(frontCompanyReport);
+		json.success(bancklogNumber);
 		return json;
 	}
 	
@@ -208,6 +222,7 @@ public class FrontCompanyReportController extends BaseController {
 			HashMap<String, String> param = new HashMap<String, String>();
 			param.put("reportId", frontCompanyReport.getId());
 			List<FrontReportHistory> page = frontCompanyReportService.getHistory(param);
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
 			for(int i = 0 ; i < page.size() ; i++){
 				JSONObject json = new JSONObject(page.get(i).getDescription());
@@ -221,7 +236,7 @@ public class FrontCompanyReportController extends BaseController {
 				temp.put("reportTime", json.get("reportTime"));
 				temp.put("status", json.get("status"));
 				temp.put("insertTime", json.get("insertTime"));
-				temp.put("updateTime", json.get("updateTime"));
+				temp.put("updateTime", sdf.format(page.get(i).getUpdateDate()));
 				
 				try {
 					temp.put("empQuantity", json.get("empQuantity"));
@@ -263,7 +278,7 @@ public class FrontCompanyReportController extends BaseController {
 				}catch(Exception e){
 					temp.put("reason", "");
 				}
-				temp.put("operator", json.get("operator"));
+				temp.put("operator", page.get(i).getOperator());
 				try{
 					/*JSONObject area = new JSONObject(json.get("area"));
 					temp.put("area",area.get("name"));*/

@@ -28,6 +28,14 @@
   </function>
   
   <function>
+    <description>获取站点ID</description>
+    <name>getSiteId</name>
+    <function-class>com.thinkgem.jeesite.modules.cms.utils.CmsUtils</function-class>
+    <function-signature>java.lang.String getSiteId(java.lang.String)</function-signature>
+    <example>${getSiteId(siteName)}</example>  
+  </function>
+  
+  <function>
     <description>获取站点列表</description>
     <name>getSiteList</name>
     <function-class>com.thinkgem.jeesite.modules.cms.utils.CmsUtils</function-class>

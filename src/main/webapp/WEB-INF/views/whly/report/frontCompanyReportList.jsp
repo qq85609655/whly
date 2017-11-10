@@ -82,11 +82,16 @@
 				$("#sample_1_filter").remove();
 				$("#sample_1_info").remove();
 				$("#sample_1_paginate").remove();
-				
+				//清空时间
+				$("#clearDate").click(clearDate);
 				// 根据当前登录用户企业所属类型 来页面展示的内容
 				contentShow();
 				
 			});
+			
+			function clearDate() {
+				$('#timeQuery').attr('value','');
+			}
 			
 			// 根据当前登录用户企业所属类型 来页面展示的内容
 			function contentShow() {
@@ -171,6 +176,7 @@
 							value="${page.pageSize}" />
 						<input type="hidden" value="${companyParentType}" id="companyParentType">
 						<input type="hidden" value="${month}" id="month">
+						<input type="hidden" value="1" name="month">
 						<div class="row form-body">
 							<div class="form-group col-md-4">
 								<label class="control-label col-md-4" style="padding: 6px 12px;">时间：</label>
@@ -179,8 +185,11 @@
 										data-date-format="yyyy年mm月">
 										<input type="text" class="form-control" readonly name="year"
 											value="${front.year }" id="timeQuery"> <span
-											class="input-group-btn">
-											<button class="btn default" type="button">
+											class="input-group-btn" >
+											<button class="btn default date-reset" type="button" id="clearDate">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+											<button class="btn default date-set" type="button">
 												<i class="fa fa-calendar"></i>
 											</button>
 										</span>
@@ -243,9 +252,9 @@
 								<button class="btn demo-loading-btn green col-md-3" id="query" type="submit" 
 									style="margin-left: 15px;">检索</button>
 									<div class="col-md-1"></div>
-									<button class="btn green col-md-3" type="button" id="export">导出</button>
+									<button class="btn green demo-loading-btn col-md-3" type="button" id="export">导出</button>
 								<div class="col-md-1"></div>
-								<button class="btn green col-md-3" id="reset" type="button" >重置</button>
+								<button class="btn green demo-loading-btn col-md-3" id="reset" type="button" >重置</button>
 							</div>
 						</div>
 					</form:form>
