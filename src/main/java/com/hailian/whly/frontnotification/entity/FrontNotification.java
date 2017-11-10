@@ -89,7 +89,7 @@ public class FrontNotification extends DataEntity<FrontNotification> {
 		this.title = title;
 	}
 	
-	@Length(min=0, max=5000, message="内容长度必须介于 0 和 255 之间")
+	@Length(min=0, max=50000, message="内容长度必须介于 0 和 50000 之间")
 	public String getContent() {
 		return content;
 	}
