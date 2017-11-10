@@ -65,6 +65,9 @@
 			<if test="categoryType != null and categoryType != ''">
 				AND a.category_type = #{categoryType}
 			</if>
+			<if test="categoryType == null or categoryType == ''">
+				AND (a.category_type = 1 or a.category_type = 2)
+			</if>
 			<if test="title != null and title != ''">
 				AND a.title LIKE 
 					<if test="dbName == 'oracle'">'%'||#{title}||'%'</if>
