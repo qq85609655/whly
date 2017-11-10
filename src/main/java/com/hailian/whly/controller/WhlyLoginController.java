@@ -48,10 +48,6 @@ public class WhlyLoginController extends BaseController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
-		if(UserUtils.getUser()!=null){
-			return "redirect:" + whlyPath+"/home";
-		}
-		
 		if (logger.isDebugEnabled()){
 			logger.debug("login, active session size: {}", sessionDAO.getActiveSessions(false).size());
 		}
@@ -59,7 +55,9 @@ public class WhlyLoginController extends BaseController {
 		if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
 			CookieUtils.setCookie(response, "LOGINED", "false");
 		}
-		
+		if(UserUtils.getUser()!=null&&StringUtils.isNotBlank(UserUtils.getUser().getId())){
+			return "redirect:" + whlyPath+"/home";
+		}
 		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
 		return whlyPage+"/user/login";
 	}
