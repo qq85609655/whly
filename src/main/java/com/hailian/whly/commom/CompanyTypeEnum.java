@@ -3,6 +3,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+
 /**
  * 
  * @className CompanyTypeEnum.java
@@ -11,18 +13,32 @@ import java.util.List;
  * @todo   公司类型枚举
  */
  public enum CompanyTypeEnum{
-   ZDFW("重点服务业企业监测板块","front_hylx","be9e0da458064360b214c9ca69327859"), 
-   XEYX("限额以下服务业企业监测板块","front_xe","cc0cbec49fe5449da652f8db57d473ab"), 
-   NDFC("年度扶持项目监测板块","","ebc16b9cafd84d53a8222eae5d4340d6"),
-   OTHER("其他板块","","d2c1c37069fa4ce189bc4a3529cc7a65");
+   ZDFW("重点服务业企业监测板块","front_hylx","be9e0da458064360b214c9ca69327859",IndexModel.zdfuIndexs), 
+   XEYX("限额以下服务业企业监测板块","front_xe","cc0cbec49fe5449da652f8db57d473ab",IndexModel.xefxIndexs), 
+   NDFC("年度扶持项目监测板块","","ebc16b9cafd84d53a8222eae5d4340d6",null),
+   OTHER("其他板块","","d2c1c37069fa4ce189bc4a3529cc7a65",null);
    private String name;
    private String type;
    private String rootId;
-
-	private CompanyTypeEnum(String name,String type,String rootId) {
+   private List<IndexModel> indexs;
+	private CompanyTypeEnum(String name,String type,String rootId,List<IndexModel> indexs) {
 		this.name = name;
 		this.type = type;
 		this.rootId=rootId;
+		this.indexs=indexs;
+	}
+	/**
+	 * 
+	 * @time   2017年11月12日 上午11:23:43
+	 * @author zuoqb
+	 * @todo   根据当前登录人获取对应指标集合
+	 * @param  @return
+	 * @return_type   List<IndexModel>
+	 */
+	public static List<IndexModel> getIndexsByCtype(){
+		String comPanyType=UserUtils.getUser().getCompany().getIndustyType().getType();
+		CompanyTypeEnum enums=CompanyTypeEnum.getMatchByType(comPanyType);
+		return enums.getIndexs();
 	}
 
 	public Integer getKey() {
@@ -53,6 +69,14 @@ import java.util.List;
 
 	public void setRootId(String rootId) {
 		this.rootId = rootId;
+	}
+
+	public List<IndexModel> getIndexs() {
+		return indexs;
+	}
+
+	public void setIndexs(List<IndexModel> indexs) {
+		this.indexs = indexs;
 	}
 
 	public static CompanyTypeEnum getMatchByType(String type) {

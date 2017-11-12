@@ -3,9 +3,12 @@
  */
 package com.hailian.whly.reportstatistics.service;
 
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import com.hailian.whly.commom.CompanyTypeEnum;
+import com.hailian.whly.commom.IndexModel;
 import com.hailian.whly.reportstatistics.entity.ReportStatistics;
 import com.hailian.whly.reportstatistics.dao.ReportStatisticsDao;
 
@@ -96,6 +103,75 @@ public class ReportStatisticsService extends CrudService<ReportStatisticsDao, Re
 		String result = df.format((Double.parseDouble(rs1) - Double.parseDouble(rs2))/Double.parseDouble(rs2) * 100);
 		
 		return result;
+	}
+	/**
+	 * 
+	 * @time   2017年11月12日 下午12:25:05
+	 * @author zuoqb
+	 * @todo  统计企业同比增速
+	 * @param  @param reportStatistics
+	 * @param  @return
+	 * @return_type   List<IndexModel>
+	 */
+	public List<IndexModel> getStaiticQytb(ReportStatistics reportStatistics){
+		dealTongBiDate(reportStatistics);
+		List<ReportStatistics> dataList = dao.getStaiticQytb(reportStatistics);
+		//根据大类 获取对应指标然后 筛选数据
+		List<IndexModel> indexsList = dealDataByIndexs(dataList);
+		return indexsList;
+	}
+	/**
+	 * 
+	 * @time   2017年11月12日 下午12:28:33
+	 * @author zuoqb
+	 * @todo   同比统计时  日期处理
+	 * @param  @param reportStatistics
+	 * @return_type   void
+	 */
+	private void dealTongBiDate(ReportStatistics reportStatistics) {
+		String selectDate=reportStatistics.getYear();
+		String year = selectDate.substring(0, 4);
+		String month = selectDate.substring(5, 7);
+		reportStatistics.setYear(year);
+		reportStatistics.setMonth(month);
+		//设置上一年 
+		reportStatistics.setPreYear(String.valueOf(Integer.parseInt(year)-1));
+	}
+	/**
+	 * 
+	 * @time   2017年11月12日 下午12:27:08
+	 * @author zuoqb
+	 * @todo   根据当前登录人所属大类的指标处理数据
+	 * @param  @param dataList
+	 * @param  @return
+	 * @return_type   List<IndexModel>
+	 */
+	private List<IndexModel> dealDataByIndexs(List<ReportStatistics> dataList) {
+		List<IndexModel> indexsList=CompanyTypeEnum.getIndexsByCtype();
+		for(IndexModel index:indexsList){
+			List<IndexModel> values=new ArrayList<IndexModel>();
+			String filedKey=index.getFiled();
+			//遍历结果集 组装数据
+			for(ReportStatistics r: dataList){
+				IndexModel m=new IndexModel(r.getMonth()+"月", "");
+				try {
+					//根据属性反射值
+					Field field=ReportStatistics.class.getDeclaredField(filedKey);
+					field.setAccessible(true);
+					String value=String.valueOf(field.get(r));
+					if("null".equals(value)||StringUtils.isBlank(value)){
+						value="0";
+					}
+					m.setFiled(value);
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				values.add(m);
+			}
+			index.setValues(values);
+		}
+		return indexsList;
 	}
 	
 }

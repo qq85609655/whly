@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.hailian.whly.commom.IndexModel;
 import com.hailian.whly.report.utils.ResultJson;
 import com.hailian.whly.reportstatistics.entity.ReportStatistics;
 import com.hailian.whly.reportstatistics.service.ReportStatisticsService;
@@ -118,5 +120,31 @@ public class ReportStatisticsController extends BaseController {
 		addMessage(redirectAttributes, "删除查询统计数据成功");
 		return "redirect:"+Global.getAdminPath()+"/reportstatistics/reportStatistics/?repage";
 	}
+	
+	/**
+	 * 
+	 * @time   2017年11月12日 下午12:25:28
+	 * @author zuoqb
+	 * @todo   统计企业同比增速
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @param request
+	 * @param  @param response
+	 * @param  @return
+	 * @return_type   ResultJson
+	 */
+	@RequestMapping(value = "getStaiticQytb")
+	@ResponseBody
+	public ResultJson getStaiticQytb(ReportStatistics reportStatistics, Model model, HttpServletRequest request, HttpServletResponse response) {
+		ResultJson json = new ResultJson();
+		if(reportStatistics.getYear() == null || reportStatistics.getYear().isEmpty()) {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			reportStatistics.setYear(sdf.format(new Date()));
+		}
+		List<IndexModel> data = reportStatisticsService.getStaiticQytb(reportStatistics);
+		json.success(data);
+		return json;
+	}
+	
 
 }

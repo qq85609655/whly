@@ -133,6 +133,81 @@
 	</select>
 	
 	
+	<select id="getStaiticQytb" parameterType="com.hailian.whly.reportstatistics.entity.ReportStatistics" resultType="com.hailian.whly.reportstatistics.entity.ReportStatistics">
+		SELECT
+			p.`month`,
+			FORMAT((ntotalIncome - ptotalIncome) / ptotalIncome * 100,2) AS totalIncome,
+		FORMAT((ntotalProfit - ptotalProfit) / ptotalProfit * 100,2) AS totalProfit,
+		FORMAT((ntotalTax - ptotalTax) / ptotalTax * 100,2) AS totalTax,
+		FORMAT((nempQuantity - pempQuantity) / pempQuantity * 100,2) AS empQuantity,
+		FORMAT((nemployeeCompensation - pemployeeCompensation) / pemployeeCompensation * 100,2) AS employeeCompensation,
+		FORMAT((nloanAmount - ploanAmount) / ploanAmount * 100,2) AS loanAmount,
+		FORMAT((norderQuantity - porderQuantity) / porderQuantity * 100,2) AS orderQuantity,
+		FORMAT((noperatingCosts - poperatingCosts) / poperatingCosts * 100,2) AS operatingCosts
+		FROM
+			(
+				SELECT
+					SUM(total_income) AS ntotalIncome,
+					SUM(total_profit) AS ntotalProfit,
+					SUM(total_tax) AS ntotalTax,
+					SUM(emp_quantity) AS nempQuantity,
+					SUM(employee_compensation) AS nemployeeCompensation,
+					SUM(loan_amount) AS nloanAmount,
+					SUM(order_quantity) AS norderQuantity,
+					SUM(operating_costs) AS noperatingCosts,
+					MONTH AS "month",
+					YEAR AS "year"
+				FROM
+					statis_view
+				WHERE
+					`year` = #{year}
+				AND `month`   &lt;= #{month}
+				<where>
+					<if test="typeId != null and typeId != ''">
+						AND type_id = #{typeId}
+					</if>
+					<if test="areaName != null and areaName != ''">
+						AND area_name = #{areaName}
+					</if>
+					<if test="companyId != null and companyId != ''">
+						AND company_id = #{companyId}
+					</if>
+				</where> 
+				GROUP BY
+					MONTH
+			) n
+		RIGHT JOIN (
+			SELECT
+				SUM(total_income) AS ptotalIncome,
+				SUM(total_profit) AS ptotalProfit,
+				SUM(total_tax) AS ptotalTax,
+				SUM(emp_quantity) AS pempQuantity,
+				SUM(employee_compensation) AS pemployeeCompensation,
+				SUM(loan_amount) AS ploanAmount,
+				SUM(order_quantity) AS porderQuantity,
+				SUM(operating_costs) AS poperatingCosts,
+				MONTH AS "month",
+				YEAR AS "year"
+			FROM
+				statis_view
+			WHERE
+					`year` = #{preYear}
+				AND `month`   &lt;= #{month}
+				<where>
+					<if test="typeId != null and typeId != ''">
+						AND type_id = #{typeId}
+					</if>
+					<if test="areaName != null and areaName != ''">
+						AND area_name = #{areaName}
+					</if>
+					<if test="companyId != null and companyId != ''">
+						AND company_id = #{companyId}
+					</if>
+				</where> 
+			GROUP BY
+				MONTH
+		) p ON n.`month` = p.`month`
 	
+	</select>
 	
 </mapper>

@@ -19,8 +19,8 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class ReportStatistics extends DataEntity<ReportStatistics> {
 	
 	private static final long serialVersionUID = 1L;
-	private String year;		// 年
-	private String month;		// 月
+	private String year;		// 当前年
+	private String month;		// 当前月
 	private Date yearMonth;		// 上报时间 year+month
 	private String totalIncome;		// 营业总额（万）
 	private String totalProfit;		// 利润总额（万）
@@ -37,7 +37,8 @@ public class ReportStatistics extends DataEntity<ReportStatistics> {
 	private String areaName;		// 地区名称
 	private String typeId;		// 行业编号
 	private String typeName;		// 行业标签名
-	
+	private String preYear;//上一年
+	private String preMonth;//上个月
 	
 
 	public ReportStatistics() {
@@ -204,6 +205,22 @@ public class ReportStatistics extends DataEntity<ReportStatistics> {
 		this.typeName = typeName;
 	}
 	
+
+	public String getPreYear() {
+		return preYear;
+	}
+
+	public void setPreYear(String preYear) {
+		this.preYear = preYear;
+	}
+
+	public String getPreMonth() {
+		return preMonth;
+	}
+
+	public void setPreMonth(String preMonth) {
+		this.preMonth = preMonth;
+	}
 
 	public ReportStatistics(String year, String month, Date yearMonth, String totalIncome, String totalProfit,
 			String totalTax, String empQuantity, String employeeCompensation, String loanAmount, String orderQuantity,

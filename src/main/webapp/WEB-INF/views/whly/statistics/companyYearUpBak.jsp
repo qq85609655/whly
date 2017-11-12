@@ -31,84 +31,135 @@
 				$.ajax({
 					type : 'POST',
 					data : data,
-					url : whlyPath + '/reportstatistics/reportStatistics/getStaiticQytb'
+					url : whlyPath + '/reportstatistics/reportStatistics/getStatic'
 				}).done(function(result, status, xhr) {
 					//console.info(result.data);
-					var psLineChar = echarts.init(document.getElementById('lineDiv'));
 					var data = result.data;
-					var legendData =[];//图例
-					var seriesData=[];//线
-					var xAxisData=[];//日期
-					$.each(data,function(index,item){
-						legendData.push(item.name);
-						var values=[];
-						$.each(item.values,function(ind,it){
-							if(index==0){
-								xAxisData.push(it.name);
-							};
-							values.push(it.filed);
-						});
-						seriesData.push({
-				            name:item.name,
-				            type:'line',
-				            data: values
-			       		});
-					});
+ 					var title = "";
+ 					
+ 					var listingNumber= [];
+ 					var numbers = [];
+ 					var totalIncome = [];	// 营业总额（万）
+ 					var totalProfit = [];	// 利润总额（万）
+ 					var totalTax = [];		// 税收总额（万）
+ 					var empQuantity = [];	// 从业人员（人）
+ 					var employeeCompensation = [];	// 应付职工薪酬 （万）
+ 					var loanAmount = [];	// 贷款金额 （万）
+ 					var orderQuantity = [];	// 订单数量 （个）
+ 					var operatingCosts = [];	// 营业成本（万元）
+ 					for (var i = 0; i < data.length; i++) {
+ 						listingNumber.push(data[i].month+"月");
+ 						totalIncome.push(data[i].totalIncome);
+ 						totalProfit.push(data[i].totalProfit);
+ 						totalTax.push(data[i].totalTax);
+ 						empQuantity.push(data[i].empQuantity);
+ 						employeeCompensation.push(data[i].employeeCompensation);
+ 						loanAmount.push(data[i].loanAmount);
+ 						orderQuantity.push(data[i].orderQuantity);
+ 						operatingCosts.push(data[i].operatingCosts);
+					}
+ 					var listingName = ['营业总额', '利润总额', '税收总额', '从业人员', '应付职工薪酬', '贷款金额', '订单数量', '营业成本'];
+ 					//console.info(totalIncome);
+ 					var number = [ {
+					            name:'营业总额',
+					            type:'line',
+					            stack: '总量',
+					            data: totalIncome
+				       		}, {
+					            name:'利润总额',
+					            type:'line',
+					            stack: '总量',
+					            data: totalProfit
+					       	}, {
+					            name:'税收总额',
+					            type:'line',
+					            stack: '总量',
+					            data: totalTax
+					       	}, {
+					            name:'从业人员',
+					            type:'line',
+					            stack: '总量',
+					            data: empQuantity
+					       	}, {
+					            name:'应付职工薪酬',
+					            type:'line',
+					            stack: '总量',
+					            data: employeeCompensation
+					       	}, {
+					            name:'贷款金额',
+					            type:'line',
+					            stack: '总量',
+					            data: loanAmount
+					       	}, {
+					            name:'订单数量',
+					            type:'line',
+					            stack: '总量',
+					            data: orderQuantity
+					       	}, {
+					            name:'营业成本',
+					            type:'line',
+					            stack: '总量',
+					            data: operatingCosts
+					       	}
+						];
+ 					var psLineChar = echarts.init(document.getElementById('lineDiv'));
 					
-					 var  option = {
-			        		    title: {
-			        		        text: '企业数据同比增速'
-			        		    },
-			        		    tooltip: {
-			        		        trigger: 'axis'
-			        		    },
-			        		    legend: {
-			        		        data:legendData
-			        		    },
-			        		    grid: {
-			        		        left: '3%',
-			        		        right: '4%',
-			        		        bottom: '3%',
-			        		        containLabel: true
-			        		    },
-			        		    toolbox: {
-			        		        show: true,
-			        		        feature: {
-			        		            dataZoom: {
-			        		                yAxisIndex: 'none'
-			        		            },
-			        		            dataView: {readOnly: false},
-			        		            magicType: {type: ['line', 'bar']},
-			        		            restore: {},
-			        		            saveAsImage: {}
-			        		        }
-			        		    },
-			        		    xAxis: {
-			        		        type: 'category',
-			        		        boundaryGap: false,
-			        		        data: xAxisData
-			        		    },
-			        		    yAxis: [{
-			        		    	 type: "value",//坐标轴类型  'value' 数值轴，适用于连续数据 
-			        	                boundaryGap: [0, 0],//坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样
-			        	                max: this.max,
-			        	                axisLabel:{
-			        	                        formatter:'{value} %',
-			        	                        interval:0,//为auto时会隐藏显示不了的X轴小标题
-			        	                        textStyle:{
-			        	                            color:'#333333'
-			        	                        }
-			        	                    },
-			        	                    axisLine:{
-			        	                        show:true,
-			        	                        lineStyle:{type : 'dotted',color:"#445683"}
-			        	                    },
-			        	                    splitLine: {show: true,lineStyle:{type : 'dotted',color:"#445683"}},//网格线
-			        		    }],
-			        		    series: seriesData
-			        		};
-			    
+				       var  option = {
+				        		    title: {
+				        		        text: '企业数据同比增速'
+				        		    },
+				        		    tooltip: {
+				        		        trigger: 'axis'
+				        		    },
+				        		    legend: {
+				        		        data:listingName
+				        		    },
+				        		    grid: {
+				        		        left: '3%',
+				        		        right: '4%',
+				        		        bottom: '3%',
+				        		        containLabel: true
+				        		    },
+				        		    toolbox: {
+				        		        show: true,
+				        		        feature: {
+				        		            dataZoom: {
+				        		                yAxisIndex: 'none'
+				        		            },
+				        		            dataView: {readOnly: false},
+				        		            magicType: {type: ['line', 'bar']},
+				        		            restore: {},
+				        		            saveAsImage: {}
+				        		        }
+				        		    },
+				        		    xAxis: {
+				        		        type: 'category',
+				        		        boundaryGap: false,
+				        		        data: listingNumber
+				        		    },
+				        		    yAxis: [{
+				        		    	 type: "value",//坐标轴类型  'value' 数值轴，适用于连续数据 
+				        	                boundaryGap: [0, 0],//坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样
+				        	                max: this.max,
+				        	                axisLabel:{
+				        	                        formatter:'{value} %',
+				        	                        interval:0,//为auto时会隐藏显示不了的X轴小标题
+				        	                        textStyle:{
+				        	                            color:'#333333'
+				        	                        }
+				        	                    },
+				        	                    axisLine:{
+				        	                        show:true,
+				        	                        lineStyle:{type : 'dotted',color:"#445683"}
+				        	                    },
+				        	                    splitLine: {show: true,lineStyle:{type : 'dotted',color:"#445683"}},//网格线
+				        		    }],
+				        		    series: number
+				        		};
+				    
 					psLineChar.setOption(option, true);
+					//psLineChar.hideLoading();
+					
 					
 					
 				}).fail(function(xhr, status, error) {

@@ -3,13 +3,11 @@
  */
 package com.hailian.whly.reportstatistics.dao;
 
-import com.thinkgem.jeesite.common.persistence.CrudDao;
-import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-
 import java.util.List;
 
-import com.hailian.whly.frontnotification.entity.FrontNotification;
 import com.hailian.whly.reportstatistics.entity.ReportStatistics;
+import com.thinkgem.jeesite.common.persistence.CrudDao;
+import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 
 /**
  * 上报统计图用DAO接口
@@ -29,4 +27,6 @@ public interface ReportStatisticsDao extends CrudDao<ReportStatistics> {
 	 * @param  @return List<ReportStatistics>
 	 */
 	public List<ReportStatistics> getStaitic(ReportStatistics reportStatistics);
+	
+	public List<ReportStatistics> getStaiticQytb(ReportStatistics reportStatistics);
 }
