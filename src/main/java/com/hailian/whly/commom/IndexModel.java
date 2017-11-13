@@ -22,7 +22,11 @@ public class IndexModel implements Serializable {
 			add(new IndexModel("营业总额", "totalIncome"));
 			add(new IndexModel("利润总额", "totalProfit"));
 			add(new IndexModel("税收总额", "totalTax"));
+			add(new IndexModel("营业成本", "operatingCosts"));
 			add(new IndexModel("从业人员", "empQuantity"));
+			add(new IndexModel("应付职工薪酬", "employeeCompensation"));
+			add(new IndexModel("贷款金额", "loanAmount"));
+			add(new IndexModel("订单数量", "orderQuantity"));
 		}
 	};
 	//限额以下服务业企业监测板块指标
@@ -30,7 +34,8 @@ public class IndexModel implements Serializable {
 		{
 			add(new IndexModel("营业总额", "totalIncome"));
 			add(new IndexModel("利润总额", "totalProfit"));
-			add(new IndexModel("税收总额", "totalTax"));
+			add(new IndexModel("营业成本", "operatingCosts"));
+			add(new IndexModel("从业人员", "empQuantity"));
 		}
 	};
 

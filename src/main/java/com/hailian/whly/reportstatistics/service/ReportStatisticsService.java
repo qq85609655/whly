@@ -158,7 +158,7 @@ public class ReportStatisticsService extends CrudService<ReportStatisticsDao, Re
 					//根据属性反射值
 					Field field=ReportStatistics.class.getDeclaredField(filedKey);
 					field.setAccessible(true);
-					String value=String.valueOf(field.get(r));
+					String value=String.valueOf(field.get(r)).replaceAll(",", "");
 					if("null".equals(value)||StringUtils.isBlank(value)){
 						value="0";
 					}
