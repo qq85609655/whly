@@ -85,7 +85,7 @@
 <body>
 <div class="container">
     <div class="content">
-        <h1 class="text-center">威海市重点服务业企业监测平台入口</h1>
+        <h1 class="text-center">${fnc:getSite(1).title}入口</h1>
          <c:forEach items="${companyEnum}" var="company" varStatus="status">
 	    	<c:choose>
 		       <c:when test="${status.index==0 ||status.index==2 }">

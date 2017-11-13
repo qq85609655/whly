@@ -102,7 +102,7 @@
     <div class="row">
         <div class="col-lg-6 col-lg-offset-3 col-sm-8 col-sm-offset-2">
             <div class="content">
-                <h2 class="text-center">威海市重点服务业企业监测平台</h2>
+                <h2 class="text-center">${fnc:getSite(1).title}</h2>
                 <form id="loginForm" class="form-horizontal form-signin" action="/front/login" method="post" >
                       <div  id="messageBox" class="alert alert-danger ${empty message ? 'display-hide' : ''}">
 <!--                     <button class="close" data-close="alert" class="close">×</button>
