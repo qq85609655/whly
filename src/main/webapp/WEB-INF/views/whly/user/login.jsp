@@ -12,58 +12,81 @@
         <meta content="" name="author" />
      <link href="/static/${whlyPage}/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <style>
-        * {
-            font-family: 微软雅黑, sans-serif;
-        }
-.display-hide, .display-none {
-    display: none;
+* {
+	font-family: 微软雅黑, sans-serif;
 }
-        html, body {
-            height: 100%;
-            color: #fff;
-            background: linear-gradient(to bottom,rgba(13, 141, 171, 0.94),#50a7df)!important;
-        }
 
-        div.content {
-            margin-top: 2em;
-            padding: 1em;
-            background-image: url("/static/whly/assets/global/img/login/bg_login.png");
-            background-size: 100% 100%;
-            border-radius: 1em;
-            box-shadow: 0.2em 0.2em 1em 0.3em rgba(0, 0, 0, .5);
-        }
+.display-hide, .display-none {
+	display: none;
+}
 
-        h2 {
-            margin-bottom: 1em;
-            text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, .6)
-        }
+html, body {
+	height: 100%;
+	color: #fff;
+	background: linear-gradient(to bottom, rgba(13, 141, 171, 0.94), #50a7df)
+		!important;
+}
 
-        div#messageBox {
-            padding: .4em 1em;
-            margin-bottom: 2em;
-        }
-        .validateCode a{
-            color: #fff;
-        }
-        input[type="checkbox"]{
-            margin-left: -2em;
-            width: 1.2em;
-            height: 1em;
-            /*padding-right: 5em;*/
-        }
-        #submitBtn {
-            background: linear-gradient(to bottom, #3dc2ff 0%, #159ee9 50%, #1b44c1 90%, #1485c6 100%);
-        }
+div.content {
+	margin-top: 2em;
+	padding: 1em;
+	background-image:
+		url("/static/whly/assets/global/img/login/bg_login.png");
+	background-size: 100% 100%;
+	border-radius: 1em;
+	box-shadow: 0.2em 0.2em 1em 0.3em rgba(0, 0, 0, .5);
+}
 
-        @media ( min-width : 1600px) {
-            .container {
-                width: 1480px;
-            }
-            body {
-                font-size: 2.4em;
-            }
-        }
-    </style>
+h2 {
+	margin-bottom: 1em;
+	font-size: 1.4em;
+	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, .6)
+}
+
+div#messageBox {
+	padding: .4em 1em;
+	margin-bottom: 2em;
+}
+
+.validateCode a {
+	color: #fff;
+}
+
+.form-group {
+	margin-bottom: .8em;
+}
+label.col-sm-3{
+	position: relative;
+    left: 1em;
+}
+input[type="text"],
+input[type="password"] {
+	height: 2em;
+	border-radius: 0;
+}
+
+input[type="checkbox"] {
+	margin-left: -2em;
+	padding-top: .1em;
+	width: 1.2em;
+	height: 1em;
+	/*padding-right: 5em;*/
+}
+
+#submitBtn {
+	background: linear-gradient(to bottom, #3dc2ff 0%, #159ee9 50%, #1b44c1 90%, #1485c6
+		100%);
+}
+
+@media ( min-width : 1600px) {
+	.container {
+		width: 1480px;
+	}
+	body {
+		/*font-size: 2.4em;*/
+	}
+}
+</style>
 </head>
 <script src="/static/${whlyPage}/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
  <script src="/static/${whlyPage}/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -100,7 +123,7 @@
 <!-- BEGIN LOGIN -->
 <div class="container">
     <div class="row">
-        <div class="col-lg-6 col-lg-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3">
             <div class="content">
                 <h2 class="text-center">${fnc:getSite(1).title}</h2>
                 <form id="loginForm" class="form-horizontal form-signin" action="/front/login" method="post" >
@@ -109,7 +132,7 @@
  -->                    <span id="loginError">${message}</span>
                 </div>
                     <div class="form-group">
-                        <label for="username" class="col-sm-3 control-label visible-ie8 visible-ie9">用户名：</label>
+                        <label for="username" class="col-sm-3 control-label visible-ie8 visible-ie9">用户名:</label>
                         <div class="col-sm-8">
                             <input class="form-control form-control-solid placeholder-no-fix" type="text"
                                    autocomplete="off" id="username" name="username"  value="${username}">
@@ -144,7 +167,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-8">
-                            <button type="submit" id="submitBtn" class="btn btn-primary green uppercase">登 录</button>
+                            <button type="submit" id="submitBtn" class="btn btn-primary green uppercase pull-right">登 录</button>
                         </div>
                     </div>
                 </form>
