@@ -6,7 +6,7 @@ var UIButtons = function () {
             btn.button('loading')
             setTimeout(function () {
                 btn.button('reset')
-            }, 3000)
+            }, 99999999)
         });
     }
 

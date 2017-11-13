@@ -82,13 +82,14 @@
 				$("#sample_1_filter").remove();
 				$("#sample_1_info").remove();
 				$("#sample_1_paginate").remove();
-				//清空时间
+				//时间检索条件 X 按钮
 				$("#clearDate").click(clearDate);
 				// 根据当前登录用户企业所属类型 来页面展示的内容
 				contentShow();
 				
 			});
 			
+			//清空时间
 			function clearDate() {
 				$('#timeQuery').attr('value','');
 			}
@@ -103,6 +104,14 @@
 				}
 			}
 			
+			//取消button-loading状态
+			function loadingCancel(id) {
+				 $('#'+ id).button('loading').delay(3000).queue(function() {
+	             	$('#'+ id).button('reset');
+	             	$('#'+ id).dequeue(); 
+	            });
+			}
+			
         	//重置表单
 			function resetFrom() {
 				$("#timeQuery").val("");
@@ -112,13 +121,14 @@
 				$("#nameQuery").val("");
 				$("#month").val("");
 				location.replace(whlyPath + '/report/frontCompanyReport/list?menuId=${menuId}');
+				loadingCancel('reset');
 			}
 			
 			//导出
 			function Export() {
-				//$("#searchForm").attr("action", whlyPath + '/report/frontCompanyReport/export').submit();
-				$("#searchForm").attr("action", whlyPath + '/reportstatistics/reportStatistics/getStatic').submit();
+				$("#searchForm").attr("action", whlyPath + '/report/frontCompanyReport/export').submit();
 				$("#searchForm").attr("action", whlyPath + '/report/frontCompanyReport/list?menuId=${menuId}');
+				loadingCancel('export');
 			}
         	
         	//分页
@@ -250,7 +260,7 @@
 								</div>
 							</div>
 							<div class="form-group col-md-4">
-								<button class="btn demo-loading-btn green col-md-3" id="query" type="submit" 
+								<button class="btn demo-loading-btn green col-md-3" id="query" onclick="loadingCancel('query')"  type="submit" 
 									style="margin-left: 15px;">检索</button>
 									<div class="col-md-1"></div>
 									<button class="btn green demo-loading-btn col-md-3" type="button" id="export">导出</button>

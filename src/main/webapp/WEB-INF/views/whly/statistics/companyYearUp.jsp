@@ -9,6 +9,7 @@
 			$(function() {
 				//重置按钮
 				$("#reset").click(resetFrom);
+				//检索按钮
 				$('#query').click(loadLine);
 				// 加载统计图
 				loadLine();
@@ -16,16 +17,15 @@
 			});
 			
 			function loadLine() {
-				var companyName = $('#nameQuery').attr('value');
+				var companyName = $('#nameQuery').val();
 				var areaName = $('#areaQuery').val();
-				var typeId = $('#industryQuery').val();
+				var typeName = $('#industryQuery').val();
 				var year = $('#timeQuery').val();
-				//console.info(areaName);
-				//return false;
+				var title = year.substring(0,5) + '01月~' + year.substring(5);
 				var data = {
 						companyName : companyName,
 						areaName : areaName,
-						typeId : typeId,
+						typeName : typeName,
 						year : year
 					};
 				$.ajax({
@@ -33,12 +33,31 @@
 					data : data,
 					url : whlyPath + '/reportstatistics/reportStatistics/getStaiticQytb'
 				}).done(function(result, status, xhr) {
-					//console.info(result.data);
+					console.info(result.data);
 					var psLineChar = echarts.init(document.getElementById('lineDiv'));
+					if(!result.data[0].values) { //如果没数据 进行提示
+						alert(title+areaName+typeName+companyName+ '没有数据，请重新选择！');
+						psLineChar.clear();
+						$('#query').button('reset'); //检索取消loading状态
+						$('#query').dequeue();
+						$('#reset').button('reset');//重置取消loading状态
+						$('#reset').dequeue();
+						return;
+					}
 					var data = result.data;
 					var legendData =[];//图例
 					var seriesData=[];//线
 					var xAxisData=[];//日期
+					if(areaName) {
+						title = title + areaName;
+					}
+					if(typeName) {
+						title = title + typeName;
+					}
+					if(companyName) {
+						title = title + companyName;
+					}
+					title = title + '企业数据同比增速';
 					$.each(data,function(index,item){
 						legendData.push(item.name);
 						var values=[];
@@ -57,15 +76,25 @@
 					
 					 var  option = {
 			        		    title: {
-			        		        text: '企业数据同比增速'
+			        		        text: title,
+			        		        left: '30%',
+			        		        textStyle: {
+			        		            color: '#446699',
+			        		            fontSize: '20',
+			        		            align: 'center'
+			        		        }
 			        		    },
 			        		    tooltip: {
 			        		        trigger: 'axis'
 			        		    },
 			        		    legend: {
-			        		        data:legendData
+			        		        data: legendData,
+			        		        width:'330px',
+			        		        height:'40px',
+			        		        left: '3%'
 			        		    },
 			        		    grid: {
+			        		    	top: '21%',
 			        		        left: '3%',
 			        		        right: '4%',
 			        		        bottom: '3%',
@@ -86,37 +115,50 @@
 			        		    xAxis: {
 			        		        type: 'category',
 			        		        boundaryGap: false,
-			        		        data: xAxisData
+			        		        data: xAxisData,
+			        		        axisLine: {
+	        	                        show: true,
+	        	                        onZero: false,
+	        	                        lineStyle: {type: 'solid'}
+	        	                    },
 			        		    },
 			        		    yAxis: [{
-			        		    	 type: "value",//坐标轴类型  'value' 数值轴，适用于连续数据 
-			        	                boundaryGap: [0, 0],//坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样
-			        	                max: this.max,
-			        	                axisLabel:{
-			        	                        formatter:'{value} %',
-			        	                        interval:0,//为auto时会隐藏显示不了的X轴小标题
-			        	                        textStyle:{
-			        	                            color:'#333333'
-			        	                        }
-			        	                    },
-			        	                    axisLine:{
-			        	                        show:true,
-			        	                        lineStyle:{type : 'dotted',color:"#445683"}
-			        	                    },
-			        	                    splitLine: {show: true,lineStyle:{type : 'dotted',color:"#445683"}},//网格线
+				        	        name : '单位(%)',
+			        	            type : 'value',
+			        	            nameTextStyle: {
+			        		            color: 'red',
+			        		            fontSize: '12'
+			        		        },
+		        	                splitLine: {show: true,lineStyle:{type : 'dotted',color:"#445683"}},//网格线
+			        	            max : 'dataMax',
+			        	            min : 'dataMin'
+			        	        },{
+			        		    	type: "value",//坐标轴类型  'value' 数值轴，适用于连续数据 
+		        	                boundaryGap: [0, 0],//坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样
+		        	                max: this.max,
+		        	                axisLabel:{
+		        	                        formatter:'{value}',
+		        	                        interval:0,//为auto时会隐藏显示不了的X轴小标题
+		        	                        textStyle:{
+		        	                            color:'#333333'
+		        	                        }
+		        	                    },
+	        	                    axisLine:{
+	        	                        show:true,
+	        	                        lineStyle:{type : 'dotted',color:"#445683"}
+	        	                    },
 			        		    }],
 			        		    series: seriesData
 			        		};
-			    
 					psLineChar.setOption(option, true);
-					
-					
+					$('#query').button('reset'); //检索取消loading状态
+					$('#query').dequeue();
+					$('#reset').button('reset');//重置取消loading状态
+					$('#reset').dequeue();
 				}).fail(function(xhr, status, error) {
 					window.location.href=whlyPath + '/reportstatistics/reportStatistics/companyYearUpPage';
 				}); 
 			}
-			
-			
 			
         	//重置表单
 			function resetFrom() {
@@ -196,7 +238,7 @@
 										<form:option value="" label="全部" />
 										<c:set var="industyTypeLable" value="${industyTypeLable}"/>
 										<form:options items="${fns:getDictList(industyTypeLable)}"
-											itemLabel="label" itemValue="id" htmlEscape="false" />
+											itemLabel="label" itemValue="label" htmlEscape="false" />
 									</form:select>
 								</div>
 							</div>
@@ -218,7 +260,7 @@
 				</div>
 				<!-- 主体部分START-->
 				<div class="row">
-					<div class="col-md-12 chart" id="lineDiv">
+					<div class="col-md-12 chart" id="lineDiv" style="height:450px;width:100%;">
 						
 					
 					</div>

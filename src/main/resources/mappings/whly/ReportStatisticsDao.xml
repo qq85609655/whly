@@ -162,17 +162,15 @@
 				WHERE
 					`year` = #{year}
 				AND `month`   &lt;= #{month}
-				<where>
-					<if test="typeId != null and typeId != ''">
-						AND type_id = #{typeId}
-					</if>
-					<if test="areaName != null and areaName != ''">
-						AND area_name = #{areaName}
-					</if>
-					<if test="companyId != null and companyId != ''">
-						AND company_id = #{companyId}
-					</if>
-				</where> 
+				<if test="typeName != null and typeName != ''">
+					AND type_name = #{typeName}
+				</if>
+				<if test="areaName != null and areaName != ''">
+					AND area_name = #{areaName}
+				</if>
+				<if test="companyName != null and companyName != ''">
+					AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
+				</if>
 				GROUP BY
 					MONTH
 			) n
@@ -193,21 +191,19 @@
 			WHERE
 					`year` = #{preYear}
 				AND `month`   &lt;= #{month}
-				<where>
-					<if test="typeId != null and typeId != ''">
-						AND type_id = #{typeId}
-					</if>
-					<if test="areaName != null and areaName != ''">
-						AND area_name = #{areaName}
-					</if>
-					<if test="companyId != null and companyId != ''">
-						AND company_id = #{companyId}
-					</if>
-				</where> 
+				<if test="typeName != null and typeName != ''">
+					AND type_name = #{typeName}
+				</if>
+				<if test="areaName != null and areaName != ''">
+					AND area_name = #{areaName}
+				</if>
+				<if test="companyName != null and companyName != ''">
+					AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
+				</if>
 			GROUP BY
 				MONTH
 		) p ON n.`month` = p.`month`
-	
+		
 	</select>
 	
 </mapper>

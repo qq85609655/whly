@@ -32,6 +32,7 @@
 		window.history.back();
 	}
 
+	//批准和不批准按钮
 	function submit1(operation) {
 		if(operation == 1) {
 			operation = "通过";
@@ -54,8 +55,6 @@
 		}).fail(function(xhr, status, error) {
 			window.location.href=whlyPath+"/report/frontCompanyReport/list?menuId=${menuId}";
 		}); 
-		
-		
 	}
 		
 	//改变当前显示的步数
@@ -192,7 +191,6 @@
 					$('#tab').append(statement1);
 				}
 				contentShow();
-				//updateStepNumber(1, now+1);
 				$("#menu").find("li:last").find("a").trigger("click");
 				
 			}
