@@ -23,8 +23,9 @@
 html, body {
 	height: 100%;
 	color: #fff;
-	background: linear-gradient(to bottom, rgba(13, 141, 171, 0.94), #50a7df)
-		!important;
+	/* background: linear-gradient(to bottom, rgba(13, 141, 171, 0.94), #50a7df)
+		!important; */
+     background: linear-gradient(to bottom, rgba(6, 143, 202, 0.94), #95d0f7) !important;
 }
 
 div.content {
@@ -38,8 +39,8 @@ div.content {
 }
 
 h2 {
-	margin-bottom: 1em;
-	font-size: 1.4em;
+	margin-bottom: 1.2em;
+	font-size: 1.6em;
 	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, .6)
 }
 
@@ -61,7 +62,7 @@ label.col-sm-3{
 }
 input[type="text"],
 input[type="password"] {
-	height: 2em;
+	height: 1.6em;
 	border-radius: 0;
 }
 
@@ -80,11 +81,26 @@ input[type="checkbox"] {
 
 @media ( min-width : 1600px) {
 	.container {
-		width: 1480px;
+		/*width: 1480px;*/
 	}
 	body {
 		/*font-size: 2.4em;*/
 	}
+	label.rememberme{
+		padding-left: 1.9em;
+	}
+}
+label{
+    font-weight: 400;
+}
+label.col-sm-3.control-label{
+	left:1.45em;
+	font-size:1em;
+	padding-top: .2em;
+}
+label.rememberme{
+	font-size:0.9em;
+    padding-left: 1.8em;
 }
 </style>
 </head>
@@ -133,16 +149,16 @@ input[type="checkbox"] {
                 </div>
                     <div class="form-group">
                         <label for="username" class="col-sm-3 control-label visible-ie8 visible-ie9">用户名:</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <input class="form-control form-control-solid placeholder-no-fix" type="text"
                                    autocomplete="off" id="username" name="username"  value="${username}">
 
 
                         </div>
                     </div>
-                    <div class="form-group form-group2">
-                        <label for="password" class="col-sm-3 control-label visible-ie8 visible-ie9">密 码:</label>
-                        <div class="col-sm-8">
+                    <div class="form-group" style="margin-bottom: .5em;">
+                        <label for="password" class="col-sm-3 control-label visible-ie8 visible-ie9 col-md-3">密 码:</label>
+                        <div class="col-sm-7">
                             <input class="form-control form-control-solid placeholder-no-fix" type="password"
                                    autocomplete="off" id="password" name="password">
 
@@ -156,8 +172,8 @@ input[type="checkbox"] {
 			</div>
 		</div>
 		</div></c:if>
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9">
+                    <div class="form-group" style="margin-bottom: .5em;">
+                        <div class="col-sm-offset-1 col-sm-9">
                             <div class="checkbox">
                                 <label class="rememberme check">
                                     <input type="checkbox" id="rememberMe" name="rememberMe" title="下次不需要再登录" value="1">&nbsp;记住密码
@@ -166,8 +182,8 @@ input[type="checkbox"] {
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-8">
-                            <button type="submit" id="submitBtn" class="btn btn-primary green uppercase pull-right">登 录</button>
+                        <div class="col-sm-offset-5 col-sm-7 pull-center">
+                            <button type="submit" id="submitBtn" class="btn btn-primary green uppercase ">登 录</button>
                         </div>
                     </div>
                 </form>
