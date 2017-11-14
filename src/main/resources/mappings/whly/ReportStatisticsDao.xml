@@ -203,8 +203,12 @@
 			FROM
 				statis_view
 			WHERE
-					`year` = #{preYear}
-				AND `month`   &lt;= #{month}
+				`year` = #{preYear}
+				<choose>  
+	             	<when test="queryType == 1">AND `month`   &lt;= #{month}</when>  
+	             	<when test="queryType == 2">AND (`month`   &lt; #{month} or `month` = "12")</when>
+	          	</choose>
+				
 				<if test="typeName != null and typeName != ''">
 					AND type_name = #{typeName}
 				</if>
@@ -222,7 +226,8 @@
 	          	</choose>
 		) p ON 
 				<choose>  
-		             <when test="statisticsType == 'MONTH'">n.`month` = p.`month`</when>  
+		             <when test="statisticsType == 'MONTH' and queryType == 1">n.`month` = p.`month`</when> 
+		             <when test="statisticsType == 'MONTH' and queryType == 2">IF((n.`month`-1)=0,(n.`month`+11) = p.`month`,(n.`month`-1) = p.`month`)</when> 
 		             <when test="statisticsType == 'areaName'">n.`areaName` = p.`areaName`</when>
 		             <when test="statisticsType == 'typeName'">n.`typeName` = p.`typeName`</when>  
 	          	</choose>
@@ -236,7 +241,7 @@
 			FROM
 				statis_view
 			WHERE
-				`year` = #{preYear}
+				`year` = #{year}
 				AND `month`   &lt;= #{month}
 			GROUP BY
 				<choose>  

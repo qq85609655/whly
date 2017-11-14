@@ -148,6 +148,7 @@ public class ReportStatisticsController extends BaseController {
 			String month = String.valueOf(c.get(Calendar.MONTH)+1);
 			reportStatistics.setYear(year1 + "年" + month + "月");
 		}
+		model.addAttribute("queryType", "1");
 		model.addAttribute("reportStatistics", reportStatistics);
 		return Global.getWhlyPage() +"/statistics/companyYearUp";
 	}
@@ -170,6 +171,7 @@ public class ReportStatisticsController extends BaseController {
 			String month = String.valueOf(c.get(Calendar.MONTH)+1);
 			reportStatistics.setYear(year1 + "年" + month + "月");
 		}
+		model.addAttribute("queryType", "1");
 		model.addAttribute("reportStatistics", reportStatistics);
 		return Global.getWhlyPage() +"/statistics/areaYearUp";
 	}
@@ -192,6 +194,77 @@ public class ReportStatisticsController extends BaseController {
 			String month = String.valueOf(c.get(Calendar.MONTH)+1);
 			reportStatistics.setYear(year1 + "年" + month + "月");
 		}
+		model.addAttribute("queryType", "1");
+		model.addAttribute("reportStatistics", reportStatistics);
+		return Global.getWhlyPage() +"/statistics/industryYearUp";
+	}
+	
+	/**
+	 *
+	 * @time   2017年11月13日 下午5:21:25 
+	 * @author zhouyl
+	 * @Description   打开企业数据环比增速页面
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @return String
+	 */
+	@RequestMapping(value = "companyLoopUpPage")
+	public String companyLoopUpPage(ReportStatistics reportStatistics, Model model) {
+		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year1 = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			reportStatistics.setYear(year1 + "年" + month + "月");
+		}
+		model.addAttribute("queryType", "2");
+		model.addAttribute("reportStatistics", reportStatistics);
+		return Global.getWhlyPage() +"/statistics/companyYearUp";
+	}
+	
+	
+	/**
+	 *
+	 * @time   2017年11月13日 下午6:06:54 
+	 * @author zhouyl
+	 * @Description   打开地区数据环比增速页面
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @return String
+	 */
+	//@RequestMapping(value = "areaLoopUpPage")
+	public String areaLoopUpPage(ReportStatistics reportStatistics, Model model) {
+		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year1 = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			reportStatistics.setYear(year1 + "年" + month + "月");
+		}
+		model.addAttribute("queryType", "2");
+		model.addAttribute("reportStatistics", reportStatistics);
+		return Global.getWhlyPage() +"/statistics/areaYearUp";
+	}
+	
+	/**
+	 *
+	 * @time   2017年11月14日 上午11:19:30 
+	 * @author zhouyl
+	 * @Description   打开行业数据环比增速页面
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @return String
+	 */
+	//@RequestMapping(value = "industryLoopUpPage")
+	public String industryLoopUpPage(ReportStatistics reportStatistics, Model model) {
+		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year1 = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			reportStatistics.setYear(year1 + "年" + month + "月");
+		}
+		model.addAttribute("queryType", "2");
 		model.addAttribute("reportStatistics", reportStatistics);
 		return Global.getWhlyPage() +"/statistics/industryYearUp";
 	}

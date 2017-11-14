@@ -28,8 +28,10 @@
 		var companyName = $('#nameQuery').val();
 		var areaName = $('#areaQuery').val();
 		var year = $('#timeQuery').val();
+		var queryType = $('#queryType').val();
 		var title = year.substring(0,5) + '01月~' + year.substring(5);
 		var data = {
+				queryType : queryType,	  //查询类型 ：1、同比 2、环比
 				statisticsType : 'typeName', //统计类型
 				year : year,			  //时间
 				companyName : companyName,
@@ -202,6 +204,7 @@
 						<input type="hidden" value="${companyParentType}" id="companyParentType">
 						<input type="hidden" value="${reportStatistics.year }" id="year">
 						<input type="hidden" value="1" name="month">
+						<input type="hidden" value="${queryType }" id="queryType">
 						<div class="row form-body">
 							<div class="form-group col-md-3">
 								<label class="control-label col-md-4" >时间：</label>

@@ -29,8 +29,10 @@
 				var areaName = $('#areaQuery').val();
 				var typeName = $('#industryQuery').val();
 				var year = $('#timeQuery').val();
+				var queryType = $('#queryType').val();
 				var title = year.substring(0,5) + '01月~' + year.substring(5);
 				var data = {
+						queryType : queryType,	  //查询类型 ：1、同比 2、环比
 						statisticsType : 'MONTH', //统计类型
 						year : year,			  //时间
 						companyName : companyName,
@@ -66,7 +68,11 @@
 					if(companyName) {
 						title = title + companyName;
 					}
-					title = title + '企业数据同比增速';
+					if(queryType == '1') {
+						title = title + '企业数据同比增速';
+					} else {
+						title = title + '企业数据环比增速';
+					}
 					$.each(data,function(index,item){
 						legendData.push(item.name);
 						var values=[];
@@ -208,6 +214,7 @@
 						<input type="hidden" value="${companyParentType}" id="companyParentType">
 						<input type="hidden" value="${reportStatistics.year }" id="year">
 						<input type="hidden" value="1" name="month">
+						<input type="hidden" value="${queryType }" id="queryType">
 						<div class="row form-body">
 							<div class="form-group col-md-3">
 								<label class="control-label col-md-4" >时间：</label>
@@ -271,7 +278,7 @@
 				</div>
 				<!-- 主体部分START-->
 				<div class="row">
-					<div class="col-md-12 chart" id="lineDiv" style="height:450px;width:100%;">
+					<div class="col-md-12 chart" id="lineDiv" style="height:470px;width:100%;">
 						
 					
 					</div>

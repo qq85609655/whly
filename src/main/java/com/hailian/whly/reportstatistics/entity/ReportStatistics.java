@@ -41,9 +41,18 @@ public class ReportStatistics extends DataEntity<ReportStatistics> {
 	private String preMonth;		//上个月
 	private String statisticsType;	//统计类型
 	private String name; 			//返回前台的字段名字
+	private String queryType;		//查询类型 ：1、同比 2、环比
 
 	
 	
+	public String getQueryType() {
+		return queryType;
+	}
+
+	public void setQueryType(String queryType) {
+		this.queryType = queryType;
+	}
+
 	public String getName() {
 		return name;
 	}
