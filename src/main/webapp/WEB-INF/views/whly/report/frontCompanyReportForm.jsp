@@ -311,7 +311,7 @@ $.ready(function() {
 									<div style="height:250px;display:none;" class="type_quota" ></div>
 									<div class="form-actions" id="remarks" >
 										<button type="button" class="btn btn-success" id="add">新增</button>
-										<button type="button" class="btn btn-danger" id="delete">删除</button>
+										<button type="button" class="btn btn-danger" id="delete" style="margin-left: 5px;">删除</button>
 										<span class="col-md-12" style="height:7px;"></span>
 										
 									

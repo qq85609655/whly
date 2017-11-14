@@ -70,6 +70,13 @@
 }
 
 
+.control-label {
+    margin-top: 1px;
+    font-weight: 400;
+    text-align: right;
+    padding: 6px 0px;
+}
+
 </style>
 <script type="text/javascript">
 			$(function() {

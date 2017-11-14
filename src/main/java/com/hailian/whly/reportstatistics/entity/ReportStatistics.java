@@ -28,18 +28,37 @@ public class ReportStatistics extends DataEntity<ReportStatistics> {
 	private String empQuantity;		// 从业人员（人）
 	private String employeeCompensation;		// 应付职工薪酬 （万）
 	private String loanAmount;		// 贷款金额 （万）
-	private String orderQuantity;		// 订单数量 （个）
-	private String operatingCosts;		// 营业成本（万元）
-	private String status;		// 状态 未提交-UNSUBMIT 已提交-SUBMIT            审核通过-PASSED 未通过-UNPASSED
+	private String orderQuantity;	// 订单数量 （个）
+	private String operatingCosts;	// 营业成本（万元）
+	private String status;			// 状态 未提交-UNSUBMIT 已提交-SUBMIT            审核通过-PASSED 未通过-UNPASSED
 	private String companyId;		// 企业编号
 	private String companyName;		// 企业名称
-	private Area area;		// 地区编号
+	private Area area;				// 地区编号
 	private String areaName;		// 地区名称
-	private String typeId;		// 行业编号
+	private String typeId;			// 行业编号
 	private String typeName;		// 行业标签名
-	private String preYear;//上一年
-	private String preMonth;//上个月
+	private String preYear;			//上一年
+	private String preMonth;		//上个月
+	private String statisticsType;	//统计类型
+	private String name; 			//返回前台的字段名字
+
 	
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getStatisticsType() {
+		return statisticsType;
+	}
+
+	public void setStatisticsType(String statisticsType) {
+		this.statisticsType = statisticsType;
+	}
 
 	public ReportStatistics() {
 		super();

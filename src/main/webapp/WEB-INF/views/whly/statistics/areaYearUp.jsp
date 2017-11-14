@@ -26,15 +26,13 @@
 			
 			function loadLine() {
 				var companyName = $('#nameQuery').val();
-				var areaName = $('#areaQuery').val();
 				var typeName = $('#industryQuery').val();
 				var year = $('#timeQuery').val();
 				var title = year.substring(0,5) + '01月~' + year.substring(5);
 				var data = {
-						statisticsType : 'MONTH', //统计类型
+						statisticsType : 'areaName', //统计类型
 						year : year,			  //时间
 						companyName : companyName,
-						areaName : areaName,
 						typeName : typeName
 					};
 				$.ajax({
@@ -57,16 +55,13 @@
 					var legendData =[];//图例
 					var seriesData=[];//线
 					var xAxisData=[];//日期
-					if(areaName) {
-						title = title + areaName;
-					}
 					if(typeName) {
 						title = title + typeName;
 					}
 					if(companyName) {
 						title = title + companyName;
 					}
-					title = title + '企业数据同比增速';
+					title = title + '地区数据同比增速';
 					$.each(data,function(index,item){
 						legendData.push(item.name);
 						var values=[];
@@ -173,7 +168,6 @@
 			function resetFrom() {
         		var time = $('#year').attr('value');
 				$("#timeQuery").val(time);
-				$("#areaQuery").val("");
 				$("#industryQuery").val("");
 				$("#nameQuery").val("");
 				loadLine();
@@ -225,18 +219,6 @@
 								</div>
 							</div>
 							<div class="form-group col-md-3">
-								<label class="control-label col-md-4" >地区：</label>
-								<div class="col-md-8">
-									<form:select path="area.id" name="area.id" class="form-control"
-										id="areaQuery">
-										<form:option value="" label="全部" />
-										<form:options
-											items="${fnc:getArea('d233fe3d43da4d10ba0a7039746a47dd')}"
-											itemLabel="name" itemValue="name" htmlEscape="false" />
-									</form:select>
-								</div>
-							</div>
-							<div class="form-group col-md-3">
 								<label class="control-label col-md-4" >行业：</label>
 								<div class="col-md-8">
 									<form:select path="typeId" class="form-control" name="typeId"
@@ -255,16 +237,11 @@
 										name="companyName" value="${reportStatistics.companyName }" id="nameQuery">
 								</div>
 							</div>
-
-						</div>
-						<div class="row">
-							
-							<div class="form-group col-md-4">
-								<div class="control-label col-md-3" ></div>
-								<button class="btn demo-loading-btn green col-md-3" id="query" type="button" 
-									style="margin-left: 12px;">检索</button>
+							<div class="form-group col-md-3">
+								<button class="btn demo-loading-btn green col-md-4" id="query" type="button" 
+									style="margin-left: 15px;">检索</button>
 								<div class="col-md-1"></div>
-								<button class="btn green demo-loading-btn col-md-3" id="reset" type="button" >重置</button>
+								<button class="btn green demo-loading-btn col-md-4" id="reset" type="button" >重置</button>
 							</div>
 						</div>
 					</form:form> 

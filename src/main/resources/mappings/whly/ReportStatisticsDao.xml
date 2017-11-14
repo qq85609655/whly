@@ -135,15 +135,18 @@
 	
 	<select id="getStaiticQytb" parameterType="com.hailian.whly.reportstatistics.entity.ReportStatistics" resultType="com.hailian.whly.reportstatistics.entity.ReportStatistics">
 		SELECT
-			p.`month`,
+			<choose>  
+	             <when test="statisticsType == 'MONTH'">c.`month` AS name,</when>  
+	             <when test="statisticsType == 'areaName'">c.areaName AS name,</when>  
+          	</choose>
 			FORMAT((ntotalIncome - ptotalIncome) / ptotalIncome * 100,2) AS totalIncome,
-		FORMAT((ntotalProfit - ptotalProfit) / ptotalProfit * 100,2) AS totalProfit,
-		FORMAT((ntotalTax - ptotalTax) / ptotalTax * 100,2) AS totalTax,
-		FORMAT((nempQuantity - pempQuantity) / pempQuantity * 100,2) AS empQuantity,
-		FORMAT((nemployeeCompensation - pemployeeCompensation) / pemployeeCompensation * 100,2) AS employeeCompensation,
-		FORMAT((nloanAmount - ploanAmount) / ploanAmount * 100,2) AS loanAmount,
-		FORMAT((norderQuantity - porderQuantity) / porderQuantity * 100,2) AS orderQuantity,
-		FORMAT((noperatingCosts - poperatingCosts) / poperatingCosts * 100,2) AS operatingCosts
+			FORMAT((ntotalProfit - ptotalProfit) / ptotalProfit * 100,2) AS totalProfit,
+			FORMAT((ntotalTax - ptotalTax) / ptotalTax * 100,2) AS totalTax,
+			FORMAT((nempQuantity - pempQuantity) / pempQuantity * 100,2) AS empQuantity,
+			FORMAT((nemployeeCompensation - pemployeeCompensation) / pemployeeCompensation * 100,2) AS employeeCompensation,
+			FORMAT((nloanAmount - ploanAmount) / ploanAmount * 100,2) AS loanAmount,
+			FORMAT((norderQuantity - porderQuantity) / porderQuantity * 100,2) AS orderQuantity,
+			FORMAT((noperatingCosts - poperatingCosts) / poperatingCosts * 100,2) AS operatingCosts
 		FROM
 			(
 				SELECT
@@ -155,8 +158,11 @@
 					SUM(loan_amount) AS nloanAmount,
 					SUM(order_quantity) AS norderQuantity,
 					SUM(operating_costs) AS noperatingCosts,
-					MONTH AS "month",
-					YEAR AS "year"
+					<choose>  
+			            <when test="statisticsType == 'MONTH'">MONTH AS "month", YEAR AS "year"</when>  
+			            <when test="statisticsType == 'areaName'">area_name AS "areaName"</when>  
+		             
+	          		</choose>
 				FROM
 					statis_view
 				WHERE
@@ -171,9 +177,12 @@
 				<if test="companyName != null and companyName != ''">
 					AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
 				</if>
-				GROUP BY
-					MONTH
-			) n
+				GROUP BY 
+					<choose>  
+			             <when test="statisticsType == 'MONTH'">MONTH</when>  
+			             <when test="statisticsType == 'areaName'">area_name</when>  
+	          		</choose>
+			) n 
 		RIGHT JOIN (
 			SELECT
 				SUM(total_income) AS ptotalIncome,
@@ -184,8 +193,11 @@
 				SUM(loan_amount) AS ploanAmount,
 				SUM(order_quantity) AS porderQuantity,
 				SUM(operating_costs) AS poperatingCosts,
-				MONTH AS "month",
-				YEAR AS "year"
+				<choose>  
+		             <when test="statisticsType == 'MONTH'">MONTH AS "month", YEAR AS "year"</when>  
+		             <when test="statisticsType == 'areaName'">area_name AS "areaName"</when>  
+		             
+	          	</choose>
 			FROM
 				statis_view
 			WHERE
@@ -200,9 +212,36 @@
 				<if test="companyName != null and companyName != ''">
 					AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
 				</if>
+			GROUP BY 
+				<choose>  
+		             <when test="statisticsType == 'MONTH'">MONTH</when>  
+		             <when test="statisticsType == 'areaName'">area_name</when>  
+	          	</choose>
+		) p ON 
+				<choose>  
+		             <when test="statisticsType == 'MONTH'">n.`month` = p.`month`</when>  
+		             <when test="statisticsType == 'areaName'">n.`areaName` = p.`areaName`</when>  
+	          	</choose>
+	    RIGHT JOIN (
+			SELECT
+				<choose>  
+		             <when test="statisticsType == 'MONTH'">MONTH AS "month", YEAR AS "year"</when>  
+		             <when test="statisticsType == 'areaName'">area_name AS "areaName"</when>  
+	          	</choose>
+			FROM
+				statis_view
+			WHERE
+				`year` = #{preYear}
+				AND `month`   &lt;= #{month}
 			GROUP BY
-				MONTH
-		) p ON n.`month` = p.`month`
+				<choose>  
+		             <when test="statisticsType == 'MONTH'">MONTH</when>  
+		             <when test="statisticsType == 'areaName'">area_name</when>  
+	          	</choose>
+		) c ON <choose>  
+		             <when test="statisticsType == 'MONTH'">c.`month` = p.`month`</when>  
+		             <when test="statisticsType == 'areaName'">c.`areaName` = p.`areaName`</when>  
+	          	</choose>
 		
 	</select>
 	

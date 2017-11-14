@@ -71,22 +71,6 @@ public class ReportStatisticsController extends BaseController {
 		return "whly/reportstatistics/reportStatisticsForm";
 	}
 	
-
-	//打开企业数据同比增速页面
-	@RequestMapping(value = "companyYearUpPage")
-	public String companyYearUpPage(ReportStatistics reportStatistics, Model model) {
-		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
-		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().equals("")) && reportStatistics.getMonth()==null) {
-			Calendar c = Calendar.getInstance();	//获取时间
-			String year1 = String.valueOf(c.get(Calendar.YEAR));
-			String month = String.valueOf(c.get(Calendar.MONTH)+1);
-			reportStatistics.setYear(year1 + "年" + month + "月");
-		}
-		model.addAttribute("reportStatistics", reportStatistics);
-		return Global.getWhlyPage() +"/statistics/companyYearUp";
-	}
-	
-	
 	@RequestMapping(value = "getStatic")
 	@ResponseBody
 	public ResultJson getStatic(ReportStatistics reportStatistics, Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -146,5 +130,48 @@ public class ReportStatisticsController extends BaseController {
 		return json;
 	}
 	
+	/**
+	 *
+	 * @time   2017年11月13日 下午5:21:25 
+	 * @author zhouyl
+	 * @Description   打开企业数据同比增速页面
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @return String
+	 */
+	@RequestMapping(value = "companyYearUpPage")
+	public String companyYearUpPage(ReportStatistics reportStatistics, Model model) {
+		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year1 = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			reportStatistics.setYear(year1 + "年" + month + "月");
+		}
+		model.addAttribute("reportStatistics", reportStatistics);
+		return Global.getWhlyPage() +"/statistics/companyYearUp";
+	}
+	
+	/**
+	 *
+	 * @time   2017年11月13日 下午6:06:54 
+	 * @author zhouyl
+	 * @Description   打开地区数据同比增速页面
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @return String
+	 */
+	@RequestMapping(value = "areaYearUpPage")
+	public String areaYearUpPage(ReportStatistics reportStatistics, Model model) {
+		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year1 = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			reportStatistics.setYear(year1 + "年" + month + "月");
+		}
+		model.addAttribute("reportStatistics", reportStatistics);
+		return Global.getWhlyPage() +"/statistics/areaYearUp";
+	}
 
 }

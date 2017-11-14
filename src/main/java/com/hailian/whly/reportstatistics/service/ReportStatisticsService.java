@@ -117,7 +117,7 @@ public class ReportStatisticsService extends CrudService<ReportStatisticsDao, Re
 		dealTongBiDate(reportStatistics);
 		List<ReportStatistics> dataList = dao.getStaiticQytb(reportStatistics);
 		//根据大类 获取对应指标然后 筛选数据
-		List<IndexModel> indexsList = dealDataByIndexs(dataList);
+		List<IndexModel> indexsList = dealDataByIndexs(dataList, reportStatistics);
 		return indexsList;
 	}
 	/**
@@ -146,14 +146,19 @@ public class ReportStatisticsService extends CrudService<ReportStatisticsDao, Re
 	 * @param  @return
 	 * @return_type   List<IndexModel>
 	 */
-	private List<IndexModel> dealDataByIndexs(List<ReportStatistics> dataList) {
+	private List<IndexModel> dealDataByIndexs(List<ReportStatistics> dataList, ReportStatistics reportStatistics) {
 		List<IndexModel> indexsList=CompanyTypeEnum.getIndexsByCtype();
 		for(IndexModel index:indexsList){
 			List<IndexModel> values=new ArrayList<IndexModel>();
 			String filedKey=index.getFiled();
 			//遍历结果集 组装数据
 			for(ReportStatistics r: dataList){
-				IndexModel m=new IndexModel(r.getMonth()+"月", "");
+				IndexModel m = null;
+				if(reportStatistics.getStatisticsType().equals("MONTH")) {
+					m=new IndexModel(r.getName()+"月", "");
+				} else {
+					m=new IndexModel(r.getName(), "");
+				}
 				try {
 					//根据属性反射值
 					Field field=ReportStatistics.class.getDeclaredField(filedKey);
