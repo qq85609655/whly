@@ -352,7 +352,17 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	};
 	
 	public List<FrontCompanyReport> statisticsCountByStatus(Map<String, Object> params){
-		return dao.statisticsCountByStatus(params);
+		List<FrontCompanyReport> list = dao.statisticsCountByStatus(params);
+		int report = 0;
+		for(FrontCompanyReport fcr : list) {
+			report += Integer.parseInt(fcr.getCount());
+		}
+		List<FrontCompanyReport> office = dao.statisticsCountByOffice();
+		FrontCompanyReport fcr = new FrontCompanyReport();
+		fcr.setName(office.get(0).getName());
+		fcr.setCount(String.valueOf(Integer.parseInt(office.get(0).getCount()) - report));
+		list.add(fcr);
+		return list;
 	};
 	/**
 	 * 

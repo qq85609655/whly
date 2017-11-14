@@ -105,18 +105,15 @@
 				         </div>
 				         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 				             <div class="dashboard-stat purple">
-				                 <div class="visual">
+				                 <div class="visual" style="height: 108px;">
 				                     <i class="fa fa-globe"></i>
 				                 </div>
 				                 <div class="details">
-				                     <div class="number" id="num_unsubmit" > 
-				                         <span data-counter="counterup" data-value="30">30</span>条
+				                     <div class="number" id="num_notreport" > 
+				                         <span data-counter="counterup" data-value="0">0</span>条
 				                      </div>
 				                     <div class="desc"> 未上报 </div>
 				                 </div>
-				                 <a class="more" href="javascript:;" onclick="getBottomData('UNSUBMIT')"> 查看详情
-				                     <i class="m-icon-swapright m-icon-white"></i>
-				                 </a>
 				             </div>
 				         </div>
 				     </div>
@@ -338,6 +335,14 @@
 			};
 	   //按照月份统计上报数量
 	   function getStatisticsReportByDate(status){
+		   var name = "已上报";
+		   if(status == "PASSED") {
+			   name = "已审核";
+		   } else if(status == "UNPASSED") {
+			   name = "未通过";
+		   } else if(status == "SUBMIT") {
+			   name = "已提交";
+		   }
 			$.ajax({
 				type : "post",
 				url : whlyPath+"/ajax/statisticsReportByDateAjax",
@@ -358,7 +363,7 @@
 					               trigger: 'axis'
 					           },
 					           legend: {
-					               data: ['企业上报']
+					               data: [name]
 					           },
 					           toolbox: {
 					               show: true,
@@ -388,7 +393,7 @@
 					               }
 					           }],
 					           series: [{
-					               name: '企业上报',
+					               name: name,
 					               type: 'line',
 					               data: dataArr,
 					               markPoint: {

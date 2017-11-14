@@ -14,167 +14,167 @@
 	}
 </style>
 <script type="text/javascript">
-			$(function() {
-				//重置按钮
-				$("#reset").click(resetFrom);
-				//检索按钮
-				$('#query').click(loadLine);
-				// 加载统计图
-				loadLine();
-				
+	$(function() {
+		//重置按钮
+		$("#reset").click(resetFrom);
+		//检索按钮
+		$('#query').click(loadLine);
+		// 加载统计图
+		loadLine();
+		
+	});
+	
+	function loadLine() {
+		var companyName = $('#nameQuery').val();
+		var areaName = $('#areaQuery').val();
+		var year = $('#timeQuery').val();
+		var title = year.substring(0,5) + '01月~' + year.substring(5);
+		var data = {
+				statisticsType : 'typeName', //统计类型
+				year : year,			  //时间
+				companyName : companyName,
+				areaName : areaName
+			};
+		$.ajax({
+			type : 'POST',
+			data : data,
+			url : whlyPath + '/reportstatistics/reportStatistics/getStaiticQytb'
+		}).done(function(result, status, xhr) {
+			console.info(result.data);
+			var psLineChar = echarts.init(document.getElementById('lineDiv'));
+			if(!result.data[0].values) { //如果没数据 进行提示
+				alert(title+areaName+companyName+ '没有数据，请重新选择！');
+				psLineChar.clear();
+				$('#query').button('reset'); //检索取消loading状态
+				$('#query').dequeue();
+				$('#reset').button('reset');//重置取消loading状态
+				$('#reset').dequeue();
+				return;
+			}
+			var data = result.data;
+			var legendData =[];//图例
+			var seriesData=[];//线
+			var xAxisData=[];//日期
+			if(areaName) {
+				title = title + areaName;
+			}
+			if(companyName) {
+				title = title + companyName;
+			}
+			title = title + '行业数据同比增速';
+			$.each(data,function(index,item){
+				legendData.push(item.name);
+				var values=[];
+				$.each(item.values,function(ind,it){
+					if(index==0){
+						xAxisData.push(it.name);
+					};
+					values.push(it.filed);
+				});
+				seriesData.push({
+		            name:item.name,
+		            type:'line',
+		            data: values
+	       		});
 			});
 			
-			function loadLine() {
-				var companyName = $('#nameQuery').val();
-				var areaName = $('#areaQuery').val();
-				var year = $('#timeQuery').val();
-				var title = year.substring(0,5) + '01月~' + year.substring(5);
-				var data = {
-						statisticsType : 'typeName', //统计类型
-						year : year,			  //时间
-						companyName : companyName,
-						areaName : areaName
-					};
-				$.ajax({
-					type : 'POST',
-					data : data,
-					url : whlyPath + '/reportstatistics/reportStatistics/getStaiticQytb'
-				}).done(function(result, status, xhr) {
-					console.info(result.data);
-					var psLineChar = echarts.init(document.getElementById('lineDiv'));
-					if(!result.data[0].values) { //如果没数据 进行提示
-						alert(title+areaName+companyName+ '没有数据，请重新选择！');
-						psLineChar.clear();
-						$('#query').button('reset'); //检索取消loading状态
-						$('#query').dequeue();
-						$('#reset').button('reset');//重置取消loading状态
-						$('#reset').dequeue();
-						return;
-					}
-					var data = result.data;
-					var legendData =[];//图例
-					var seriesData=[];//线
-					var xAxisData=[];//日期
-					if(areaName) {
-						title = title + areaName;
-					}
-					if(companyName) {
-						title = title + companyName;
-					}
-					title = title + '行业数据同比增速';
-					$.each(data,function(index,item){
-						legendData.push(item.name);
-						var values=[];
-						$.each(item.values,function(ind,it){
-							if(index==0){
-								xAxisData.push(it.name);
-							};
-							values.push(it.filed);
-						});
-						seriesData.push({
-				            name:item.name,
-				            type:'line',
-				            data: values
-			       		});
-					});
-					
-					 var  option = {
-			        		    title: {
-			        		        text: title,
-			        		        left: '30%',
-			        		        textStyle: {
-			        		            color: '#446699',
-			        		            fontSize: '20',
-			        		            align: 'center'
-			        		        }
-			        		    },
-			        		    tooltip: {
-			        		        trigger: 'axis'
-			        		    },
-			        		    legend: {
-			        		        data: legendData,
-			        		        width:'330px',
-			        		        height:'40px',
-			        		        left: '3%'
-			        		    },
-			        		    grid: {
-			        		    	top: '21%',
-			        		        left: '3%',
-			        		        right: '4%',
-			        		        bottom: '3%',
-			        		        containLabel: true
-			        		    },
-			        		    toolbox: {
-			        		        show: true,
-			        		        feature: {
-			        		            dataZoom: {
-			        		                yAxisIndex: 'none'
-			        		            },
-			        		            dataView: {readOnly: false},
-			        		            magicType: {type: ['line', 'bar']},
-			        		            restore: {},
-			        		            saveAsImage: {}
-			        		        }
-			        		    },
-			        		    xAxis: {
-			        		        type: 'category',
-			        		        boundaryGap: false,
-			        		        data: xAxisData,
-			        		        axisLine: {
-	        	                        show: true,
-	        	                        onZero: false,
-	        	                        lineStyle: {type: 'solid'}
-	        	                    },
-			        		    },
-			        		    yAxis: [{
-				        	        name : '单位(%)',
-			        	            type : 'value',
-			        	            nameTextStyle: {
-			        		            color: 'red',
-			        		            fontSize: '12'
-			        		        },
-		        	                splitLine: {show: true,lineStyle:{type : 'dotted',color:"#445683"}},//网格线
-			        	            max : 'dataMax',
-			        	            min : 'dataMin'
-			        	        },{
-			        		    	type: "value",//坐标轴类型  'value' 数值轴，适用于连续数据 
-		        	                boundaryGap: [0, 0],//坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样
-		        	                max: this.max,
-		        	                axisLabel:{
-		        	                        formatter:'{value}',
-		        	                        interval:0,//为auto时会隐藏显示不了的X轴小标题
-		        	                        textStyle:{
-		        	                            color:'#333333'
-		        	                        }
-		        	                    },
-	        	                    axisLine:{
-	        	                        show:true,
-	        	                        lineStyle:{type : 'dotted',color:"#445683"}
-	        	                    },
-			        		    }],
-			        		    series: seriesData
-			        		};
-					psLineChar.setOption(option, true);
-					$('#query').button('reset'); //检索取消loading状态
-					$('#query').dequeue();
-					$('#reset').button('reset');//重置取消loading状态
-					$('#reset').dequeue();
-				}).fail(function(xhr, status, error) {
-					window.location.href=whlyPath + '/reportstatistics/reportStatistics/companyYearUpPage';
-				}); 
-			}
-			
-        	//重置表单
-			function resetFrom() {
-        		var time = $('#year').attr('value');
-				$("#timeQuery").val(time);
-				$("#industryQuery").val("");
-				$("#nameQuery").val("");
-				loadLine();
-			}
+			 var  option = {
+	        		    title: {
+	        		        text: title,
+	        		        left: '30%',
+	        		        textStyle: {
+	        		            color: '#446699',
+	        		            fontSize: '20',
+	        		            align: 'center'
+	        		        }
+	        		    },
+	        		    tooltip: {
+	        		        trigger: 'axis'
+	        		    },
+	        		    legend: {
+	        		        data: legendData,
+	        		        width:'330px',
+	        		        height:'40px',
+	        		        left: '3%'
+	        		    },
+	        		    grid: {
+	        		    	top: '21%',
+	        		        left: '3%',
+	        		        right: '4%',
+	        		        bottom: '3%',
+	        		        containLabel: true
+	        		    },
+	        		    toolbox: {
+	        		        show: true,
+	        		        feature: {
+	        		            dataZoom: {
+	        		                yAxisIndex: 'none'
+	        		            },
+	        		            dataView: {readOnly: false},
+	        		            magicType: {type: ['line', 'bar']},
+	        		            restore: {},
+	        		            saveAsImage: {}
+	        		        }
+	        		    },
+	        		    xAxis: {
+	        		        type: 'category',
+	        		        boundaryGap: false,
+	        		        data: xAxisData,
+	        		        axisLine: {
+       	                        show: true,
+       	                        onZero: false,
+       	                        lineStyle: {type: 'solid'}
+       	                    },
+	        		    },
+	        		    yAxis: [{
+		        	        name : '单位(%)',
+	        	            type : 'value',
+	        	            nameTextStyle: {
+	        		            color: 'red',
+	        		            fontSize: '12'
+	        		        },
+        	                splitLine: {show: true,lineStyle:{type : 'dotted',color:"#445683"}},//网格线
+	        	            max : 'dataMax',
+	        	            min : 'dataMin'
+	        	        },{
+	        		    	type: "value",//坐标轴类型  'value' 数值轴，适用于连续数据 
+        	                boundaryGap: [0, 0],//坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样
+        	                max: this.max,
+        	                axisLabel:{
+        	                        formatter:'{value}',
+        	                        interval:0,//为auto时会隐藏显示不了的X轴小标题
+        	                        textStyle:{
+        	                            color:'#333333'
+        	                        }
+        	                    },
+       	                    axisLine:{
+       	                        show:true,
+       	                        lineStyle:{type : 'dotted',color:"#445683"}
+       	                    },
+	        		    }],
+	        		    series: seriesData
+	        		};
+			psLineChar.setOption(option, true);
+			$('#query').button('reset'); //检索取消loading状态
+			$('#query').dequeue();
+			$('#reset').button('reset');//重置取消loading状态
+			$('#reset').dequeue();
+		}).fail(function(xhr, status, error) {
+			window.location.href=whlyPath + '/reportstatistics/reportStatistics/companyYearUpPage';
+		}); 
+	}
+	
+      	//重置表单
+	function resetFrom() {
+      		var time = $('#year').attr('value');
+		$("#timeQuery").val(time);
+		$("#industryQuery").val("");
+		$("#nameQuery").val("");
+		loadLine();
+	}
 			
 			
-		</script>
+</script>
 
 </head>
 <body

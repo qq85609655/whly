@@ -308,18 +308,17 @@
 		from
 			front_company_report r
 		where
-		 r.del_flag = 0
-		<if test="status != null and status != ''">
-				AND r.status = #{status}
-		</if>
-		<if test="companyId != null and companyId != ''">
-				AND r.company_id in(select id from sys_office where parent_id=#{companyId}) 
-		</if>
-		
-		and date_format(r.insert_time, '%Y/%m') in
-		 <foreach collection="dateList" index="index" item="item" open="(" separator="," close=")">  
-	        #{item}  
-	    </foreach>  
+			 r.del_flag = 0
+			<if test="status != null and status != ''">
+					AND r.status = #{status}
+			</if>
+			<if test="companyId != null and companyId != ''">
+					AND r.company_id in(select id from sys_office where parent_id=#{companyId}) 
+			</if>
+			AND date_format(r.insert_time, '%Y/%m') in
+			 <foreach collection="dateList" index="index" item="item" open="(" separator="," close=")">  
+		        #{item}  
+		    </foreach>  
 		group by
 			date_format(r.insert_time, '%Y/%m')
 		order by
@@ -335,14 +334,27 @@
 		where
 			del_flag = 0
 			and `status` is not null
-		<if test="startDate != null and startDate  != ''">
-				and insert_time  &gt;= #{startDate}
-		</if>
-		<if test="endDate != null and endDate  != ''">
-				and insert_time  &lt;= #{endDate}
-		</if>
+			<if test="companyId != null and companyId != ''">
+					AND company_id in(select id from sys_office where parent_id=#{companyId}) 
+			</if>
+			<if test="startDate != null and startDate  != ''">
+					and insert_time  &gt;= #{startDate}
+			</if>
+			<if test="endDate != null and endDate  != ''">
+					and insert_time  &lt;= #{endDate}
+			</if>
 		group by
 			`status`
+	</select>
+	
+	<select id="statisticsCountByOffice" resultType="com.hailian.whly.report.entity.FrontCompanyReport">
+		SELECT
+			'NOTREPORT' AS name,
+			count(1) AS count
+		FROM
+			sys_office
+		WHERE
+			parent_id NOT IN ('0', '1')
 	</select>
 	
 	<select id="statisticsCountByType" parameterType="java.util.Map" resultType="com.hailian.whly.report.entity.FrontCompanyReport">
@@ -355,9 +367,16 @@
 		where
 			r.del_flag = 0
 			and r.`status` is not null
-		<if test="status != null and status != ''">
-				and r.status = #{status}
-		</if>
+			<if test="companyId != null and companyId != ''">
+					AND company_id in(select id from sys_office where parent_id=#{companyId}) 
+			</if>
+			<if test="status != null and status != ''">
+					AND r.status = #{status}
+			</if>
+			AND date_format(r.insert_time, '%Y/%m') in
+			 <foreach collection="dateList" index="index" item="item" open="(" separator="," close=")">  
+		        #{item}  
+		    </foreach>
 		group by r.type_id
 		order by d.sort
 

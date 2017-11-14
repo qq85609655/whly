@@ -76,6 +76,7 @@ public class AjaxController extends BaseController {
         	String date = sdf.format(new Date());
         	params.put("startDate",String.valueOf(c.get(Calendar.YEAR))+"-"+String.valueOf(c.get(Calendar.MONTH)+1)+"-01 00:00:00");
         	params.put("endDate", date);
+        	params.put("companyId", UserUtils.getUser().getCompany().getParentId());
         	List<FrontCompanyReport> sourcelist = frontCompanyReportService.statisticsCountByStatus(params);
             return resultSuccessData(response,"查询数据成功", sourcelist);
         } catch (Exception e) {
@@ -144,8 +145,22 @@ public class AjaxController extends BaseController {
     @RequestMapping(value = "/statisticsCountByType")
     public String statisticsCountByType(HttpServletRequest request, HttpServletResponse response,String status){
         try {
+        	String[] dateList=new String[12];
+        	Calendar calendar = Calendar.getInstance();
+        	String year=calendar.get(Calendar.YEAR)+"";
+        	for(int x=1;x<13;x++){
+        		String date=year;
+        		if(x<10){
+        			date+="/0"+x;
+        		}else{
+        			date+="/"+x;
+        		}
+        		dateList[x-1]=date;
+        	}
         	Map<String, Object> params=new HashMap<String, Object>();
         	params.put("status",status);
+        	params.put("dateList", dateList);
+        	params.put("companyId", UserUtils.getUser().getCompany().getParentId());
         	List<FrontCompanyReport> sourcelist = frontCompanyReportService.statisticsCountByType(params);
             return resultSuccessData(response,"查询数据成功", sourcelist);
         } catch (Exception e) {
