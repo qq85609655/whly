@@ -173,5 +173,27 @@ public class ReportStatisticsController extends BaseController {
 		model.addAttribute("reportStatistics", reportStatistics);
 		return Global.getWhlyPage() +"/statistics/areaYearUp";
 	}
+	
+	/**
+	 *
+	 * @time   2017年11月14日 上午11:19:30 
+	 * @author zhouyl
+	 * @Description   打开行业数据同比增速页面
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @return String
+	 */
+	@RequestMapping(value = "industryYearUpPage")
+	public String industryYearUpPage(ReportStatistics reportStatistics, Model model) {
+		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year1 = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			reportStatistics.setYear(year1 + "年" + month + "月");
+		}
+		model.addAttribute("reportStatistics", reportStatistics);
+		return Global.getWhlyPage() +"/statistics/industryYearUp";
+	}
 
 }

@@ -26,14 +26,14 @@
 			
 			function loadLine() {
 				var companyName = $('#nameQuery').val();
-				var typeName = $('#industryQuery').val();
+				var areaName = $('#areaQuery').val();
 				var year = $('#timeQuery').val();
 				var title = year.substring(0,5) + '01月~' + year.substring(5);
 				var data = {
-						statisticsType : 'areaName', //统计类型
+						statisticsType : 'typeName', //统计类型
 						year : year,			  //时间
 						companyName : companyName,
-						typeName : typeName
+						areaName : areaName
 					};
 				$.ajax({
 					type : 'POST',
@@ -43,7 +43,7 @@
 					console.info(result.data);
 					var psLineChar = echarts.init(document.getElementById('lineDiv'));
 					if(!result.data[0].values) { //如果没数据 进行提示
-						alert(title+typeName+companyName+ '没有数据，请重新选择！');
+						alert(title+areaName+companyName+ '没有数据，请重新选择！');
 						psLineChar.clear();
 						$('#query').button('reset'); //检索取消loading状态
 						$('#query').dequeue();
@@ -55,13 +55,13 @@
 					var legendData =[];//图例
 					var seriesData=[];//线
 					var xAxisData=[];//日期
-					if(typeName) {
-						title = title + typeName;
+					if(areaName) {
+						title = title + areaName;
 					}
 					if(companyName) {
 						title = title + companyName;
 					}
-					title = title + '地区数据同比增速';
+					title = title + '行业数据同比增速';
 					$.each(data,function(index,item){
 						legendData.push(item.name);
 						var values=[];
@@ -219,14 +219,14 @@
 								</div>
 							</div>
 							<div class="form-group col-md-3">
-								<label class="control-label col-md-4" >行业：</label>
+								<label class="control-label col-md-4" >地区：</label>
 								<div class="col-md-8">
-									<form:select path="typeId" class="form-control" name="typeId"
-										id="industryQuery">
+									<form:select path="area.id" name="area.id" class="form-control"
+										id="areaQuery">
 										<form:option value="" label="全部" />
-										<c:set var="industyTypeLable" value="${industyTypeLable}"/>
-										<form:options items="${fns:getDictList(industyTypeLable)}"
-											itemLabel="label" itemValue="label" htmlEscape="false" />
+										<form:options
+											items="${fnc:getArea('d233fe3d43da4d10ba0a7039746a47dd')}"
+											itemLabel="name" itemValue="name" htmlEscape="false" />
 									</form:select>
 								</div>
 							</div>
