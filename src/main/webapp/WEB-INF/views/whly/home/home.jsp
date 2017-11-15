@@ -234,20 +234,23 @@
    		                    
       myChartPie.setOption(option);
 	   $(function(){
-		   if(companyParentId=="be9e0da458064360b214c9ca69327859"){
+		   /* if(companyParentId=="be9e0da458064360b214c9ca69327859"){
 		    getStatisticsCountByStatus(null,null);
-		   }
-		    getBottomData(null);
+		   } */
+		   getStatisticsCountByStatus(null,null);
+		   getBottomData(null);
 		});
 	   //下方折现 pie图数据
 	   function getBottomData(status){
 		   getStatisticsReportByDate(status);
-		   if(companyParentId=="be9e0da458064360b214c9ca69327859"){
+		   /* if(companyParentId=="be9e0da458064360b214c9ca69327859"){
 			   getStatisticsCountByType(status);
-		   }
+		   } */
+		   getStatisticsCountByType(status);
 	   }
 	   //按照状态、时间统计数量
 	   function getStatisticsCountByStatus(startDate,endDate){
+		   console.info(1);
 			$.ajax({
 				type : "post",
 				url : whlyPath+"/ajax/statisticsCountByStatus",

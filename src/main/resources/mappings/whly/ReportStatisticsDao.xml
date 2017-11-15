@@ -251,9 +251,9 @@
 	          	</choose>
 		) c ON 
 				<choose>  
-		             <when test="statisticsType == 'MONTH'">c.`month` = p.`month`</when>  
-		             <when test="statisticsType == 'areaName'">c.`areaName` = p.`areaName`</when> 
-		             <when test="statisticsType == 'typeName'">c.`typeName` = p.`typeName`</when> 
+		             <when test="statisticsType == 'MONTH'">c.`month` = n.`month`</when>  
+		             <when test="statisticsType == 'areaName'">c.`areaName` = n.`areaName`</when> 
+		             <when test="statisticsType == 'typeName'">c.`typeName` = n.`typeName`</when> 
 	          	</choose>
 		
 	</select>

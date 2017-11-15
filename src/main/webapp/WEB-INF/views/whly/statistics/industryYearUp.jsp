@@ -162,7 +162,7 @@
 			$('#reset').button('reset');//重置取消loading状态
 			$('#reset').dequeue();
 		}).fail(function(xhr, status, error) {
-			window.location.href=whlyPath + '/reportstatistics/reportStatistics/companyYearUpPage';
+			window.location.href=whlyPath + '/home';
 		}); 
 	}
 	
