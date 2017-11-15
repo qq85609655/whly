@@ -59,7 +59,7 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 * @Description   统计所有公司数量
 	 * @param  @return List<FrontCompanyReport>
 	 */
-	public List<FrontCompanyReport> statisticsCountByOffice();
+	public List<FrontCompanyReport> statisticsCountByOffice(String parentId);
 	/**
 	 * 
 	 * @time   2017年10月26日 上午10:18:00

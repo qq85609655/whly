@@ -159,16 +159,17 @@
 					SUM(loan_amount) AS nloanAmount,
 					SUM(order_quantity) AS norderQuantity,
 					SUM(operating_costs) AS noperatingCosts,
+					MONTH AS "month", YEAR AS "year"
 					<choose>  
-			            <when test="statisticsType == 'MONTH'">MONTH AS "month", YEAR AS "year"</when>  
-			            <when test="statisticsType == 'areaName'">area_name AS "areaName"</when>  
-		             	<when test="statisticsType == 'typeName'">type_name AS "typeName"</when>
+			            <!-- <when test="statisticsType == 'MONTH'">MONTH AS "month", YEAR AS "year"</when>   -->
+			            <when test="statisticsType == 'areaName'">, area_name AS "areaName"</when>  
+		             	<when test="statisticsType == 'typeName'">, type_name AS "typeName"</when>
 	          		</choose>
 				FROM
 					statis_view
 				WHERE
 					`year` = #{year}
-				AND `month`   &lt;= #{month}
+					AND `month`   &lt;= #{month}
 				<if test="typeName != null and typeName != ''">
 					AND type_name = #{typeName}
 				</if>
@@ -178,6 +179,7 @@
 				<if test="companyName != null and companyName != ''">
 					AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
 				</if>
+					AND company_id in(select id from sys_office where parent_id=#{parentId})
 				GROUP BY 
 					<choose>  
 			             <when test="statisticsType == 'MONTH'">MONTH</when>  
@@ -195,18 +197,18 @@
 				SUM(loan_amount) AS ploanAmount,
 				SUM(order_quantity) AS porderQuantity,
 				SUM(operating_costs) AS poperatingCosts,
+				MONTH AS "month", YEAR AS "year"
 				<choose>  
-		             <when test="statisticsType == 'MONTH'">MONTH AS "month", YEAR AS "year"</when>  
-		             <when test="statisticsType == 'areaName'">area_name AS "areaName"</when>  
-		             <when test="statisticsType == 'typeName'">type_name AS "typeName"</when>
+		             <!-- <when test="statisticsType == 'MONTH'">MONTH AS "month", YEAR AS "year"</when>   -->
+		             <when test="statisticsType == 'areaName'">, area_name AS "areaName"</when>  
+		             <when test="statisticsType == 'typeName'">, type_name AS "typeName"</when>
 	          	</choose>
 			FROM
 				statis_view
 			WHERE
-				`year` = #{preYear}
 				<choose>  
-	             	<when test="queryType == 1">AND `month`   &lt;= #{month}</when>  
-	             	<when test="queryType == 2">AND (`month`   &lt; #{month} or `month` = "12")</when>
+	             	<when test="queryType == 1">`year` = #{preYear} AND `month`   &lt;= #{month}</when>  
+	             	<when test="queryType == 2">( `year` = #{year} AND `month` &lt; #{month} ) OR ( `year` = (#{year} - 1) AND `month` = '12')</when>
 	          	</choose>
 				
 				<if test="typeName != null and typeName != ''">
@@ -218,6 +220,7 @@
 				<if test="companyName != null and companyName != ''">
 					AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
 				</if>
+				AND company_id in(select id from sys_office where parent_id=#{parentId})
 			GROUP BY 
 				<choose>  
 		             <when test="statisticsType == 'MONTH'">MONTH</when>  
@@ -227,9 +230,13 @@
 		) p ON 
 				<choose>  
 		             <when test="statisticsType == 'MONTH' and queryType == 1">n.`month` = p.`month`</when> 
-		             <when test="statisticsType == 'MONTH' and queryType == 2">IF((n.`month`-1)=0,(n.`month`+11) = p.`month`,(n.`month`-1) = p.`month`)</when> 
+		             <when test="queryType == 2">IF ( (n.`month` - 1) = 0, n.year - 1 = p.year AND (n.`month` + 11) = p.`month` , n.year = p.year AND (n.`month` - 1) = p.`month` )</when> 
 		             <when test="statisticsType == 'areaName'">n.`areaName` = p.`areaName`</when>
 		             <when test="statisticsType == 'typeName'">n.`typeName` = p.`typeName`</when>  
+	          	</choose>
+	          	<choose>  
+		             <when test="statisticsType == 'areaName' and queryType == 2">AND n.`areaName` = p.`areaName`</when>
+		             <when test="statisticsType == 'typeName' and queryType == 2">AND n.`typeName` = p.`typeName`</when>  
 	          	</choose>
 	    RIGHT JOIN (
 			SELECT

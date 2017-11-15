@@ -347,14 +347,15 @@
 			`status`
 	</select>
 	
-	<select id="statisticsCountByOffice" resultType="com.hailian.whly.report.entity.FrontCompanyReport">
+	<select id="statisticsCountByOffice" parameterType="string" resultType="com.hailian.whly.report.entity.FrontCompanyReport">
 		SELECT
 			'NOTREPORT' AS name,
 			count(1) AS count
 		FROM
 			sys_office
 		WHERE
-			parent_id NOT IN ('0', '1')
+			<!-- parent_id NOT IN ('0', '1') -->
+			parent_id = #{parentId }
 	</select>
 	
 	<select id="statisticsCountByType" parameterType="java.util.Map" resultType="com.hailian.whly.report.entity.FrontCompanyReport">

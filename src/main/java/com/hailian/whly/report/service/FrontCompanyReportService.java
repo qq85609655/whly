@@ -357,7 +357,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		for(FrontCompanyReport fcr : list) {
 			report += Integer.parseInt(fcr.getCount());
 		}
-		List<FrontCompanyReport> office = dao.statisticsCountByOffice();
+		List<FrontCompanyReport> office = dao.statisticsCountByOffice(UserUtils.getUser().getCompany().getParentId());
 		FrontCompanyReport fcr = new FrontCompanyReport();
 		fcr.setName(office.get(0).getName());
 		fcr.setCount(String.valueOf(Integer.parseInt(office.get(0).getCount()) - report));

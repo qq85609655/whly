@@ -125,6 +125,7 @@ public class ReportStatisticsController extends BaseController {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			reportStatistics.setYear(sdf.format(new Date()));
 		}
+		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
 		List<IndexModel> data = reportStatisticsService.getStaiticQytb(reportStatistics);
 		json.success(data);
 		return json;
@@ -232,7 +233,7 @@ public class ReportStatisticsController extends BaseController {
 	 * @param  @param model
 	 * @param  @return String
 	 */
-	//@RequestMapping(value = "areaLoopUpPage")
+	@RequestMapping(value = "areaLoopUpPage")
 	public String areaLoopUpPage(ReportStatistics reportStatistics, Model model) {
 		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
 		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {
@@ -255,7 +256,7 @@ public class ReportStatisticsController extends BaseController {
 	 * @param  @param model
 	 * @param  @return String
 	 */
-	//@RequestMapping(value = "industryLoopUpPage")
+	@RequestMapping(value = "industryLoopUpPage")
 	public String industryLoopUpPage(ReportStatistics reportStatistics, Model model) {
 		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
 		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {

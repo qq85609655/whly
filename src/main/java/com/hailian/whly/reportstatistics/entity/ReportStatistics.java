@@ -42,9 +42,19 @@ public class ReportStatistics extends DataEntity<ReportStatistics> {
 	private String statisticsType;	//统计类型
 	private String name; 			//返回前台的字段名字
 	private String queryType;		//查询类型 ：1、同比 2、环比
+	private String parentId;
+	
 
 	
 	
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
 	public String getQueryType() {
 		return queryType;
 	}

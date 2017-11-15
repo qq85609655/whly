@@ -171,7 +171,7 @@
 	   var myChart2 = echarts.init(document.getElementById("echarts_line"));
        var myChartPie = echarts.init(document.getElementById("echarts_pie"));
        var companyParentId=$("#companyIdDiv").val();
-       var option = {
+      /*  var option = {
    		    title : {
    		        text: '行业分类分析',
    		        x:'center'
@@ -230,9 +230,9 @@
    		            ]
    		        }
    		    ]
-   		};
+   		}; 
    		                    
-      myChartPie.setOption(option);
+      myChartPie.setOption(option);*/
 	   $(function(){
 		   /* if(companyParentId=="be9e0da458064360b214c9ca69327859"){
 		    getStatisticsCountByStatus(null,null);
@@ -271,12 +271,23 @@
 		};
 		//按照行业类型统计数量
 		function getStatisticsCountByType(status){
+				var name = "已上报";
+			   	if(status == "PASSED") {
+				   name = "已审核";
+			   	} else if(status == "UNPASSED") {
+				   name = "未通过";
+			  	 } else if(status == "SUBMIT") {
+				   name = "已提交";
+			   	}
 				$.ajax({
 					type : "post",
 					url : whlyPath+"/ajax/statisticsCountByType",
 					data:{"status":status},
 					dataType:'json',
 					success : function(data) {
+						if(!data.resData) {
+							myChartPie.clear();
+						}
 						if(data.statusCode==200){
 							var nameArr=[];
 							var series=[];
@@ -321,7 +332,7 @@
 					    		    calculable : true,
 					    		    series : [
 					    		        {
-					    		            name:'行业分类分析',
+					    		            name:'行业分类分析 - ' + name,
 					    		            type:'pie',
 					    		            radius : '55%',
 					    		            center: ['50%', '60%'],
