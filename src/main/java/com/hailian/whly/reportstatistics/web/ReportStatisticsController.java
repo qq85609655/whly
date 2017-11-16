@@ -106,10 +106,35 @@ public class ReportStatisticsController extends BaseController {
 	}
 	
 	/**
+	 *
+	 * @time   2017年11月16日 上午10:13:37 
+	 * @author zhouyl
+	 * @Description   占比分析
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @param request
+	 * @param  @param response
+	 * @param  @return ResultJson
+	 */
+	@RequestMapping(value = "getProportionQytb")
+	@ResponseBody
+	public ResultJson getProportionQytb(ReportStatistics reportStatistics, Model model, HttpServletRequest request, HttpServletResponse response) {
+		ResultJson json = new ResultJson();
+		if(reportStatistics.getYear() == null || reportStatistics.getYear().isEmpty()) {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			reportStatistics.setYear(sdf.format(new Date()));
+		}
+		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
+		List<IndexModel> data = reportStatisticsService.getProportionQytb(reportStatistics);
+		json.success(data);
+		return json;
+	}
+	
+	/**
 	 * 
 	 * @time   2017年11月12日 下午12:25:28
 	 * @author zuoqb
-	 * @todo   统计企业同比增速
+	 * @todo   同比增速、环比增速
 	 * @param  @param reportStatistics
 	 * @param  @param model
 	 * @param  @param request
@@ -365,4 +390,71 @@ public class ReportStatisticsController extends BaseController {
 		json.success(data);
 		return json;
 	}
+	
+	/**
+	 *
+	 * @time   2017年11月16日 上午10:18:20 
+	 * @author zhouyl
+	 * @Description   打开月份占比分析页面
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @return String
+	 */
+	@RequestMapping(value = "monthProportionPage")
+	public String monthProportionPage(ReportStatistics reportStatistics, Model model) {
+		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year1 = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			reportStatistics.setYear(year1 + "年" + month + "月");
+		}
+		model.addAttribute("reportStatistics", reportStatistics);
+		return Global.getWhlyPage() +"/statistics/monthProportion";
+	}
+	
+	/**
+	 *
+	 * @time   2017年11月16日 上午10:18:20 
+	 * @author zhouyl
+	 * @Description   打开地区占比分析页面
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @return String
+	 */
+	@RequestMapping(value = "areaProportionPage")
+	public String areaProportionPage(ReportStatistics reportStatistics, Model model) {
+		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year1 = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			reportStatistics.setYear(year1 + "年" + month + "月");
+		}
+		model.addAttribute("reportStatistics", reportStatistics);
+		return Global.getWhlyPage() +"/statistics/areaProportion";
+	}
+	
+	/**
+	 *
+	 * @time   2017年11月16日 上午10:18:20 
+	 * @author zhouyl
+	 * @Description   打开行业占比分析页面
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @return String
+	 */
+	@RequestMapping(value = "industryProportionPage")
+	public String industryProportionPage(ReportStatistics reportStatistics, Model model) {
+		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year1 = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			reportStatistics.setYear(year1 + "年" + month + "月");
+		}
+		model.addAttribute("reportStatistics", reportStatistics);
+		return Global.getWhlyPage() +"/statistics/industryProportion";
+	}
+	
 }

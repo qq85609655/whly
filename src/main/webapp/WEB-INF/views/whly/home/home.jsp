@@ -250,7 +250,6 @@
 	   }
 	   //按照状态、时间统计数量
 	   function getStatisticsCountByStatus(startDate,endDate){
-		   console.info(1);
 			$.ajax({
 				type : "post",
 				url : whlyPath+"/ajax/statisticsCountByStatus",

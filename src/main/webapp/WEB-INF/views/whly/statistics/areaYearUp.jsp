@@ -179,7 +179,7 @@
 </script>
 
 </head>
-<body
+<body>
 	<!-- BEGIN 顶部菜单  -->
 	<%@ include file="../include/topmenu.jsp"%>
 	<!-- END 顶部菜单  -->

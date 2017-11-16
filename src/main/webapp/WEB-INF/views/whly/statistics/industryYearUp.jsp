@@ -170,7 +170,7 @@
 	function resetFrom() {
       		var time = $('#year').attr('value');
 		$("#timeQuery").val(time);
-		$("#industryQuery").val("");
+		$("#areaQuery").val("");
 		$("#nameQuery").val("");
 		loadLine();
 	}
@@ -179,7 +179,7 @@
 </script>
 
 </head>
-<body
+<body>
 	<!-- BEGIN 顶部菜单  -->
 	<%@ include file="../include/topmenu.jsp"%>
 	<!-- END 顶部菜单  -->

@@ -29,10 +29,8 @@
 				var areaName = $('#areaQuery').val();
 				var typeName = $('#industryQuery').val();
 				var year = $('#timeQuery').val();
-				var queryType = $('#queryType').val();
 				var title = year.substring(0,5) + '01月~' + year.substring(5);
 				var data = {
-						queryType : queryType,	  //查询类型 ：1、同比 2、环比
 						statisticsType : 'MONTH', //统计类型
 						year : year,			  //时间
 						companyName : companyName,
@@ -42,9 +40,9 @@
 				$.ajax({
 					type : 'POST',
 					data : data,
-					url : whlyPath + '/reportstatistics/reportStatistics/getStaiticQytb'
+					url : whlyPath + '/reportstatistics/reportStatistics/getProportionQytb'
 				}).done(function(result, status, xhr) {
-					//console.info(result.data);
+					console.info(result.data);
 					var psLineChar = echarts.init(document.getElementById('lineDiv'));
 					if(!result.data[0].values) { //如果没数据 进行提示
 						alert(title+areaName+typeName+companyName+ '没有数据，请重新选择！');
@@ -68,11 +66,7 @@
 					if(companyName) {
 						title = title + companyName;
 					}
-					if(queryType == '1') {
-						title = title + '企业数据同比增速';
-					} else {
-						title = title + '企业数据环比增速';
-					}
+					title = title + '月份数据占比分析';
 					$.each(data,function(index,item){
 						legendData.push(item.name);
 						var values=[];
@@ -84,88 +78,91 @@
 						});
 						seriesData.push({
 				            name:item.name,
-				            type:'line',
+				            type:'bar',
 				            data: values
 			       		});
 					});
 					
-					 var  option = {
-			        		    title: {
-			        		        text: title,
-			        		        left: '30%',
-			        		        textStyle: {
-			        		            color: '#446699',
-			        		            fontSize: '20',
-			        		            align: 'center'
-			        		        }
-			        		    },
-			        		    tooltip: {
-			        		        trigger: 'axis'
-			        		    },
-			        		    legend: {
-			        		        data: legendData,
-			        		        width:'330px',
-			        		        height:'40px',
-			        		        left: '3%'
-			        		    },
-			        		    grid: {
-			        		    	top: '21%',
-			        		        left: '3%',
-			        		        right: '4%',
-			        		        bottom: '3%',
-			        		        containLabel: true
-			        		    },
-			        		    toolbox: {
-			        		        show: true,
-			        		        feature: {
-			        		            dataZoom: {
-			        		                yAxisIndex: 'none'
-			        		            },
-			        		            dataView: {readOnly: false},
-			        		            magicType: {type: ['line', 'bar']},
-			        		            restore: {},
-			        		            saveAsImage: {}
-			        		        }
-			        		    },
-			        		    xAxis: {
-			        		        type: 'category',
-			        		        boundaryGap: false,
-			        		        data: xAxisData,
-			        		        axisLine: {
-	        	                        show: true,
-	        	                        onZero: false,
-	        	                        lineStyle: {type: 'solid'}
-	        	                    },
-			        		    },
-			        		    yAxis: [{
-				        	        name : '单位(%)',
-			        	            type : 'value',
-			        	            nameTextStyle: {
-			        		            color: 'red',
-			        		            fontSize: '12'
-			        		        },
-		        	                splitLine: {show: true,lineStyle:{type : 'dotted',color:"#445683"}},//网格线
-			        	            max : 'dataMax',
-			        	            min : 'dataMin'
-			        	        },{
-			        		    	type: "value",//坐标轴类型  'value' 数值轴，适用于连续数据 
-		        	                boundaryGap: [0, 0],//坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样
-		        	                max: this.max,
-		        	                axisLabel:{
-		        	                        formatter:'{value}',
-		        	                        interval:0,//为auto时会隐藏显示不了的X轴小标题
-		        	                        textStyle:{
-		        	                            color:'#333333'
-		        	                        }
-		        	                    },
-	        	                    axisLine:{
-	        	                        show:true,
-	        	                        lineStyle:{type : 'dotted',color:"#445683"}
-	        	                    },
-			        		    }],
-			        		    series: seriesData
-			        		};
+					var  option = {
+	        		    title: {
+	        		        text: title,
+	        		        left: '30%',
+	        		        textStyle: {
+	        		            color: '#446699',
+	        		            fontSize: '20',
+	        		            align: 'center'
+	        		        },
+	        		    },
+	        		    tooltip: {
+	        		        trigger: 'axis',
+	        		        axisPointer: {
+	        		            type: 'shadow'
+	        		        }
+	        		    },
+	        		    legend: {
+	        		        data: legendData,
+	        		        width:'330px',
+	        		        height:'40px',
+	        		        left: '3%'
+	        		    },
+	        		    grid: {
+	        		    	top: '21%',
+	        		        left: '3%',
+	        		        right: '4%',
+	        		        bottom: '3%',
+	        		        containLabel: true
+	        		    },
+	        		    toolbox: {
+	        		        show: true,
+	        		        feature: {
+	        		            mark: {show: true},
+	        		            dataView: {show: true, readOnly: false},
+	        		            magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+	        		            restore: {show: true},
+	        		            saveAsImage: {show: true}
+	        		        }
+	        		    },
+	        		    xAxis: {
+	        		        type: 'category',
+	        		        data: xAxisData,
+	        		        axisTick: {show: false},
+	        		        axisLine: {
+       	                        show: true,
+       	                        lineStyle: {type: 'solid'}
+       	                    },
+	        		    },
+	        		    yAxis: [{
+		        	        name : '金额(万元)',
+	        	            type : 'value',
+	        		        gridIndex: 0,
+	        	            nameTextStyle: {
+	        		            color: 'red',
+	        		            fontSize: '12'
+	        		        },
+	        		        splitArea: {show: false},
+        	                splitLine: {show: true,lineStyle:{type : 'dotted',color:"#445683"}},//网格线
+	        	            max : 'dataMax',
+	        	            min : 'dataMin'
+	        	        },{
+	        		    	type: "value",//坐标轴类型  'value' 数值轴，适用于连续数据 
+        	                boundaryGap: [0, 0],//坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样
+	        		        gridIndex: 0,
+        	                axisLabel:{
+        	                        formatter:'{value}',
+        	                        interval:0,//为auto时会隐藏显示不了的X轴小标题
+        	                        textStyle:{
+        	                            color:'#333333'
+        	                        }
+        	                    },
+       	                    axisLine:{
+       	                        show:true,
+       	                        lineStyle:{type : 'dotted',color:"#445683"}
+       	                    },
+	        		    }],
+	        		    series: seriesData
+	        		};
 					psLineChar.setOption(option, true);
+					loadPie(result.data);
 					$('#query').button('reset'); //检索取消loading状态
 					$('#query').dequeue();
 					$('#reset').button('reset');//重置取消loading状态
@@ -174,6 +171,63 @@
 					window.location.href=whlyPath + '/home';
 				}); 
 			}
+			
+			function loadPie(data) {
+				var pieDiv = $('#pieDiv');
+				for (var i = 0; i < data.length; i++) {
+					var pie1 = pie.replace('[id]', 'pie' + i);
+					pieDiv.append(pie1);
+					var pieChar = echarts.init(document.getElementById('pie' + i));
+					var seriesData=[];//线
+					var values=[];
+					$.each(data[i].values,function(ind,it){
+						if(it.filed>0) {
+							var value = {
+									name: it.name,
+									value: it.filed
+							}
+							values.push(value);
+						}
+					});
+					seriesData.push({
+			            name:data[i].name,
+			            type:'pie',
+			            radius : '55%',
+			            center: ['50%', '60%'],
+			            data: values
+		       		});
+					console.info(seriesData);
+					option = {
+						    title : {
+						        text: data[i].name + '占比',
+						        left: '22%',
+						        textStyle: {
+		        		            color: '#446699',
+		        		            fontSize: '20'
+		        		        },
+						    },
+						    toolbox: {
+		        		        show: true,
+		        		        feature: {
+		        		            restore: {show: true},
+		        		            saveAsImage: {show: true}
+		        		        }
+		        		    },
+						    tooltip : {
+						        trigger: 'item',
+						        formatter: "{a} <br/>{b} : {c} ({d}%)"
+						    },
+						    series : seriesData
+						};
+					
+					pieChar.setOption(option, true);
+					
+					
+				}
+			}
+			
+			var pie = '<div class="chart col-md-3" id="[id]" style="height:350px;width:25%;"></div>';
+			
 			
         	//重置表单
 			function resetFrom() {
@@ -214,7 +268,6 @@
 						<input type="hidden" value="${companyParentType}" id="companyParentType">
 						<input type="hidden" value="${reportStatistics.year }" id="year">
 						<input type="hidden" value="1" name="month">
-						<input type="hidden" value="${queryType }" id="queryType">
 						<div class="row form-body">
 							<div class="form-group col-md-3">
 								<label class="control-label col-md-4" >时间：</label>
@@ -277,11 +330,11 @@
 					</form:form> 
 				</div>
 				<!-- 主体部分START-->
-				<div class="row">
-					<div class="col-md-12 chart" id="lineDiv" style="height:470px;width:100%;">
-						
+				<div class="row" id="pieDiv">
+					<div class=" chart" id="lineDiv" style="height:470px;width:100%;">
 					
 					</div>
+					
 					<!-- END EXAMPLE TABLE PORTLET-->
 				</div>
 			</div>

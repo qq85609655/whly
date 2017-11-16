@@ -104,11 +104,28 @@ public class ReportStatisticsService extends CrudService<ReportStatisticsDao, Re
 		
 		return result;
 	}
+	
+	/**
+	 *
+	 * @time   2017年11月16日 上午10:12:55 
+	 * @author zhouyl
+	 * @Description   占比分析
+	 * @param  @param reportStatistics
+	 * @param  @return List<IndexModel>
+	 */
+	public List<IndexModel> getProportionQytb(ReportStatistics reportStatistics){
+		dealTongBiDate(reportStatistics);
+		List<ReportStatistics> dataList = dao.getProportionQytb(reportStatistics);
+		//根据大类 获取对应指标然后 筛选数据
+		List<IndexModel> indexsList = dealDataByIndexs(dataList, reportStatistics);
+		return indexsList;
+	}
+	
 	/**
 	 * 
 	 * @time   2017年11月12日 下午12:25:05
 	 * @author zuoqb
-	 * @todo  统计企业同比增速
+	 * @todo  同比增速、环比增速
 	 * @param  @param reportStatistics
 	 * @param  @return
 	 * @return_type   List<IndexModel>
@@ -120,6 +137,7 @@ public class ReportStatisticsService extends CrudService<ReportStatisticsDao, Re
 		List<IndexModel> indexsList = dealDataByIndexs(dataList, reportStatistics);
 		return indexsList;
 	}
+	
 	/**
 	 * 
 	 * @time   2017年11月12日 下午12:28:33
