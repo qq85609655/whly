@@ -11,12 +11,12 @@
              
              <!-- 搜索 -->
              <li class="sidebar-search-wrapper">
-                 <form class="sidebar-search  " action="" method="POST">
+                 <form class="sidebar-search  " action="${whlyPath}/report/frontNotificationList/vagueWordsList" method="POST">
                      <a href="javascript:;" class="remove">
                          <i class="icon-close"></i>
                      </a>
                      <div class="input-group">
-                         <input type="text" class="form-control" placeholder="查询">
+                         <input type="text" class="form-control" value="${vagueWords }" name="vagueWords" placeholder="查询">
                          <span class="input-group-btn">
                              <a href="javascript:;" class="btn submit">
                                  <i class="icon-magnifier"></i>

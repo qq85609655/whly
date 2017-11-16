@@ -61,9 +61,10 @@
 				
 				function loadSohoads() {
 					var nowTime =$('#nowTime').attr('value');
+					var vagueWords = $('#vagueWords').attr('value');
 					$.ajax({
 						type : 'GET',
-						url : whlyPath+'/report/frontNotificationList/listData?categoryType=1&pageSize=13',
+						url : whlyPath+'/report/frontNotificationList/listData?categoryType=1&pageSize=13&vagueWords=' + vagueWords,
 						dataType : 'json'
 					}).done(function(result, status, xhr) {
 						var data = result.data.list;
@@ -71,6 +72,15 @@
 						var noticeLi = $('#noticeLi');
 						var newsWeight = null;
 						var noticeWeight = null;
+						if(!data) {
+							bootbox.alert({ 
+								  size: "small",
+								  title: "提示信息",
+								  message: "没有查询到企业新闻", 
+								  callback: function(){ /* your callback code */ }
+								})
+							return;
+						}
 		                for (var i = 0; i < data.length; i++) {
 		                	var dataTitle = "";
 		                	if(data[i].title.length > 28) {
@@ -111,7 +121,7 @@
 					
 					$.ajax({
 						type : 'GET',
-						url : whlyPath+'/report/frontNotificationList/listData?categoryType=2&pageSize=13',
+						url : whlyPath+'/report/frontNotificationList/listData?categoryType=2&pageSize=13&vagueWords=' + vagueWords,
 						dataType : 'json'
 					}).done(function(result, status, xhr) {
 						var data = result.data.list;
@@ -119,6 +129,15 @@
 						var noticeLi = $('#noticeLi');
 						var newsWeight = null;
 						var noticeWeight = null;
+						if(!data) {
+							bootbox.alert({ 
+								  size: "small",
+								  title: "提示信息",
+								  message: "没有查询到系统公告", 
+								  callback: function(){ /* your callback code */ }
+								})
+							return;
+						}
 		                for (var i = 0; i < data.length; i++) {
 		                	var dataTitle = "";
 		                	if(data[i].title.length > 28) {
@@ -256,6 +275,7 @@
 				     
                      <div class="row">
                 <div class="col-sm-6">
+                	<input type="hidden" value="${vagueWords }" id="vagueWords">
                     <!-- BEGIN PORTLET-->
                     <div class="portlet light bordered">
                         <div class="portlet-title tabbable-line">

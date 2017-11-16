@@ -27,9 +27,18 @@ public class FrontNotification extends DataEntity<FrontNotification> {
 	private String companyType;  //所属企业类型：重点服务业企业监测板块、限额以下服务业企业监测板块 、年度扶持项目监测板块、其他
 	private String reportId;     //上报ID  邮件用
 	private String companyId;	 //上报企业ID  邮件用
+	private String vagueWords;	 //模糊词  用于左菜单搜索
 	
 	
 	
+	public String getVagueWords() {
+		return vagueWords;
+	}
+
+	public void setVagueWords(String vagueWords) {
+		this.vagueWords = vagueWords;
+	}
+
 	public String getCompanyId() {
 		return companyId;
 	}

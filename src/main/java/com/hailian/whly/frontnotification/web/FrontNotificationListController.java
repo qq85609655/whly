@@ -121,5 +121,14 @@ public class FrontNotificationListController extends BaseController {
 		return Global.getWhlyPage() +"/frontnotification/mailMessage";
 	}
 	
+	//根据左边菜单查询条件跳转页面
+	@RequestMapping(value = {"vagueWordsList", ""})
+	public String vagueWordsList(FrontNotification frontNotification,HttpServletRequest request, HttpServletResponse response, Model model) {
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time= sdf.format(new Date());
+		model.addAttribute("time", time);
+		model.addAttribute("vagueWords", frontNotification.getVagueWords());
+		return Global.getWhlyPage() +"/home/news";
+	}
 
 }

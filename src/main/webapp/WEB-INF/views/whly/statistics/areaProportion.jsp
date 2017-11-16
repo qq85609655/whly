@@ -170,8 +170,10 @@
 			function loadPie(data) {
 				var pieDiv = $('#pieDiv');
 				for (var i = 0; i < data.length; i++) {
-					var pie1 = pie.replace('[id]', 'pie' + i);
-					pieDiv.append(pie1);
+					if($('#pieDiv > div').length < data.length+1) {
+						var pie1 = pie.replace('[id]', 'pie' + i);
+						pieDiv.append(pie1);
+					}
 					var pieChar = echarts.init(document.getElementById('pie' + i));
 					var seriesData=[];//线
 					var values=[];

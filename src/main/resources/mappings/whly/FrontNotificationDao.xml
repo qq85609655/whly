@@ -89,6 +89,9 @@
 			<if test="companyId != null and companyId != ''">
 				AND o5.id = #{companyId } 
 			</if>
+			<if test="vagueWords != null and vagueWords != ''">
+				AND (a.title like CONCAT(CONCAT('%', #{vagueWords}), '%')  OR a.content like CONCAT(CONCAT('%', #{vagueWords}), '%'))
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

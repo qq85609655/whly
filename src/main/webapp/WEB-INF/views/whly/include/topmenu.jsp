@@ -26,7 +26,7 @@
                       </a>
                       <ul class="dropdown-menu">
                           <li class="external">
-                              <h3>你有
+                              <h3>您有
                                   <span class="bold" id="mailNumber"> 0封 </span> 邮件 </h3>
                               <a href="${whlyPath}/report/frontNotificationList/listMailPage?menuId=b95b18b541c54548b8efd8b9d7ee3e77">查看所有</a>
                           </li>
