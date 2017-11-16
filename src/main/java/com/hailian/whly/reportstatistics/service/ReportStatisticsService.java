@@ -178,5 +178,16 @@ public class ReportStatisticsService extends CrudService<ReportStatisticsDao, Re
 		}
 		return indexsList;
 	}
-	
+	//地区从业数据
+	public List<ReportStatistics> getAreaEnploymentNumberAnalysis(ReportStatistics reportStatistics){
+		dealTongBiDate(reportStatistics);
+		return dao.getAreaEnploymentNumberAnalysis(reportStatistics);
+		
+	}
+	//行业从业数据
+		public List<ReportStatistics> getIndustryEnploymentNumberAnalysis(ReportStatistics reportStatistics){
+			dealTongBiDate(reportStatistics);
+			return dao.getIndustryEnploymentNumberAnalysis(reportStatistics);
+			
+		}
 }

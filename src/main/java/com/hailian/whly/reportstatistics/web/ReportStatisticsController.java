@@ -270,4 +270,99 @@ public class ReportStatisticsController extends BaseController {
 		return Global.getWhlyPage() +"/statistics/industryYearUp";
 	}
 
+	/**
+	 *
+	 * @time   2017年11月15日 
+	 * @author chen xin
+	 * @Description   打开行业从业人数分析
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @return String
+	 */			//			"industryEnploymentNumberAnalysisPage"
+	@RequestMapping(value = "industryEnploymentNumberAnalysisPage")
+	public String industryEmploymentNumberAnalysis(ReportStatistics reportStatistics, Model model) {
+		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year1 = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			reportStatistics.setYear(year1 + "年" + month + "月");
+		}
+	//	model.addAttribute("queryType", "1");
+		model.addAttribute("reportStatistics", reportStatistics);
+		return Global.getWhlyPage() +"/statistics/industryEmploymentNumberAnalysis";
+	}
+	
+	/**
+	 * 
+	 * @time   2017年11月16日
+	 * @author chen xin
+	 * @todo  行业从业人数分析数据
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @param request
+	 * @param  @param response
+	 * @param  @return
+	 * @return_type   ResultJson
+	 */
+	@RequestMapping(value = "industryEnploymentNumberAnalysis")
+	@ResponseBody
+	public ResultJson getIndustryEnploymentNumberAnalysis(ReportStatistics reportStatistics, Model model, HttpServletRequest request, HttpServletResponse response) {
+		ResultJson json = new ResultJson();
+		if(reportStatistics.getYear() == null || reportStatistics.getYear().isEmpty()) {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			reportStatistics.setYear(sdf.format(new Date()));
+		}
+		List<ReportStatistics> data = reportStatisticsService.getIndustryEnploymentNumberAnalysis(reportStatistics);
+		json.success(data);
+		return json;
+	}
+	
+	/**
+	 *
+	 * @time   2017年11月15日 
+	 * @author chen xin
+	 * @Description   打开地区从业人数分析
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @return String
+	 */			//			"industryEnploymentNumberAnalysisPage"
+	@RequestMapping(value = "areaEnploymentNumberAnalysisPage")
+	public String areaEmploymentNumberAnalysis(ReportStatistics reportStatistics, Model model) {
+		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year1 = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			reportStatistics.setYear(year1 + "年" + month + "月");
+		}
+	//	model.addAttribute("queryType", "1");
+		model.addAttribute("reportStatistics", reportStatistics);
+		return Global.getWhlyPage() +"/statistics/areaEmploymentNumberAnalysis";
+	}
+	
+	/**
+	 * 
+	 * @time   2017年11月16日
+	 * @author chen xin
+	 * @todo  地区从业人数分析数据
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @param request
+	 * @param  @param response
+	 * @param  @return
+	 * @return_type   ResultJson
+	 */
+	@RequestMapping(value = "areaEnploymentNumberAnalysis")
+	@ResponseBody
+	public ResultJson getAreaEnploymentNumberAnalysis(ReportStatistics reportStatistics, Model model, HttpServletRequest request, HttpServletResponse response) {
+		ResultJson json = new ResultJson();
+		if(reportStatistics.getYear() == null || reportStatistics.getYear().isEmpty()) {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			reportStatistics.setYear(sdf.format(new Date()));
+		}
+		List<ReportStatistics> data = reportStatisticsService.getAreaEnploymentNumberAnalysis(reportStatistics);
+		json.success(data);
+		return json;
+	}
 }

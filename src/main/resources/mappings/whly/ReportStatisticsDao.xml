@@ -28,6 +28,16 @@
 	<sql id="reportStatisticsJoins">
 		LEFT JOIN sys_area a16 ON a16.id = a.area_id
 	</sql>
+    <!--行业分析数据  -->
+    <resultMap id="industryEnploymentNumberAnalysis" type="com.hailian.whly.reportstatistics.entity.ReportStatistics" >
+    	<result column="type_name" property="typeName"/>
+    	<result column="emp_quantity" property="empQuantity"/>
+    </resultMap>
+    <!--地区分析数据  -->
+    <resultMap id="areaEnploymentNumberAnalysis" type="com.hailian.whly.reportstatistics.entity.ReportStatistics" >
+    	<result column="area_name" property="areaName"/>
+    	<result column="emp_quantity" property="empQuantity"/>
+    </resultMap>
     
 	<select id="get" resultType="com.hailian.whly.reportstatistics.entity.ReportStatistics">
 		SELECT 
@@ -265,4 +275,39 @@
 		
 	</select>
 	
+	<!--陈新 地区从业人数分析  -->
+	<select id="getAreaEnploymentNumberAnalysis" parameterType="com.hailian.whly.reportstatistics.entity.ReportStatistics" resultMap="areaEnploymentNumberAnalysis">
+		
+		 
+	 select v2.area_name,ifnull(emp_quantity,0) emp_quantity from
+		(select area_name,sum(emp_quantity) emp_quantity from statis_view 
+			<where>
+			<if test="year!=null and year!=''">year=#{year}</if>
+			<if test="month!=null and month!=''">and month=#{month}</if>
+			<if test="typeName!=null and typeName!=''">and type_name=#{typeName}</if>
+			<if test="companyName != null and companyName != ''">and company_Name like CONCAT(CONCAT('%', #{companyName}), '%')</if>
+		</where>
+			group by area_name
+		) v1 right join 
+		(select area_name from statis_view group by area_name)v2
+	on v1.area_name = v2.area_name
+	
+	</select>
+	<!--陈新 行业从业人数分析  -->
+	<select id="getIndustryEnploymentNumberAnalysis" parameterType="com.hailian.whly.reportstatistics.entity.ReportStatistics" resultMap="industryEnploymentNumberAnalysis">
+
+	select v2.type_name,ifnull(emp_quantity,0)emp_quantity from
+		(select type_name,sum(emp_quantity) emp_quantity from statis_view 
+			<where>
+			<if test="year!=null and year!=''">year=#{year}</if>
+			<if test="month!=null and month!=''">and month=#{month}</if>
+			<if test="areaName!=null and areaName!=''">and area_name=#{areaName}</if>
+			<if test="companyName != null and companyName != ''">and company_Name like CONCAT(CONCAT('%', #{companyName}), '%')</if>
+		</where> 
+			group by type_name
+		) v1 right join 
+		(select type_name from statis_view group by type_name)v2
+	on v1.type_name = v2.type_name
+	
+	</select>
 </mapper>

@@ -29,4 +29,7 @@ public interface ReportStatisticsDao extends CrudDao<ReportStatistics> {
 	public List<ReportStatistics> getStaitic(ReportStatistics reportStatistics);
 	
 	public List<ReportStatistics> getStaiticQytb(ReportStatistics reportStatistics);
+	public List<ReportStatistics> getIndustryEnploymentNumberAnalysis(ReportStatistics reportStatistics);
+	public List<ReportStatistics> getAreaEnploymentNumberAnalysis(ReportStatistics reportStatistics);
+
 }
