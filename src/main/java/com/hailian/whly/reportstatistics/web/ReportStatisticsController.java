@@ -338,6 +338,8 @@ public class ReportStatisticsController extends BaseController {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			reportStatistics.setYear(sdf.format(new Date()));
 		}
+		reportStatistics.setDictType(UserUtils.getUser().getCompany().getIndustyType().getType());
+		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
 		List<ReportStatistics> data = reportStatisticsService.getIndustryEnploymentNumberAnalysis(reportStatistics);
 		json.success(data);
 		return json;
@@ -385,7 +387,9 @@ public class ReportStatisticsController extends BaseController {
 		if(reportStatistics.getYear() == null || reportStatistics.getYear().isEmpty()) {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			reportStatistics.setYear(sdf.format(new Date()));
-		}
+		}//UserUtils.getUser().getCompany().getIndustyType().getType()
+		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
+		reportStatistics.setDictType(UserUtils.getUser().getCompany().getIndustyType().getType());
 		List<ReportStatistics> data = reportStatisticsService.getAreaEnploymentNumberAnalysis(reportStatistics);
 		json.success(data);
 		return json;

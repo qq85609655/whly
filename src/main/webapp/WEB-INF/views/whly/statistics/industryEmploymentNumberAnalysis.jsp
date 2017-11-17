@@ -63,6 +63,8 @@
 					}
 					
 					console.log(data);
+					console.log(xAxisData);
+					debugger;
 					var option = {
 						    title : {
 						        text: titleText,
@@ -93,6 +95,10 @@
 						    xAxis : [
 						        {
 						            type : 'category',
+						            axisLabel:{
+						            	interval:'0',
+						            	rotate:-45
+						            	},
 						            data : xAxisData
 						        }
 						    ],
@@ -293,6 +299,7 @@
 					</div>
 					<!-- END EXAMPLE TABLE PORTLET-->
 				</div>
+				<br/><br/><br/>
 				<div class="row">
 					<div class="col-md-12 chart" id="PieDiv" style="height:470px;width:100%;">
 				</div>

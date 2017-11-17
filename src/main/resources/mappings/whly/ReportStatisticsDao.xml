@@ -360,10 +360,11 @@
 			<if test="month!=null and month!=''">and month=#{month}</if>
 			<if test="typeName!=null and typeName!=''">and type_name=#{typeName}</if>
 			<if test="companyName != null and companyName != ''">and company_Name like CONCAT(CONCAT('%', #{companyName}), '%')</if>
+			AND company_id in(select id from sys_office where parent_id=#{parentId})
 		</where>
 			group by area_name
 		) v1 right join 
-		(select area_name from statis_view group by area_name)v2
+		(select area_name from statis_view  group by area_name  )v2
 	on v1.area_name = v2.area_name
 	
 	</select>
@@ -377,10 +378,11 @@
 			<if test="month!=null and month!=''">and month=#{month}</if>
 			<if test="areaName!=null and areaName!=''">and area_name=#{areaName}</if>
 			<if test="companyName != null and companyName != ''">and company_Name like CONCAT(CONCAT('%', #{companyName}), '%')</if>
+			AND company_id in(select id from sys_office where parent_id=#{parentId})
 		</where> 
 			group by type_name
 		) v1 right join 
-		(select type_name from statis_view group by type_name)v2
+		(select distinct label type_name from sys_dict where type=#{dictType})v2
 	on v1.type_name = v2.type_name
 	
 	</select>
