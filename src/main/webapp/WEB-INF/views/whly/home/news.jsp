@@ -188,7 +188,7 @@
 			    }
 				
 				//查看首页动态详细内容
-				function alert(id) {
+				function mAlert(id) {
 					var data = {
 							id : id
 					}
@@ -225,7 +225,7 @@
 			             '              <div class="cont">' +
 			             '                  <div class="cont-col2">' +
 			             '                      <div class="desc" style="margin-left:16px;">' +
-			             '                      	<a href="#" onclick="alert([id])" title="[title1]">  [title]</a>' +
+			             '                      	<a href="#" onclick="mAlert([id])" title="[title1]">  [title]</a>' +
 			             ' 							[weight]' +
 			             '                      </div>' +
 			             '                  </div>' +

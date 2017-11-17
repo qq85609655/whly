@@ -59,9 +59,9 @@
 			}
 			.content .plate {
 				float: left;
-				width:22%;
+				width:19%;
 				/*height:90%;*/
-				margin-left: 3%;
+				margin-left:6.5%;
 				cursor: pointer;
 			}
 			.content .disabled {
@@ -90,7 +90,7 @@
 <body>
 <!DOCTYPE html>
 <html>
-	<body>
+	<body id="demo1">
 		<h1>
 			<a href="##">
 				<img src="/static/${whlyPage}/assets/global/img/choose/logo.png" alt="" />
@@ -111,9 +111,34 @@
 	</body>
 </html>
 
-<%-- <script src="/static/${whlyPage}/assets/global/plugins/jquery.min.js" type="text/javascript"></script> --%>
+<script src="/static/${whlyPage}/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
 <script>
+/**
+ * 已知图片的宽度和高度的等比例缩放
+ */
 
+ function knowImgSize(id) {
+    var idWidth = $(id).width(),  // 容器的宽度和高度
+        idHeight = $(id).height();
+
+    $(id + ' img').each(function(index,img){
+        var img_w = $(this).width(),
+            img_h = $(this).height();
+
+        // 如果图片自身宽度大于容器的宽度的话 那么高度等比例缩放
+        if(img_w > idWidth) {
+            
+            var height = img_h * idWidth / img_w;
+            $(this).css({"width":idWidth, "height":height});
+        }
+    });
+
+ }
+
+ // 初始化
+ $(function(){
+    knowImgSize("#demo1");
+ });
     function loginPage(type){
 		window.location.href="${whlyPath}/home";
 	}

@@ -174,7 +174,7 @@
 							}
 						}
 					}).fail(function(xhr, status, error) {
-						bootbox.alert({ 
+						bootbox.mAlert({ 
 							  size: "small",
 							  title: "错误提示",
 							  message: "无法获取到数据", 
@@ -207,7 +207,7 @@
 			    }
 				
 				//查看首页动态详细内容
-				function alert(id) {
+				function mAlert(id) {
 					var data = {
 							id : id
 					}
@@ -233,7 +233,7 @@
 							  }
 							});
 					}).fail(function(xhr, status, error) {
-						bootbox.alert({ 
+						bootbox.mAlert({ 
 							  size: "small",
 							  title: "错误提示",
 							  message: "无法获取到数据", 
@@ -256,7 +256,7 @@
 			             '              <div class="cont">' +
 			             '                  <div class="cont-col2">' +
 			             '                      <div class="desc" style="margin-left:16px;">' +
-			             '                      	<a href="#" onclick="alert([id])" title="[title1]" data-toggle="tooltip" data-placement="right">  [title]</a>' +
+			             '                      	<a href="#" onclick="mAlert([id])" title="[title1]" data-toggle="tooltip" data-placement="right">  [title]</a>' +
 			             ' 							[weight]' +
 			             '                      </div>' +
 			             '                  </div>' +
