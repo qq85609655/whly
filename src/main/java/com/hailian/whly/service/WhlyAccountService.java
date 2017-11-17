@@ -75,13 +75,27 @@ public class WhlyAccountService extends CrudService<WhlyAccountDao, WhlyAccount>
 				list.add(f1);
 				a = false; 
 			}
-			if(r.getYear().equals(String.valueOf(year-1)) && r.getMonth().equals(String.valueOf(month-1)) && b) { //返回该企业去年上月的上报信息
+			if(r.getYear().equals(String.valueOf(year)) && r.getMonth().equals(String.valueOf(month-1)) && b) { //返回该企业本年上月的上报信息
 				FrontReportHistory f1 = new FrontReportHistory();
-				f1.setId("上年上月");
+				f1.setId("本年上月");
 				f1.setFrontCompanyReport(r);
 				list.add(f1);
 				b = false;
 			}
+		}
+		if(a) {
+			FrontReportHistory f1 = new FrontReportHistory();
+			FrontCompanyReport f = new FrontCompanyReport();
+			f1.setId("上年本月");
+			f1.setFrontCompanyReport(f);
+			list.add(f1);
+		}
+		if(b) {
+			FrontReportHistory f1 = new FrontReportHistory();
+			FrontCompanyReport f = new FrontCompanyReport();
+			f1.setId("本年上月");
+			f1.setFrontCompanyReport(f);
+			list.add(f1);
 		}
 		return list;
 	}
