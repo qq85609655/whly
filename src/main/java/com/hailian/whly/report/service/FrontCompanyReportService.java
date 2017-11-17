@@ -266,25 +266,30 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				
 				//查询该企业的上报信息保存到日志里面
 				FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
-				
-				//添加邮件信息
-				FrontNotification frontNotification = new FrontNotification();
-				frontNotification.setId(frontCompanyReport2.getNotificationId());
-				if(status!=null && status.equals("驳回")) {
-					frontNotification.setTitle(user.getCompany().getName() + "，您的上报信息被驳回，请查看！");
-					frontNotification.setDescription(status);
-					frontNotification.setKeywords("2");
-				} else if(status!=null && status.equals("通过")) {
-					frontNotification.setTitle(user.getCompany().getName() + "，您的上报信息以通过，请查看！");
-					frontNotification.setDescription(status);
-					frontNotification.setKeywords("2");
-				} else {
-					frontNotification.setTitle(user.getCompany().getName() + "，已修改上报信息，请审核！");
-					frontNotification.setDescription("修改");
-					frontNotification.setKeywords("1");
+				Calendar c = Calendar.getInstance();	//获取时间
+				int year = c.get(Calendar.YEAR);
+				int reportYear = Integer.parseInt(frontCompanyReport2.getYear());
+				int reportMonth = Integer.parseInt(frontCompanyReport2.getMonth());
+				if(year>reportYear || (year==reportYear && reportMonth>=11)) { //过虑2017
+					//添加邮件信息
+					FrontNotification frontNotification = new FrontNotification();
+					frontNotification.setId(frontCompanyReport2.getNotificationId());
+					if(status!=null && status.equals("驳回")) {
+						frontNotification.setTitle(user.getCompany().getName() + "，您的上报信息被驳回，请查看！");
+						frontNotification.setDescription(status);
+						frontNotification.setKeywords("2");
+					} else if(status!=null && status.equals("通过")) {
+						frontNotification.setTitle(user.getCompany().getName() + "，您的上报信息以通过，请查看！");
+						frontNotification.setDescription(status);
+						frontNotification.setKeywords("2");
+					} else {
+						frontNotification.setTitle(user.getCompany().getName() + "，已修改上报信息，请审核！");
+						frontNotification.setDescription("修改");
+						frontNotification.setKeywords("1");
+					}
+					frontNotification.setCreateName(user.getName());
+					frontNotificationService.save(frontNotification);
 				}
-				frontNotification.setCreateName(user.getName());
-				frontNotificationService.save(frontNotification);
 				
 				//添加日志
 				FrontReportHistory history = new FrontReportHistory();

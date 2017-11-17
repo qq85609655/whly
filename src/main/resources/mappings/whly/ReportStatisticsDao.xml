@@ -260,6 +260,7 @@
 			WHERE
 				`year` = #{year}
 				AND `month`   &lt;= #{month}
+				AND company_id in(select id from sys_office where parent_id=#{parentId})
 			GROUP BY
 				<choose>  
 		             <when test="statisticsType == 'MONTH'">MONTH</when>  
@@ -333,6 +334,7 @@
 				WHERE
 					`year` = #{year}
 					AND `month`   &lt;= #{month}
+					AND company_id in(select id from sys_office where parent_id=#{parentId})
 				GROUP BY
 					<choose>  
 			             <when test="statisticsType == 'MONTH'">MONTH</when>  
