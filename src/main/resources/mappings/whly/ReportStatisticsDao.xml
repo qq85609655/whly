@@ -249,24 +249,35 @@
 		             <when test="statisticsType == 'typeName' and queryType == 2">AND n.`typeName` = p.`typeName`</when>  
 	          	</choose>
 	    RIGHT JOIN (
-			SELECT
-				<choose>  
-		             <when test="statisticsType == 'MONTH'">MONTH AS "month", YEAR AS "year"</when>  
-		             <when test="statisticsType == 'areaName'">area_name AS "areaName"</when>
-		             <when test="statisticsType == 'typeName'">type_name AS "typeName"</when>  
-	          	</choose>
-			FROM
-				statis_view
-			WHERE
-				`year` = #{year}
-				AND `month`   &lt;= #{month}
-				AND company_id in(select id from sys_office where parent_id=#{parentId})
-			GROUP BY
-				<choose>  
-		             <when test="statisticsType == 'MONTH'">MONTH</when>  
-		             <when test="statisticsType == 'areaName'">area_name</when> 
-		             <when test="statisticsType == 'typeName'">type_name</when> 
-	          	</choose>
+			<choose>
+	          		<when test="statisticsType == 'MONTH'">
+						SELECT
+							MONTH AS month
+						FROM
+							statis_view
+						WHERE
+							`year` = #{year}
+							AND `month`   &lt;= #{month}
+							AND company_id in(select id from sys_office where parent_id=#{parentId})
+						GROUP BY MONTH
+					</when>  
+		            <when test="statisticsType == 'areaName'">
+						SELECT
+							name AS areaName
+						FROM
+							sys_area
+						WHERE
+							type != 1 AND type !=2
+					</when> 
+		            <when test="statisticsType == 'typeName'">
+						SELECT
+							label AS typeName
+						FROM 
+							sys_dict 
+						WHERE 
+							type=#{dictType}
+					</when>
+	            </choose>
 		) c ON 
 				<choose>  
 		             <when test="statisticsType == 'MONTH'">c.`month` = n.`month`</when>  
@@ -323,24 +334,35 @@
 		             <when test="statisticsType == 'typeName'">type_name</when> 
           		</choose>
           	) n RIGHT JOIN (
-				SELECT
-					<choose>  
-			             <when test="statisticsType == 'MONTH'">MONTH AS name</when>  
-			             <when test="statisticsType == 'areaName'">area_name AS name</when>
-			             <when test="statisticsType == 'typeName'">type_name AS name</when>  
-		          	</choose>
-				FROM
-					statis_view
-				WHERE
-					`year` = #{year}
-					AND `month`   &lt;= #{month}
-					AND company_id in(select id from sys_office where parent_id=#{parentId})
-				GROUP BY
-					<choose>  
-			             <when test="statisticsType == 'MONTH'">MONTH</when>  
-			             <when test="statisticsType == 'areaName'">area_name</when> 
-			             <when test="statisticsType == 'typeName'">type_name</when> 
-		          	</choose>
+          		<choose>
+	          		<when test="statisticsType == 'MONTH'">
+						SELECT
+							MONTH AS name
+						FROM
+							statis_view
+						WHERE
+							`year` = #{year}
+							AND `month`   &lt;= #{month}
+							AND company_id in(select id from sys_office where parent_id=#{parentId})
+						GROUP BY MONTH
+					</when>  
+		            <when test="statisticsType == 'areaName'">
+						SELECT
+							name
+						FROM
+							sys_area
+						WHERE
+							type != 1 AND type !=2
+					</when> 
+		            <when test="statisticsType == 'typeName'">
+						SELECT
+							label AS name
+						FROM 
+							sys_dict 
+						WHERE 
+							type=#{dictType}
+					</when>
+	            </choose>
 			) c ON 
 					<choose>  
 			             <when test="statisticsType == 'MONTH'">c.`name` = n.`month`</when>  

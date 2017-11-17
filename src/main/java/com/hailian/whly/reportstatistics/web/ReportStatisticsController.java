@@ -125,6 +125,8 @@ public class ReportStatisticsController extends BaseController {
 			reportStatistics.setYear(sdf.format(new Date()));
 		}
 		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
+		reportStatistics.setDictType(UserUtils.getUser().getCompany().getIndustyType().getType());
+		System.out.println(UserUtils.getUser().getCompany().getIndustyType().getType());
 		List<IndexModel> data = reportStatisticsService.getProportionQytb(reportStatistics);
 		json.success(data);
 		return json;
@@ -151,6 +153,7 @@ public class ReportStatisticsController extends BaseController {
 			reportStatistics.setYear(sdf.format(new Date()));
 		}
 		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
+		reportStatistics.setDictType(UserUtils.getUser().getCompany().getIndustyType().getType());
 		List<IndexModel> data = reportStatisticsService.getStaiticQytb(reportStatistics);
 		json.success(data);
 		return json;

@@ -104,7 +104,7 @@
 	        		    	top: '21%',
 	        		        left: '3%',
 	        		        right: '4%',
-	        		        bottom: '3%',
+	        		        bottom: '13%',
 	        		        containLabel: true
 	        		    },
 	        		    toolbox: {
@@ -121,6 +121,10 @@
 	        		        type: 'category',
 	        		        data: xAxisData,
 	        		        axisTick: {show: false},
+	        		        axisLabel: {
+				            	interval: '0',
+				            	rotate: -20,
+				           	},
 	        		        axisLine: {
        	                        show: true,
        	                        lineStyle: {type: 'solid'}
@@ -311,7 +315,7 @@
 				</div>
 				<!-- 主体部分START-->
 				<div class="row" id="pieDiv">
-					<div class=" chart" id="lineDiv" style="height:470px;width:100%;">
+					<div class=" chart" id="lineDiv" style="height:500px;width:100%;">
 					
 					</div>
 					

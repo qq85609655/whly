@@ -103,7 +103,7 @@
 	        		    	top: '21%',
 	        		        left: '3%',
 	        		        right: '4%',
-	        		        bottom: '3%',
+	        		        bottom: '13%',
 	        		        containLabel: true
 	        		    },
 	        		    toolbox: {
@@ -127,6 +127,10 @@
        	                        onZero: false,
        	                        lineStyle: {type: 'solid'}
        	                    },
+       	                 	axisLabel: {
+				            	interval: '0',
+				            	rotate: -20,
+				           	},
 	        		    },
 	        		    yAxis: [{
 		        	        name : '单位(%)',
