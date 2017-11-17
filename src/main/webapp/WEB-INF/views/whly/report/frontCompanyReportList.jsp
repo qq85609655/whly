@@ -275,9 +275,9 @@
 								<button class="btn demo-loading-btn green col-md-3" id="query" onclick="loadingCancel('query')"  type="submit" 
 									style="margin-left: 15px;">检索</button>
 									<div class="col-md-1"></div>
-									<button class="btn green demo-loading-btn col-md-3" type="button" id="export">导出</button>
+									<button class="btn green demo-loading-btn col-md-3" type="button" id="export" onclick="loadingCancel('export')">导出</button>
 								<div class="col-md-1"></div>
-								<button class="btn green demo-loading-btn col-md-3" id="reset" type="button" >重置</button>
+								<button class="btn green demo-loading-btn col-md-3" id="reset" type="button" onclick="loadingCancel('reset')">重置</button>
 							</div>
 						</div>
 					</form:form>
