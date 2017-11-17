@@ -94,6 +94,10 @@
 				// 根据当前登录用户企业所属类型 来页面展示的内容
 				contentShow();
 				
+				//如果有信息，则弹出
+				if($('#message').val()){
+					alert($('#message').val());
+				}
 			});
 			
 			//清空时间
@@ -195,6 +199,7 @@
 						<input type="hidden" value="${companyParentType}" id="companyParentType">
 						<input type="hidden" value="${month}" id="month">
 						<input type="hidden" value="1" name="month">
+						<input type="hidden" value="${message}" id="message">
 						<div class="row form-body">
 							<div class="form-group col-md-4">
 								<label class="control-label col-md-4" style="padding: 6px 12px;">时间：</label>

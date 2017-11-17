@@ -73,12 +73,7 @@
 						var newsWeight = null;
 						var noticeWeight = null;
 						if(!data) {
-							bootbox.alert({ 
-								  size: "small",
-								  title: "提示信息",
-								  message: "没有查询到企业新闻", 
-								  callback: function(){ /* your callback code */ }
-								})
+							alert('没有查询到企业新闻');
 							return;
 						}
 		                for (var i = 0; i < data.length; i++) {
@@ -130,12 +125,7 @@
 						var newsWeight = null;
 						var noticeWeight = null;
 						if(!data) {
-							bootbox.alert({ 
-								  size: "small",
-								  title: "提示信息",
-								  message: "没有查询到系统公告", 
-								  callback: function(){ /* your callback code */ }
-								})
+							alert('没有查询到系统公告');
 							return;
 						}
 		                for (var i = 0; i < data.length; i++) {
@@ -174,7 +164,6 @@
 					}).fail(function(xhr, status, error) {
 						
 					});
-					
 				}
 				
 				//获取新闻发布时间相对于当前时间的时间差

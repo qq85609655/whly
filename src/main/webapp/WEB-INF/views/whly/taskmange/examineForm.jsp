@@ -26,6 +26,11 @@
 		//返回上一页点击事件
 		$("#return").click(returnBack);
 		loadingContent();
+		
+		//如果有信息，则弹出
+		if($('#message').val()){
+			alert($('#message').val());
+		}
 	});
 
 	function returnBack() {
@@ -465,6 +470,7 @@
 											id="companyName">
 										<input type="hidden" value="${redirectAttributes}"
 											id="redirectAttributes">
+										<input type="hidden" value="${message}" id="message">
 										<div class="form-group col-md-11">
 											<br>
 											<!-- <button type="button" class="btn green pull-right"

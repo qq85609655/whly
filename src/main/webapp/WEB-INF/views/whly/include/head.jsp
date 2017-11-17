@@ -44,6 +44,7 @@
     <!-- 先引用 Jquery 让content页面可以使用 顺序不用改-->
 	<script src="/static/${whlyPage}/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
        <!-- BEGIN CORE PLUGINS -->
+    <script src="/static/${whlyPage}/assets/customizeTools.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/bootstrap/js/bootstrap.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
