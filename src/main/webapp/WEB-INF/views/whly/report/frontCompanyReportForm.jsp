@@ -25,9 +25,7 @@
 </style>
 <script type="text/javascript">
 	$(function() {
-		if("${message}"!=""){
-			alert("${message}");
-		}
+		
 		//返回上一页点击事件
 		$("#return").click(returnBack);
 		//判断能不能输入文本
@@ -40,6 +38,10 @@
 		// 根据当前登录用户企业所属类型 来页面展示的内容
 		contentShow();
 	
+		//如果有信息，则弹出
+		if($('#message').val()){
+			alert($('#message').val());
+		}
 	});
 	
 	// 根据当前登录用户企业所属类型 来页面展示的内容
@@ -62,10 +64,6 @@
     }
 
 	function judgeInput() {
-		var redirectAttributes = $('#redirectAttributes').attr('value');
-		if(redirectAttributes) {
-			alert(redirectAttributes);
-		}
 		var id = $("#reportId").val();
 		var data = {
 				id: id
@@ -158,6 +156,14 @@
 						'<textarea class="form-control" rows="3" required name="question['+ divs.length +'].content"></textarea>'+
 					'</div>'
 		$("#remarks").append(remarks);
+	}
+	
+	//取消button-loading状态
+	function loadingCancel(id) {
+		 $('#'+ id).button('loading').delay(2000).queue(function() {
+         	$('#'+ id).button('reset');
+         	$('#'+ id).dequeue(); 
+        });
 	}
 	
 	function deleteRemarks() {
@@ -299,13 +305,13 @@ $.ready(function() {
 											<br> 
 											<button type="button" class="btn blue pull-right"
 												id="return">返回</button>
-											<button type="submit"  class="btn blue demo-loading-btn pull-right" style="margin-right: 0.3em;display:none" id="submit">提交</button>
+											<button type="submit"  class="btn blue demo-loading-btn pull-right" style="margin-right: 0.3em;display:none" id="submit" onclick="loadingCancel('submit')">提交</button>
 										</div>
 										<input type="hidden" value="${frontCompanyReport.id}" id="reportId">
 										<input type="hidden" value="${companyName}" id="companyName">
 										<input type="hidden" value="${frontCompanyReport.id}" name="id">
-										<input type="hidden" value="${redirectAttributes}" id="redirectAttributes">
 										<input type="hidden" value="${companyParentType}" id="companyParentType">
+										<input type="hidden" value="${message}" id="message">
 									</div>
 									<div style="height:380px;display:none;" class="type_emphasis" ></div> 
 									<div style="height:250px;display:none;" class="type_quota" ></div>

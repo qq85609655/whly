@@ -173,6 +173,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			//添加日志
 			FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
 			FrontReportHistory history = new FrontReportHistory();
+			frontCompanyReport2.setQuestion(frontCompanyReport.getQuestion());
 			String desciption = JsonMapper.toJsonString(frontCompanyReport2);
 			history.setId(UUID.randomUUID().toString());
 			history.setDescription(desciption);
@@ -193,13 +194,20 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	}
 	
 	@Transactional(readOnly = false)
-	public void update(FrontCompanyReport frontCompanyReport) {
+	public String update(FrontCompanyReport frontCompanyReport) {
 		try {
  			if(frontCompanyReport.getId()!=null && frontCompanyReport.getId().trim()!=null && UserUtils.getUser()!=null) {
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date time = sdf.parse(sdf.format(new Date()));
 				User user = UserUtils.getUser();   //获取登录用户信息
 				String status = null;
+				
+				//查询该企业的上报信息保存到日志里面
+				FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
+				if(frontCompanyReport2.getStatus().equals("PASSED")) {
+					return "已经审核通过，修改失败！";
+				}
+				
 				//修改上报信息
 				if(frontCompanyReport.getStatus()!=null && frontCompanyReport.getStatus().trim()!="" ) {
 					status = frontCompanyReport.getStatus();
@@ -264,13 +272,11 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 					}
 				}
 				
-				//查询该企业的上报信息保存到日志里面
-				FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
 				Calendar c = Calendar.getInstance();	//获取时间
 				int year = c.get(Calendar.YEAR);
 				int reportYear = Integer.parseInt(frontCompanyReport2.getYear());
 				int reportMonth = Integer.parseInt(frontCompanyReport2.getMonth());
-				if(year>reportYear || (year==reportYear && reportMonth>=11)) { //过虑2017
+				if(year>reportYear || (year==reportYear && reportMonth>=11)) { //过虑2017年11月以前
 					//添加邮件信息
 					FrontNotification frontNotification = new FrontNotification();
 					frontNotification.setId(frontCompanyReport2.getNotificationId());
@@ -317,10 +323,12 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				history.setCreateBy(user);
 				history.setDelFlag("0");
 				dao.addHistroy(history);
+				
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		return "操作成功。";
 	};
 	
 	

@@ -81,6 +81,10 @@
 				// 根据当前登录用户企业所属类型 来页面展示的内容
 				contentShow();
 				
+				//如果有信息，则弹出
+				if($('#message').val()){
+					alert($('#message').val());
+				}
 			});
 			
 			// 根据当前登录用户企业所属类型 来页面展示的内容
@@ -160,6 +164,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<input type="hidden" value="${companyParentType}" id="companyParentType">
+						<input type="hidden" value="${message}" id="message">
 						<!-- BEGIN EXAMPLE TABLE PORTLET-->
 						<div class="portlet light bordered">
 							<div class="portlet-title">
