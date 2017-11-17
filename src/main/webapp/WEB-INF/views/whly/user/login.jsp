@@ -32,7 +32,7 @@ div.content {
 	margin-top: 2em;
 	padding: 1em;
 	background-image:
-		url("/static/whly/assets/global/img/login/bg_login.png");
+		url("/static/${whlyPage}/assets/global/img/login/bg_login.png");
 	background-size: 100% 100%;
 	border-radius: 1em;
 	box-shadow: 0.2em 0.2em 1em 0.3em rgba(0, 0, 0, .5);
