@@ -4,110 +4,169 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="utf-8" />
-        <title>${fnc:getSite(1).title}</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <meta content="" name="description" />
-        <meta content="" name="author" />
-     <link href="/static/${whlyPage}/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>${fnc:getSite(1).title}</title>
     <style>
-* {
-	font-family: 微软雅黑, sans-serif;
-}
+        * {
+            font-family: 微软雅黑, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        input,textarea,select{*font-size:100%;}
+        html, body {
+            height: 100%;
+            color: #fff;
+            /*background: linear-gradient(to bottom, #0168B3, #6EBBFF) !important;*/
+            /*padding-top: 3em;*/
+        }
+        body{
+            font-size: 110%;
+            padding-top: 6em;
+            background: url("/static/${whlyPage}/assets/global/img/login/bg.png") no-repeat;
+            background-size: 100% 100%;
+        }
+        div.content {
+            transform-origin: 50% 0;
+            width: 24em;
+            /*height: 14em;*/
+            margin: 0 auto;
+            padding: 1.5em 0 1em;
+            background-image: url("/static/${whlyPage}/assets/global/img/login/bg_login.png");
+            background-size: 100% 100%;
+            border-radius: .6em;
+            /*box-shadow: 0.2em 0.2em 1em 0.3em rgba(0, 0, 0, .5);*/
+        }
 
-.display-hide, .display-none {
-	display: none;
-}
+        h2 {
+            margin-bottom: 1.8em;
+            text-align: center;
+            /*font-weight: normal;*/
+            font-size: 1.4em;
+            letter-spacing: .04em;
+            font-family: 华文宋体 宋体, serif;
+            color: rgba(255, 255, 255, .88);
+            text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, .3)
+        }
 
-html, body {
-	height: 100%;
-	color: #fff;
-	/* background: linear-gradient(to bottom, rgba(13, 141, 171, 0.94), #50a7df)
-		!important; */
-     background: linear-gradient(to bottom, rgba(6, 143, 202, 0.94), #95d0f7) !important;
-}
+        .formGroup {
+            margin-left: 4.6em;
+            margin-bottom: .6em;
+        }
+        .formGroup.submitBtn{
+            margin-bottom: 0;
+        }
+        div#messageBox {
+            position: absolute;
+            top: -2.2em;
+            width: 94%;
+            left: 3%;
+            padding: .3em 1em;
+            margin-bottom: 1em;
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+		.display-hide {
+			display:none;
+		}
+        .validateCode a {
+            color: #fff;
+        }
 
-div.content {
-	margin-top: 2em;
-	padding: 1em;
-	background-image:
-		url("/static/${whlyPage}/assets/global/img/login/bg_login.png");
-	background-size: 100% 100%;
-	border-radius: 1em;
-	box-shadow: 0.2em 0.2em 1em 0.3em rgba(0, 0, 0, .5);
-}
+        label,a {
+            font-size: .76em;
+            letter-spacing: .2em;
+        }
 
-h2 {
-	margin-bottom: 1.2em;
-	font-size: 1.6em;
-	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, .6)
-}
+        .username>input,
+        .password>input {
+            width: 9.8em;
+        }
 
-div#messageBox {
-	padding: .4em 1em;
-	margin-bottom: 2em;
-}
+        input[type="checkbox"] {
+            width: 1em;
+            height: 1em;
+            position: relative;
+            top: .2em;
+        }
 
-.validateCode a {
-	color: #fff;
-}
+        #submitBtn {
+            /*background: linear-gradient(to bottom, #3dc2ff 0%, #159ee9 50%, #1b44c1 90%, #1485c6 100%);*/
+            margin-left: 6em;
+            margin-top: 1em;
+            width: 5em;
+            height: 2.5em;
+            background: url(/static/${whlyPage}/assets/global/img/login/loginBtn.png);
+            background-size: 100% 100%;
+            border: none;
+            color: white;
 
-.form-group {
-	margin-bottom: .8em;
-}
-label.col-sm-3{
-	position: relative;
-    left: 1em;
-}
-input[type="text"],
-input[type="password"] {
-	height: 1.6em;
-	border-radius: 0;
-}
+        }
 
-input[type="checkbox"] {
-	margin-left: -2em;
-	padding-top: .1em;
-	width: 1.2em;
-	height: 1em;
-	/*padding-right: 5em;*/
-}
+        @media ( min-width: 1600px) {
+            .container {
+                /*width: 1480px;*/
+            }
 
-#submitBtn {
-	background: linear-gradient(to bottom, #3dc2ff 0%, #159ee9 50%, #1b44c1 90%, #1485c6
-		100%);
-}
-
-@media ( min-width : 1600px) {
-	.container {
-		/*width: 1480px;*/
-	}
-	body {
-		/*font-size: 2.4em;*/
-	}
-	label.rememberme{
-		padding-left: 1.9em;
-	}
-}
-label{
-    font-weight: 400;
-}
-label.col-sm-3.control-label{
-	left:1.45em;
-	font-size:1em;
-	padding-top: .2em;
-}
-label.rememberme{
-	font-size:0.9em;
-    padding-left: 1.8em;
-}
-</style>
+            body {
+                /*font-size: 2.4em;*/
+            }
+        }
+    </style>
 </head>
+<body class="login">
+
+<!-- BEGIN LOGIN -->
+<div class="content">
+    <h2 class="text-center">${fnc:getSite(1).title}</h2>
+    <form id="loginForm" class="form-horizontal form-signin" action="${whlyPath }/login" method="post"
+          novalidate="novalidate">
+        <div id="messageBox" class="${empty message ? 'display-hide' : ''}">
+            <!--                     <button class="close" data-close="alert" class="close">×</button>
+             --> <span id="loginError">用户或密码错误, 请重试！</span>
+        </div>
+        <div class="formGroup username">
+            <label for="username" class="visible-ie8 visible-ie9">用户名:</label>
+            <input class="placeholder-no-fix" type="text"
+                   autocomplete="off" id="username" name="username" value="${username}">
+        </div>
+        <div class="formGroup password">
+            <label for="password" class="visible-ie8 visible-ie9">密&emsp;码:</label>
+            <input class="placeholder-no-fix" type="password"
+                   autocomplete="off" id="password" name="password">
+        </div>
+         <c:if test="${isValidateCodeLogin}">
+        <div class="formGroup ">
+            <label class="col-sm-3 control-label mid " for="validateCode">验证码:</label>
+            <sys:validateCode name="validateCode" imageCssStyle="font-weight:bold;width:45px;margin-bottom:0;" inputCssStyle="font-weight:bold;width:45px;margin-bottom:0;"/>
+           <!--  <input type="text" id="validateCode" name="validateCode" maxlength="5" class="txt required"
+                   style="font-weight:bold;width:45px;margin-bottom:0;" aria-required="true">
+            <img src="" onclick="$('.validateCodeRefresh').click();"
+                 class="mid validateCode" style="">
+            <a href="javascript:"
+               onclick="$('.validateCode').attr('src','/servlet/validateCodeServlet?'+new Date().getTime());"
+               class="mid validateCodeRefresh" style="">看不清</a> -->
+        </div>
+        </c:if>
+        <div class="formGroup">
+            <div class="checkbox">
+                <label class="rememberme check">
+                    <input type="checkbox" id="rememberMe" name="rememberMe" title="下次不需要再登录" value="1">&nbsp;记住密码
+                </label>
+            </div>
+        </div>
+        <div class="formGroup submitBtn">
+            <button type="submit" id="submitBtn" class="btn btn-primary green uppercase">登 录</button>
+        </div>
+    </form>
+</div>
+
 <script src="/static/${whlyPage}/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
- <script src="/static/${whlyPage}/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="/static/${whlyPage}/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
-        <script src="/static/${whlyPage}/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
+<!--<script src="/static/whly/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>-->
+<script src="/static/whly/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="/static/whly/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
 <script>
 	$(document).ready(function() {
     
@@ -133,79 +192,24 @@ label.rememberme{
     }
     
     
-	</script>
-<body class="login">
-
-<!-- BEGIN LOGIN -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3">
-            <div class="content">
-                <h2 class="text-center">${fnc:getSite(1).title}</h2>
-                <form id="loginForm" class="form-horizontal form-signin" action="/front/login" method="post" >
-                      <div  id="messageBox" class="alert alert-danger ${empty message ? 'display-hide' : ''}">
-<!--                     <button class="close" data-close="alert" class="close">×</button>
- -->                    <span id="loginError">${message}</span>
-                </div>
-                    <div class="form-group">
-                        <label for="username" class="col-sm-3 control-label visible-ie8 visible-ie9">用户名:</label>
-                        <div class="col-sm-7">
-                            <input class="form-control form-control-solid placeholder-no-fix" type="text"
-                                   autocomplete="off" id="username" name="username"  value="${username}">
-
-
-                        </div>
-                    </div>
-                    <div class="form-group" style="margin-bottom: .5em;">
-                        <label for="password" class="col-sm-3 control-label visible-ie8 visible-ie9 col-md-3">密 码:</label>
-                        <div class="col-sm-7">
-                            <input class="form-control form-control-solid placeholder-no-fix" type="password"
-                                   autocomplete="off" id="password" name="password">
-
-                        </div>
-                    </div>
-                      <c:if test="${isValidateCodeLogin}"><div class="validateCode">
-                      <div class="form-group">
-			<label class="col-sm-3 control-label input-label mid" for="validateCode">验证码:</label>
-			<div class="col-sm-8">
-			<sys:validateCode name="validateCode" inputCssStyle="margin-bottom:0;color:#000; width:3em"/>
-			</div>
-		</div>
-		</div></c:if>
-                    <div class="form-group" style="margin-bottom: .5em;">
-                        <div class="col-sm-offset-1 col-sm-9">
-                            <div class="checkbox">
-                                <label class="rememberme check">
-                                    <input type="checkbox" id="rememberMe" name="rememberMe" title="下次不需要再登录" value="1">&nbsp;记住密码
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-5 col-sm-7 pull-center">
-                            <button type="submit" id="submitBtn" class="btn btn-primary green uppercase ">登 录</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-
-        </div>
-    </div>
-</div>
-<!--<script src="/static/whly/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>-->
-<!--<script src="/static/whly/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>-->
-<!--<script src="/static/whly/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>-->
-
+</script>
 <script>
     function contentPosition() {
-        var window_h=window.innerHeight
+        var window_h = window.innerHeight
             || document.documentElement.clientHeight
             || document.body.clientHeight;
+        var window_w = window.innerWidth
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
         var $content = $(".content");
-        var content_h = $content.height();
-        $content.css("margin-top",(window_h-content_h)/3);
+        if(window_w>800){
+            $content.css("transform","scale("+window_w/1200+")");
+        }
+        $("body").css({
+            "padding-top": window_h * 0.22
+        })
     }
+
     $(function () {
         contentPosition();
 
