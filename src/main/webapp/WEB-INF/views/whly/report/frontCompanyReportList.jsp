@@ -112,6 +112,8 @@
 					$('.type_emphasis').show();
 				} else if(type == "2") {
 					$('.type_quota').show();
+				} else if(type == "3") {
+					$('.type_support').show();
 				}
 			}
 			
@@ -313,6 +315,10 @@
 											<th class="type_emphasis " style="display:none;">贷款金额 (万元)</th>
 											<th class="type_emphasis " style="display:none;">订单数量 (个)</th>
 											<th class="type_emphasis type_quota" style="display:none;">从业人数(人)</th>
+											<th class="type_support" style="display:none;">项目名称</th>
+											<th class="type_support" style="display:none;">总投资金额 (万元)</th>
+											<th class="type_support" style="display:none;">贷款金额 (万元)</th>
+											<th class="type_support" style="display:none;">起止年限</th>
 											<th>上报时间</th>
 										</tr>
 									</thead>
@@ -342,6 +348,10 @@
 												<td class="type_emphasis " style="display:none;">${frontCompanyReport.loanAmount}</td>
 												<td class="type_emphasis " style="display:none;">${frontCompanyReport.orderQuantity}</td>
 												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReport.empQuantity}</td>
+												<th class="type_support" style="display:none;">${frontCompanyReport.projectName}</th>
+												<th class="type_support" style="display:none;">${frontCompanyReport.totalInvestment}</th>
+												<th class="type_support" style="display:none;">${frontCompanyReport.bankLoanAmount}</th>
+												<th class="type_support" style="display:none;">${frontCompanyReport.yearLimit}</th>
 												<td><fmt:formatDate
 														value="${frontCompanyReport.reportTime}"
 														pattern="yyyy-MM-dd HH:mm:ss" /></td>

@@ -297,7 +297,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 						frontNotification.setKeywords("1");
 					}
 					frontNotification.setCreateName(user.getName());
-					frontNotificationService.save(frontNotification);
+					//frontNotificationService.save(frontNotification);
 				}
 				
 				//添加日志
