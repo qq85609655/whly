@@ -109,7 +109,7 @@ public class ReportStatisticsController extends BaseController {
 	 *
 	 * @time   2017年11月16日 上午10:13:37 
 	 * @author zhouyl
-	 * @Description   占比分析
+	 * @Description   总额分析
 	 * @param  @param reportStatistics
 	 * @param  @param model
 	 * @param  @param request
@@ -117,6 +117,32 @@ public class ReportStatisticsController extends BaseController {
 	 * @param  @return ResultJson
 	 */
 	@RequestMapping(value = "getProportionQytb")
+	@ResponseBody
+	public ResultJson getAmountQytb(ReportStatistics reportStatistics, Model model, HttpServletRequest request, HttpServletResponse response) {
+		ResultJson json = new ResultJson();
+		if(reportStatistics.getYear() == null || reportStatistics.getYear().isEmpty()) {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			reportStatistics.setYear(sdf.format(new Date()));
+		}
+		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
+		reportStatistics.setDictType(UserUtils.getUser().getCompany().getIndustyType().getType());
+		List<IndexModel> data = reportStatisticsService.getAmountQytb(reportStatistics);
+		json.success(data);
+		return json;
+	}
+	
+	/**
+	 *
+	 * @time   2017年11月16日 上午10:13:37 
+	 * @author zhouyl
+	 * @Description   占比分析
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @param request
+	 * @param  @param response
+	 * @param  @return ResultJson
+	 */
+	//@RequestMapping(value = "getProportionQytb")
 	@ResponseBody
 	public ResultJson getProportionQytb(ReportStatistics reportStatistics, Model model, HttpServletRequest request, HttpServletResponse response) {
 		ResultJson json = new ResultJson();
@@ -127,8 +153,8 @@ public class ReportStatisticsController extends BaseController {
 		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
 		reportStatistics.setDictType(UserUtils.getUser().getCompany().getIndustyType().getType());
 		System.out.println(UserUtils.getUser().getCompany().getIndustyType().getType());
-		List<IndexModel> data = reportStatisticsService.getProportionQytb(reportStatistics);
-		json.success(data);
+		/*List<IndexModel> data = reportStatisticsService.getProportionQytb(reportStatistics);
+		json.success(data);*/
 		return json;
 	}
 	
@@ -462,6 +488,28 @@ public class ReportStatisticsController extends BaseController {
 		}
 		model.addAttribute("reportStatistics", reportStatistics);
 		return Global.getWhlyPage() +"/statistics/industryProportion";
+	}
+	
+	/**
+	 *
+	 * @time   2017年11月16日 上午10:18:20 
+	 * @author zhouyl
+	 * @Description   打开行业占比分析页面
+	 * @param  @param reportStatistics
+	 * @param  @param model
+	 * @param  @return String
+	 */
+	@RequestMapping(value = "companyAmountPage")
+	public String companyAmountPage(ReportStatistics reportStatistics, Model model) {
+		model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+		if((reportStatistics.getYear()==null || reportStatistics.getYear().trim().isEmpty()) && reportStatistics.getMonth()==null) {
+			Calendar c = Calendar.getInstance();	//获取时间
+			String year1 = String.valueOf(c.get(Calendar.YEAR));
+			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			reportStatistics.setYear(year1 + "年" + month + "月");
+		}
+		model.addAttribute("reportStatistics", reportStatistics);
+		return Global.getWhlyPage() +"/statistics/companyAmount";
 	}
 	
 }

@@ -287,7 +287,7 @@
 		
 	</select>
 	
-	<select id="getProportionQytb" parameterType="com.hailian.whly.reportstatistics.entity.ReportStatistics" resultType="com.hailian.whly.reportstatistics.entity.ReportStatistics">
+	<select id="getAmountQytb" parameterType="com.hailian.whly.reportstatistics.entity.ReportStatistics" resultType="com.hailian.whly.reportstatistics.entity.ReportStatistics">
 			SELECT
 				totalIncome,
 				totalProfit,
@@ -312,27 +312,27 @@
 		            <when test="statisticsType == 'areaName'">area_name AS areaName</when>  
 	             	<when test="statisticsType == 'typeName'">type_name AS typeName</when>
           		</choose>
-			FROM
-				statis_view
-			WHERE
-				`year` = #{year}
-				AND `month`   &lt;= #{month}
-			<if test="typeName != null and typeName != ''">
-				AND type_name = #{typeName}
-			</if>
-			<if test="areaName != null and areaName != ''">
-				AND area_name = #{areaName}
-			</if>
-			<if test="companyName != null and companyName != ''">
-				AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
-			</if>
-				AND company_id in(select id from sys_office where parent_id=#{parentId})
-			GROUP BY 
-				<choose>  
-		             <when test="statisticsType == 'MONTH'">MONTH</when>  
-		             <when test="statisticsType == 'areaName'">area_name</when>
-		             <when test="statisticsType == 'typeName'">type_name</when> 
-          		</choose>
+				FROM
+					statis_view
+				WHERE
+					`year` = #{year}
+					AND `month`   &lt;= #{month}
+				<if test="typeName != null and typeName != ''">
+					AND type_name = #{typeName}
+				</if>
+				<if test="areaName != null and areaName != ''">
+					AND area_name = #{areaName}
+				</if>
+				<if test="companyName != null and companyName != ''">
+					AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
+				</if>
+					AND company_id in(select id from sys_office where parent_id=#{parentId})
+				GROUP BY 
+					<choose>  
+			             <when test="statisticsType == 'MONTH'">MONTH</when>  
+			             <when test="statisticsType == 'areaName'">area_name</when>
+			             <when test="statisticsType == 'typeName'">type_name</when> 
+	          		</choose>
           	) n RIGHT JOIN (
           		<choose>
 	          		<when test="statisticsType == 'MONTH'">
@@ -352,7 +352,7 @@
 						FROM
 							sys_area
 						WHERE
-							type != 1 AND type !=2
+							type != 1 AND type != 2
 					</when> 
 		            <when test="statisticsType == 'typeName'">
 						SELECT
@@ -369,7 +369,91 @@
 			             <when test="statisticsType == 'areaName'">c.`name` = n.`areaName`</when> 
 			             <when test="statisticsType == 'typeName'">c.`name` = n.`typeName`</when> 
 		          	</choose>
-      </select>
+    </select>
+    
+    <select id="getProportionQytb" parameterType="com.hailian.whly.reportstatistics.entity.ReportStatistics" resultType="com.hailian.whly.reportstatistics.entity.ReportStatistics">
+			SELECT
+				totalIncome,
+				totalProfit,
+				totalTax,
+				empQuantity,
+				employeeCompensation,
+				loanAmount,
+				orderQuantity,
+				operatingCosts,
+				c.*
+			FROM (SELECT
+				SUM(total_income) AS totalIncome,
+				SUM(total_profit) AS totalProfit,
+				SUM(total_tax) AS totalTax,
+				SUM(emp_quantity) AS empQuantity,
+				SUM(employee_compensation) AS employeeCompensation,
+				SUM(loan_amount) AS loanAmount,
+				SUM(order_quantity) AS orderQuantity,
+				SUM(operating_costs) AS operatingCosts,
+				<choose>  
+		            <when test="statisticsType == 'MONTH'">MONTH AS month</when>
+		            <when test="statisticsType == 'areaName'">area_name AS areaName</when>  
+	             	<when test="statisticsType == 'typeName'">type_name AS typeName</when>
+          		</choose>
+				FROM
+					statis_view
+				WHERE
+					`year` = #{year}
+					AND `month`   &lt;= #{month}
+				<if test="typeName != null and typeName != ''">
+					AND type_name = #{typeName}
+				</if>
+				<if test="areaName != null and areaName != ''">
+					AND area_name = #{areaName}
+				</if>
+				<if test="companyName != null and companyName != ''">
+					AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
+				</if>
+					AND company_id in(select id from sys_office where parent_id=#{parentId})
+				GROUP BY 
+					<choose>  
+			             <when test="statisticsType == 'MONTH'">MONTH</when>  
+			             <when test="statisticsType == 'areaName'">area_name</when>
+			             <when test="statisticsType == 'typeName'">type_name</when> 
+	          		</choose>
+          	) n RIGHT JOIN (
+          		<choose>
+	          		<when test="statisticsType == 'MONTH'">
+						SELECT
+							MONTH AS name
+						FROM
+							statis_view
+						WHERE
+							`year` = #{year}
+							AND `month`   &lt;= #{month}
+							AND company_id in(select id from sys_office where parent_id=#{parentId})
+						GROUP BY MONTH
+					</when>  
+		            <when test="statisticsType == 'areaName'">
+						SELECT
+							name
+						FROM
+							sys_area
+						WHERE
+							type != 1 AND type != 2
+					</when> 
+		            <when test="statisticsType == 'typeName'">
+						SELECT
+							label AS name
+						FROM 
+							sys_dict 
+						WHERE 
+							type=#{dictType}
+					</when>
+	            </choose>
+			) c ON 
+					<choose>  
+			             <when test="statisticsType == 'MONTH'">c.`name` = n.`month`</when>  
+			             <when test="statisticsType == 'areaName'">c.`name` = n.`areaName`</when> 
+			             <when test="statisticsType == 'typeName'">c.`name` = n.`typeName`</when> 
+		          	</choose>
+    </select>
 	
 	<!--陈新 地区从业人数分析  -->
 	<select id="getAreaEnploymentNumberAnalysis" parameterType="com.hailian.whly.reportstatistics.entity.ReportStatistics" resultMap="areaEnploymentNumberAnalysis">

@@ -61,7 +61,7 @@ public class FrontNotificationService extends CrudService<FrontNotificationDao, 
 	@Transactional(readOnly = false)
 	public void save(FrontNotification frontNotification) {
 		if (frontNotification.getContent()!=null && !frontNotification.getContent().isEmpty()){
-			frontNotification.setContent(StringEscapeUtils.unescapeHtml4(frontNotification.getContent().trim()));
+			frontNotification.setContent(StringEscapeUtils.unescapeHtml4(frontNotification.getContent()));
 		}
 		User user = UserUtils.getUser();
 		if(frontNotification.getId()==null || frontNotification.getId().isEmpty()) {

@@ -132,16 +132,19 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			frontCompanyReport.setReportTime(time);	//上报时间
 			frontCompanyReport.setUpdateTime(time);	//更改时间
 			frontCompanyReport.setDelFlag("0");
-			if(frontCompanyReport.getTotalTax().trim().equals("")) {
+			if(frontCompanyReport.getProjectName()!=null) {
+				frontCompanyReport.setYearLimit(frontCompanyReport.getProjectStartTime() + '—' + frontCompanyReport.getProjectEndTime());
+			}
+			if(frontCompanyReport.getTotalTax()!=null && frontCompanyReport.getTotalTax().trim().equals("")) {
 				frontCompanyReport.setTotalTax(null);
 			}
-			if(frontCompanyReport.getEmployeeCompensation().trim().equals("")) {
+			if(frontCompanyReport.getEmployeeCompensation()!=null && frontCompanyReport.getEmployeeCompensation().trim().equals("")) {
 				frontCompanyReport.setEmployeeCompensation(null);
 			}
-			if(frontCompanyReport.getLoanAmount().trim().equals("")) {
+			if(frontCompanyReport.getLoanAmount()!=null && frontCompanyReport.getLoanAmount().trim().equals("")) {
 				frontCompanyReport.setLoanAmount(null);
 			}
-			if(frontCompanyReport.getOrderQuantity().trim().equals("")) {
+			if(frontCompanyReport.getOrderQuantity()!=null && frontCompanyReport.getOrderQuantity().trim().equals("")) {
 				frontCompanyReport.setOrderQuantity(null);
 			}
 			dao.insert1(frontCompanyReport);
@@ -168,7 +171,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			frontNotification.setKeywords("1");
 			frontNotification.setDescription("提交");
 			frontNotification.setCreateName(user.getName());
-			frontNotificationService.save(frontNotification);
+			//frontNotificationService.save(frontNotification);
 			
 			//添加日志
 			FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);

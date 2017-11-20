@@ -113,9 +113,9 @@ public class ReportStatisticsService extends CrudService<ReportStatisticsDao, Re
 	 * @param  @param reportStatistics
 	 * @param  @return List<IndexModel>
 	 */
-	public List<IndexModel> getProportionQytb(ReportStatistics reportStatistics){
+	public List<IndexModel> getAmountQytb(ReportStatistics reportStatistics){
 		dealTongBiDate(reportStatistics);
-		List<ReportStatistics> dataList = dao.getProportionQytb(reportStatistics);
+		List<ReportStatistics> dataList = dao.getAmountQytb(reportStatistics);
 		//根据大类 获取对应指标然后 筛选数据
 		List<IndexModel> indexsList = dealDataByIndexs(dataList, reportStatistics);
 		return indexsList;

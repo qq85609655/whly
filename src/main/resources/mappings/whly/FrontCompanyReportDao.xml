@@ -17,6 +17,14 @@
 		a.insert_time AS "insertTime",
 		a.update_time AS "updateTime",
 		a.operator AS "operator",
+		
+		a.project_name AS "projectName",
+		a.project_content AS "projectContent",
+		a.project_desired_effect AS "projectDesiredEffect",
+		a.year_limit AS "yearLimit",
+		a.total_investment AS "totalInvestment",
+		a.bank_loan_amount AS "bankLoanAmount", 
+		
 		a.status AS "status",
 		CASE `status` 
          WHEN 'PASSED' THEN '已审核' 
@@ -172,6 +180,14 @@
 			insert_time,
 			update_time,
 			operator,
+			
+			project_name,
+			project_content,
+			project_desired_effect,
+			year_limit,
+			total_investment,
+			bank_loan_amount, 
+			
 			status,
 			reason,
 			remarks,
@@ -199,6 +215,14 @@
 			#{insertTime},
 			#{updateTime},
 			#{operator},
+			
+			#{projectName},
+			#{projectContent},
+			#{projectDesiredEffect},
+			#{yearLimit},
+			#{totalInvestment},
+			#{bankLoanAmount},
+			
 			#{status},
 			#{reason},
 			#{remarks},

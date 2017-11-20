@@ -102,7 +102,7 @@
 			
 			//清空时间
 			function clearDate() {
-				$('#timeQuery').attr('value','');
+				$('#timeQuery').val('');
 			}
 			
 			// 根据当前登录用户企业所属类型 来页面展示的内容
