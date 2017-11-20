@@ -32,14 +32,26 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String typeId;			// 行业类型ID
 	private String description;  	// 行业类型
 	private Area area;				// 地区
+	
 	private String empQuantity;		// 从业人数（人）
 	private String totalIncome;		// 营业收入（万）
 	private String totalProfit;		// 营业利润（万）
+	private String operatingCosts;  // 营业成本（万）
+	
 	private String totalTax;		// 企业税费（万）
 	private String employeeCompensation; // 应付职工薪酬 （万）
 	private String loanAmount;      // 贷款金额 （万）
-	private String orderQuantity;   // 订单数量 （个） 
-	private String operatingCosts;  // 营业成本（万）
+	private String orderQuantity;   // 订单数量 （个）
+	
+	private String projectName;		// 项目名称
+	private String projectContent;	// 项目主要内容
+	private String projectDesiredEffect; // 项目预期效果
+	private String yearLimit;		// 起止年限
+	private String totalInvestment;	// 总投资
+	private String projectStartTime;		// 项目开始时间
+	private String projectEndTime;	// 项目结束时间
+	private String bankLoanAmount;	//银行贷款金额
+	
 	private Date insertTime;		// 插入时间
 	private Date updateTime;		// 更新时间
 	private String operator;		// 操作人
@@ -56,6 +68,89 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String from;
 	
 	
+	
+	
+	
+	public String getProjectStartTime() {
+		return projectStartTime;
+	}
+
+	public void setProjectStartTime(String projectStartTime) {
+		this.projectStartTime = projectStartTime;
+	}
+
+	public String getProjectEndTime() {
+		return projectEndTime;
+	}
+
+	public void setProjectEndTime(String projectEndTime) {
+		this.projectEndTime = projectEndTime;
+	}
+
+	public String getBankLoanAmount() {
+		return bankLoanAmount;
+	}
+
+	public void setBankLoanAmount(String bankLoanAmount) {
+		this.bankLoanAmount = bankLoanAmount;
+	}
+
+	public String getStartTime() {
+		return projectStartTime;
+	}
+
+	public void setStartTime(String projectStartTime) {
+		this.projectStartTime = projectStartTime;
+	}
+
+	public String getEndTime() {
+		return projectEndTime;
+	}
+
+	public void setEndTime(String projectEndTime) {
+		this.projectEndTime = projectEndTime;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public String getProjectContent() {
+		return projectContent;
+	}
+
+	public void setProjectContent(String projectContent) {
+		this.projectContent = projectContent;
+	}
+
+	public String getProjectDesiredEffect() {
+		return projectDesiredEffect;
+	}
+
+	public void setProjectDesiredEffect(String projectDesiredEffect) {
+		this.projectDesiredEffect = projectDesiredEffect;
+	}
+
+	public String getYearLimit() {
+		return yearLimit;
+	}
+
+	public void setYearLimit(String yearLimit) {
+		this.yearLimit = yearLimit;
+	}
+
+	public String getTotalInvestment() {
+		return totalInvestment;
+	}
+
+	public void setTotalInvestment(String totalInvestment) {
+		this.totalInvestment = totalInvestment;
+	}
+
 	public String getNotificationId() {
 		return notificationId;
 	}

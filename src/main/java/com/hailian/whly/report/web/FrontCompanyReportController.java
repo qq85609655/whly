@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.activiti.engine.impl.util.json.JSONObject;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -162,6 +163,7 @@ public class FrontCompanyReportController extends BaseController {
 		if (!beanValidator(model, frontCompanyReport)) {
 			return form(frontCompanyReport, model);
 		}
+		System.out.println(StringEscapeUtils.unescapeHtml4(frontCompanyReport.getProjectContent()));
 		Calendar now = Calendar.getInstance();
 		Integer year = Integer.valueOf(now.get(1));
 		Integer month = Integer.valueOf(now.get(2) + 1);

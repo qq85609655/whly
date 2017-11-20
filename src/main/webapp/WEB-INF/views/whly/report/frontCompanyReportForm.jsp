@@ -22,6 +22,21 @@
 	.col-md-10 {
    		width: 84.33333%;
 	}
+	/* .portlet.light.bordered{
+		min-height:1000px;
+		_height:1000px;
+	} */
+	.fl {
+		float:left!important;
+	}
+	.col-md-6.type_support {
+		width: 47.5%;
+	}
+	.button_1 {
+		width: 100px;
+	    margin-right: 6%;
+	    margin-top: 3%;
+	}
 </style>
 <script type="text/javascript">
 	$(function() {
@@ -49,9 +64,15 @@
 		var type = $('#companyParentType').val();
 		if(type == "1") {
 			$('.type_emphasis').show();
+			$('.input_emphasis').attr('required','true');
+			$('.type_support').remove();
 		} else if(type == "2") {
 			$('.type_quota').show();
-			$('.input_quota').removeAttr('required');
+			$('.input_quota').attr('required','true');
+		} else if(type == "3") {
+			$('.type_support').show();
+			$('.input_support').attr('required','true');
+			$('.type_emphasis').remove();
 		}
 	}
 	
@@ -78,6 +99,7 @@
 				var companyName = $("#companyName").val();
                 var question = result.data.question;
                	var divs = $('#remarks').find("div");
+               	console.info(result.data);
 				if(companyName!=null && result.data.companyName == companyName && result.data.status != 'PASSED') {
 					$("#action").attr('action', whlyPath + '/report/frontCompanyReport/update?menuId=${menuId}');
 					//$("#company").attr('value',result.data.companyName);
@@ -89,6 +111,20 @@
 					$("#loanAmount").attr('value',result.data.loanAmount);
 	                $("#empQuantity").attr('value',result.data.empQuantity);
 	                $("#orderQuantity").attr('value',result.data.orderQuantity);
+	                
+	                $("#projectName").attr('value',result.data.projectName);
+	                $("#totalInvestment").attr('value',result.data.totalInvestment);
+	                $("#bankLoanAmount").attr('value',result.data.bankLoanAmount);
+	               	$("#projectContent").html(result.data.projectContent);
+	                $("#projectDesiredEffect").html(result.data.projectDesiredEffect);
+	                $("#projectStartTime").attr('value',result.data.yearLimit.substring(0, 8));
+	                $("#projectEndTime").attr('value',result.data.yearLimit.substring(9));
+	                
+	                /* $("#projectContentDiv").empty();
+	                $("#projectContentDiv").append('<div style="border：2px;">' + result.data.projectContent + '</div>'); */
+	                
+	                console.info( $("#projectContentDiv").find( '.cke_editable.cke_editable_themed'));
+	                $("#projectContentDiv").find('.cke_editable').append(result.data.projectContent);
 	                $('#submit').css("display","block");
 	                if(question) {
 	                	 for(var i=0; i<question.length; i++) {
@@ -143,7 +179,9 @@
 			$("#action").attr('action', whlyPath + '/report/frontCompanyReport/save?menuId=${menuId}');
 			$("#return").attr("style","display:none;");
 			$("#submit").attr("style","display:block;");
-			addRemarks();
+			if($('#companyParentType').val() != '3') {
+				addRemarks();
+			}
 		}
 	}
 	
@@ -214,113 +252,179 @@ $.ready(function() {
 									<i class="icon-settings font-red-sunglo"></i> <span class="caption-subject bold uppercase col-md-10 type_quota" style="display:none;">
 										营业收入、营业成本 、营业利润、从业人数请填写企业单月数据，不要填写累计数据</span>
 										<span class="caption-subject bold uppercase col-md-10 type_emphasis" style="display:none;">
-										营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额请填写企业单月数据，不要填写累计数据</span> 
+										营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额请填写企业单月数据，不要填写累计数据</span>
+										<span class="caption-subject bold uppercase col-md-10 type_support" style="display:none;">
+										请填写项目申报信息</span> 
 									<div style="float: right;font-size: 15px;" class="actions">${topMonth.info }</div>
 								</div>
 							</div>
-							<div class="portlet-body ">
+							<div class="portlet-body" >
 								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}"  id="action"  method="post">
-									<input type="hidden" name="frontCompanyReport.year" value="${topMonth.year }">
-									<input type="hidden" name="frontCompanyReport.month" value="${topMonth.month }">
-									<input type="hidden" id="from_hid" name="frontCompanyReport.from" value="${frontCompanyReport.from }">
-									<input type="hidden" value="${companyParentType}" id="companyParentType">
 									<div class="form-body">
-										<div class="form-group col-md-6 ">
-											<label>公司名称</label>
-											<div class="input-group">
-												<span class="input-group-addon"> <i
-													class="fa fa-home"></i>
-												</span> <input type="text" class="form-control" id="company"
-													placeholder="公司名称"   readonly value="${frontCompanyReport.companyName }" name="companyName">
-											</div>
-										</div>
-										<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
-											<label>营业收入（万元）</label>
-											<div class="input-group">
-												<span class="input-group-addon" >￥</span>
-												<input  class="form-control"
-													placeholder="请输入营业收入" required type="text"  name="totalIncome" id="totalIncome">
-											</div>
-										</div>
-										<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
-											<label>营业成本 （万元）</label>
-											<div class="input-group">
-												<span class="input-group-addon" >￥</span>
-												<input required type="number" class="form-control" name="operatingCosts" id="operatingCosts"
-													placeholder="请输入营业成本" aria-describedby="sizing-addon1">
-											</div>
-										</div>
-										<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
-											<label>营业利润（万元）</label>
-											<div class="input-group">
-												<span class="input-group-addon" >￥</span>
-												<input required type="number" class="form-control" name="totalProfit" id="totalProfit"
-													placeholder="请输入营业利润" aria-describedby="sizing-addon1">
-											</div>
-										</div>
-										<div class="form-group col-md-6 type_emphasis" style="display:none;">
-											<label>企业税费（万元）</label>
-											<div class="input-group">
-												<span class="input-group-addon" >￥</span>
-												<input required type="number" class="form-control input_quota" name="totalTax" id="totalTax"
-													placeholder="请输入企业税费" aria-describedby="sizing-addon1">
-											</div>
-										</div>
-										<div class="form-group col-md-6 type_emphasis" style="display:none;">
-											<label>应付职工薪酬（万元）</label>
-											<div class="input-group">
-												<span class="input-group-addon" >￥</span>
-												<input required type="number" class="form-control input_quota" name="employeeCompensation"
-													id="employeeCompensation" placeholder="请输入应付职工薪酬"
-													aria-describedby="sizing-addon1">
-											</div>
-										</div>
-										<div class="form-group col-md-6 type_emphasis" style="display:none;">
-											<label>贷款金额（万元）</label>
-											<div class="input-group">
-												<span class="input-group-addon" >￥</span>
-												<input required type="number" class="form-control input_quota" name="loanAmount" id="loanAmount"
-													placeholder="请输入贷款金额" aria-describedby="sizing-addon1">
-											</div>
-										</div>
-										<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
-											<label>从业人数 （人）</label>
-											<div class="input-group">
-												<span class="input-group-addon"> <i
-													class="fa fa-user"></i>
-												</span> <input required type="number" class="form-control" name="empQuantity"
-													id="empQuantity" placeholder="请输入从业人数">
-											</div>
-										</div>
-										<div class="form-group col-md-6 type_emphasis" style="display:none;">
-											<label>订单数量（个）</label>
-											<div class="input-group">
-												<span class="input-group-addon"> <i
-													class="fa fa-reorder"></i>
-												</span> <input required type="number" class="form-control spinner input_quota"
-													id="orderQuantity"  name="orderQuantity" placeholder="请输入订单数量">
-											</div>
-										</div>
-										<div class="form-group col-md-6">
-											<br> 
-											<!-- <button type="button" class="btn blue pull-right"
-												id="return">返回</button> -->
-											<button type="submit"  class="btn blue demo-loading-btn pull-right" style="margin-right: 0.3em;display:none" id="submit" onclick="loadingCancel('submit')">提交</button>
-										</div>
 										<input type="hidden" value="${frontCompanyReport.id}" id="reportId">
 										<input type="hidden" value="${companyName}" id="companyName">
 										<input type="hidden" value="${frontCompanyReport.id}" name="id">
 										<input type="hidden" value="${companyParentType}" id="companyParentType">
 										<input type="hidden" value="${message}" id="message">
+										<input type="hidden" name="frontCompanyReport.year" value="${topMonth.year }">
+										<input type="hidden" name="frontCompanyReport.month" value="${topMonth.month }">
+										<input type="hidden" id="from_hid" name="frontCompanyReport.from" value="${frontCompanyReport.from }">
+										<input type="hidden" value="${companyParentType}" id="companyParentType">
+										<div class="row">
+											<div class="form-group col-md-6 type_emphasis">
+												<label>公司名称</label>
+												<div class="input-group">
+													<span class="input-group-addon"> <i
+														class="fa fa-home"></i>
+													</span> <input type="text" class="form-control" id="company"
+														placeholder="公司名称"   readonly value="${frontCompanyReport.companyName }" name="companyName">
+												</div>
+											</div>
+											<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
+												<label>营业收入（万元）</label>
+												<div class="input-group">
+													<span class="input-group-addon" >￥</span>
+													<input  class="form-control input_emphasis input_quota"
+														placeholder="请输入营业收入"  type="text"  name="totalIncome" id="totalIncome">
+												</div>
+											</div>
+											<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
+												<label>营业成本 （万元）</label>
+												<div class="input-group">
+													<span class="input-group-addon" >￥</span>
+													<input  type="number" class="form-control input_emphasis input_quota" name="operatingCosts" id="operatingCosts"
+														placeholder="请输入营业成本" aria-describedby="sizing-addon1">
+												</div>
+											</div>
+											<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
+												<label>营业利润（万元）</label>
+												<div class="input-group">
+													<span class="input-group-addon" >￥</span>
+													<input  type="number" class="form-control  input_emphasis input_quota" name="totalProfit" id="totalProfit"
+														placeholder="请输入营业利润" aria-describedby="sizing-addon1">
+												</div>
+											</div>
+											<div class="form-group col-md-6 type_emphasis" style="display:none;">
+												<label>企业税费（万元）</label>
+												<div class="input-group">
+													<span class="input-group-addon" >￥</span>
+													<input  type="number" class="form-control input_emphasis " name="totalTax" id="totalTax"
+														placeholder="请输入企业税费" aria-describedby="sizing-addon1">
+												</div>
+											</div>
+											<div class="form-group col-md-6 type_emphasis" style="display:none;">
+												<label>应付职工薪酬（万元）</label>
+												<div class="input-group">
+													<span class="input-group-addon" >￥</span>
+													<input  type="number" class="form-control input_emphasis " name="employeeCompensation"
+														id="employeeCompensation" placeholder="请输入应付职工薪酬"
+														aria-describedby="sizing-addon1">
+												</div>
+											</div>
+											<div class="form-group col-md-6 type_emphasis" style="display:none;">
+												<label>贷款金额（万元）</label>
+												<div class="input-group">
+													<span class="input-group-addon" >￥</span>
+													<input  type="number" class="form-control input_emphasis" name="loanAmount" id="loanAmount"
+														placeholder="请输入贷款金额" aria-describedby="sizing-addon1">
+												</div>
+											</div>
+											<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
+												<label>从业人数 （人）</label>
+												<div class="input-group">
+													<span class="input-group-addon"> <i
+														class="fa fa-user"></i>
+													</span> <input  type="number" class="form-control  input_emphasis input_quota" name="empQuantity"
+														id="empQuantity" placeholder="请输入从业人数">
+												</div>
+											</div>
+											<div class="form-group col-md-6 type_emphasis" style="display:none;">
+												<label>订单数量（个）</label>
+												<div class="input-group">
+													<span class="input-group-addon"> <i
+														class="fa fa-reorder"></i>
+													</span> <input  type="number" class="form-control spinner input_emphasis"
+														id="orderQuantity"  name="orderQuantity" placeholder="请输入订单数量">
+												</div>
+											</div>
+											<!-- 年度扶持项目监测 -->
+											<div class="form-group col-md-6 type_support" style="display:none;">
+												<label>项目名称</label>
+												<div class="input-group">
+													<span class="input-group-addon"> <i
+														class="fa fa-reorder"></i>
+													</span> <input  type="number" class="form-control spinner input_support"
+														 id="projectName" name="projectName" placeholder="请输入项目名称">
+												</div>
+											</div>
+											<div class="form-group col-md-6 type_support" style="display:none;">
+												<label>起止年限</label>
+												<div class="inputBox">
+													<div class="input-group date date-picker col-md-6 fl" data-date-format="yyyy年mm月">
+														<input type="text" class="form-control" readonly name="projectStartTime" value=""
+															id="projectStartTime" placeholder="开始时间" >
+														<span class="input-group-btn" >
+															<button class="btn default date-set" type="button">
+																<i class="fa fa-calendar"></i>
+															</button>
+														</span>
+													</div>
+													<div class="input-group date date-picker col-md-6 fl" data-date-format="yyyy年mm月">
+														<input type="text" class="form-control" readonly name="projectEndTime" value=""
+															id="projectEndTime" placeholder="结束时间" > 
+															<span class="input-group-btn" >
+															<button class="btn default date-set" type="button">
+																<i class="fa fa-calendar"></i>
+															</button>
+														</span>
+													</div>
+												</div>
+											</div>
+											<div class="form-group col-md-6 type_support" style="display:none;">
+												<label>投资总额（万元）</label>
+												<div class="input-group">
+													<span class="input-group-addon"> <i
+														class="fa fa-reorder"></i>
+													</span> <input  type="number" class="form-control spinner input_support"
+														  id="totalInvestment" name="totalInvestment" placeholder="请输入投资总额">
+												</div>
+											</div>
+											<div class="form-group col-md-6 type_support" style="display:none;">
+												<label>银行贷款金额（万元）</label>
+												<div class="input-group">
+													<span class="input-group-addon"> <i
+														class="fa fa-reorder"></i>
+													</span> <input  type="number" class="form-control spinner input_support"
+														id="bankLoanAmount" name="bankLoanAmount" placeholder="请输入银行贷款金额">
+												</div>
+											</div>
+											<div class="form-group col-md-12 type_support" style="display:none;">
+												<label>项目主要内容</label>
+												<div class="input-group" id="projectContentDiv">
+	                                                <textarea  id="projectContent" class="input_support" name="projectContent" rows="6"  cols="130"></textarea>
+	                                            </div>
+											</div>
+											<div class="form-group col-md-12 type_support" style="display:none;">
+												<label>项目预期效果</label>
+												<div class="input-group">
+													<textarea id="projectDesiredEffect"  class="input_support" name="projectDesiredEffect" rows="6"  cols="130"></textarea>
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<br> 
+												<!-- <button type="button" class="btn blue pull-right"
+													id="return">返回</button> -->
+												<button type="submit"  class="btn blue demo-loading-btn pull-right button_1" style="display:none" id="submit" onclick="loadingCancel('submit')">提交</button>
+											</div>
+										</div>
 									</div>
-									<div style="height:380px;display:none;" class="type_emphasis" ></div> 
-									<div style="height:250px;display:none;" class="type_quota" ></div>
+									<div style="height:20px;display:none;" class="type_emphasis" ></div> 
+									<div style="height:20px;display:none;" class="type_quota" ></div>
 									<div class="form-actions" id="remarks" >
-										<button type="button" class="btn btn-success" id="add">新增</button>
-										<button type="button" class="btn btn-danger" id="delete" style="margin-left: 5px;">删除</button>
+										<button type="button" class="btn btn-success type_emphasis" id="add">新增</button>
+										<button type="button" class="btn btn-danger type_emphasis" id="delete" style="margin-left: 5px;">删除</button>
 										<span class="col-md-12" style="height:7px;"></span>
-										
-									
 									</div>
 									
 								</form>

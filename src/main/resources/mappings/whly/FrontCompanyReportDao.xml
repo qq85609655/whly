@@ -17,6 +17,14 @@
 		a.insert_time AS "insertTime",
 		a.update_time AS "updateTime",
 		a.operator AS "operator",
+		
+		a.project_name AS "projectName",
+		a.project_content AS "projectContent",
+		a.project_desired_effect AS "projectDesiredEffect",
+		a.year_limit AS "yearLimit",
+		a.total_investment AS "totalInvestment",
+		a.bank_loan_amount AS "bankLoanAmount", 
+		
 		a.status AS "status",
 		CASE `status` 
          WHEN 'PASSED' THEN '已审核' 
@@ -172,6 +180,14 @@
 			insert_time,
 			update_time,
 			operator,
+			
+			project_name,
+			project_content,
+			project_desired_effect,
+			year_limit,
+			total_investment,
+			bank_loan_amount, 
+			
 			status,
 			reason,
 			remarks,
@@ -199,6 +215,14 @@
 			#{insertTime},
 			#{updateTime},
 			#{operator},
+			
+			#{projectName},
+			#{projectContent},
+			#{projectDesiredEffect},
+			#{yearLimit},
+			#{totalInvestment},
+			#{bankLoanAmount},
+			
 			#{status},
 			#{reason},
 			#{remarks},
@@ -274,6 +298,28 @@
 			<if test="reason != null and reason != ''">
 				reason = #{reason},
 			</if>
+			
+			<if test="projectName != null and projectName != ''">
+				project_name = #{projectName},
+			</if>
+			<if test="projectContent != null and projectContent != ''">
+				project_content = #{projectContent},
+			</if>
+			<if test="projectDesiredEffect != null and projectDesiredEffect != ''">
+				project_desired_effect = #{projectDesiredEffect},
+			</if>
+			<if test="yearLimit != null and yearLimit != ''">
+				year_limit = #{yearLimit},
+			</if>
+			<if test="totalInvestment != null and totalInvestment != ''">
+				total_investment = #{totalInvestment},
+			</if>
+			<if test="bankLoanAmount != null and bankLoanAmount != ''">
+				bank_loan_amount = #{bankLoanAmount},
+			</if>
+			
+			
+			
 			update_time = #{updateTime}
 		WHERE id = #{id}
 	</update>

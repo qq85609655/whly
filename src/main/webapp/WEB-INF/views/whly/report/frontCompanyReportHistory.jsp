@@ -150,6 +150,7 @@
 											<th class="type_emphasis " style="display:none;">贷款金额 (万元)</th>
 											<th class="type_emphasis " style="display:none;">订单数量 (个)</th>
 											<th class="type_emphasis type_quota" style="display:none;">从业人数(人)</th>
+											
 											<th>所属行业</th>
 											<th>所属地域</th>
 											<th>反馈内容</th>
@@ -179,6 +180,7 @@
 												<td class="type_emphasis " style="display:none;">${frontCompanyReportHistory.loanAmount}</td>
 												<td class="type_emphasis " style="display:none;">${frontCompanyReportHistory.orderQuantity}</td>
 												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReportHistory.empQuantity}</td>
+												
 												<td>${frontCompanyReportHistory.description}</td>
 												<td>${frontCompanyReportHistory.areaName}</td>
 												<td>${frontCompanyReportHistory.reason}</td>

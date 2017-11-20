@@ -20,6 +20,9 @@
     <link href="/static/${whlyPage}/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link href="/static/${whlyPage}/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css" rel="stylesheet" type="text/css" />
+    <link href="/static/${whlyPage}/assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/${whlyPage}/assets/global/plugins/bootstrap-summernote/summernote.css" rel="stylesheet" type="text/css" />
     <link href="/static/${whlyPage}/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css" rel="stylesheet" type="text/css" />
     <link href="/static/${whlyPage}/assets/global/plugins/morris/morris.css" rel="stylesheet" type="text/css" />
     <link href="/static/${whlyPage}/assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css" />
@@ -83,6 +86,7 @@
     <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-summernote/summernote.min.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/ckeditor/ckeditor.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-markdown/lib/markdown.js" type="text/javascript"></script>
     <script src="/static/${whlyPage}/assets/global/plugins/bootstrap-markdown/js/bootstrap-markdown.js" type="text/javascript"></script>
@@ -111,9 +115,9 @@
     <script src="/static/${whlyPage}/assets/pages/scripts/table-datatables-rowreorder.js" type="text/javascript"></script>
    <%--  <script src="/static/${whlyPage}/assets/pages/scripts/form-validation.min.js" type="text/javascript"></script> --%>
     <script src="/static/${whlyPage}/assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script>
-    <script src="/static/${whlyPage}/assets/pages/scripts/ui-general.min.js" type="text/javascript"></script>
-    <script src="/static/${whlyPage}/assets/pages/scripts/ui-bootbox.min.js" type="text/javascript"></script>
-    <script src="/static/${whlyPage}/assets/pages/scripts/ui-blockui.min.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/pages/scripts/ui-general.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/pages/scripts/ui-bootbox.js" type="text/javascript"></script>
+    <script src="/static/${whlyPage}/assets/pages/scripts/ui-blockui.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
     <!-- BEGIN THEME LAYOUT SCRIPTS -->
     <script src="/static/${whlyPage}/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
