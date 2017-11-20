@@ -156,6 +156,14 @@
 					$("#loanAmount").attr('value',result.data.loanAmount).attr('readonly','true');
 	                $("#empQuantity").attr('value',result.data.empQuantity).attr('readonly','true');
 	                $("#orderQuantity").attr('value',result.data.orderQuantity).attr('readonly','true');
+	                
+	                $("#projectName").attr('value',result.data.projectName).attr('readonly','true');
+	                $("#totalInvestment").attr('value',result.data.totalInvestment).attr('readonly','true');
+	                $("#bankLoanAmount").attr('value',result.data.bankLoanAmount).attr('readonly','true');
+	               	$("#projectContent").html(result.data.projectContent).attr('readonly','true');
+	                $("#projectDesiredEffect").html(result.data.projectDesiredEffect).attr('readonly','true');
+	                $("#projectStartTime").attr('value',result.data.yearLimit.substring(0, 8)).attr('readonly','true');
+	                $("#projectEndTime").attr('value',result.data.yearLimit.substring(9)).attr('readonly','true');
 	                if(question) {
 	                	for(var i=0; i<question.length; i++) {
 		                	if(question[i]!=null && question[i]!="" && question[i]) {
