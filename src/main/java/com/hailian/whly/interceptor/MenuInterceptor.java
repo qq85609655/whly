@@ -71,10 +71,16 @@ public class MenuInterceptor extends BaseService implements HandlerInterceptor {
 	 * @return_type   void
 	 */
 	private void dealMenu(HttpServletRequest request, ModelAndView modelAndView) {
+		String pcid=request.getParameter("pcid");
+		if(StringUtils.isNotBlank(pcid)){
+			UserUtils.putCache("selected_pcid", pcid);
+		}else{
+			pcid=(String) UserUtils.getCache("selected_pcid");
+		};
 		String menuId=request.getParameter("menuId");
 		//处理菜单
 		Map<String,Object> model=modelAndView.getModel();
-		
+		model.put("pcid", pcid);
 		Menu menu=null;
 		String menusIds=null;//当前所选菜单全部父级id 包含自己
 		List<Menu> sourcelist = systemService.findAllFrontMenu();

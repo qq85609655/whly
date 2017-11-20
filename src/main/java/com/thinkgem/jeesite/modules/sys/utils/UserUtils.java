@@ -16,11 +16,13 @@ import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
+import com.hailian.whly.commom.CompanyTypeEnum;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.common.utils.CacheUtils;
 import com.thinkgem.jeesite.common.utils.SpringContextHolder;
 import com.thinkgem.jeesite.modules.sys.dao.AreaDao;
+import com.thinkgem.jeesite.modules.sys.dao.DictDao;
 import com.thinkgem.jeesite.modules.sys.dao.MenuDao;
 import com.thinkgem.jeesite.modules.sys.dao.OfficeDao;
 import com.thinkgem.jeesite.modules.sys.dao.RoleDao;
@@ -44,6 +46,7 @@ public class UserUtils {
 	private static MenuDao menuDao = SpringContextHolder.getBean(MenuDao.class);
 	private static AreaDao areaDao = SpringContextHolder.getBean(AreaDao.class);
 	private static OfficeDao officeDao = SpringContextHolder.getBean(OfficeDao.class);
+	private static DictDao dictDao = SpringContextHolder.getBean(DictDao.class);
 
 	public static final String USER_CACHE = "userCache";
 	public static final String USER_CACHE_ID_ = "id_";
@@ -129,6 +132,16 @@ public class UserUtils {
 		if (principal!=null){
 			User user = get(principal.getId());
 			if (user != null){
+				if("1".equals(user.getCompany().getId())){
+					String pcid=(String) UserUtils.getCache("selected_pcid");
+					if(StringUtils.isNotBlank(pcid)){
+						Office o=new Office();
+						o.setParentIds("%"+pcid+"%");
+						o=officeDao.findByParentIdsLike(o).get(0);
+						o.setIndustyType(dictDao.get(o.getIndustyType().getId()));
+						user.setCompany(o);
+					}
+				}
 				return user;
 			}
 			return new User();
@@ -136,7 +149,18 @@ public class UserUtils {
 		// 如果没有登录，则返回实例化空的User对象。
 		return new User();
 	}
-
+	public static User getUser2(){
+		Principal principal = getPrincipal();
+		if (principal!=null){
+			User user = get(principal.getId());
+			if (user != null){
+				return user;
+			}
+			return new User();
+		}
+		// 如果没有登录，则返回实例化空的User对象。
+		return new User();
+	}
 	/**
 	 * 获取当前用户角色列表
 	 * @return

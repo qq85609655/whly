@@ -83,6 +83,12 @@
 		                          </li> --%>
 		                        
 		                          <li class="divider"> </li>
+		                          <c:if test="${ pcid!=null}">
+		                           <li  id="btnBack">
+		                              <a href="javascript:void(0);">
+		                                  <i class="fa-houzz"></i> 模块选择</a>
+		                          </li>
+		                          </c:if>
 		                          <li  id="btnLogout">
 		                              <a href="javascript:void(0);">
 		                                  <i class="icon-key"></i> 退出 </a>
@@ -102,6 +108,10 @@
    		$('#btnLogout').click(function(){
    			window.location.href="${whlyPath}/logout";
    		});
+   		$('#btnBack').click(function(){
+   			window.location.href="${whlyPath}/choose?backmk=backmk";
+   		});
+   		
    		$(".my-menu").click(function(){
    			if(!$(this).hasClass("menu_css")){
    				//收

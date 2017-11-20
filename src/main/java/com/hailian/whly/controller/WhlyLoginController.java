@@ -177,8 +177,10 @@ public class WhlyLoginController extends BaseController {
 	}
 	@RequestMapping(value = "/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response, Model model) {
+		UserUtils.clearCache(UserUtils.getUser2());
 		UserUtils.getSubject().logout();
 		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
-		return "redirect:" + whlyPath+"/choose";
+		UserUtils.removeCache("selected_pcid");
+		return "redirect:" + whlyPath+"/login";
 	}
 }

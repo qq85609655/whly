@@ -100,9 +100,10 @@
 		<div class="content">
 			<c:forEach items="${companyEnum}" var="company" varStatus="status">
 				<div 
-				<c:if test="${comPanyType==company.type }">onclick="loginPage()"</c:if>
+				<c:if test="${comPanyType==company.type or canSeeAll==true }">onclick="loginPage('${company.rootId }')"</c:if>
 				class="plate <c:if test="${status.index==0 }">ml0</c:if> 
-				<c:if test="${comPanyType!=company.type }">disabled</c:if> ">
+					<c:if test="${comPanyType!=company.type and canSeeAll!=true }">disabled</c:if> 
+				">
 					<img src="/static/${whlyPage}/assets/global/img/choose/${company.rootId }.png" alt="" />
 					<p>${company.name }</p>
 				</div>
@@ -113,34 +114,8 @@
 
 <script src="/static/${whlyPage}/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
 <script>
-/**
- * 已知图片的宽度和高度的等比例缩放
- */
-
- function knowImgSize(id) {
-    var idWidth = $(id).width(),  // 容器的宽度和高度
-        idHeight = $(id).height();
-
-    $(id + ' img').each(function(index,img){
-        var img_w = $(this).width(),
-            img_h = $(this).height();
-
-        // 如果图片自身宽度大于容器的宽度的话 那么高度等比例缩放
-        if(img_w > idWidth) {
-            
-            var height = img_h * idWidth / img_w;
-            $(this).css({"width":idWidth, "height":height});
-        }
-    });
-
- }
-
- // 初始化
- $(function(){
-    knowImgSize("#demo1");
- });
     function loginPage(type){
-		window.location.href="${whlyPath}/home";
+		window.location.href="${whlyPath}/home?pcid="+type;
 	}
 </script>
 </body>
