@@ -86,7 +86,7 @@
 		                          <c:if test="${ pcid!=null}">
 		                           <li  id="btnBack">
 		                              <a href="javascript:void(0);">
-		                                  <i class="fa-houzz"></i> 模块选择</a>
+		                                  <i class="icon-rocket"></i> 模块选择</a>
 		                          </li>
 		                          </c:if>
 		                          <li  id="btnLogout">

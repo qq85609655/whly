@@ -171,7 +171,12 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			frontNotification.setKeywords("1");
 			frontNotification.setDescription("提交");
 			frontNotification.setCreateName(user.getName());
-			//frontNotificationService.save(frontNotification);
+			try {
+				frontNotificationService.save(frontNotification);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 			
 			//添加日志
 			FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
