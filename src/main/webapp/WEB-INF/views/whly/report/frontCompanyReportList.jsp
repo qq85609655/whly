@@ -348,10 +348,10 @@
 												<td class="type_emphasis " style="display:none;">${frontCompanyReport.loanAmount}</td>
 												<td class="type_emphasis " style="display:none;">${frontCompanyReport.orderQuantity}</td>
 												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReport.empQuantity}</td>
-												<th class="type_support" style="display:none;">${frontCompanyReport.projectName}</th>
-												<th class="type_support" style="display:none;">${frontCompanyReport.totalInvestment}</th>
-												<th class="type_support" style="display:none;">${frontCompanyReport.bankLoanAmount}</th>
-												<th class="type_support" style="display:none;">${frontCompanyReport.yearLimit}</th>
+												<td class="type_support" style="display:none;">${frontCompanyReport.projectName}</td>
+												<td class="type_support" style="display:none;">${frontCompanyReport.totalInvestment}</td>
+												<td class="type_support" style="display:none;">${frontCompanyReport.bankLoanAmount}</td>
+												<td class="type_support" style="display:none;">${frontCompanyReport.yearLimit}</td>
 												<td><fmt:formatDate
 														value="${frontCompanyReport.reportTime}"
 														pattern="yyyy-MM-dd HH:mm:ss" /></td>

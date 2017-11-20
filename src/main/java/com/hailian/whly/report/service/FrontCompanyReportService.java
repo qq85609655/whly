@@ -171,12 +171,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			frontNotification.setKeywords("1");
 			frontNotification.setDescription("提交");
 			frontNotification.setCreateName(user.getName());
-			try {
-				frontNotificationService.save(frontNotification);
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-			}
+			frontNotificationService.save(frontNotification);
 			
 			//添加日志
 			FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
@@ -210,9 +205,8 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 				User user = UserUtils.getUser();   //获取登录用户信息
 				String status = null;
 				
-				//查询该企业的上报信息保存到日志里面
-				FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
-				if(frontCompanyReport2.getStatus().equals("PASSED")) {
+				FrontCompanyReport frontCompanyReport3 = dao.get(frontCompanyReport);
+				if(frontCompanyReport3.getStatus().equals("PASSED")) {
 					return "已经审核通过，修改失败！";
 				}
 				
@@ -280,6 +274,9 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 					}
 				}
 				
+				//查询该企业的上报信息保存到日志里面
+				FrontCompanyReport frontCompanyReport2 = dao.get(frontCompanyReport);
+				
 				Calendar c = Calendar.getInstance();	//获取时间
 				int year = c.get(Calendar.YEAR);
 				int reportYear = Integer.parseInt(frontCompanyReport2.getYear());
@@ -302,7 +299,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 						frontNotification.setKeywords("1");
 					}
 					frontNotification.setCreateName(user.getName());
-					//frontNotificationService.save(frontNotification);
+					frontNotificationService.save(frontNotification);
 				}
 				
 				//添加日志

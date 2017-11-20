@@ -145,7 +145,10 @@
 								mainDiv = mainDiv.replace('[营业收入]', report.totalIncome? report.totalIncome: 0).replace('[营业成本]', report.operatingCosts? report.operatingCosts: 0).replace('[营业利润]',report.totalProfit? report.totalProfit: 0).replace('[企业税费]',report.totalTax? report.totalTax: 0).replace('[应付职工薪酬]',report.employeeCompensation? report.employeeCompensation: 0).replace('[贷款金额]',report.loanAmount? report.loanAmount: 0).replace('[从业人数]',report.empQuantity? report.empQuantity: 0).replace('[订单数量]',report.orderQuantity? report.orderQuantity: 0);
 							} else if(type == '2') {
 								mainDiv = mainDiv.replace('[营业收入]', report.totalIncome? report.totalIncome: 0).replace('[营业利润]',report.totalProfit? report.totalProfit: 0).replace('[营业成本]',report.operatingCosts? report.operatingCosts: 0).replace('[从业人数]',report.empQuantity? report.empQuantity: 0);
+							} else if(type == '3') {
+								mainDiv = mainDiv.replace('[项目名称]', report.projectName? report.projectName: 0).replace('[起止年限]',report.yearLimit? report.yearLimit: 0).replace('[投资总额]',report.totalInvestment? report.totalInvestment: 0).replace('[银行贷款金额]',report.bankLoanAmount? report.bankLoanAmount: 0).replace('[项目主要内容]',report.projectContent? report.projectContent: 0).replace('[项目预期效果]',report.projectDesiredEffect? report.projectDesiredEffect: 0);
 							}
+							
 							$('#tab').append(mainDiv);
 						}
 					}
@@ -159,10 +162,14 @@
 						var loanAmount = statementBody.replace('[name]','贷款金额').replace('[value]', thisMonth.loanAmount? thisMonth.loanAmount: 0).replace('[year]',(lastMonth && lastMonth.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastMonth.loanAmount) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastYear.loanAmount) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.loanAmount)? exceededDetection(thisMonth.loanAmount, lastYear.loanAmount, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.loanAmount)? exceededDetection(thisMonth.loanAmount, lastYear.loanAmount, false): '没有可比较的上报信息" style="color:#36c6d3;"');
 						var empQuantity = statementBody.replace('[name]','从业人数').replace('[value]', thisMonth.empQuantity? thisMonth.empQuantity: 0).replace('[year]',(lastMonth && lastMonth.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastMonth.empQuantity) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastYear.empQuantity) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.empQuantity)? exceededDetection(thisMonth.empQuantity, lastYear.empQuantity, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.empQuantity)? exceededDetection(thisMonth.empQuantity, lastYear.empQuantity, false): '没有可比较的上报信息" style="color:#36c6d3;"');
 						var orderQuantity = statementBody.replace('[name]','订单数量').replace('[value]', thisMonth.orderQuantity? thisMonth.orderQuantity: 0).replace('[year]',(lastMonth && lastMonth.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastMonth.orderQuantity) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastYear.orderQuantity) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.orderQuantity)? exceededDetection(thisMonth.orderQuantity, lastYear.orderQuantity, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.orderQuantity)? exceededDetection(thisMonth.orderQuantity, lastYear.orderQuantity, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+						var totalInvestment = statementBody.replace('[name]','总投资金额').replace('[value]', thisMonth.totalInvestment? thisMonth.totalInvestment: 0).replace('[year]',(lastMonth && lastMonth.totalInvestment) ? yearOnYear(thisMonth.totalInvestment, lastMonth.totalInvestment) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalInvestment) ? yearOnYear(thisMonth.totalInvestment, lastYear.totalInvestment) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalInvestment)? exceededDetection(thisMonth.totalInvestment, lastYear.totalInvestment, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalInvestment)? exceededDetection(thisMonth.totalInvestment, lastYear.totalInvestment, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+						var bankLoanAmount = statementBody.replace('[name]','银行贷款金额').replace('[value]', thisMonth.bankLoanAmount? thisMonth.bankLoanAmount: 0).replace('[year]',(lastMonth && lastMonth.bankLoanAmount) ? yearOnYear(thisMonth.bankLoanAmount, lastMonth.bankLoanAmount) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.bankLoanAmount) ? yearOnYear(thisMonth.bankLoanAmount, lastYear.bankLoanAmount) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.bankLoanAmount)? exceededDetection(thisMonth.bankLoanAmount, lastYear.bankLoanAmount, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.bankLoanAmount)? exceededDetection(thisMonth.bankLoanAmount, lastYear.bankLoanAmount, false): '没有可比较的上报信息" style="color:#36c6d3;"');
 						if(type == '1') {
 							var tboby = totalIncome + operatingCosts + totalProfit + totalTax + employeeCompensation + loanAmount + empQuantity + orderQuantity ;
 						} else if(type == '2') {
 							var tboby = totalIncome + operatingCosts + totalProfit + empQuantity;
+						} else if(type == '3') {
+							var tboby = totalInvestment + bankLoanAmount;
 						}
 						var statement1 = statement.replace('[time]', time).replace('[tbody]', tboby).replace('[id]', 'tab'+(i+1)).replace('[readonly]', "readonly").replace('[buttonStyle1]', "display:none;").replace('[buttonStyle2]', "display:none;").replace('[textarea]', data[i].frontCompanyReport.reason?data[i].frontCompanyReport.reason:'');
 						
@@ -185,10 +192,14 @@
 					var loanAmount = statementBody.replace('[name]','贷款金额').replace('[value]', thisMonth.loanAmount? thisMonth.loanAmount: 0).replace('[year]',(lastMonth && lastMonth.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastMonth.loanAmount) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.loanAmount) ? yearOnYear(thisMonth.loanAmount, lastYear.loanAmount) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.loanAmount)? exceededDetection(thisMonth.loanAmount, lastMonth.loanAmount, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.loanAmount)? exceededDetection(thisMonth.loanAmount, lastYear.loanAmount, false): '没有可比较的上报信息" style="color:#36c6d3;"');
 					var empQuantity = statementBody.replace('[name]','从业人数').replace('[value]', thisMonth.empQuantity? thisMonth.empQuantity: 0).replace('[year]',(lastMonth && lastMonth.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastMonth.empQuantity) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.empQuantity) ? yearOnYear(thisMonth.empQuantity, lastYear.empQuantity) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.empQuantity)? exceededDetection(thisMonth.empQuantity, lastMonth.empQuantity, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.empQuantity)? exceededDetection(thisMonth.empQuantity, lastYear.empQuantity, false): '没有可比较的上报信息" style="color:#36c6d3;"');
 					var orderQuantity = statementBody.replace('[name]','订单数量').replace('[value]', thisMonth.orderQuantity? thisMonth.orderQuantity: 0).replace('[year]',(lastMonth && lastMonth.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastMonth.orderQuantity) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.orderQuantity) ? yearOnYear(thisMonth.orderQuantity, lastYear.orderQuantity) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.orderQuantity)? exceededDetection(thisMonth.orderQuantity, lastMonth.orderQuantity, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.orderQuantity)? exceededDetection(thisMonth.orderQuantity, lastYear.orderQuantity, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+					var totalInvestment = statementBody.replace('[name]','总投资金额').replace('[value]', thisMonth.totalInvestment? thisMonth.totalInvestment: 0).replace('[year]',(lastMonth && lastMonth.totalInvestment) ? yearOnYear(thisMonth.totalInvestment, lastMonth.totalInvestment) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalInvestment) ? yearOnYear(thisMonth.totalInvestment, lastYear.totalInvestment) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalInvestment)? exceededDetection(thisMonth.totalInvestment, lastYear.totalInvestment, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalInvestment)? exceededDetection(thisMonth.totalInvestment, lastYear.totalInvestment, false): '没有可比较的上报信息" style="color:#36c6d3;"');
+					var bankLoanAmount = statementBody.replace('[name]','银行贷款金额').replace('[value]', thisMonth.bankLoanAmount? thisMonth.bankLoanAmount: 0).replace('[year]',(lastMonth && lastMonth.bankLoanAmount) ? yearOnYear(thisMonth.bankLoanAmount, lastMonth.bankLoanAmount) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.bankLoanAmount) ? yearOnYear(thisMonth.bankLoanAmount, lastYear.bankLoanAmount) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.bankLoanAmount)? exceededDetection(thisMonth.bankLoanAmount, lastYear.bankLoanAmount, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.bankLoanAmount)? exceededDetection(thisMonth.bankLoanAmount, lastYear.bankLoanAmount, false): '没有可比较的上报信息" style="color:#36c6d3;"');
 					if(type == '1') {
 						var tboby = totalIncome + operatingCosts + totalProfit + totalTax + employeeCompensation + loanAmount + empQuantity + orderQuantity ;
 					} else if(type == '2') {
 						var tboby = totalIncome + operatingCosts + totalProfit + empQuantity;
+					} else if(type == '3') {
+						var tboby = totalInvestment + bankLoanAmount;
 					}
 					var statement1 = statement.replace('[time]', time).replace('[tbody]', tboby).replace('[id]', 'tab'+(now+1)).replace('[readonly]', "").replace('[buttonStyle1]', "").replace('[buttonStyle2]', "").replace('[textarea]', "").replace('[opinion]', "opinion");
 					
@@ -211,6 +222,8 @@
 				$('.type_emphasis').show();
 			} else if(type == "2") {
 				$('.type_quota').show();
+			} else if(type == "3") {
+				$('.type_support').show();
 			}
 		}
 		
@@ -303,14 +316,16 @@
 						'	<div class="portlet-title">' +
 						'		<div class="caption font-red-sunglo col-md-12">' +
 						'			<i class="icon-settings font-red-sunglo"></i> <span class="caption-subject bold uppercase col-md-10 type_quota" style="display:none;">' +
-						'				营业收入、营业成本 、营业利润、从业人数请填写企业单月数据，不要填写累计数据</span>' +
+						'				营业收入、营业成本 、营业利润、从业人数为企业单月数据。</span>' +
 						'				<span class="caption-subject bold uppercase col-md-10 type_emphasis" style="display:none;">' +
-						'				营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额请填写企业单月数据，不要填写累计数据</span>' +
+						'				营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额为企业单月数据。</span>' +
+						'				<span class="caption-subject bold uppercase col-md-10 type_support" style="display:none;">' +
+						'				项目申报信息</span>' +
 						'				<span style="float: right;font-size: 15px;" class="actions" >[time]</span>' +
 						'		</div>' +
 						'	</div>' +
 						'	<div class="portlet-body form">' +
-						'			<div class="form-body">' +
+						'			<div class="form-body row">' +
 						'				<div class="form-group col-md-6">' +
 						'					<label>公司名称</label>' +
 						'					<div class="input-group">' +
@@ -365,7 +380,7 @@
 				'							<div class="input-group">' +
 				'								<span class="input-group-addon" >￥</span>' +
 				'								<input type="text" class="form-control"  ' +
-				'									readonly placeholder="贷款金额" value="[贷款金额]">' +
+				'									readonly placeholder="贷款金额" readonly  value="[贷款金额]">' +
 				'							</div>' +
 				'						</div>' + 
 				'						<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">' +
@@ -374,7 +389,7 @@
 				'								<span class="input-group-addon"> <i' +
 				'									class="fa fa-user"></i>' +
 				'								</span> <input type="text" class="form-control"' + 
-				'									readonly  placeholder="从业人数" value="[从业人数]">' +
+				'									readonly  placeholder="从业人数"  readonly value="[从业人数]">' +
 				'							</div>' +
 				'						</div>' +
 				'						<div class="form-group col-md-6 type_emphasis" style="display:none;">' +
@@ -383,13 +398,60 @@
 				'								<span class="input-group-addon"> <i' +
 				'									class="fa fa-reorder"></i>' +
 				'								</span> <input type="text" class="form-control spinner"' +
-				'									  readonly  placeholder="订单数量" value="[订单数量]">' +
+				'									  readonly  placeholder="订单数量"  readonly value="[订单数量]">' +
 				'							</div>' +
 				'						</div>' + 
+				'						<!-- 年度扶持项目监测 -->' +
+				'						<div class="form-group col-md-6 type_support" style="display:none;">' +
+				'							<label>项目名称</label>' +
+				'							<div class="input-group">' +
+				'								<span class="input-group-addon"> <i' +
+				'									class="fa fa-reorder"></i>' +
+				'								</span> <input  type="text" class="form-control spinner input_support"' +
+				'									 id="projectName" name="projectName" readonly placeholder="请输入项目名称" value="[项目名称]">' +
+				'							</div>' +
+				'						</div>' +
+				'						<div class="form-group col-md-6 type_support" style="display:none;">' +
+				'							<label>起止年限</label>' +
+				'							<div class="input-group">' +
+				'								<span class="input-group-addon"> <i' +
+				'									class="fa fa-reorder"></i>' +
+				'								</span> <input type="text" class="form-control " readonly name="projectEndTime" ' +
+				'										id="projectEndTime" placeholder="起止年限" value="[起止年限]" > ' +
+				'							</div>' +
+				'						</div>' +
+				'						<div class="form-group col-md-6 type_support" style="display:none;">' +
+				'							<label>投资总额（万元）</label>' +
+				'							<div class="input-group">' +
+				'								<span class="input-group-addon"> <i' +
+				'									class="fa fa-reorder"></i>' +
+				'								</span> <input  type="number" class="form-control spinner input_support"' +
+				'									  id="totalInvestment" name="totalInvestment"  readonly placeholder="请输入投资总额"  value="[投资总额]">' +
+				'							</div>' +
+				'						</div>' +
+				'						<div class="form-group col-md-6 type_support" style="display:none;">' +
+				'							<label>银行贷款金额（万元）</label>' +
+				'							<div class="input-group">' +
+				'								<span class="input-group-addon"> <i' +
+				'									class="fa fa-reorder"></i>' +
+				'								</span> <input  type="number" class="form-control spinner input_support"' +
+				'									id="bankLoanAmount" name="bankLoanAmount"  readonly placeholder="请输入银行贷款金额"  value="[银行贷款金额]">' +
+				'							</div>' +
+				'						</div>' +
+				'						<div class="form-group col-md-12 type_support" style="display:none;">' +
+				'							<label>项目主要内容</label>' +
+				'							<div class="input-group" id="projectContentDiv">' +
+				'		                        <textarea  id="projectContent" class="input_support"  readonly name="projectContent" rows="6"  cols="130">[项目主要内容]</textarea>' +
+				'		                    </div>' +
+				'						</div>' +
+				'						<div class="form-group col-md-12 type_support" style="display:none;">' +
+				'							<label>项目预期效果</label>' +
+				'							<div class="input-group">' +
+				'								<textarea id="projectDesiredEffect"  readonly class="input_support" name="projectDesiredEffect" rows="6"  cols="130">[项目预期效果]</textarea>' +
+				'							</div>' +
+				'						</div>' +
 				'					</div>' +
-				 '					<div style="height:380px;display:none;" class="type_emphasis" ></div>' + 
-				'					<div style="height:250px;display:none;" class="type_quota" ></div>' +
-				'					<div class="form-actions"  >' +
+				'					<div class="form-actions type_emphasis type_quota" style="display:none;"  >' +
 				'						[question]' +
 				'					</div>' +
 				'			</div>' +

@@ -285,6 +285,28 @@ public class FrontCompanyReportController extends BaseController {
 				} catch (Exception e) {
 					temp.put("statusName", "");
 				}
+				
+				try {
+					temp.put("projectName", json.get("projectName"));
+				} catch (Exception e) {
+					temp.put("projectName", "");
+				}
+				try {
+					temp.put("totalInvestment", json.get("totalInvestment"));
+				} catch (Exception e) {
+					temp.put("totalInvestment", "");
+				}
+				try {
+					temp.put("bankLoanAmount", json.get("bankLoanAmount"));
+				} catch (Exception e) {
+					temp.put("bankLoanAmount", "");
+				}
+				try {
+					temp.put("yearLimit", json.get("yearLimit"));
+				} catch (Exception e) {
+					temp.put("yearLimit", "");
+				}
+				
 				try {
 					if (json.get("reason") == null
 							|| org.apache.commons.lang3.StringUtils.isBlank(json.get("reason") + "")

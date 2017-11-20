@@ -73,7 +73,9 @@
 						var newsWeight = null;
 						var noticeWeight = null;
 						if(!data) {
-							alert('没有查询到企业新闻');
+							if(vagueWords) {
+								alert('没有查询到企业新闻');
+							}
 							return;
 						}
 		                for (var i = 0; i < data.length; i++) {
@@ -125,7 +127,9 @@
 						var newsWeight = null;
 						var noticeWeight = null;
 						if(!data) {
-							alert('没有查询到系统公告');
+							if(vagueWords) {
+								alert('没有查询到系统公告');
+							}
 							return;
 						}
 		                for (var i = 0; i < data.length; i++) {
