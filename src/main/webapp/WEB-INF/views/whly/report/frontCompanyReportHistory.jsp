@@ -84,6 +84,8 @@
 			$('.type_emphasis').show();
 		} else if(type == "2") {
 			$('.type_quota').show();
+		} else if(type == "3") {
+			$('.type_support').show();
 		}
 	}
 </script>
@@ -150,7 +152,10 @@
 											<th class="type_emphasis " style="display:none;">贷款金额 (万元)</th>
 											<th class="type_emphasis " style="display:none;">订单数量 (个)</th>
 											<th class="type_emphasis type_quota" style="display:none;">从业人数(人)</th>
-											
+											<th class="type_support" style="display:none;">项目名称</th>
+											<th class="type_support" style="display:none;">总投资金额 (万元)</th>
+											<th class="type_support" style="display:none;">贷款金额 (万元)</th>
+											<th class="type_support" style="display:none;">起止年限</th>
 											<th>所属行业</th>
 											<th>所属地域</th>
 											<th>反馈内容</th>
@@ -180,7 +185,10 @@
 												<td class="type_emphasis " style="display:none;">${frontCompanyReportHistory.loanAmount}</td>
 												<td class="type_emphasis " style="display:none;">${frontCompanyReportHistory.orderQuantity}</td>
 												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReportHistory.empQuantity}</td>
-												
+												<td class="type_support" style="display:none;">${frontCompanyReportHistory.projectName}</td>
+												<td class="type_support" style="display:none;">${frontCompanyReportHistory.totalInvestment}</td>
+												<td class="type_support" style="display:none;">${frontCompanyReportHistory.bankLoanAmount}</td>
+												<td class="type_support" style="display:none;">${frontCompanyReportHistory.yearLimit}</td>
 												<td>${frontCompanyReportHistory.description}</td>
 												<td>${frontCompanyReportHistory.areaName}</td>
 												<td>${frontCompanyReportHistory.reason}</td>

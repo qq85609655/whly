@@ -353,7 +353,7 @@ $.ready(function() {
 												<div class="input-group">
 													<span class="input-group-addon"> <i
 														class="fa fa-reorder"></i>
-													</span> <input  type="number" class="form-control spinner input_support"
+													</span> <input  type="text" class="form-control spinner input_support"
 														 id="projectName" name="projectName" placeholder="请输入项目名称">
 												</div>
 											</div>
