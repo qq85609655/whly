@@ -319,7 +319,7 @@
 						'				营业收入、营业成本 、营业利润、从业人数为企业单月数据。</span>' +
 						'				<span class="caption-subject bold uppercase col-md-10 type_emphasis" style="display:none;">' +
 						'				营业收入、营业成本、营业利润、企业税费、应付职工薪酬、贷款金额为企业单月数据。</span>' +
-						'				<span class="caption-subject bold uppercase col-md-10 type_emphasis type_support" style="display:none;">' +
+						'				<span class="caption-subject bold uppercase col-md-10 type_support" style="display:none;">' +
 						'				项目申报信息</span>' +
 						'				<span style="float: right;font-size: 15px;" class="actions" >[time]</span>' +
 						'		</div>' +
@@ -451,8 +451,6 @@
 				'							</div>' +
 				'						</div>' +
 				'					</div>' +
-				 '					<div style="height:380px;display:none;" class="type_emphasis" ></div>' + 
-				'					<div style="height:250px;display:none;" class="type_quota" ></div>' +
 				'					<div class="form-actions type_emphasis type_quota" style="display:none;"  >' +
 				'						[question]' +
 				'					</div>' +
