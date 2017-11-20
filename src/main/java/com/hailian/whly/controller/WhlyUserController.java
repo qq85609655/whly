@@ -51,11 +51,13 @@ public class WhlyUserController extends BaseController {
 	 */
 	@RequestMapping(value = "saveUserInfo")
 	public String saveUserInfo(User user, HttpServletResponse response, Model model) {
-		User currentUser = UserUtils.getUser();
+		User currentUser = UserUtils.getUser2();
 		currentUser.setEmail(user.getEmail());
 		currentUser.setPhone(user.getPhone());
 		currentUser.setMobile(user.getMobile());
 		currentUser.setPhoto(user.getPhoto());
+		currentUser.setLoginName(user.getLoginName());
+		currentUser.setName(user.getName());
 		systemService.updateUserInfo(currentUser);
 		model.addAttribute("message", "保存用户信息成功");
 	
@@ -67,7 +69,7 @@ public class WhlyUserController extends BaseController {
 	//user修改密码
 	@RequestMapping(value = "modifyPwd")
 	public String modifyPwd(String oldPassword, String newPassword, Model model) {
-		User user = UserUtils.getUser();
+		User user = UserUtils.getUser2();
 //		String path=whlyPage+"/user/login";
 		String path="redirect:/front/logout";
 		if (StringUtils.isNotBlank(oldPassword) && StringUtils.isNotBlank(newPassword)){
