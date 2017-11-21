@@ -100,7 +100,8 @@
 		<div class="content">
 			<c:forEach items="${companyEnum}" var="company" varStatus="status">
 				<div 
-				<c:if test="${comPanyType==company.type or canSeeAll==true }">onclick="loginPage('${company.rootId }')"</c:if>
+				<c:if test="${comPanyType==company.type }">onclick="loginPage('')"</c:if>
+				<c:if test="${canSeeAll==true }">onclick="loginPage('${company.rootId }')"</c:if>
 				class="plate <c:if test="${status.index==0 }">ml0</c:if> 
 					<c:if test="${comPanyType!=company.type and canSeeAll!=true }">disabled</c:if> 
 				">

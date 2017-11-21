@@ -156,6 +156,8 @@
 				     
 				     
 				     <input type="hidden" value="${companyParentType}" id="companyParentType">
+				       <input type="hidden" value="${pcid}" id="pcid">
+				     
                      <!-- 主体部分END-->
                     
                     <div class="clearfix"></div>
@@ -247,7 +249,7 @@
 			   getStatisticsCountByType(status);
 		   } */
 		   var type = $('#companyParentType').val();
-			if(type != "3") {
+			if(type != "3"&& $("#pcid").val()=="") {
 				getStatisticsCountByType(status);
 			} else {
 				$('#bar').remove();
