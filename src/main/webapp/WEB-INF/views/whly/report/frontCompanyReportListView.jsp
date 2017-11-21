@@ -64,7 +64,13 @@
 .pagination  ul .controls a:hover {
 	text-decoration: none;
 }
-
+.ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	width:111px;
+	/* display:block; */
+}
 </style>
 <script type="text/javascript">
 			$(function() {
@@ -176,7 +182,7 @@
 								</div>
 							</div>
 							<div class="portlet-body">
-								<table class="table table-striped table-bordered table-hover"
+								<table class="table table-striped table-bordered table-hover" style="table-layout: fixed;"
 									id="sample_1">
 									<thead>
 										<tr role="row">
@@ -193,6 +199,9 @@
 											<th class="type_emphasis " style="display:none;">订单数量 (个)</th>
 											<th class="type_emphasis type_quota" style="display:none;">从业人数(人)</th>
 											<th class="type_support" style="display:none;">项目名称</th>
+											<th class="type_support" style="display: none;">项目主要内容</th>
+											<th class="type_support" style="display: none;">建设地点</th>
+											<th class="type_support" style="display: none;">项目预期结果</th>
 											<th class="type_support" style="display:none;">总投资金额 (万元)</th>
 											<th class="type_support" style="display:none;">贷款金额 (万元)</th>
 											<th class="type_support" style="display:none;">起止年限</th>
@@ -218,6 +227,13 @@
 												<td class="type_emphasis " style="display:none;">${frontCompanyReport.orderQuantity}</td>
 												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReport.empQuantity}</td>
 												<td class="type_support" style="display:none;">${frontCompanyReport.projectName}</td>
+												<td class="type_support ellipsis"
+													title="${frontCompanyReport.projectContent}"
+													style="display: none;">${frontCompanyReport.projectContent}</td>
+												<td class="type_support" style="display: none;">${frontCompanyReport.address}</td>
+												<td class="type_support ellipsis"
+													title="${frontCompanyReport.projectDesiredEffect}"
+													style="display: none;">${frontCompanyReport.projectDesiredEffect}</td>
 												<td class="type_support" style="display:none;">${frontCompanyReport.totalInvestment}</td>
 												<td class="type_support" style="display:none;">${frontCompanyReport.bankLoanAmount}</td>
 												<td class="type_support" style="display:none;">${frontCompanyReport.yearLimit}</td>

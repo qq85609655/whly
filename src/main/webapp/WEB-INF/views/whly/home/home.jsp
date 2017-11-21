@@ -138,7 +138,7 @@
                     </div>
                     
                     <!-- 饼状图 -->
-                     <div class="row">
+                     <div class="row" id="bar">
                         <div class="col-md-12">
                             <div class="portlet light portlet-fit bordered">
                                 <div class="portlet-title">
@@ -155,7 +155,7 @@
                     </div>
 				     
 				     
-				     
+				     <input type="hidden" value="${companyParentType}" id="companyParentType">
                      <!-- 主体部分END-->
                     
                     <div class="clearfix"></div>
@@ -246,7 +246,13 @@
 		   /* if(companyParentId=="be9e0da458064360b214c9ca69327859"){
 			   getStatisticsCountByType(status);
 		   } */
-		   getStatisticsCountByType(status);
+		   var type = $('#companyParentType').val();
+			if(type != "3") {
+				getStatisticsCountByType(status);
+			} else {
+				$('#bar').remove();
+			}
+		   
 	   }
 	   //按照状态、时间统计数量
 	   function getStatisticsCountByStatus(startDate,endDate){

@@ -150,16 +150,17 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			dao.insert1(frontCompanyReport);
 			if(list!=null) {
 				for(FrontReportQuestion front: list) {
-					front.setId(UUID.randomUUID().toString());
-					front.setMonth(time);
-					front.setReportId(reportId); 	//上报ID
-					front.setCreateDate(time);  	//插入时间
-					front.setUpdateDate(time);		//更改时间
-					front.setCompanyId(user.getCompany().getId()); // 企业ID
-					front.setOperator(user.getName());	// 操作人
-					front.setDelFlag("0");
-					dao.addQuestion(front);
-					
+					if(!front.getTitle().isEmpty() || !front.getContent().isEmpty()) {
+						front.setId(UUID.randomUUID().toString());
+						front.setMonth(time);
+						front.setReportId(reportId); 	//上报ID
+						front.setCreateDate(time);  	//插入时间
+						front.setUpdateDate(time);		//更改时间
+						front.setCompanyId(user.getCompany().getId()); // 企业ID
+						front.setOperator(user.getName());	// 操作人
+						front.setDelFlag("0");
+						dao.addQuestion(front);
+					}
 				}
 			}
 			
@@ -229,22 +230,29 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 					for(FrontReportQuestion question: frontCompanyReport.getQuestion()) {
 						if(question!=null) {
 							if(question.getId()!=null && question.getId().trim()!="") {
-								reportId.add(question.getId());
-								//修改所有问题信息
-								question.setDelFlag("0");
-								question.setUpdateDate(time);
-								dao.updateQuestion(question);
+								if(question.getTitle().isEmpty() && question.getContent().isEmpty()) {
+									question.setDelFlag("1");
+									dao.updateQuestion(question);
+								} else {
+									reportId.add(question.getId());
+									//修改所有问题信息
+									question.setDelFlag("0");
+									question.setUpdateDate(time);
+									dao.updateQuestion(question);
+								}
 							} else {
-								//新建信息
-								question.setId(UUID.randomUUID().toString());
-								question.setMonth(time);
-								question.setReportId(frontCompanyReport.getId()); 	//上报ID
-								question.setCreateDate(time);  	//插入时间
-								question.setUpdateDate(time);		//更改时间
-								question.setCompanyId(user.getCompany().getId()); // 企业ID
-								question.setOperator(user.getName());	// 操作人
-								question.setDelFlag("0");
-								dao.addQuestion(question);
+								if(!question.getTitle().isEmpty() || !question.getContent().isEmpty()) {
+									//新建信息
+									question.setId(UUID.randomUUID().toString());
+									question.setMonth(time);
+									question.setReportId(frontCompanyReport.getId()); 	//上报ID
+									question.setCreateDate(time);  	//插入时间
+									question.setUpdateDate(time);		//更改时间
+									question.setCompanyId(user.getCompany().getId()); // 企业ID
+									question.setOperator(user.getName());	// 操作人
+									question.setDelFlag("0");
+									dao.addQuestion(question);
+								}
 							}
 						}
 					}

@@ -119,7 +119,13 @@ public class FrontCompanyReportController extends BaseController {
 		if (org.apache.commons.lang3.StringUtils.isBlank(frontCompanyReport.getId())) {
 			frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName());
 			try {
-				topMonth = frontCompanyReportService.getTopReportMonth();
+				Calendar now = Calendar.getInstance();
+				Integer year = Integer.valueOf(now.get(1));
+				Integer month = Integer.valueOf(now.get(2) + 1);
+				topMonth.put("year", year);
+				topMonth.put("month", month);
+				topMonth.put("info", year + "年" + month + "月");
+				//topMonth = frontCompanyReportService.getTopReportMonth();
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
@@ -306,7 +312,21 @@ public class FrontCompanyReportController extends BaseController {
 				} catch (Exception e) {
 					temp.put("yearLimit", "");
 				}
-				
+				try {
+					temp.put("projectContent", json.get("projectContent"));
+				} catch (Exception e) {
+					temp.put("projectContent", "");
+				}
+				try {
+					temp.put("address", json.get("address"));
+				} catch (Exception e) {
+					temp.put("address", "");
+				}
+				try {
+					temp.put("projectDesiredEffect", json.get("projectDesiredEffect"));
+				} catch (Exception e) {
+					temp.put("projectDesiredEffect", "");
+				}
 				try {
 					if (json.get("reason") == null
 							|| org.apache.commons.lang3.StringUtils.isBlank(json.get("reason") + "")

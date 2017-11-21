@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.hailian.whly.report.service.FrontCompanyReportService;
 import com.thinkgem.jeesite.common.config.Global;
 
 import org.springframework.ui.Model;
@@ -32,6 +33,8 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 public class HomeController extends BaseController {
 	@Autowired
 	private SystemService systemService;
+	@Autowired
+	private FrontCompanyReportService frontCompanyReportService;
 	/**
 	 * 
 	 * @time   2017年10月1日 下午8:43:04
@@ -52,6 +55,7 @@ public class HomeController extends BaseController {
 				break;
 			}
 		}*/
+		model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
 		boolean canSh = systemService.findUserCanSh();
 		if(!canSh){
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

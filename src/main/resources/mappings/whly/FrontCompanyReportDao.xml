@@ -45,7 +45,8 @@
 		a.del_flag AS "delFlag",
 		a7.name AS "area.name",
 		sd.description AS "description",
-		o5.name AS "companyName"
+		o5.name AS "companyName",
+		o5.address AS "address"
 		
 		
 	</sql>
@@ -122,6 +123,9 @@
 			</if>
 			<if test="typeId != null and typeId != ''">
 				AND a.type_id = #{typeId}
+			</if>
+			<if test="projectName != null and projectName != ''">
+				AND a.project_name like CONCAT(CONCAT('%', #{projectName}), '%') 
 			</if>
 			<if test="companyName != null and companyName != ''">
 				AND o5.name like CONCAT(CONCAT('%', #{companyName}), '%')

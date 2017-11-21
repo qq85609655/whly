@@ -51,6 +51,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String projectStartTime;		// 项目开始时间
 	private String projectEndTime;	// 项目结束时间
 	private String bankLoanAmount;	//银行贷款金额
+	private String address;			//建设地点 （公司地址）
 	
 	private Date insertTime;		// 插入时间
 	private Date updateTime;		// 更新时间
@@ -71,6 +72,14 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	
 	
 	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public String getProjectStartTime() {
 		return projectStartTime;
 	}

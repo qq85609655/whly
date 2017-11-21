@@ -85,6 +85,7 @@
     }
 
 	function judgeInput() {
+		var type = $('#companyParentType').val();
 		var id = $("#reportId").val();
 		var data = {
 				id: id
@@ -111,21 +112,22 @@
 					$("#loanAmount").attr('value',result.data.loanAmount);
 	                $("#empQuantity").attr('value',result.data.empQuantity);
 	                $("#orderQuantity").attr('value',result.data.orderQuantity);
+	                if(type == "3") {
+	                	$("#projectName").attr('value',result.data.projectName);
+		                $("#totalInvestment").attr('value',result.data.totalInvestment);
+		                $("#bankLoanAmount").attr('value',result.data.bankLoanAmount);
+		               	$("#projectContent").html(result.data.projectContent);
+		                $("#projectDesiredEffect").html(result.data.projectDesiredEffect);
+		                $("#projectStartTime").attr('value',result.data.yearLimit.substring(0,8));
+		                $("#projectEndTime").attr('value',result.data.yearLimit.substring(9));
+	                }
 	                
-	                $("#projectName").attr('value',result.data.projectName);
-	                $("#totalInvestment").attr('value',result.data.totalInvestment);
-	                $("#bankLoanAmount").attr('value',result.data.bankLoanAmount);
-	               	$("#projectContent").html(result.data.projectContent);
-	                $("#projectDesiredEffect").html(result.data.projectDesiredEffect);
-	                $("#projectStartTime").attr('value',result.data.yearLimit.substring(0, 8));
-	                $("#projectEndTime").attr('value',result.data.yearLimit.substring(9));
 	                
 	                /* $("#projectContentDiv").empty();
 	                $("#projectContentDiv").append('<div style="border：2px;">' + result.data.projectContent + '</div>'); */
 	                
-	                console.info( $("#projectContentDiv").find( '.cke_editable.cke_editable_themed'));
-	                $("#projectContentDiv").find('.cke_editable').append(result.data.projectContent);
-	                $('#submit').css("display","block");
+	                //$("#projectContentDiv").find('.cke_editable').append(result.data.projectContent);
+	                $('#submit').attr("style","display:block;");
 	                if(question) {
 	                	 for(var i=0; i<question.length; i++) {
 	 	                	if(question[i]!=null && question[i]!="" && question[i]) {
@@ -157,13 +159,15 @@
 	                $("#empQuantity").attr('value',result.data.empQuantity).attr('readonly','true');
 	                $("#orderQuantity").attr('value',result.data.orderQuantity).attr('readonly','true');
 	                
-	                $("#projectName").attr('value',result.data.projectName).attr('readonly','true');
-	                $("#totalInvestment").attr('value',result.data.totalInvestment).attr('readonly','true');
-	                $("#bankLoanAmount").attr('value',result.data.bankLoanAmount).attr('readonly','true');
-	               	$("#projectContent").html(result.data.projectContent).attr('readonly','true');
-	                $("#projectDesiredEffect").html(result.data.projectDesiredEffect).attr('readonly','true');
-	                $("#projectStartTime").attr('value',result.data.yearLimit.substring(0, 8)).attr('readonly','true');
-	                $("#projectEndTime").attr('value',result.data.yearLimit.substring(9)).attr('readonly','true');
+	                if(type == "3") {
+		                $("#projectName").attr('value',result.data.projectName).attr('readonly','true');
+		                $("#totalInvestment").attr('value',result.data.totalInvestment).attr('readonly','true');
+		                $("#bankLoanAmount").attr('value',result.data.bankLoanAmount).attr('readonly','true');
+		               	$("#projectContent").html(result.data.projectContent).attr('readonly','true');
+		                $("#projectDesiredEffect").html(result.data.projectDesiredEffect).attr('readonly','true');
+		                $("#projectStartTime").attr('value',result.data.yearLimit.substring(0, 8)).attr('readonly','true');
+		                $("#projectEndTime").attr('value',result.data.yearLimit.substring(9)).attr('readonly','true');
+	                }
 	                if(question) {
 	                	for(var i=0; i<question.length; i++) {
 		                	if(question[i]!=null && question[i]!="" && question[i]) {
@@ -197,9 +201,9 @@
 		var divs = $('#remarks').find("div");
 		var remarks = '<div class="form-group">'+
 						'<label>'+ (divs.length + 1) +'、标题</label> '+
-						'<input class="form-control spinner" type="text" placeholder="" required name="question['+ divs.length +'].title">'+
+						'<input class="form-control spinner" type="text" placeholder=""  name="question['+ divs.length +'].title">'+
 						'<label>内容</label>'+
-						'<textarea class="form-control" rows="3" required name="question['+ divs.length +'].content"></textarea>'+
+						'<textarea class="form-control" rows="3"  name="question['+ divs.length +'].content"></textarea>'+
 					'</div>'
 		$("#remarks").append(remarks);
 	}
