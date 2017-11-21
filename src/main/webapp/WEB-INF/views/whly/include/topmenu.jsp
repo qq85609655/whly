@@ -51,7 +51,7 @@
 							   </c:otherwise>  
 							</c:choose>  
                          " />
-                          <span class="username username-hide-on-mobile"> ${fns:getUser().loginName} </span>
+                          <span class="username username-hide-on-mobile"> ${fns:getUser().name} </span>
                           <i class="fa fa-angle-down"></i>
                       </a>
                       <ul class="dropdown-menu dropdown-menu-default">
