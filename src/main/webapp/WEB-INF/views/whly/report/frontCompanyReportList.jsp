@@ -108,8 +108,17 @@
 		if ($('#message').val()) {
 			alert($('#message').val());
 		}
+		//设置表格宽度
+		style();
 	});
-
+	
+	function style() {
+		$(".table-striped").css("tableLayout","fixed");
+		$(".table-striped .width_1").css("width","60px");
+		$(".table-striped .width_2").css("width","120px");
+		$(".table-striped .width_3").css("width","150px");
+		$(".table-striped .width_9").css("width","80px");
+	}
 	//清空时间
 	function clearDate() {
 		$('#timeQuery').val('');
@@ -164,6 +173,12 @@
 		$("#searchForm").submit();
 		return false;
 	}
+	$(function(){
+		console.log($(".table-striped"));
+		 //style="table-layout: fixed
+		
+	});
+	
 </script>
 
 </head>
@@ -329,38 +344,38 @@
 									id="sample_1">
 									<thead>
 										<tr role="row">
-											<th>操作</th>
-											<th>状态</th>
-											<th>年</th>
-											<th>月份</th>
-											<th>上报企业名称</th>
-											<th>所属行业</th>
-											<th>所属地域</th>
-											<th class="type_emphasis type_quota" style="display: none;">营业收入
+											<th class="width_9">操作</th>
+											<th class="width_1">状态</th>
+											<th class="width_1">年</th>
+											<th class="width_1">月份</th>
+											<th class="width_2">上报企业名称</th>
+											<th class="width_2">所属行业</th>
+											<th class="width_1">所属地域</th>
+											<th class="type_emphasis type_quota width_2" style="display: none;">营业收入
 												(万元)</th>
-											<th class="type_emphasis type_quota" style="display: none;">营业利润
+											<th class="type_emphasis type_quota width_2" style="display: none;">营业利润
 												(万元)</th>
-											<th class="type_emphasis " style="display: none;">企业税费
+											<th class="type_emphasis width_2" style="display: none;">企业税费
 												(万元)</th>
-											<th class="type_emphasis type_quota" style="display: none;">营业成本
+											<th class="type_emphasis type_quota width_2" style="display: none;">营业成本
 												(万元)</th>
-											<th class="type_emphasis " style="display: none;">应付职工薪酬
+											<th class="type_emphasis  width_2" style="display: none;">应付职工薪酬
 												(万元)</th>
-											<th class="type_emphasis " style="display: none;">贷款金额
+											<th class="type_emphasis width_2" style="display: none;">贷款金额
 												(万元)</th>
-											<th class="type_emphasis " style="display: none;">订单数量
+											<th class="type_emphasis width_2" style="display: none;">订单数量
 												(个)</th>
-											<th class="type_emphasis type_quota" style="display: none;">从业人数(人)</th>
-											<th class="type_support" style="display: none;">项目名称</th>
-											<th class="type_support" style="display: none;">项目主要内容</th>
-											<th class="type_support" style="display: none;">建设地点</th>
-											<th class="type_support" style="display: none;">项目预期结果</th>
-											<th class="type_support" style="display: none;">总投资金额
+											<th class="type_emphasis type_quota width_2" style="display: none;">从业人数(人)</th>
+											<th class="type_support width_2" style="display: none;">项目名称</th>
+											<th class="type_support width_2" style="display: none;">建设地点</th>
+											<th class="type_support width_3" style="display: none;">项目主要内容</th>
+											<th class="type_support width_3" style="display: none;">项目预期结果</th>
+											<th class="type_support width_2" style="display: none;">总投资金额
 												(万元)</th>
-											<th class="type_support" style="display: none;">贷款金额
+											<th class="type_support width_2" style="display: none;">贷款金额
 												(万元)</th>
-											<th class="type_support" style="display: none;">起止年限</th>
-											<th>上报时间</th>
+											<th class="type_support width_3" style="display: none;">起止年限</th>
+											<th class="width_2">上报时间</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -394,10 +409,10 @@
 												<td class="type_emphasis type_quota" style="display: none;">${frontCompanyReport.empQuantity}</td>
 												<td class="type_support" style="display: none;">${frontCompanyReport.projectName}</td>
 												
+												<td class="type_support" style="display: none;">${frontCompanyReport.address}</td>
 												<td class="type_support ellipsis"
 													title="${frontCompanyReport.projectContent}"
 													style="display: none;">${frontCompanyReport.projectContent}</td>
-												<td class="type_support" style="display: none;">${frontCompanyReport.address}</td>
 												<td class="type_support ellipsis"
 													title="${frontCompanyReport.projectDesiredEffect}"
 													style="display: none;">${frontCompanyReport.projectDesiredEffect}</td>

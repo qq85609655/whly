@@ -82,7 +82,17 @@
 		// 根据当前登录用户企业所属类型 来页面展示的内容
 		contentShow();
 		
+		//设置表格宽度
+		style();
 	});
+	
+	function style() {
+		$(".table-striped").css("tableLayout","fixed");
+		$(".table-striped .width_1").css("width","60px");
+		$(".table-striped .width_2").css("width","120px");
+		$(".table-striped .width_3").css("width","150px");
+		$(".table-striped .width_9").css("width","80px");
+	}
 	
 	// 根据当前登录用户企业所属类型 来页面展示的内容
 	function contentShow() {
@@ -148,27 +158,27 @@
 									id="sample_1">
 									<thead>
 										<tr role="row">
-											<th>状态</th>
-											<th>操作人</th>
-											<th>操作时间</th>
-											<th class="type_emphasis type_quota" style="display:none;">营业收入 (万元)</th>
-											<th class="type_emphasis type_quota" style="display:none;">营业利润 (万元)</th>
-											<th class="type_emphasis " style="display:none;">企业税费 (万元)</th>
-											<th class="type_emphasis type_quota" style="display:none;">营业成本 (万元)</th>
-											<th class="type_emphasis " style="display:none;">应付职工薪酬 (万元)</th>
-											<th class="type_emphasis " style="display:none;">贷款金额 (万元)</th>
-											<th class="type_emphasis " style="display:none;">订单数量 (个)</th>
-											<th class="type_emphasis type_quota" style="display:none;">从业人数(人)</th>
-											<th class="type_support" style="display:none;">项目名称</th>
-											<th class="type_support" style="display: none;">项目主要内容</th>
-											<th class="type_support" style="display: none;">建设地点</th>
-											<th class="type_support" style="display: none;">项目预期结果</th>
-											<th class="type_support" style="display:none;">总投资金额 (万元)</th>
-											<th class="type_support" style="display:none;">贷款金额 (万元)</th>
-											<th class="type_support" style="display:none;">起止年限</th>
-											<th>所属行业</th>
-											<th>所属地域</th>
-											<th>反馈内容</th>
+											<th class="width_1">状态</th>
+											<th class="width_2">操作人</th>
+											<th class="width_2">操作时间</th>
+											<th class="type_emphasis type_quota width_2" style="display:none;">营业收入 (万元)</th>
+											<th class="type_emphasis type_quota width_2" style="display:none;">营业利润 (万元)</th>
+											<th class="type_emphasis width_2" style="display:none;">企业税费 (万元)</th>
+											<th class="type_emphasis type_quota width_2" style="display:none;">营业成本 (万元)</th>
+											<th class="type_emphasis width_2" style="display:none;">应付职工薪酬 (万元)</th>
+											<th class="type_emphasis width_2" style="display:none;">贷款金额 (万元)</th>
+											<th class="type_emphasis width_2" style="display:none;">订单数量 (个)</th>
+											<th class="type_emphasis type_quota width_2" style="display:none;">从业人数(人)</th>
+											<th class="type_support width_2" style="display:none;">项目名称</th>
+											<th class="type_support width_2" style="display: none;">建设地点</th>
+											<th class="type_support width_3" style="display: none;">项目主要内容</th>
+											<th class="type_support width_3" style="display: none;">项目预期结果</th>
+											<th class="type_support width_2" style="display:none;">总投资金额 (万元)</th>
+											<th class="type_support width_2" style="display:none;">贷款金额 (万元)</th>
+											<th class="type_support width_3" style="display:none;">起止年限</th>
+											<th class="width_2">所属行业</th>
+											<th class="width_1">所属地域</th>
+											<th class="width_2">反馈内容</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -196,10 +206,10 @@
 												<td class="type_emphasis " style="display:none;">${frontCompanyReportHistory.orderQuantity}</td>
 												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReportHistory.empQuantity}</td>
 												<td class="type_support" style="display:none;">${frontCompanyReportHistory.projectName}</td>
+												<td class="type_support" style="display: none;">${frontCompanyReportHistory.address}</td>
 												<td class="type_support ellipsis"
 													title="${frontCompanyReportHistory.projectContent}"
 													style="display: none;">${frontCompanyReportHistory.projectContent}</td>
-												<td class="type_support" style="display: none;">${frontCompanyReportHistory.address}</td>
 												<td class="type_support ellipsis"
 													title="${frontCompanyReportHistory.projectDesiredEffect}"
 													style="display: none;">${frontCompanyReportHistory.projectDesiredEffect}</td>
