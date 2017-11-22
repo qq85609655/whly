@@ -44,6 +44,17 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">模块类型 ：</label>
+			<div class="controls">
+			
+				<form:select path="companyType" class="input-xlarge required" value="${frontNotification.companyType }">
+					<form:option value="" label=""/>
+					<form:options items="${companyEnum}" itemLabel="name" itemValue="rootId" htmlEscape="false"/>
+				</form:select>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">标题：</label>
 			<div class="controls">
 				<form:input path="title" htmlEscape="false" maxlength="255" class="input-xxlarge measure-input required"/>
@@ -85,7 +96,7 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" style="display:none">
 			<label class="control-label">发布状态:</label>
 			<div class="controls">
 				<%-- <form:radiobuttons path="delFlag" items="${fns:getDictList('cms_del_flag')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required"/> --%>

@@ -510,7 +510,7 @@
 			frh.remarks AS "remarks",
 			frh.del_flag AS "delFlag"
 		FROM 
-			front_report_his frh 
+			front_report_history frh 
 		WHERE 
 			frh.report_id = #{reportId} and
 			frh.del_flag = "0"
@@ -518,7 +518,7 @@
 	</select>
 	
 	<insert id="addHistroy" parameterType="com.hailian.whly.report.entity.FrontReportHistory">
-		INSERT INTO front_report_his(
+		INSERT INTO front_report_history(
 			id,
 			report_id,
 			description,
@@ -572,7 +572,7 @@
 			t.remarks remarks,
 			t.del_flag delFlag
 		FROM
-			front_report_his t
+			front_report_history t
 		WHERE
 			t.report_id = #{reportId}
 		ORDER BY

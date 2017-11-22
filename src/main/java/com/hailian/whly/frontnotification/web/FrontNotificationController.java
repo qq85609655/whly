@@ -25,6 +25,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.hailian.whly.commom.CompanyTypeEnum;
 import com.hailian.whly.frontnotification.entity.FrontNotification;
 import com.hailian.whly.frontnotification.service.FrontNotificationService;
 import com.hailian.whly.report.entity.FrontCompanyReport;
@@ -79,6 +80,7 @@ public class FrontNotificationController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(FrontNotification frontNotification, Model model) {
 		model.addAttribute("frontNotification", frontNotification);
+		model.addAttribute("companyEnum",CompanyTypeEnum.getAllCompany());
 		return "whly/frontnotification/frontNotificationForm";
 	}
 
