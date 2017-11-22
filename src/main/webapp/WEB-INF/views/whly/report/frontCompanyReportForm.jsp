@@ -43,8 +43,14 @@
 		
 		//返回上一页点击事件
 		$("#return").click(returnBack);
-		//判断能不能输入文本
-		judgeInput();
+		//当前用户所登录的模块
+		var type = $('#companyParentType').val();
+		if(type == '3') { // 扶持项目模块
+			//supportJudgeInput();
+		} else {
+			//判断能不能输入文本
+			judgeInput();
+		}
 		//增加按钮
 		$("#add").click(addRemarks);
 		//删除按钮
@@ -84,8 +90,56 @@
     	}
     }
 
+    function supportJudgeInput() {
+    	var id = $("#reportId").val();
+		var data = {
+				id: id
+		};
+		$.ajax({
+			type : 'POST',
+			data : data,
+			url : whlyPath + '/report/frontCompanyReport/getfrontCompanyprojectById',
+			dataType : 'json'
+		}).done(function(result, status, xhr) {
+            console.info(result.data);
+			return;
+			var companyName = $("#companyName").val();
+            var question = result.data.question;
+            var divs = $('#remarks').find("div");
+			if(companyName!=null && result.data.companyName == companyName && result.data.status != 'PASSED') {
+	          	$("#projectName").attr('value',result.data.projectName);
+	            $("#totalInvestment").attr('value',result.data.totalInvestment);
+	            $("#bankLoanAmount").attr('value',result.data.bankLoanAmount);
+	           	$("#projectContent").html(result.data.projectContent);
+	            $("#projectDesiredEffect").html(result.data.projectDesiredEffect);
+	            $("#projectStartTime").attr('value',result.data.yearLimit.substring(0,8));
+	            $("#projectEndTime").attr('value',result.data.yearLimit.substring(9));
+                
+                
+                $('#submit').attr("style","display:block;");
+			} else {
+				$('#add').remove();
+				$('#delete').remove();
+				$('#submit').remove();
+                $("#projectName").attr('value',result.data.projectName).attr('readonly','true');
+                $("#totalInvestment").attr('value',result.data.totalInvestment).attr('readonly','true');
+                $("#bankLoanAmount").attr('value',result.data.bankLoanAmount).attr('readonly','true');
+               	$("#projectContent").html(result.data.projectContent).attr('readonly','true');
+                $("#projectDesiredEffect").html(result.data.projectDesiredEffect).attr('readonly','true');
+                $("#projectStartTime").attr('value',result.data.yearLimit.substring(0, 8)).attr('readonly','true');
+                $("#projectEndTime").attr('value',result.data.yearLimit.substring(9)).attr('readonly','true');
+			}
+               
+		}).fail(function(xhr, status, error) {
+			
+		});
+		
+		$("#action").attr('action', whlyPath + '/report/frontCompanyReport/save?menuId=${menuId}');
+		//$("#return").attr("style","display:none;");
+		$("#submit").attr("style","display:block;");
+    }
+    
 	function judgeInput() {
-		var type = $('#companyParentType').val();
 		var id = $("#reportId").val();
 		var data = {
 				id: id
@@ -189,11 +243,9 @@
 			});
 		} else {
 			$("#action").attr('action', whlyPath + '/report/frontCompanyReport/save?menuId=${menuId}');
-			$("#return").attr("style","display:none;");
+			//$("#return").attr("style","display:none;");
 			$("#submit").attr("style","display:block;");
-			if($('#companyParentType').val() != '3') {
-				addRemarks();
-			}
+			addRemarks();
 		}
 	}
 	
@@ -274,6 +326,7 @@ $.ready(function() {
 								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}"  id="action"  method="post">
 									<div class="form-body">
 										<input type="hidden" value="${frontCompanyReport.id}" id="reportId">
+										<input type="hidden" value="${frontCompanyReport.companyId}" id="companyId">
 										<input type="hidden" value="${companyName}" id="companyName">
 										<input type="hidden" value="${frontCompanyReport.id}" name="id">
 										<input type="hidden" value="${companyParentType}" id="companyParentType">

@@ -15,7 +15,7 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
  public enum CompanyTypeEnum{
    ZDFW("重点服务业企业监测","front_hylx","be9e0da458064360b214c9ca69327859",IndexModel.zdfuIndexs), 
    XEYX("限额以下服务业企业监测","front_xe","cc0cbec49fe5449da652f8db57d473ab",IndexModel.xefxIndexs), 
-   NDFC("年度扶持项目监测","front_ndfc","ebc16b9cafd84d53a8222eae5d4340d6",null),
+   NDFC("年度扶持项目监测","front_ndfc","ebc16b9cafd84d53a8222eae5d4340d6",IndexModel.fcxmIndexs),
    OTHER("其他","front_qt","d2c1c37069fa4ce189bc4a3529cc7a65",null);
    private String name;
    private String type;

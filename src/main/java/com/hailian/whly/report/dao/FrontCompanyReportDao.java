@@ -200,4 +200,13 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	
 	public List<FrontCompanyReport> getTopMonth(HashMap<String, String> param);
 	
+	/**
+	 *
+	 * @time   2017年11月22日 下午3:56:38 
+	 * @author zhouyl
+	 * @Description   根据企业ID获取扶持项目
+	 * @param  @param companyId
+	 * @param  @return List<FrontCompanyReport>
+	 */
+	public List<FrontCompanyReport> getProjectById(String companyId);
 }
