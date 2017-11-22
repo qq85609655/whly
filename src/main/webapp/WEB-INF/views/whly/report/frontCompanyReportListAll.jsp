@@ -216,7 +216,7 @@
 			<div class="page-content">
 				<!-- page 菜单-->
 				<%@ include file="../include/topBar.jsp"%>
-				<%-- <div class="portlet-body">
+				<div class="portlet-body">
 					<form:form id="searchForm" modelAttribute="frontCompanyReport"
 						action="${whlyPath}/report/frontCompanyReport/list?menuId=${menuId }"
 						method="post" class="breadcrumb form-search">
@@ -327,7 +327,7 @@
 							</div>
 						</div>
 					</form:form>
-				</div> --%>
+				</div>
 				<!-- 主体部分START-->
 				<div class="row">
 					<div class="col-md-12">
@@ -344,7 +344,7 @@
 									id="sample_1">
 									<thead>
 										<tr role="row">
-											<th class="width_9">操作</th>
+											<!-- <th class="width_9">操作</th> -->
 											<th class="width_1">状态</th>
 											<th class="width_1">年</th>
 											<th class="width_1">月份</th>
@@ -381,18 +381,18 @@
 									<tbody>
 										<c:forEach items="${page.list}" var="frontCompanyReport">
 											<tr class="gradeX odd" role="row">
-												<td>
-													<%-- 	<shiro:hasPermission name="report:frontCompanyReport:edit">
-													</shiro:hasPermission> --%> <a style="color: #337ab7;"
+												<%-- <td>
+														<shiro:hasPermission name="report:frontCompanyReport:edit">
+													</shiro:hasPermission> <a style="color: #337ab7;"
 													target="_blank"
 													href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}&from=sh">查看</a>
 													<a style="color: #337ab7;" target="_blank"
 													href="${whlyPath}/taskmange/examine/form?menuId=${menuId }&id=${frontCompanyReport.id}&from=sh">审核</a>
 													<a style="color: #337ab7;" target="_blank"
 													href="${whlyPath}/report/frontCompanyReport/history?menuId=${menuId }&id=${frontCompanyReport.id}&from=sh">历史</a>
-													<%-- 	<shiro:hasPermission name="report:frontCompanyReport:history">
-													</shiro:hasPermission> --%>
-												</td>
+														<shiro:hasPermission name="report:frontCompanyReport:history">
+													</shiro:hasPermission>
+												</td> --%>
 												<td>${frontCompanyReport.statusName}</td>
 												<td>${frontCompanyReport.year}</td>
 												<td>${frontCompanyReport.month}</td>

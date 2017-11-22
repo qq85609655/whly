@@ -249,11 +249,12 @@
 			   getStatisticsCountByType(status);
 		   } */
 		   var type = $('#companyParentType').val();
-			if(type != "3"&& $("#pcid").val()=="") {
+			/* if(type != "3"&& $("#pcid").val()=="") {
 				getStatisticsCountByType(status);
 			} else {
 				$('#bar').remove();
-			}
+			} */
+		   $('#bar').remove();
 		   
 	   }
 	   //按照状态、时间统计数量
