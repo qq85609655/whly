@@ -18,13 +18,6 @@
 		a.update_time AS "updateTime",
 		a.operator AS "operator",
 		
-		a.project_name AS "projectName",
-		a.project_content AS "projectContent",
-		a.project_desired_effect AS "projectDesiredEffect",
-		a.year_limit AS "yearLimit",
-		a.total_investment AS "totalInvestment",
-		a.bank_loan_amount AS "bankLoanAmount", 
-		
 		a.status AS "status",
 		CASE `status` 
          WHEN 'PASSED' THEN '已审核' 
@@ -66,6 +59,22 @@
 		WHERE a.id = #{id}
 	</select>
 	
+	<select id="getProjectById" resultType="com.hailian.whly.report.entity.FrontCompanyReport" >
+		SELECT 
+			a.id AS "id",
+			a.company_id AS "companyId",
+			a.type_id AS "typeId",
+			a.area_id AS "area.id",
+			a.project_name AS "projectName",
+			a.project_content AS "projectContent",
+			a.project_desired_effect AS "projectDesiredEffect",
+			a.year_limit AS "yearLimit",
+			a.total_investment AS "totalInvestment",
+			a.bank_loan_amount AS "bankLoanAmount", 
+		FROM front_company_project a
+		WHERE a.company_id = #{companyId}
+	</select>
+	
 	<select id="getBancklogNumber" resultType="int"  parameterType="com.hailian.whly.report.entity.FrontCompanyReport" >
 		SELECT 
 			count(a.id)
@@ -90,7 +99,15 @@
 		</where>
 	</select>
 	
-	
+	<!-- <select id="findReport1" resultType="com.hailian.whly.report.entity.FrontCompanyReport" parameterType="com.hailian.whly.report.entity.FrontCompanyReport">
+		SELECT 
+			<include refid="frontCompanyReportColumns"/>
+		FROM front_company_report a
+		<include refid="frontCompanyReportJoins"/>
+		<where> 
+				(a.year &lt; #{year} or (a.year = #{year} and a.month &lt; #{month}))   and  a.status = "PASSED"
+		</where>
+	</select> -->
 	<select id="findList" resultType="com.hailian.whly.report.entity.FrontCompanyReport">
 		SELECT 
 			<include refid="frontCompanyReportColumns"/>

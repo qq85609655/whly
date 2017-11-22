@@ -181,7 +181,29 @@ public class FrontCompanyReportController extends BaseController {
 		json.success(front);
 		return json;
 	}
-
+	
+	/**
+	 *
+	 * @time   2017年11月22日 下午3:52:32 
+	 * @author zhouyl
+	 * @Description   根据企业ID获取扶持项目
+	 * @param  @param companyId
+	 * @param  @param model
+	 * @param  @param request
+	 * @param  @param response
+	 * @param  @return ResultJson
+	 */
+	@RequestMapping(value = "getfrontCompanyprojectById")
+	@ResponseBody
+	public ResultJson getfrontCompanyprojectById(String companyId, Model model,
+			HttpServletRequest request, HttpServletResponse response) {
+		ResultJson json = new ResultJson();
+		List<FrontCompanyReport> front = frontCompanyReportService.getProjectById(companyId);
+		json.success(front);
+		return json;
+	}
+	
+	
 	// 获取待办数
 	@RequestMapping(value = "getBancklogNumber")
 	@ResponseBody
@@ -283,14 +305,41 @@ public class FrontCompanyReportController extends BaseController {
 				json.get("status");
 				HashMap<String, Object> temp = new HashMap<String, Object>();
 				temp.put("id", json.get("id"));
-				temp.put("companyName", json.get("companyName"));
-				temp.put("month", json.get("month"));
-				temp.put("year", json.get("year"));
-				temp.put("reportTime", json.get("reportTime"));
-				temp.put("status", json.get("status"));
-				temp.put("insertTime", json.get("insertTime"));
-				temp.put("updateTime", sdf.format(page.get(i).getUpdateDate()));
-
+				try {
+					temp.put("month", json.get("month"));
+				} catch (Exception e) {
+					temp.put("month", "");
+				}
+				try {
+					temp.put("year", json.get("year"));
+				} catch (Exception e) {
+					temp.put("year", "");
+				}
+				try {
+					temp.put("reportTime", json.get("reportTime"));
+				} catch (Exception e) {
+					temp.put("reportTime", "");
+				}
+				try {
+					temp.put("status", json.get("status"));
+				} catch (Exception e) {
+					temp.put("status", "");
+				}
+				try {
+					temp.put("insertTime", json.get("insertTime"));
+				} catch (Exception e) {
+					temp.put("insertTime", "");
+				}
+				try {
+					temp.put("updateTime", sdf.format(page.get(i).getUpdateDate()));
+				} catch (Exception e) {
+					temp.put("updateTime", "");
+				}
+				try {
+					temp.put("companyName", json.get("companyName"));
+				} catch (Exception e) {
+					temp.put("companyName", "");
+				}
 				try {
 					temp.put("empQuantity", json.get("empQuantity"));
 				} catch (Exception e) {

@@ -38,7 +38,14 @@ public class IndexModel implements Serializable {
 			add(new IndexModel("从业人员", "empQuantity"));
 		}
 	};
-
+	//年度扶持项目监测板块指标
+	public final static List<IndexModel> fcxmIndexs = new ArrayList<IndexModel>() {
+		{
+			add(new IndexModel("投资总额", "totalInvestment"));
+			add(new IndexModel("银行贷款金额", "bankLoanAmount"));
+		}
+	};
+	
 	public List<IndexModel> getValues() {
 		return values;
 	}

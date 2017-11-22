@@ -35,8 +35,8 @@
 					 <c:if test="${fn:indexOf(menusIds,menu.idJoin) !=-1}">active open</c:if>" > --%>
 					  <li class="nav-item 
 					 <c:if test="${fn:indexOf(menusIds,menu.idJoin) !=-1}">active open</c:if>" >
-					 	 <a href="javascript:;" class="nav-link nav-toggle">
-					 	 	<span onclick="intentPage('${menu.href }','${menu.target }','${menu.id }')">
+					 	 <a href="javascript:;" class="nav-link nav-toggle" onclick="intentPage('${menu.href }','${menu.target }','${menu.id }')">
+					 	 	<span >
 			                     <i class="icon-${not empty menu.icon?menu.icon:' hide'}"></i>
 			                     <span class="title">${menu.name }</span>
 					 	 	</span>
@@ -50,8 +50,8 @@
 								 	  <c:forEach items="${menu.childList}" var="menu2" varStatus="idxStatus">
 								 	      <c:if test="${menu2.isShow eq '1'}">
 										 	  <li class="nav-item <c:if test="${fn:indexOf(menusIds,menu2.idJoin) !=-1}">active open</c:if>" >
-						                         <a href="javascript:;"  class="nav-link nav-toggle">
-						                             <span onclick="intentPage('${menu2.href }','${menu2.target }','${menu2.id }')">
+						                         <a href="javascript:;"  class="nav-link nav-toggle" onclick="intentPage('${menu2.href }','${menu2.target }','${menu2.id }')">
+						                             <span > 
 							                             <i class="icon-${not empty menu2.icon?menu2.icon:' hide'}"></i>
 							                             ${menu2.name }
 						                             </span>

@@ -163,7 +163,17 @@
 				whlyPath + '/report/frontCompanyReport/export').submit();
 		$("#searchForm").attr("action",
 				whlyPath + '/report/frontCompanyReport/list?menuId=${menuId}');
-		loadingCancel('export');
+		/* $.ajax({
+			type : 'POST',
+			url : whlyPath + '/report/frontCompanyReport/saveh',
+			dataType : 'json'
+		}).done(function(result, status, xhr) {
+			console.info(result)
+               
+		}).fail(function(xhr, status, error) {
+			
+		}); */
+		loadingCancel('export'); 
 	}
 
 	//分页
@@ -385,7 +395,7 @@
 													<%-- 	<shiro:hasPermission name="report:frontCompanyReport:edit">
 													</shiro:hasPermission> --%> <a style="color: #337ab7;"
 													target="_blank"
-													href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}&from=sh">查看</a>
+													href="${whlyPath}/report/frontCompanyReport/form?menuId=${menuId }&id=${frontCompanyReport.id}&companyId=${frontCompanyReport.companyId}&from=sh">查看</a>
 													<a style="color: #337ab7;" target="_blank"
 													href="${whlyPath}/taskmange/examine/form?menuId=${menuId }&id=${frontCompanyReport.id}&from=sh">审核</a>
 													<a style="color: #337ab7;" target="_blank"
@@ -422,8 +432,6 @@
 												<td><fmt:formatDate
 														value="${frontCompanyReport.reportTime}"
 														pattern="yyyy-MM-dd HH:mm:ss" /></td>
-
-
 											</tr>
 										</c:forEach>
 
