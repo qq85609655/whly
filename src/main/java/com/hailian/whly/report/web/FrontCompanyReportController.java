@@ -107,6 +107,36 @@ public class FrontCompanyReportController extends BaseController {
 		}
 		return Global.getWhlyPage() + "/report/frontCompanyReportList";
 	}
+	
+	@RequestMapping(value = { "listAll", "" })
+	public String listAll(FrontCompanyReport frontCompanyReport, HttpServletRequest request, HttpServletResponse response,
+			Model model) {
+		try {
+			model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
+			model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
+			model.addAttribute("status", CheckStatus.getAllStatus());
+			/*if ((frontCompanyReport.getYear() == null || frontCompanyReport.getYear().trim().equals(""))
+					&& frontCompanyReport.getMonth() == null) {
+				Calendar c = Calendar.getInstance(); // 获取时间
+				String year1 = String.valueOf(c.get(Calendar.YEAR));
+				String month = String.valueOf(c.get(Calendar.MONTH) + 1);
+				frontCompanyReport.setYear(year1 + "年" + month + "月");
+			}
+			if ((frontCompanyReport.getYear() == null || frontCompanyReport.getYear().trim().equals(""))
+					&& frontCompanyReport.getMonth() != null) {
+				frontCompanyReport.setMonth("");
+			}*/
+			model.addAttribute("front", frontCompanyReport);
+			String companyParentId = UserUtils.getUser().getCompany().getParentId();
+			frontCompanyReport.setCompanyParentId(companyParentId);
+			Page<FrontCompanyReport> page = frontCompanyReportService
+					.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);
+			model.addAttribute("page", page);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Global.getWhlyPage() + "/report/frontCompanyReportListAll";
+	}
 
 	/* @RequiresPermissions("report:frontCompanyReport:view") */
 	@RequestMapping(value = "form")
