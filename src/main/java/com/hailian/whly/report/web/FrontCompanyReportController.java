@@ -198,6 +198,9 @@ public class FrontCompanyReportController extends BaseController {
 	public ResultJson getfrontCompanyprojectById(String companyId, Model model,
 			HttpServletRequest request, HttpServletResponse response) {
 		ResultJson json = new ResultJson();
+		if(companyId == null || companyId.isEmpty()) {
+			companyId = UserUtils.getUser().getCompany().getId();
+		}
 		List<FrontCompanyReport> front = frontCompanyReportService.getProjectById(companyId);
 		json.success(front);
 		return json;
@@ -405,6 +408,16 @@ public class FrontCompanyReportController extends BaseController {
 					temp.put("projectDesiredEffect", json.get("projectDesiredEffect"));
 				} catch (Exception e) {
 					temp.put("projectDesiredEffect", "");
+				}
+				try {
+					temp.put("projectEvolve", json.get("projectEvolve"));
+				} catch (Exception e) {
+					temp.put("projectEvolve", "");
+				}
+				try {
+					temp.put("monthInvestment", json.get("monthInvestment"));
+				} catch (Exception e) {
+					temp.put("monthInvestment", "");
 				}
 				try {
 					if (json.get("reason") == null

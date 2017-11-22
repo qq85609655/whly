@@ -104,7 +104,8 @@
 			var lastYear = null;  //上年本月的上报信息
 			var now = 0;
 			var max = 0;
-			var operation1 = true;
+			//var operation1 = true;
+			console.info(data);
 			if(data!=null && data!="") {
 				for (var k=0; k < data.length; k++) {
 					if(data[k].id == '本年本月') {
@@ -153,7 +154,7 @@
 							$('#tab').append(mainDiv);
 						}
 					}
-					if((data[i].operation == "通过" &&  operation1) || data[i].operation == "驳回") {
+					if(data[i].operation == "通过"  || data[i].operation == "驳回") {
 						thisMonth = data[i].frontCompanyReport;
 						var totalIncome = statementBody.replace('[name]','营业收入').replace('[value]', thisMonth.totalIncome? thisMonth.totalIncome: 0).replace('[year]',(lastMonth && lastMonth.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastMonth.totalIncome) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.totalIncome) ? yearOnYear(thisMonth.totalIncome, lastYear.totalIncome) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.totalIncome)? exceededDetection(thisMonth.totalIncome, lastYear.totalIncome, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.totalIncome)? exceededDetection(thisMonth.totalIncome, lastYear.totalIncome, false): '没有可比较的上报信息" style="color:#36c6d3;"');
 						var operatingCosts = statementBody.replace('[name]','营业成本').replace('[value]', thisMonth.operatingCosts? thisMonth.operatingCosts: 0).replace('[year]',(lastMonth && lastMonth.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastMonth.operatingCosts) +'%': '100%').replace('[lastYear]',(lastYear && lastYear.operatingCosts) ? yearOnYear(thisMonth.operatingCosts, lastYear.operatingCosts) +'%': '100%').replace('[title1]', (lastMonth && lastMonth.operatingCosts)? exceededDetection(thisMonth.operatingCosts, lastYear.operatingCosts, true): '没有可比较的上报信息" style="color:#36c6d3;"').replace('[title2]', (lastYear && lastYear.operatingCosts)? exceededDetection(thisMonth.operatingCosts, lastYear.operatingCosts, false): '没有可比较的上报信息" style="color:#36c6d3;"');
@@ -176,7 +177,7 @@
 						
 						$('#tab').append(statement1);
 						updateStepNumber(1, i+1);
-						operation1 = false;
+						//operation1 = false;
 					}
 					if(data[i].id == '本年本月') {
 						thisMonth = data[i].frontCompanyReport;

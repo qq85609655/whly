@@ -170,11 +170,13 @@
 											<th class="type_emphasis width_2" style="display:none;">订单数量 (个)</th>
 											<th class="type_emphasis type_quota width_2" style="display:none;">从业人数(人)</th>
 											<th class="type_support width_2" style="display:none;">项目名称</th>
-											<th class="type_support width_2" style="display: none;">建设地点</th>
-											<th class="type_support width_3" style="display: none;">项目主要内容</th>
-											<th class="type_support width_3" style="display: none;">项目预期结果</th>
-											<th class="type_support width_2" style="display:none;">总投资金额 (万元)</th>
-											<th class="type_support width_2" style="display:none;">贷款金额 (万元)</th>
+											<th class="type_support width_3" style="display: none;">当月完成投资金额
+												(万元)</th>
+											<th class="type_support width_2" style="display: none;">项目建设进展情况
+												</th>
+											<th class="type_support width_2" style="display:none;">建设地点</th>
+											<th class="type_support width_3" style="display:none;">项目主要内容</th>
+											<th class="type_support width_3" style="display:none;">项目预期结果</th>
 											<th class="type_support width_3" style="display:none;">起止年限</th>
 											<th class="width_2">所属行业</th>
 											<th class="width_1">所属地域</th>
@@ -206,6 +208,8 @@
 												<td class="type_emphasis " style="display:none;">${frontCompanyReportHistory.orderQuantity}</td>
 												<td class="type_emphasis type_quota" style="display:none;">${frontCompanyReportHistory.empQuantity}</td>
 												<td class="type_support" style="display:none;">${frontCompanyReportHistory.projectName}</td>
+												<td class="type_support" style="display: none;">${frontCompanyReportHistory.monthInvestment}</td>
+												<td class="type_support ellipsis" style="display: none;" title="${frontCompanyReportHistory.projectEvolve}">${frontCompanyReportHistory.projectEvolve}</td>
 												<td class="type_support" style="display: none;">${frontCompanyReportHistory.address}</td>
 												<td class="type_support ellipsis"
 													title="${frontCompanyReportHistory.projectContent}"
@@ -213,8 +217,6 @@
 												<td class="type_support ellipsis"
 													title="${frontCompanyReportHistory.projectDesiredEffect}"
 													style="display: none;">${frontCompanyReportHistory.projectDesiredEffect}</td>
-												<td class="type_support" style="display:none;">${frontCompanyReportHistory.totalInvestment}</td>
-												<td class="type_support" style="display:none;">${frontCompanyReportHistory.bankLoanAmount}</td>
 												<td class="type_support" style="display:none;">${frontCompanyReportHistory.yearLimit}</td>
 												<td>${frontCompanyReportHistory.description}</td>
 												<td>${frontCompanyReportHistory.areaName}</td>

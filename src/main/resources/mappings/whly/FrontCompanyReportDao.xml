@@ -18,6 +18,15 @@
 		a.update_time AS "updateTime",
 		a.operator AS "operator",
 		
+		fcp.project_name AS "projectName",
+		fcp.project_content AS "projectContent",
+		fcp.project_desired_effect AS "projectDesiredEffect",
+		fcp.year_limit AS "yearLimit",
+		fcp.total_investment AS "totalInvestment",
+		fcp.bank_loan_amount AS "bankLoanAmount", 
+		a.project_evolve AS "projectEvolve",
+		a.month_investment AS "monthInvestment",
+		
 		a.status AS "status",
 		CASE `status` 
          WHEN 'PASSED' THEN '已审核' 
@@ -49,6 +58,7 @@
 		LEFT JOIN sys_area a7 ON a7.id = a.area_id
 		LEFT JOIN sys_dict sd ON sd.id = a.type_id
 		LEFT JOIN front_notification fn ON fn.report_id = a.id
+		LEFT JOIN front_company_project fcp ON fcp.company_id = a.company_id
 	</sql>
     
 	<select id="get" resultType="com.hailian.whly.report.entity.FrontCompanyReport" >
@@ -61,6 +71,7 @@
 	
 	<select id="getProjectById" resultType="com.hailian.whly.report.entity.FrontCompanyReport" >
 		SELECT 
+			o5.name AS "companyName",
 			a.id AS "id",
 			a.company_id AS "companyId",
 			a.type_id AS "typeId",
@@ -70,8 +81,10 @@
 			a.project_desired_effect AS "projectDesiredEffect",
 			a.year_limit AS "yearLimit",
 			a.total_investment AS "totalInvestment",
-			a.bank_loan_amount AS "bankLoanAmount", 
+			a.bank_loan_amount AS "bankLoanAmount"
+			
 		FROM front_company_project a
+			LEFT JOIN sys_office o5 ON o5.id = a.company_id
 		WHERE a.company_id = #{companyId}
 	</select>
 	
@@ -202,12 +215,8 @@
 			update_time,
 			operator,
 			
-			project_name,
-			project_content,
-			project_desired_effect,
-			year_limit,
-			total_investment,
-			bank_loan_amount, 
+			project_evolve,
+			month_investment,
 			
 			status,
 			reason,
@@ -237,12 +246,8 @@
 			#{updateTime},
 			#{operator},
 			
-			#{projectName},
-			#{projectContent},
-			#{projectDesiredEffect},
-			#{yearLimit},
-			#{totalInvestment},
-			#{bankLoanAmount},
+			#{projectEvolve},
+			#{monthInvestment},
 			
 			#{status},
 			#{reason},
@@ -320,23 +325,11 @@
 				reason = #{reason},
 			</if>
 			
-			<if test="projectName != null and projectName != ''">
-				project_name = #{projectName},
+			<if test="projectEvolve != null and projectEvolve != ''">
+				project_evolve = #{projectEvolve},
 			</if>
-			<if test="projectContent != null and projectContent != ''">
-				project_content = #{projectContent},
-			</if>
-			<if test="projectDesiredEffect != null and projectDesiredEffect != ''">
-				project_desired_effect = #{projectDesiredEffect},
-			</if>
-			<if test="yearLimit != null and yearLimit != ''">
-				year_limit = #{yearLimit},
-			</if>
-			<if test="totalInvestment != null and totalInvestment != ''">
-				total_investment = #{totalInvestment},
-			</if>
-			<if test="bankLoanAmount != null and bankLoanAmount != ''">
-				bank_loan_amount = #{bankLoanAmount},
+			<if test="monthInvestment != null and monthInvestment != ''">
+				month_investment = #{monthInvestment},
 			</if>
 			
 			
