@@ -33,7 +33,16 @@
 					data : data,
 					url : whlyPath + '/reportstatistics/reportStatistics/getStatic'
 				}).done(function(result, status, xhr) {
-					//console.info(result.data);
+					console.info(result.data);
+					if(!result.data[0].values) { //如果没数据 进行提示
+						alert(title+areaName+typeName+companyName+ '没有数据，请重新选择！');
+						psLineChar.clear();
+						$('#query').button('reset'); //检索取消loading状态
+						$('#query').dequeue();
+						$('#reset').button('reset');//重置取消loading状态
+						$('#reset').dequeue();
+						return;
+					}
 					var data = result.data;
  					var title = "";
  					
