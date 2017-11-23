@@ -158,8 +158,7 @@
 			FORMAT((nloanAmount - ploanAmount) / ploanAmount * 100,2) AS loanAmount,
 			FORMAT((norderQuantity - porderQuantity) / porderQuantity * 100,2) AS orderQuantity,
 			FORMAT((noperatingCosts - poperatingCosts) / poperatingCosts * 100,2) AS operatingCosts,
-			FORMAT((nbankLoanAmount - pbankLoanAmount) / pbankLoanAmount * 100,2) AS bankLoanAmount,
-			FORMAT((ntotalInvestment - ptotalInvestment) / ptotalInvestment * 100,2) AS totalInvestment
+			FORMAT((nmonthInvestment - pmonthInvestment) / pmonthInvestment * 100,2) AS monthInvestment
 		FROM
 			(
 				SELECT
@@ -171,8 +170,7 @@
 					SUM(loan_amount) AS nloanAmount,
 					SUM(order_quantity) AS norderQuantity,
 					SUM(operating_costs) AS noperatingCosts,
-					SUM(bank_loan_amount) AS nbankLoanAmount,
-					SUM(total_investment) AS ntotalInvestment,
+					SUM(month_investment) AS nmonthInvestment,
 					MONTH AS "month", YEAR AS "year"
 					<choose>  
 			            <!-- <when test="statisticsType == 'MONTH'">MONTH AS "month", YEAR AS "year"</when>   -->
@@ -211,8 +209,7 @@
 				SUM(loan_amount) AS ploanAmount,
 				SUM(order_quantity) AS porderQuantity,
 				SUM(operating_costs) AS poperatingCosts,
-				SUM(bank_loan_amount) AS pbankLoanAmount,
-				SUM(total_investment) AS ptotalInvestment,
+				SUM(month_investment) AS pmonthInvestment,
 				MONTH AS "month", YEAR AS "year"
 				<choose>  
 		             <!-- <when test="statisticsType == 'MONTH'">MONTH AS "month", YEAR AS "year"</when>   -->
@@ -303,8 +300,7 @@
 				loanAmount,
 				orderQuantity,
 				operatingCosts,
-				bankLoanAmount,
-				totalInvestment,
+				month_investment,
 				c.*
 			FROM (SELECT
 				SUM(total_income) AS totalIncome,
@@ -315,8 +311,7 @@
 				SUM(loan_amount) AS loanAmount,
 				SUM(order_quantity) AS orderQuantity,
 				SUM(operating_costs) AS operatingCosts,
-				SUM(bank_loan_amount) AS bankLoanAmount,
-				SUM(total_investment) AS totalInvestment,
+				SUM(month_investment) AS month_investment,
 				<choose>  
 		            <when test="statisticsType == 'MONTH'">MONTH AS month</when>
 		            <when test="statisticsType == 'areaName'">area_name AS areaName</when>  
@@ -391,8 +386,7 @@
 				loanAmount,
 				orderQuantity,
 				operatingCosts,
-				bankLoanAmount,
-				totalInvestment,
+				monthInvestment,
 				c.*
 			FROM (SELECT
 				SUM(total_income) AS totalIncome,
@@ -403,8 +397,7 @@
 				SUM(loan_amount) AS loanAmount,
 				SUM(order_quantity) AS orderQuantity,
 				SUM(operating_costs) AS operatingCosts,
-				SUM(bank_loan_amount) AS bankLoanAmount,
-				SUM(total_investment) AS totalInvestment,
+				SUM(month_investment) AS monthInvestment,
 				<choose>  
 		            <when test="statisticsType == 'MONTH'">MONTH AS month</when>
 		            <when test="statisticsType == 'areaName'">area_name AS areaName</when>  
