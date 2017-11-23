@@ -312,7 +312,9 @@
 	
 	<!-- 更新用户信息  -->
 	<update id="updateUserInfo">
-		UPDATE sys_user SET 
+		UPDATE sys_user SET
+			login_name = #{loginName}, 
+			name = #{name}, 
 			email = #{email}, 
 			phone = #{phone}, 
 			mobile = #{mobile}, 
