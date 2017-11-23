@@ -163,7 +163,13 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			if(frontCompanyReport.getOrderQuantity()!=null && frontCompanyReport.getOrderQuantity().trim().equals("")) {
 				frontCompanyReport.setOrderQuantity(null);
 			}
-			dao.insert1(frontCompanyReport);
+			try {
+				dao.insert1(frontCompanyReport);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			
 			if(list!=null) {
 				for(FrontReportQuestion front: list) {
 					if(!front.getTitle().isEmpty() || !front.getContent().isEmpty()) {
