@@ -359,7 +359,7 @@
 											<th class="width_1">年</th>
 											<th class="width_1">月份</th>
 											<th class="width_2">上报企业名称</th>
-											<th class="width_2">所属行业</th>
+											<th class="width_2 type_emphasis type_quota" style="display: none;">所属行业</th>
 											<th class="width_1">所属地域</th>
 											<th class="type_emphasis type_quota width_2" style="display: none;">营业收入
 												(万元)</th>
@@ -377,13 +377,13 @@
 												(个)</th>
 											<th class="type_emphasis type_quota width_2" style="display: none;">从业人数(人)</th>
 											<th class="type_support width_2" style="display: none;">项目名称</th>
+											<th class="type_support width_3" style="display: none;">当月完成投资金额
+												(万元)</th>
+											<th class="type_support width_2" style="display: none;">项目建设进展情况
+												</th>
 											<th class="type_support width_2" style="display: none;">建设地点</th>
 											<th class="type_support width_3" style="display: none;">项目主要内容</th>
 											<th class="type_support width_3" style="display: none;">项目预期结果</th>
-											<th class="type_support width_2" style="display: none;">总投资金额
-												(万元)</th>
-											<th class="type_support width_2" style="display: none;">贷款金额
-												(万元)</th>
 											<th class="type_support width_3" style="display: none;">起止年限</th>
 											<th class="width_2">上报时间</th>
 										</tr>
@@ -407,7 +407,7 @@
 												<td>${frontCompanyReport.year}</td>
 												<td>${frontCompanyReport.month}</td>
 												<td>${frontCompanyReport.companyName}</td>
-												<td>${frontCompanyReport.description}</td>
+												<td class="type_emphasis type_quota" style="display: none;">${frontCompanyReport.description}</td>
 												<td>${frontCompanyReport.area.name}</td>
 												<td class="type_emphasis type_quota" style="display: none;">${frontCompanyReport.totalIncome}</td>
 												<td class="type_emphasis type_quota" style="display: none;">${frontCompanyReport.totalProfit}</td>
@@ -417,8 +417,10 @@
 												<td class="type_emphasis " style="display: none;">${frontCompanyReport.loanAmount}</td>
 												<td class="type_emphasis " style="display: none;">${frontCompanyReport.orderQuantity}</td>
 												<td class="type_emphasis type_quota" style="display: none;">${frontCompanyReport.empQuantity}</td>
-												<td class="type_support" style="display: none;">${frontCompanyReport.projectName}</td>
 												
+												<td class="type_support" style="display: none;">${frontCompanyReport.projectName}</td>
+												<td class="type_support" style="display: none;">${frontCompanyReport.monthInvestment}</td>
+												<td class="type_support ellipsis" style="display: none;" title="${frontCompanyReport.projectEvolve}">${frontCompanyReport.projectEvolve}</td>
 												<td class="type_support" style="display: none;">${frontCompanyReport.address}</td>
 												<td class="type_support ellipsis"
 													title="${frontCompanyReport.projectContent}"
@@ -426,9 +428,8 @@
 												<td class="type_support ellipsis"
 													title="${frontCompanyReport.projectDesiredEffect}"
 													style="display: none;">${frontCompanyReport.projectDesiredEffect}</td>
-												<td class="type_support" style="display: none;">${frontCompanyReport.totalInvestment}</td>
-												<td class="type_support" style="display: none;">${frontCompanyReport.bankLoanAmount}</td>
 												<td class="type_support" style="display: none;">${frontCompanyReport.yearLimit}</td>
+												
 												<td><fmt:formatDate
 														value="${frontCompanyReport.reportTime}"
 														pattern="yyyy-MM-dd HH:mm:ss" /></td>

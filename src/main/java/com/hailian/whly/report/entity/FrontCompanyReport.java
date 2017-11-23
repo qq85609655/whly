@@ -52,6 +52,8 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String projectEndTime;	// 项目结束时间
 	private String bankLoanAmount;	//银行贷款金额
 	private String address;			//建设地点 （公司地址）
+	private String projectEvolve;	//项目建设进展情况
+	private String monthInvestment;	//当月投资
 	
 	private Date insertTime;		// 插入时间
 	private Date updateTime;		// 更新时间
@@ -72,6 +74,22 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	
 	
 	
+	public String getProjectEvolve() {
+		return projectEvolve;
+	}
+
+	public void setProjectEvolve(String projectEvolve) {
+		this.projectEvolve = projectEvolve;
+	}
+
+	public String getMonthInvestment() {
+		return monthInvestment;
+	}
+
+	public void setMonthInvestment(String monthInvestment) {
+		this.monthInvestment = monthInvestment;
+	}
+
 	public String getAddress() {
 		return address;
 	}

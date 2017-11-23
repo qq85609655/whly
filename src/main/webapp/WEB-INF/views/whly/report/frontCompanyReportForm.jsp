@@ -46,7 +46,7 @@
 		//当前用户所登录的模块
 		var type = $('#companyParentType').val();
 		if(type == '3') { // 扶持项目模块
-			//supportJudgeInput();
+			supportJudgeInput();
 		} else {
 			//判断能不能输入文本
 			judgeInput();
@@ -91,9 +91,9 @@
     }
 
     function supportJudgeInput() {
-    	var id = $("#reportId").val();
+    	var companyId = $("#companyId").val();
 		var data = {
-				id: id
+				companyId: companyId
 		};
 		$.ajax({
 			type : 'POST',
@@ -101,45 +101,26 @@
 			url : whlyPath + '/report/frontCompanyReport/getfrontCompanyprojectById',
 			dataType : 'json'
 		}).done(function(result, status, xhr) {
-            console.info(result.data);
-			return;
-			var companyName = $("#companyName").val();
-            var question = result.data.question;
-            var divs = $('#remarks').find("div");
-			if(companyName!=null && result.data.companyName == companyName && result.data.status != 'PASSED') {
-	          	$("#projectName").attr('value',result.data.projectName);
-	            $("#totalInvestment").attr('value',result.data.totalInvestment);
-	            $("#bankLoanAmount").attr('value',result.data.bankLoanAmount);
-	           	$("#projectContent").html(result.data.projectContent);
-	            $("#projectDesiredEffect").html(result.data.projectDesiredEffect);
-	            $("#projectStartTime").attr('value',result.data.yearLimit.substring(0,8));
-	            $("#projectEndTime").attr('value',result.data.yearLimit.substring(9));
-                
-                
-                $('#submit').attr("style","display:block;");
-			} else {
-				$('#add').remove();
-				$('#delete').remove();
-				$('#submit').remove();
-                $("#projectName").attr('value',result.data.projectName).attr('readonly','true');
-                $("#totalInvestment").attr('value',result.data.totalInvestment).attr('readonly','true');
-                $("#bankLoanAmount").attr('value',result.data.bankLoanAmount).attr('readonly','true');
-               	$("#projectContent").html(result.data.projectContent).attr('readonly','true');
-                $("#projectDesiredEffect").html(result.data.projectDesiredEffect).attr('readonly','true');
-                $("#projectStartTime").attr('value',result.data.yearLimit.substring(0, 8)).attr('readonly','true');
-                $("#projectEndTime").attr('value',result.data.yearLimit.substring(9)).attr('readonly','true');
-			}
-               
+            console.info(result);
+            var result = result.data[0];
+            //$('#submit').attr("style","display:block;");
+			$('#add').remove();
+			$('#delete').remove();
+			//$('#submit').remove();
+            $("#projectName").attr('value',result.projectName).attr('readonly','true');
+            $("#totalInvestment").attr('value',result.totalInvestment).attr('readonly','true');
+            $("#bankLoanAmount").attr('value',result.bankLoanAmount).attr('readonly','true');
+           	$("#projectContent").html(result.projectContent).attr('readonly','true');
+            $("#projectDesiredEffect").html(result.projectDesiredEffect).attr('readonly','true');
+            $("#yearLimit").attr('value',result.yearLimit).attr('readonly','true');
+            judgeInput();
 		}).fail(function(xhr, status, error) {
 			
 		});
-		
-		$("#action").attr('action', whlyPath + '/report/frontCompanyReport/save?menuId=${menuId}');
-		//$("#return").attr("style","display:none;");
-		$("#submit").attr("style","display:block;");
     }
     
 	function judgeInput() {
+		var type = $('#companyParentType').val();
 		var id = $("#reportId").val();
 		var data = {
 				id: id
@@ -157,30 +138,20 @@
                	console.info(result.data);
 				if(companyName!=null && result.data.companyName == companyName && result.data.status != 'PASSED') {
 					$("#action").attr('action', whlyPath + '/report/frontCompanyReport/update?menuId=${menuId}');
-					//$("#company").attr('value',result.data.companyName);
-					$("#totalIncome").attr('value',result.data.totalIncome);
-					$("#operatingCosts").attr('value',result.data.operatingCosts);
-					$("#totalProfit").attr('value',result.data.totalProfit);
-					$("#totalTax").attr('value',result.data.totalTax);
-					$("#employeeCompensation").attr('value',result.data.employeeCompensation);
-					$("#loanAmount").attr('value',result.data.loanAmount);
-	                $("#empQuantity").attr('value',result.data.empQuantity);
-	                $("#orderQuantity").attr('value',result.data.orderQuantity);
-	                if(type == "3") {
-	                	$("#projectName").attr('value',result.data.projectName);
-		                $("#totalInvestment").attr('value',result.data.totalInvestment);
-		                $("#bankLoanAmount").attr('value',result.data.bankLoanAmount);
-		               	$("#projectContent").html(result.data.projectContent);
-		                $("#projectDesiredEffect").html(result.data.projectDesiredEffect);
-		                $("#projectStartTime").attr('value',result.data.yearLimit.substring(0,8));
-		                $("#projectEndTime").attr('value',result.data.yearLimit.substring(9));
-	                }
-	                
-	                
-	                /* $("#projectContentDiv").empty();
-	                $("#projectContentDiv").append('<div style="border：2px;">' + result.data.projectContent + '</div>'); */
-	                
-	                //$("#projectContentDiv").find('.cke_editable').append(result.data.projectContent);
+					if(type == '3') {
+						$("#monthInvestment").attr('value',result.data.monthInvestment);
+						$("#projectEvolve").html(result.data.projectEvolve);
+					} else {
+						$("#company").attr('value',result.data.companyName);
+						$("#totalIncome").attr('value',result.data.totalIncome);
+						$("#operatingCosts").attr('value',result.data.operatingCosts);
+						$("#totalProfit").attr('value',result.data.totalProfit);
+						$("#totalTax").attr('value',result.data.totalTax);
+						$("#employeeCompensation").attr('value',result.data.employeeCompensation);
+						$("#loanAmount").attr('value',result.data.loanAmount);
+		                $("#empQuantity").attr('value',result.data.empQuantity);
+		                $("#orderQuantity").attr('value',result.data.orderQuantity);
+					}
 	                $('#submit').attr("style","display:block;");
 	                if(question) {
 	                	 for(var i=0; i<question.length; i++) {
@@ -197,30 +168,22 @@
 	 	                }
 	                }
 				} else {
-					/* $('#add').attr("style","display:none;");
-					$('#delete').attr("style","display:none;");
-					$('#submit').attr("style","display:none;"); */
 					$('#add').remove();
 					$('#delete').remove();
 					$('#submit').remove();
-					//$("#company").attr('value',result.data.companyName).attr('readonly','true');
-					$("#totalIncome").attr('value',result.data.totalIncome).attr('readonly','true');
-					$("#operatingCosts").attr('value',result.data.operatingCosts).attr('readonly','true');
-					$("#totalProfit").attr('value',result.data.totalProfit).attr('readonly','true');
-					$("#totalTax").attr('value',result.data.totalTax).attr('readonly','true');
-					$("#employeeCompensation").attr('value',result.data.employeeCompensation).attr('readonly','true');
-					$("#loanAmount").attr('value',result.data.loanAmount).attr('readonly','true');
-	                $("#empQuantity").attr('value',result.data.empQuantity).attr('readonly','true');
-	                $("#orderQuantity").attr('value',result.data.orderQuantity).attr('readonly','true');
-	                
 	                if(type == "3") {
-		                $("#projectName").attr('value',result.data.projectName).attr('readonly','true');
-		                $("#totalInvestment").attr('value',result.data.totalInvestment).attr('readonly','true');
-		                $("#bankLoanAmount").attr('value',result.data.bankLoanAmount).attr('readonly','true');
-		               	$("#projectContent").html(result.data.projectContent).attr('readonly','true');
-		                $("#projectDesiredEffect").html(result.data.projectDesiredEffect).attr('readonly','true');
-		                $("#projectStartTime").attr('value',result.data.yearLimit.substring(0, 8)).attr('readonly','true');
-		                $("#projectEndTime").attr('value',result.data.yearLimit.substring(9)).attr('readonly','true');
+		                $("#monthInvestment").attr('value',result.data.monthInvestment).attr('readonly','true');
+		                $("#projectEvolve").html(result.data.projectEvolve).attr('readonly','true');
+	                } else {
+	                	$("#company").attr('value',result.data.companyName).attr('readonly','true');
+						$("#totalIncome").attr('value',result.data.totalIncome).attr('readonly','true');
+						$("#operatingCosts").attr('value',result.data.operatingCosts).attr('readonly','true');
+						$("#totalProfit").attr('value',result.data.totalProfit).attr('readonly','true');
+						$("#totalTax").attr('value',result.data.totalTax).attr('readonly','true');
+						$("#employeeCompensation").attr('value',result.data.employeeCompensation).attr('readonly','true');
+						$("#loanAmount").attr('value',result.data.loanAmount).attr('readonly','true');
+		                $("#empQuantity").attr('value',result.data.empQuantity).attr('readonly','true');
+		                $("#orderQuantity").attr('value',result.data.orderQuantity).attr('readonly','true');
 	                }
 	                if(question) {
 	                	for(var i=0; i<question.length; i++) {
@@ -245,7 +208,9 @@
 			$("#action").attr('action', whlyPath + '/report/frontCompanyReport/save?menuId=${menuId}');
 			//$("#return").attr("style","display:none;");
 			$("#submit").attr("style","display:block;");
-			addRemarks();
+			if(type != '3') {
+				addRemarks();
+			}
 		}
 	}
 	
@@ -419,53 +384,36 @@ $.ready(function() {
 													<span class="input-group-addon"> <i
 														class="fa fa-reorder"></i>
 													</span> <input  type="text" class="form-control spinner input_support"
-														 id="projectName" name="projectName" placeholder="请输入项目名称">
+														 id="projectName" name="projectName" placeholder="项目名称">
 												</div>
 											</div>
 											<div class="form-group col-md-6 type_support" style="display:none;">
 												<label>起止年限</label>
-												<div class="inputBox">
-													<div class="input-group date date-picker col-md-6 fl" data-date-format="yyyy年mm月">
-														<input type="text" class="form-control" readonly name="projectStartTime" value=""
-															id="projectStartTime" placeholder="开始时间" >
-														<span class="input-group-btn" >
-															<button class="btn default date-set" type="button">
-																<i class="fa fa-calendar"></i>
-															</button>
-														</span>
-													</div>
-													<div class="input-group date date-picker col-md-6 fl" data-date-format="yyyy年mm月">
-														<input type="text" class="form-control" readonly name="projectEndTime" value=""
-															id="projectEndTime" placeholder="结束时间" > 
-															<span class="input-group-btn" >
-															<button class="btn default date-set" type="button">
-																<i class="fa fa-calendar"></i>
-															</button>
-														</span>
-													</div>
+												<div class="input-group">
+													<span class="input-group-addon"> <i
+														class="fa fa-reorder"></i>
+													</span> <input  type="text" class="form-control spinner input_support"
+														 id="yearLimit" name="yearLimit" placeholder="起止年限">
 												</div>
 											</div>
 											<div class="form-group col-md-6 type_support" style="display:none;">
-												<label>投资总额（万元）</label>
+												<label>当月完成投资金额（万元）</label>
 												<div class="input-group">
 													<span class="input-group-addon"> <i
 														class="fa fa-reorder"></i>
 													</span> <input  type="number" class="form-control spinner input_support"
-														  id="totalInvestment" name="totalInvestment" placeholder="请输入投资总额">
-												</div>
-											</div>
-											<div class="form-group col-md-6 type_support" style="display:none;">
-												<label>银行贷款金额（万元）</label>
-												<div class="input-group">
-													<span class="input-group-addon"> <i
-														class="fa fa-reorder"></i>
-													</span> <input  type="number" class="form-control spinner input_support"
-														id="bankLoanAmount" name="bankLoanAmount" placeholder="请输入银行贷款金额">
+														  id="monthInvestment" name="monthInvestment" placeholder="请输入当月完成投资金额">
 												</div>
 											</div>
 											<div class="form-group col-md-12 type_support" style="display:none;">
+												<label style="color:red;">项目建设进展情况</label>
+												<div class="input-group" >
+	                                                <textarea  id="projectEvolve" class="input_support" name="projectEvolve" rows="6"  cols="130"></textarea>
+	                                            </div>
+											</div>
+											<div class="form-group col-md-12 type_support" style="display:none;">
 												<label>项目主要内容</label>
-												<div class="input-group" id="projectContentDiv">
+												<div class="input-group" >
 	                                                <textarea  id="projectContent" class="input_support" name="projectContent" rows="6"  cols="130"></textarea>
 	                                            </div>
 											</div>
