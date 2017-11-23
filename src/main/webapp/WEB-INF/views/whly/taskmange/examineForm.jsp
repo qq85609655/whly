@@ -416,7 +416,7 @@
 				'								<span class="input-group-addon"> <i' +
 				'									class="fa fa-reorder"></i>' +
 				'								</span> <input  type="text" class="form-control spinner input_support"' +
-				'									 id="projectName" name="projectName" readonly placeholder="请输入项目名称" value="[项目名称]">' +
+				'									 id="projectName" name="projectName" readonly placeholder="项目名称" value="[项目名称]">' +
 				'							</div>' +
 				'						</div>' +
 				'						<div class="form-group col-md-6 type_support" style="display:none;">' +
@@ -434,7 +434,7 @@
 				'								<span class="input-group-addon"> <i' +
 				'									class="fa fa-reorder"></i>' +
 				'								</span> <input  type="number" class="form-control spinner input_support"' +
-				'									  id="totalInvestment" name="totalInvestment"  readonly placeholder="请输入投资总额"  value="[投资总额]">' +
+				'									  id="totalInvestment" name="totalInvestment"  readonly placeholder="投资总额"  value="[投资总额]">' +
 				'							</div>' +
 				'						</div>' +
 				'						<div class="form-group col-md-6 type_support" style="display:none;">' +
@@ -443,7 +443,7 @@
 				'								<span class="input-group-addon"> <i' +
 				'									class="fa fa-reorder"></i>' +
 				'								</span> <input  type="number" class="form-control spinner input_support"' +
-				'									id="bankLoanAmount" name="bankLoanAmount"  readonly placeholder="请输入银行贷款金额"  value="[银行贷款金额]">' +
+				'									id="bankLoanAmount" name="bankLoanAmount"  readonly placeholder="银行贷款金额"  value="[银行贷款金额]">' +
 				'							</div>' +
 				'						</div>' +
 				'						<div class="form-group col-md-6 type_support" style="display:none;">' +
@@ -452,7 +452,16 @@
 				'								<span class="input-group-addon"> <i' +
 				'									class="fa fa-reorder"></i>' +
 				'								</span> <input  type="number" class="form-control spinner input_support"' +
-				'									  id="monthInvestment" name="monthInvestment" readonly placeholder="请输入当月完成投资金额"  value="[当月完成投资金额]">' +
+				'									  id="monthInvestment" name="monthInvestment" readonly placeholder="当月完成投资金额"  value="[当月完成投资金额]">' +
+				'							</div>' +
+				'						</div>' +
+				'						<div class="form-group col-md-6 type_support" style="display:none;">' +
+				'							<label>当前完成投资总额（万元）</label>' +
+				'							<div class="input-group">' +
+				'								<span class="input-group-addon"> <i' +
+				'									class="fa fa-reorder"></i>' +
+				'								</span> <input  type="number" class="form-control spinner input_support"' +
+				'									id="" name=""  readonly placeholder="当前完成投资总额"  value="[当前完成投资总额]">' +
 				'							</div>' +
 				'						</div>' +
 				'						<div class="form-group col-md-12 type_support" style="display:none;">' +

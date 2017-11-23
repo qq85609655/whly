@@ -147,29 +147,36 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			frontCompanyReport.setInsertTime(time);	//提交时间
 			frontCompanyReport.setReportTime(time);	//上报时间
 			frontCompanyReport.setUpdateTime(time);	//更改时间
-			frontCompanyReport.setDelFlag("0");
-			if(frontCompanyReport.getProjectName()!=null) {
-				frontCompanyReport.setYearLimit(frontCompanyReport.getProjectStartTime() + '—' + frontCompanyReport.getProjectEndTime());
+			//如果参数为空字符串 则为null
+			if(frontCompanyReport.getEmpQuantity() != null && frontCompanyReport.getEmpQuantity().trim().isEmpty()) {
+				frontCompanyReport.setEmpQuantity(null);
 			}
-			if(frontCompanyReport.getTotalTax()!=null && frontCompanyReport.getTotalTax().trim().equals("")) {
+			if(frontCompanyReport.getTotalIncome() != null && frontCompanyReport.getTotalIncome().trim().isEmpty()) {
+				frontCompanyReport.setTotalIncome(null);
+			}
+			if(frontCompanyReport.getTotalProfit() != null && frontCompanyReport.getTotalProfit().trim().isEmpty()) {
+				frontCompanyReport.setTotalProfit(null);
+			}
+			if(frontCompanyReport.getOperatingCosts() != null && frontCompanyReport.getOperatingCosts().trim().isEmpty()) {
+				frontCompanyReport.setOperatingCosts(null);
+			}
+			if(frontCompanyReport.getTotalTax() != null && frontCompanyReport.getTotalTax().trim().isEmpty()) {
 				frontCompanyReport.setTotalTax(null);
 			}
-			if(frontCompanyReport.getEmployeeCompensation()!=null && frontCompanyReport.getEmployeeCompensation().trim().equals("")) {
+			if(frontCompanyReport.getEmployeeCompensation() != null && frontCompanyReport.getEmployeeCompensation().trim().isEmpty()) {
 				frontCompanyReport.setEmployeeCompensation(null);
 			}
-			if(frontCompanyReport.getLoanAmount()!=null && frontCompanyReport.getLoanAmount().trim().equals("")) {
+			if(frontCompanyReport.getLoanAmount() != null && frontCompanyReport.getLoanAmount().trim().isEmpty()) {
 				frontCompanyReport.setLoanAmount(null);
 			}
-			if(frontCompanyReport.getOrderQuantity()!=null && frontCompanyReport.getOrderQuantity().trim().equals("")) {
+			if(frontCompanyReport.getOrderQuantity() != null && frontCompanyReport.getOrderQuantity().trim().isEmpty()) {
 				frontCompanyReport.setOrderQuantity(null);
 			}
-			try {
-				dao.insert1(frontCompanyReport);
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
+			if(frontCompanyReport.getMonthInvestment() != null && frontCompanyReport.getMonthInvestment().trim().isEmpty()) {
+				frontCompanyReport.setMonthInvestment(null);
 			}
-			
+			frontCompanyReport.setDelFlag("0");
+			dao.insert1(frontCompanyReport);
 			if(list!=null) {
 				for(FrontReportQuestion front: list) {
 					if(!front.getTitle().isEmpty() || !front.getContent().isEmpty()) {
