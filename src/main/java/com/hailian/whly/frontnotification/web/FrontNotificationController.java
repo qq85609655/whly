@@ -3,14 +3,11 @@
  */
 package com.hailian.whly.frontnotification.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,16 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
-import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.hailian.whly.commom.CompanyTypeEnum;
 import com.hailian.whly.frontnotification.entity.FrontNotification;
 import com.hailian.whly.frontnotification.service.FrontNotificationService;
-import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.report.utils.ResultJson;
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 新闻公告Controller
@@ -73,7 +69,7 @@ public class FrontNotificationController extends BaseController {
 		frontNotification.setCompanyType(UserUtils.getUser().getCompany().getParentId());
 		Page<FrontNotification> page = frontNotificationService.findPage(new Page<FrontNotification>(request, response), frontNotification); 
 		model.addAttribute("page", page);
-		return "whly/frontnotification/frontNotificationList";
+		return Global.getWhlyPage()+"/frontnotification/frontNotificationList";
 	}
 
 	/*@RequiresPermissions("frontnotification:frontNotification:view")*/
@@ -81,7 +77,7 @@ public class FrontNotificationController extends BaseController {
 	public String form(FrontNotification frontNotification, Model model) {
 		model.addAttribute("frontNotification", frontNotification);
 		model.addAttribute("companyEnum",CompanyTypeEnum.getAllCompany());
-		return "whly/frontnotification/frontNotificationForm";
+		return Global.getWhlyPage()+"/frontnotification/frontNotificationForm";
 	}
 
 //	@RequiresPermissions("frontnotification:frontNotification:edit")

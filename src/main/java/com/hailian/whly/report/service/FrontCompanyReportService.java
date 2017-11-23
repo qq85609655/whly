@@ -175,7 +175,6 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			if(frontCompanyReport.getMonthInvestment() != null && frontCompanyReport.getMonthInvestment().trim().isEmpty()) {
 				frontCompanyReport.setMonthInvestment(null);
 			}
-			
 			frontCompanyReport.setDelFlag("0");
 			dao.insert1(frontCompanyReport);
 			if(list!=null) {
