@@ -75,6 +75,7 @@
 		} else if(type == "2") {
 			$('.type_quota').show();
 			$('.input_quota').attr('required','true');
+			$('.input_quota1').remove();
 		} else if(type == "3") {
 			$('.type_support').show();
 			$('.input_support').attr('required','true');
@@ -315,7 +316,7 @@ $.ready(function() {
 												<div class="input-group">
 													<span class="input-group-addon" >￥</span>
 													<input  class="form-control input_emphasis input_quota"
-														placeholder="请输入营业收入"  type="text"  name="totalIncome" id="totalIncome">
+														placeholder="请输入营业收入"  type="number"  name="totalIncome" id="totalIncome">
 												</div>
 											</div>
 											<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
@@ -334,7 +335,7 @@ $.ready(function() {
 														placeholder="请输入营业利润" aria-describedby="sizing-addon1">
 												</div>
 											</div>
-											<div class="form-group col-md-6 type_emphasis" style="display:none;">
+											<div class="form-group col-md-6 type_emphasis type_quota1" style="display:none;">
 												<label>企业税费（万元）</label>
 												<div class="input-group">
 													<span class="input-group-addon" >￥</span>
@@ -342,7 +343,7 @@ $.ready(function() {
 														placeholder="请输入企业税费" aria-describedby="sizing-addon1">
 												</div>
 											</div>
-											<div class="form-group col-md-6 type_emphasis" style="display:none;">
+											<div class="form-group col-md-6 type_emphasis type_quota1" style="display:none;">
 												<label>应付职工薪酬（万元）</label>
 												<div class="input-group">
 													<span class="input-group-addon" >￥</span>
@@ -351,7 +352,7 @@ $.ready(function() {
 														aria-describedby="sizing-addon1">
 												</div>
 											</div>
-											<div class="form-group col-md-6 type_emphasis" style="display:none;">
+											<div class="form-group col-md-6 type_emphasis type_quota1" style="display:none;">
 												<label>贷款金额（万元）</label>
 												<div class="input-group">
 													<span class="input-group-addon" >￥</span>
@@ -368,7 +369,7 @@ $.ready(function() {
 														id="empQuantity" placeholder="请输入从业人数">
 												</div>
 											</div>
-											<div class="form-group col-md-6 type_emphasis" style="display:none;">
+											<div class="form-group col-md-6 type_emphasis type_quota1" style="display:none;">
 												<label>订单数量（个）</label>
 												<div class="input-group">
 													<span class="input-group-addon"> <i

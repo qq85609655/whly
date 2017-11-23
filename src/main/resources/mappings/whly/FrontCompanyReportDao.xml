@@ -125,7 +125,7 @@
 		SELECT 
 			<include refid="frontCompanyReportColumns"/>
 		FROM front_company_report a
-		<include refid="frontCompanyReportJoins"/>
+			<include refid="frontCompanyReportJoins"/>
 		<where>
 			<if test="year != null and year != ''">
 				AND a.year = #{year}
@@ -502,6 +502,7 @@
 			frh.create_by AS "createBy.name",
 			frh.remarks AS "remarks",
 			frh.del_flag AS "delFlag"
+			
 		FROM 
 			front_report_history frh 
 		WHERE 
