@@ -36,6 +36,16 @@ public interface ReportStatisticsDao extends CrudDao<ReportStatistics> {
 	 * @param  @param reportStatistics
 	 * @param  @return List<ReportStatistics>
 	 */
+	public List<ReportStatistics> getProportionQytb(ReportStatistics reportStatistics);
+	
+	/**
+	 *
+	 * @time   2017年11月16日 上午10:10:20 
+	 * @author zhouyl
+	 * @Description   总额分析
+	 * @param  @param reportStatistics
+	 * @param  @return List<ReportStatistics>
+	 */
 	public List<ReportStatistics> getAmountQytb(ReportStatistics reportStatistics);
 	
 	public List<ReportStatistics> getStaiticQytb(ReportStatistics reportStatistics);

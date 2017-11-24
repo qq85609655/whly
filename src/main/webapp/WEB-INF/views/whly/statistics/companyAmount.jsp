@@ -40,7 +40,7 @@
 				$.ajax({
 					type : 'POST',
 					data : data,
-					url : whlyPath + '/reportstatistics/reportStatistics/getProportionQytb'
+					url : whlyPath + '/reportstatistics/reportStatistics/getAmountQytb'
 				}).done(function(result, status, xhr) {
 					var psLineChar = echarts.init(document.getElementById('lineDiv'));
 					if(!result.data[0].values) { //如果没数据 进行提示

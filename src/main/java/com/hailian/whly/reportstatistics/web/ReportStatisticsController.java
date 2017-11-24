@@ -116,7 +116,7 @@ public class ReportStatisticsController extends BaseController {
 	 * @param  @param response
 	 * @param  @return ResultJson
 	 */
-	@RequestMapping(value = "getProportionQytb")
+	@RequestMapping(value = "getAmountQytb")
 	@ResponseBody
 	public ResultJson getAmountQytb(ReportStatistics reportStatistics, Model model, HttpServletRequest request, HttpServletResponse response) {
 		ResultJson json = new ResultJson();
@@ -142,7 +142,7 @@ public class ReportStatisticsController extends BaseController {
 	 * @param  @param response
 	 * @param  @return ResultJson
 	 */
-	//@RequestMapping(value = "getProportionQytb")
+	@RequestMapping(value = "getProportionQytb")
 	@ResponseBody
 	public ResultJson getProportionQytb(ReportStatistics reportStatistics, Model model, HttpServletRequest request, HttpServletResponse response) {
 		ResultJson json = new ResultJson();
@@ -153,8 +153,8 @@ public class ReportStatisticsController extends BaseController {
 		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
 		reportStatistics.setDictType(UserUtils.getUser().getCompany().getIndustyType().getType());
 		System.out.println(UserUtils.getUser().getCompany().getIndustyType().getType());
-		/*List<IndexModel> data = reportStatisticsService.getProportionQytb(reportStatistics);
-		json.success(data);*/
+		List<IndexModel> data = reportStatisticsService.getProportionQytb(reportStatistics);
+		json.success(data);
 		return json;
 	}
 	
