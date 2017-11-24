@@ -61,6 +61,9 @@ public class WhlyAccountService extends CrudService<WhlyAccountDao, WhlyAccount>
 		frontCompanyReport = fcr1.get(0);		//返回该企业本年本月的上报信息
 		FrontReportHistory history = new FrontReportHistory(); 
 		history.setId("本年本月");
+		
+		FrontCompanyReport currentInvestment = dao.getCurrentInvestmentByCompanyID(frontCompanyReport.getCompanyId());
+		frontCompanyReport.setCurrentInvestment(currentInvestment.getCurrentInvestment());
 		history.setFrontCompanyReport(frontCompanyReport);
 		list.add(history);
 		int year = Integer.parseInt((frontCompanyReport.getYear()));

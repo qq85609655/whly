@@ -54,6 +54,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String address;			//建设地点 （公司地址）
 	private String projectEvolve;	//项目建设进展情况
 	private String monthInvestment;	//当月投资
+	private String currentInvestment;	// 当前投资总额
 	
 	private Date insertTime;		// 插入时间
 	private Date updateTime;		// 更新时间
@@ -74,6 +75,14 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	
 	
 	
+	public String getCurrentInvestment() {
+		return currentInvestment;
+	}
+
+	public void setCurrentInvestment(String currentInvestment) {
+		this.currentInvestment = currentInvestment;
+	}
+
 	public String getProjectEvolve() {
 		return projectEvolve;
 	}

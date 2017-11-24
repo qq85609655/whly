@@ -148,7 +148,7 @@
 							} else if(type == '2') {
 								mainDiv = mainDiv.replace('[营业收入]', report.totalIncome? report.totalIncome: 0).replace('[营业利润]',report.totalProfit? report.totalProfit: 0).replace('[营业成本]',report.operatingCosts? report.operatingCosts: 0).replace('[从业人数]',report.empQuantity? report.empQuantity: 0);
 							} else if(type == '3') {
-								mainDiv = mainDiv.replace('[项目名称]', report.projectName? report.projectName: 0).replace('[起止年限]',report.yearLimit? report.yearLimit: 0).replace('[投资总额]',report.totalInvestment? report.totalInvestment: 0).replace('[银行贷款金额]',report.bankLoanAmount? report.bankLoanAmount: 0).replace('[项目主要内容]',report.projectContent? report.projectContent: 0).replace('[项目预期效果]',report.projectDesiredEffect? report.projectDesiredEffect: 0).replace('[项目建设进展情况]',report.projectEvolve? report.projectEvolve: 0).replace('[当月完成投资金额]',report.monthInvestment? report.monthInvestment: 0);
+								mainDiv = mainDiv.replace('[项目名称]', report.projectName? report.projectName: 0).replace('[起止年限]',report.yearLimit? report.yearLimit: 0).replace('[投资总额]',report.totalInvestment? report.totalInvestment: 0).replace('[银行贷款金额]',report.bankLoanAmount? report.bankLoanAmount: 0).replace('[项目主要内容]',report.projectContent? report.projectContent: 0).replace('[项目预期效果]',report.projectDesiredEffect? report.projectDesiredEffect: 0).replace('[项目建设进展情况]',report.projectEvolve? report.projectEvolve: 0).replace('[当月完成投资金额]',report.monthInvestment? report.monthInvestment: 0).replace('[当前完成投资总额]',thisMonth.currentInvestment? thisMonth.currentInvestment: 0);
 							}
 							
 							$('#tab').append(mainDiv);

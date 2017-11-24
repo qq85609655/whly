@@ -46,9 +46,12 @@ public class ReportStatistics extends DataEntity<ReportStatistics> {
 	private String dictType;  //字典里的 type  cx
 	
 	private String monthInvestment;	//当月投资
+	
+	
+	
 
 	
-	
+
 	public String getMonthInvestment() {
 		return monthInvestment;
 	}

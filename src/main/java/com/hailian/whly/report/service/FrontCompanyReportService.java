@@ -24,6 +24,7 @@ import com.hailian.whly.report.dao.FrontCompanyReportDao;
 import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.report.entity.FrontReportHistory;
 import com.hailian.whly.report.entity.FrontReportQuestion;
+import com.hailian.whly.reportstatistics.entity.ReportStatistics;
 import com.thinkgem.jeesite.common.mapper.JsonMapper;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
@@ -72,6 +73,22 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		List<FrontCompanyReport> frontCompanyReport = dao.getProjectById(companyId);
 		return frontCompanyReport;
 	}
+	
+	/**
+	 *
+	 * @time   2017年11月24日 上午10:51:17 
+	 * @author zhouyl
+	 * @Description   获取当前投资总额
+	 * @param  @param companyId
+	 * @param  @return ReportStatistics
+	 */
+	public FrontCompanyReport getCurrentInvestmentByCompanyID(String companyId) {
+		if(companyId==null && companyId.trim()=="") {
+			return null;
+		}
+		return dao.getCurrentInvestmentByCompanyID(companyId);
+	}
+	
 	
 	@Transactional(readOnly = true)
 	public List<FrontCompanyReport> findReportById(FrontCompanyReport frontCompanyReport) {

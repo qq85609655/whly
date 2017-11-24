@@ -606,4 +606,14 @@
 			a. YEAR DESC,
 			a. MONTH DESC
 	</select>
+	
+	<select id="getCurrentInvestmentByCompanyID" parameterType="String" resultType="com.hailian.whly.report.entity.FrontCompanyReport" >
+		SELECT
+			SUM(month_investment) AS "currentInvestment"
+		FROM
+			front_company_report
+		WHERE 
+			company_id = #{companyId}
+	</select>
+	
 </mapper>

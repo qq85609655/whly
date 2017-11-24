@@ -13,6 +13,7 @@ import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.report.entity.FrontReportHistory;
 import com.hailian.whly.report.entity.FrontReportQuestion;
+import com.hailian.whly.reportstatistics.entity.ReportStatistics;
 
 /**
  * 企业上报DAO接口
@@ -209,4 +210,14 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 * @param  @return List<FrontCompanyReport>
 	 */
 	public List<FrontCompanyReport> getProjectById(String companyId);
+	
+	/**
+	 *
+	 * @time   2017年11月24日 上午10:54:54 
+	 * @author zhouyl
+	 * @Description   获取企业当前投资总额
+	 * @param  @param companyId
+	 * @param  @return ReportStatistics
+	 */
+	public FrontCompanyReport getCurrentInvestmentByCompanyID(String companyId);
 }
