@@ -41,8 +41,8 @@ public class IndexModel implements Serializable {
 	//年度扶持项目监测板块指标
 	public final static List<IndexModel> fcxmIndexs = new ArrayList<IndexModel>() {
 		{
-			add(new IndexModel("投资总额", "totalInvestment"));
-			add(new IndexModel("银行贷款金额", "bankLoanAmount"));
+			add(new IndexModel("当月投资总额", "monthInvestment"));
+			//add(new IndexModel("银行贷款金额", "bankLoanAmount"));
 		}
 	};
 	
