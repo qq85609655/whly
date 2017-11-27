@@ -161,8 +161,11 @@
 			<if test="companyName != null and companyName != ''">
 				AND o5.name like CONCAT(CONCAT('%', #{companyName}), '%')
 			</if>
+			<!-- <if test="companyParentId != null and companyParentId != ''">
+				AND o5.parent_ids in #{companyParentId } 
+			</if> -->
 			<if test="companyParentId != null and companyParentId != ''">
-				AND o5.parent_id = #{companyParentId } 
+				AND o5.parent_ids like CONCAT(CONCAT('%', #{companyParentId}), '%') 
 			</if>
 		</where>
 		<!-- <choose>

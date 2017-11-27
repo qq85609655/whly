@@ -34,6 +34,7 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
@@ -97,8 +98,11 @@ public class FrontCompanyReportController extends BaseController {
 				frontCompanyReport.setMonth("");
 			}
 			model.addAttribute("front", frontCompanyReport);
-			String companyParentId = UserUtils.getUser().getCompany().getParentId();
-			frontCompanyReport.setCompanyParentId(companyParentId);
+			Office company= UserUtils.getUser().getCompany();
+			frontCompanyReport.setCompanyParentId(company.getParentId());
+			Area area= new Area();
+			area.setId(company.getArea().getId());
+			frontCompanyReport.setArea(area);
 			Page<FrontCompanyReport> page = frontCompanyReportService
 					.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);
 			model.addAttribute("page", page);

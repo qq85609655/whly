@@ -278,7 +278,7 @@
 								</div>
 							</div>
 							<div class="form-group col-md-4">
-								<label class="control-label col-md-4" style="padding: 6px 12px;">地区：</label>
+								<%-- <label class="control-label col-md-4" style="padding: 6px 12px;">地区：</label>
 								<div class="col-md-8">
 									<form:select path="area.id" name="area.id" class="form-control"
 										id="industryQuery">
@@ -287,7 +287,7 @@
 											items="${fnc:getArea('d233fe3d43da4d10ba0a7039746a47dd')}"
 											itemLabel="name" itemValue="id" htmlEscape="false" />
 									</form:select>
-								</div>
+								</div> --%>
 							</div>
 
 						</div>

@@ -6,6 +6,7 @@ package com.hailian.whly.frontnotification.entity;
 import org.hibernate.validator.constraints.Length;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.modules.sys.entity.Area;
 
 /**
  * 新闻公告Entity
@@ -28,9 +29,18 @@ public class FrontNotification extends DataEntity<FrontNotification> {
 	private String reportId;     //上报ID  邮件用
 	private String companyId;	 //上报企业ID  邮件用
 	private String vagueWords;	 //模糊词  用于左菜单搜索
+	private Area area;
 	
 	
 	
+	public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
+	}
+
 	public String getVagueWords() {
 		return vagueWords;
 	}

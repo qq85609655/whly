@@ -63,7 +63,11 @@ public class WhlyAccountService extends CrudService<WhlyAccountDao, WhlyAccount>
 		history.setId("本年本月");
 		
 		FrontCompanyReport currentInvestment = dao.getCurrentInvestmentByCompanyID(frontCompanyReport.getCompanyId());
-		frontCompanyReport.setCurrentInvestment(currentInvestment.getCurrentInvestment());
+		if(currentInvestment == null) {
+			frontCompanyReport.setCurrentInvestment("0");
+		} else {
+			frontCompanyReport.setCurrentInvestment(currentInvestment.getCurrentInvestment());
+		}
 		history.setFrontCompanyReport(frontCompanyReport);
 		list.add(history);
 		int year = Integer.parseInt((frontCompanyReport.getYear()));

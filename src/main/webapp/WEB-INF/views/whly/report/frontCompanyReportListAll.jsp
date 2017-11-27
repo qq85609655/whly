@@ -153,7 +153,7 @@
 		$("#nameQuery").val("");
 		$("#month").val("");
 		location.replace(whlyPath
-				+ '/report/frontCompanyReport/list?menuId=${menuId}');
+				+ '/report/frontCompanyReport/listAll?menuId=${menuId}');
 		loadingCancel('reset');
 	}
 
@@ -162,7 +162,7 @@
 		$("#searchForm").attr("action",
 				whlyPath + '/report/frontCompanyReport/export').submit();
 		$("#searchForm").attr("action",
-				whlyPath + '/report/frontCompanyReport/list?menuId=${menuId}');
+				whlyPath + '/report/frontCompanyReport/listAll?menuId=${menuId}');
 		loadingCancel('export');
 	}
 
@@ -218,7 +218,7 @@
 				<%@ include file="../include/topBar.jsp"%>
 				<div class="portlet-body">
 					<form:form id="searchForm" modelAttribute="frontCompanyReport"
-						action="${whlyPath}/report/frontCompanyReport/list?menuId=${menuId }"
+						action="${whlyPath}/report/frontCompanyReport/listAll?menuId=${menuId }"
 						method="post" class="breadcrumb form-search">
 						<input id="pageNo" name="pageNo" type="hidden"
 							value="${page.pageNo}" />
