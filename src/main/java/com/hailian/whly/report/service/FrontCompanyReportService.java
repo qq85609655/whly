@@ -10,10 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-
-
-
-
+import org.codehaus.groovy.transform.LazyASTTransformation;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -138,18 +136,24 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			Calendar c = Calendar.getInstance();	//获取时间
 			String year = String.valueOf(c.get(Calendar.YEAR));
 			String month = String.valueOf(c.get(Calendar.MONTH)+1);
+			int day = c.get(Calendar.DAY_OF_MONTH);
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date time= sdf.parse(sdf.format(new Date()));
+			String reportMonth = month;
 			if(user.getCompany()==null) {
 				return false;
 			}
-		/*	List<FrontCompanyReport> Report = this.findReportById(frontCompanyReport);
-			//如果本月已经上报则不能再上报
-			for(FrontCompanyReport r: Report) {
-				if(r.getYear().equals(year) && r.getMonth().equals(month)) {
-					return false;
-				}
-			}*/
+			//如果上报时间是在10号之前 上报的内容为上个月的数据
+			if(Integer.valueOf(month) == 1) {
+				if(day <= 9) {
+					reportMonth = "12";
+				} 
+			} else {
+				if(day <= 9) {
+					reportMonth = (Integer.valueOf(month) - 1) + "";
+				} 
+			}
+			
 			List<FrontReportQuestion> list = frontCompanyReport.getQuestion();  //获取用户填写的所有问题信息
 			Office office = dao.findOfficeById(user.getCompany().getId());
 			String reportId = UUID.randomUUID().toString();
@@ -160,9 +164,10 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			frontCompanyReport.setId(reportId);		//上报id
 			frontCompanyReport.setStatus("SUBMIT");	//状态
 			frontCompanyReport.setYear(year);		//年
-			frontCompanyReport.setMonth(month);		//月
+			frontCompanyReport.setMonth(reportMonth);		//月
 			frontCompanyReport.setInsertTime(time);	//提交时间
 			frontCompanyReport.setReportTime(time);	//上报时间
+			frontCompanyReport.setCreateDate(time);	//上报时间
 			frontCompanyReport.setUpdateTime(time);	//更改时间
 			//如果参数为空字符串 则为null
 			if(frontCompanyReport.getEmpQuantity() != null && frontCompanyReport.getEmpQuantity().trim().isEmpty()) {
@@ -512,6 +517,42 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		return dao.getTopMonth(param);
 	}
 
+	/**
+	 *
+	 * @time   2017年11月27日 上午10:43:08 
+	 * @author zhouyl
+	 * @Description   获取是否可以上报 ，可以上报：true
+	 * @param  @param lastYear
+	 * @param  @param lastMonth
+	 * @param  @return boolean 
+	 */
+	public boolean findAlreadyReport() {
+		FrontCompanyReport fcr  = new FrontCompanyReport();
+		fcr.setCompanyId(UserUtils.getUser().getCompany().getId());
+		List<FrontCompanyReport> reportList = dao.findReport(fcr);
+		FrontCompanyReport frontCompanyReport = reportList.get(0);
+		int lastYear = Integer.valueOf(frontCompanyReport.getYear());
+		int lastMonth = Integer.valueOf(frontCompanyReport.getMonth());
+		Calendar now = Calendar.getInstance();
+		Integer year = Integer.valueOf(now.get(1));
+		Integer month = Integer.valueOf(now.get(2));
+		Integer day = Integer.valueOf(now.get(5));
+		if(lastMonth == 12) {
+			if((year - lastYear) >1) {  //如果当前年份大于上次上报年份 一年以上     可以上报
+				return true;
+			}
+			if((year - lastYear) == 1 && ((month == 1 && day > 9) || month > 1)) { // 如果当前年份比上次上报年份多一年 ，月份需要大于1月 或者 等于一月并且需要在9号以后  可以上报
+				return true;
+			}
+		} else {
+			if((month-lastMonth) > 1 || ((month-lastMonth) == 1 && day > 9)) { //如果当前月分比上次上报月份多一个月以上  或者 月份大一 并且 在9号以后， 可以上报
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	@SuppressWarnings("null")
 	public Map<String, Object> getTopReportMonth(){
 		User user = UserUtils.getUser();

@@ -224,25 +224,24 @@ public class FrontCompanyReportController extends BaseController {
 		if (!beanValidator(model, frontCompanyReport)) {
 			return form(frontCompanyReport, model);
 		}
-		System.out.println(StringEscapeUtils.unescapeHtml4(frontCompanyReport.getProjectContent()));
-		Calendar now = Calendar.getInstance();
-		Integer year = Integer.valueOf(now.get(1));
-		Integer month = Integer.valueOf(now.get(2) + 1);
-		Map<String, Object> topMonth = frontCompanyReportService.getTopReportMonth();
+		
+		/*Map<String, Object> topMonth = frontCompanyReportService.getTopReportMonth();
 		frontCompanyReport.setYear(topMonth.get("year") + "");
-		frontCompanyReport.setMonth(topMonth.get("month") + "");
-		if ((Integer.valueOf(frontCompanyReport.getYear()) >= year.intValue())
-				&& (Integer.valueOf(frontCompanyReport.getMonth()) >= month.intValue())) {
-			addMessage(redirectAttributes, "对不起，该月月报已经上报！请下月再提交上报信息。");
+		frontCompanyReport.setMonth(topMonth.get("month") + "");*/
+		//获取是否可以上报
+		boolean reportPermission = frontCompanyReportService.findAlreadyReport();
+		if ( !reportPermission) {
+			Calendar now = Calendar.getInstance();
+			Integer day = Integer.valueOf(now.get(5));
+			if(day > 9) {
+				addMessage(redirectAttributes, "对不起，该月月报已经上报！请于下月10号再提交上报信息。");
+			} else {
+				addMessage(redirectAttributes, "对不起，该月月报已经上报！请于本月10号再提交上报信息。");
+			}
 			return "redirect:" + Global.getWhlyPath() + "/report/frontCompanyReport/form";
 		} else {
 			frontCompanyReportService.saveReport(frontCompanyReport);
 			addMessage(redirectAttributes, "上报成功，请等待审核。");
-			/*
-			 * frontCompanyReport.setId(""); if(UserUtils.getUser().getCompany()!=null) {
-			 * frontCompanyReport.setCompanyName(UserUtils.getUser().getCompany().getName())
-			 * ; }
-			 */
 			model.addAttribute("frontCompanyReport", frontCompanyReport);
 			return "redirect:" + Global.getWhlyPath() + "/report/frontCompanyReport/viewlist";
 		}

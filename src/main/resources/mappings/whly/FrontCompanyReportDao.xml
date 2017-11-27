@@ -107,9 +107,10 @@
 				a.id = #{id} 
 			</if>
 			<if test="companyId != null and companyId != ''">
-				a.company_id = #{companyId}
+				and a.company_id = #{companyId}
 			</if>
 		</where>
+		ORDER BY a.create_date DESC
 	</select>
 	
 	<!-- <select id="findReport1" resultType="com.hailian.whly.report.entity.FrontCompanyReport" parameterType="com.hailian.whly.report.entity.FrontCompanyReport">
