@@ -18,40 +18,50 @@
         html, body {
             height: 100%;
             color: #fff;
-            /*background: linear-gradient(to bottom, #0168B3, #6EBBFF) !important;*/
-            /*padding-top: 3em;*/
         }
         body{
-            font-size: 110%;
             padding-top: 6em;
-            background: url("/static/${whlyPage}/assets/global/img/login/bg.png") no-repeat;
+            background: url(/static/${whlyPage}/assets/global/img/login/bg.png) no-repeat;
+            background-size: 100% 100%;
+        }
+        div.bgSplit{
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 5em;
+            width: 1%;
+            height: 13em;
+            background: url(/static/${whlyPage}/assets/global/img/login/bgSplit.png) no-repeat;
             background-size: 100% 100%;
         }
         div.content {
             transform-origin: 50% 0;
-            width: 24em;
+            width: 32em;
             /*height: 14em;*/
             margin: 0 auto;
             padding: 1.5em 0 1em;
-            background-image: url("/static/${whlyPage}/assets/global/img/login/bg_login.png");
+            background-image: url(/static/${whlyPage}/assets/global/img/login/bg_login.png);
             background-size: 100% 100%;
             border-radius: .6em;
             /*box-shadow: 0.2em 0.2em 1em 0.3em rgba(0, 0, 0, .5);*/
         }
 
         h2 {
-            margin-bottom: 1.8em;
+            margin:1.2em 0 1.88em;
             text-align: center;
-            /*font-weight: normal;*/
             font-size: 1.4em;
             letter-spacing: .04em;
             font-family: 华文宋体 宋体, serif;
             color: rgba(255, 255, 255, .88);
             text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, .3)
         }
-
+        form{
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+        }
         .formGroup {
-            margin-left: 4.6em;
+            margin-left: 2.7em;
             margin-bottom: .6em;
         }
         .formGroup.submitBtn{
@@ -60,31 +70,38 @@
         div#messageBox {
             position: absolute;
             top: -2.2em;
-            width: 94%;
-            left: 3%;
-            padding: .3em 1em;
+            /* width: 86%; */
+            left: 18.5%;
+            /* padding: 0.2em 1em .25em; */
             margin-bottom: 1em;
-            color: #a94442;
-            background-color: #f2dede;
-            border-color: #ebccd1;
+            color: #ffcc66;
+            font-size: .8em;
+            /* background-color: #f2dede; */
+            /* border-color: #ebccd1; */
         }
-		.display-hide {
-			display:none;
-		}
+
+
         .validateCode a {
             color: #fff;
         }
 
-        label,a {
-            font-size: .76em;
+        label:not(.error),a {
+            font-size: .8em;
             letter-spacing: .2em;
         }
 
         .username>input,
         .password>input {
             width: 9.8em;
+            border-color: #fff;
         }
-
+        .formGroup.rememberGroup{
+            margin-top: -.2em;
+        }
+        label.rememberme{
+            display: inline-block;
+            transform: scale(.8) translateX(-14%);
+        }
         input[type="checkbox"] {
             width: 1em;
             height: 1em;
@@ -94,25 +111,33 @@
 
         #submitBtn {
             /*background: linear-gradient(to bottom, #3dc2ff 0%, #159ee9 50%, #1b44c1 90%, #1485c6 100%);*/
-            margin-left: 6em;
-            margin-top: 1em;
+            margin: 0 0 4em 6em;
             width: 5em;
             height: 2.5em;
             background: url(/static/${whlyPage}/assets/global/img/login/loginBtn.png);
             background-size: 100% 100%;
             border: none;
             color: white;
-
+            cursor: pointer;
         }
 
-        @media ( min-width: 1600px) {
-            .container {
-                /*width: 1480px;*/
-            }
-
-            body {
-                /*font-size: 2.4em;*/
-            }
+        .telephone{
+            display: inline-block;
+            width: 20em;
+            margin-left: 3em;
+            margin-top: -.2em;
+            font-size: .6em;
+            letter-spacing: .1em;
+        }
+        .telephone>h4{
+            transform: scale(.95) translateX(-3%);
+        }
+        .telephone>p{
+            margin-top: .6em;
+            letter-spacing: .12em;
+            line-height: 1.4em;
+            transform-origin: 50% 0;
+            transform: scale(.8) translateX(-13%);
         }
     </style>
 </head>
@@ -120,21 +145,22 @@
 
 <!-- BEGIN LOGIN -->
 <div class="content">
+	<div class="bgSplit"></div>
     <h2 class="text-center">${fnc:getSite(1).title}</h2>
     <form id="loginForm" class="form-horizontal form-signin" action="${whlyPath }/login" method="post"
           novalidate="novalidate">
-        <div id="messageBox" class="${empty message ? 'display-hide' : ''}">
+        <div id="messageBox" class="${empty message ? 'display-hide' : ''}" >
             <!--                     <button class="close" data-close="alert" class="close">×</button>
-             --> <span id="loginError">用户或密码错误, 请重试！</span>
+             --> <span id="loginError">${message}</span>
         </div>
         <div class="formGroup username">
             <label for="username" class="visible-ie8 visible-ie9">用户名:</label>
-            <input class="placeholder-no-fix" type="text"
+            <input class="placeholder-no-fix" type="text" required
                    autocomplete="off" id="username" name="username" value="${username}">
         </div>
         <div class="formGroup password">
             <label for="password" class="visible-ie8 visible-ie9">密&emsp;码:</label>
-            <input class="placeholder-no-fix" type="password"
+            <input class="placeholder-no-fix" type="password" required
                    autocomplete="off" id="password" name="password">
         </div>
          <c:if test="${isValidateCodeLogin}">
@@ -161,6 +187,30 @@
             <button type="submit" id="submitBtn" class="btn btn-primary green uppercase">登 录</button>
         </div>
     </form>
+     <div class="telephone">
+        <h4>办公联系电话</h4>
+        <p>市服务业发展局：5889669
+<!--
+            <br>环翠服务业发展局：5803831
+            <br>文登发改局：8452369
+            <br>荣成发改局：7566508
+            <br>乳山发改局：6653592
+            <br>高区服务业管理处：5629029
+            <br>经区服务业发展办：5983926
+            <br>临港服务业发展办：5581796
+            <br>南海新区经济发展局：8966959
+-->
+            环翠区：5803831；
+            文登区：8452369；
+            荣成区：7566508；
+            乳山区：6653592；
+            高区：5629029；
+            经区：5983926；
+            临港区：5581796；
+            南海新区：8966959；
+
+        </p>
+    </div>
 </div>
 
 <script src="/static/${whlyPage}/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
@@ -169,7 +219,7 @@
 <script src="/static/whly/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
 <script>
 	$(document).ready(function() {
-    
+		
 		$("#loginForm").validate({
 			rules: {
 				validateCode: {remote: "${pageContext.request.contextPath}/servlet/validateCodeServlet"}
@@ -182,8 +232,15 @@
 			errorPlacement: function(error, element) {
 				error.appendTo($("#loginError").parent());
             },
-           
 		});
+		
+		var message = $('#loginError').text();
+		if(message) {
+			setTimeout( 
+				"$('#messageBox').show();"
+			,300);
+		}
+		
 	});
 	// 如果在框架或在对话框中，则弹出提示并跳转到首页
 	if(self.frameElement && self.frameElement.tagName == "IFRAME" || $('#left').length > 0 || $('.jbox').length > 0){
@@ -194,36 +251,46 @@
     
 </script>
 <script>
-    function contentPosition() {
-        var window_h = window.innerHeight
-            || document.documentElement.clientHeight
-            || document.body.clientHeight;
-        var window_w = window.innerWidth
-            || document.documentElement.clientWidth
-            || document.body.clientWidth;
-        var $content = $(".content");
-        if(window_w>800){
-            $content.css("transform","scale("+window_w/1200+")");
-        }
-        $("body").css({
-            "padding-top": window_h * 0.22
-        })
-    }
-
-    $(function () {
-        contentPosition();
-
-        $(window).resize(function () {
-            contentPosition();
-        });
-
-        document.onkeydown = function (e) {
-            var ev = document.all ? window.event : e;
-            if (ev.keyCode === 13) {
-                $("#loginForm").submit();//处理事件
-                //submitMethod();
-            }
-        }
+	function contentPosition() {
+	    var window_h = window.innerHeight
+	        || document.documentElement.clientHeight
+	        || document.body.clientHeight;
+	    var window_w = window.innerWidth
+	        || document.documentElement.clientWidth
+	        || document.body.clientWidth;
+	    var $content = $(".content");
+	
+	//    根据窗口大小等比例缩放登录框
+	    if(window_w>300){
+	        $content.css("transform","scale("+window_w/1100+")");
+	        if(window_w<500){
+	            $content.css("transform-origin",window_w/12+"% 0");
+	        }else{
+	            $content.css("transform-origin","50% 0");
+	        }
+	    }
+	
+	    $("body").css({
+	        "padding-top": window_h * 0.22
+	    })
+	}
+	
+	$(function () {
+	    contentPosition();
+	
+	    $(window).resize(function () {
+	        contentPosition();
+	    });
+	
+	
+	    document.onkeydown = function (e) {
+	        var ev = document.all ? window.event : e;
+	        if (ev.keyCode === 13) {
+	            $("#loginForm").submit();//处理事件
+	            //submitMethod();
+	        }
+	    }
+	
     });
 </script>
 </body>
