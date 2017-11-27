@@ -507,7 +507,7 @@ public class FrontCompanyReportController extends BaseController {
 		try {
 			model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
 			model.addAttribute("status", CheckStatus.getAllStatus());
-			model.addAttribute("front", frontCompanyReport);
+			model.addAttribute("companyName", UserUtils.getUser().getCompany().getName());
 			frontCompanyReport.setCompanyId(UserUtils.getUser().getCompany().getId());
 			Page<FrontCompanyReport> page = frontCompanyReportService
 					.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);

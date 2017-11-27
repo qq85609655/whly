@@ -380,6 +380,15 @@ $.ready(function() {
 											</div>
 											<!-- 年度扶持项目监测 -->
 											<div class="form-group col-md-6 type_support" style="display:none;">
+												<label>公司名称</label>
+												<div class="input-group">
+													<span class="input-group-addon"> <i
+														class="fa fa-reorder"></i>
+													</span> <input  type="text" class="form-control spinner input_support"
+														  readonly value="${frontCompanyReport.companyName }" placeholder="项目名称">
+												</div>
+											</div>
+											<div class="form-group col-md-6 type_support" style="display:none;">
 												<label>项目名称</label>
 												<div class="input-group">
 													<span class="input-group-addon"> <i
