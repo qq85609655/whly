@@ -126,7 +126,7 @@
             width: 19.9em;
             margin-left: 3em;
             margin-top: -.2em;
-            font-size: .6em;
+            font-size: .75em;
             letter-spacing: .1em;
         }
         .telephone>h4{

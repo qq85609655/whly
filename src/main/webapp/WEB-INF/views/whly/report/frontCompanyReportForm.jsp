@@ -365,7 +365,7 @@ $.ready(function() {
 												<div class="input-group">
 													<span class="input-group-addon"> <i
 														class="fa fa-user"></i>
-													</span> <input  type="number" class="form-control  input_emphasis input_quota" name="empQuantity"
+													</span> <input  type="number" min="0" class="form-control  input_emphasis input_quota" name="empQuantity"
 														id="empQuantity" placeholder="请输入从业人数">
 												</div>
 											</div>
@@ -375,7 +375,7 @@ $.ready(function() {
 													<span class="input-group-addon"> <i
 														class="fa fa-reorder"></i>
 													</span> <input  type="number" class="form-control spinner input_emphasis"
-														id="orderQuantity"  name="orderQuantity" placeholder="请输入订单数量">
+														id="orderQuantity"  name="orderQuantity" min="0" placeholder="请输入订单数量">
 												</div>
 											</div>
 											<!-- 年度扶持项目监测 -->

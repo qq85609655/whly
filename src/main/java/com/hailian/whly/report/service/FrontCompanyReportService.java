@@ -455,14 +455,14 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 	 */
 	public int getCompanyParentType(){
 		int companyParentType = 0;
-		String parentId = UserUtils.getUser().getCompany().getParentId();
-		if(parentId.equals("be9e0da458064360b214c9ca69327859")) {  			//重点服务业企业监测板块
+		String parentIds = UserUtils.getUser().getCompany().getParentIds();
+		if(parentIds.indexOf("be9e0da458064360b214c9ca69327859") != -1) {  			//重点服务业企业监测板块
 			companyParentType = 1;
-		} else if(parentId.equals("cc0cbec49fe5449da652f8db57d473ab")) {	//限额以下服务业企业监测板块
+		} else if(parentIds.indexOf("cc0cbec49fe5449da652f8db57d473ab") != -1) {	//限额以下服务业企业监测板块
 			companyParentType = 2;
-		} else if(parentId.equals("ebc16b9cafd84d53a8222eae5d4340d6")) {	//年度扶持项目监测板块
+		} else if(parentIds.indexOf("ebc16b9cafd84d53a8222eae5d4340d6") != -1) {	//年度扶持项目监测板块
 			companyParentType = 3;
-		} else if(parentId.equals("d2c1c37069fa4ce189bc4a3529cc7a65")) {	//其他
+		} else if(parentIds.indexOf("d2c1c37069fa4ce189bc4a3529cc7a65") != -1) {	//其他
 			companyParentType = 4;
 		}
 		return companyParentType;
