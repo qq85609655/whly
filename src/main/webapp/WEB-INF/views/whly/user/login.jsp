@@ -123,7 +123,7 @@
 
         .telephone{
             display: inline-block;
-            width: 20em;
+            width: 19.9em;
             margin-left: 3em;
             margin-top: -.2em;
             font-size: .6em;

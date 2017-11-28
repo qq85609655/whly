@@ -316,14 +316,14 @@ $.ready(function() {
 												<div class="input-group">
 													<span class="input-group-addon" >￥</span>
 													<input  class="form-control input_emphasis input_quota"
-														placeholder="请输入营业收入"  type="number"  name="totalIncome" id="totalIncome">
+														placeholder="请输入营业收入"  type="number" step="0.0001" name="totalIncome" id="totalIncome">
 												</div>
 											</div>
 											<div class="form-group col-md-6 type_emphasis type_quota" style="display:none;">
 												<label>营业成本 （万元）</label>
 												<div class="input-group">
 													<span class="input-group-addon" >￥</span>
-													<input  type="number" class="form-control input_emphasis input_quota" name="operatingCosts" id="operatingCosts"
+													<input  type="number" class="form-control input_emphasis input_quota" step="0.0001" name="operatingCosts" id="operatingCosts"
 														placeholder="请输入营业成本" aria-describedby="sizing-addon1">
 												</div>
 											</div>
@@ -331,7 +331,7 @@ $.ready(function() {
 												<label>营业利润（万元）</label>
 												<div class="input-group">
 													<span class="input-group-addon" >￥</span>
-													<input  type="number" class="form-control  input_emphasis input_quota" name="totalProfit" id="totalProfit"
+													<input  type="number" class="form-control  input_emphasis input_quota" step="0.0001" name="totalProfit" id="totalProfit"
 														placeholder="请输入营业利润" aria-describedby="sizing-addon1">
 												</div>
 											</div>
@@ -339,7 +339,7 @@ $.ready(function() {
 												<label>企业税费（万元）</label>
 												<div class="input-group">
 													<span class="input-group-addon" >￥</span>
-													<input  type="number" class="form-control input_emphasis " name="totalTax" id="totalTax"
+													<input  type="number" class="form-control input_emphasis " step="0.0001" name="totalTax" id="totalTax"
 														placeholder="请输入企业税费" aria-describedby="sizing-addon1">
 												</div>
 											</div>
@@ -347,7 +347,7 @@ $.ready(function() {
 												<label>应付职工薪酬（万元）</label>
 												<div class="input-group">
 													<span class="input-group-addon" >￥</span>
-													<input  type="number" class="form-control input_emphasis " name="employeeCompensation"
+													<input  type="number" class="form-control input_emphasis " step="0.0001" name="employeeCompensation"
 														id="employeeCompensation" placeholder="请输入应付职工薪酬"
 														aria-describedby="sizing-addon1">
 												</div>
@@ -356,7 +356,7 @@ $.ready(function() {
 												<label>贷款金额（万元）</label>
 												<div class="input-group">
 													<span class="input-group-addon" >￥</span>
-													<input  type="number" class="form-control input_emphasis" name="loanAmount" id="loanAmount"
+													<input  type="number" class="form-control input_emphasis" step="0.0001" name="loanAmount" id="loanAmount"
 														placeholder="请输入贷款金额" aria-describedby="sizing-addon1">
 												</div>
 											</div>
@@ -412,7 +412,7 @@ $.ready(function() {
 													<span class="input-group-addon"> <i
 														class="fa fa-reorder"></i>
 													</span> <input  type="number" class="form-control spinner input_support"
-														  id="monthInvestment" name="monthInvestment" placeholder="请输入当月完成投资金额">
+														  id="monthInvestment" name="monthInvestment" step="0.0001" placeholder="请输入当月完成投资金额">
 												</div>
 											</div>
 											<div class="form-group col-md-12 type_support" style="display:none;">
