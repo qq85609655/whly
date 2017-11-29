@@ -20,6 +20,7 @@ import com.hailian.whly.report.service.FrontCompanyReportService;
 import com.hailian.whly.service.WhlyAccountService;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
@@ -76,7 +77,12 @@ public class AjaxController extends BaseController {
         	String date = sdf.format(new Date());
         	params.put("startDate",String.valueOf(c.get(Calendar.YEAR))+"-"+String.valueOf(c.get(Calendar.MONTH)+1)+"-01 00:00:00");
         	params.put("endDate", date);
-        	params.put("companyId", UserUtils.getUser().getCompany().getParentId());
+        	Office company= UserUtils.getUser().getCompany();
+			if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
+				params.put("companyId", company.getParentId());
+			} else {
+				params.put("companyId", company.getId());
+			}
         	List<FrontCompanyReport> sourcelist = frontCompanyReportService.statisticsCountByStatus(params);
             return resultSuccessData(response,"查询数据成功", sourcelist);
         } catch (Exception e) {
@@ -111,7 +117,12 @@ public class AjaxController extends BaseController {
         	Map<String, Object> params=new HashMap<String, Object>();
         	params.put("status", status);
         	params.put("dateList", dateList);
-        	params.put("companyId", UserUtils.getUser().getCompany().getParentId());
+        	Office company= UserUtils.getUser().getCompany();
+			if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
+				params.put("companyId", company.getParentId());
+			} else {
+				params.put("companyId", company.getId());
+			}
         	List<FrontCompanyReport> sourcelist = frontCompanyReportService.statisticsReportByDate(params);
         	List<FrontCompanyReport> finalList=Lists.newArrayList();
         	for(String time:dateList){
@@ -160,7 +171,12 @@ public class AjaxController extends BaseController {
         	Map<String, Object> params=new HashMap<String, Object>();
         	params.put("status",status);
         	params.put("dateList", dateList);
-        	params.put("companyId", UserUtils.getUser().getCompany().getParentId());
+        	Office company= UserUtils.getUser().getCompany();
+			if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
+				params.put("companyId", company.getParentId());
+			} else {
+				params.put("companyId", company.getId());
+			}
         	List<FrontCompanyReport> sourcelist = frontCompanyReportService.statisticsCountByType(params);
             return resultSuccessData(response,"查询数据成功", sourcelist);
         } catch (Exception e) {

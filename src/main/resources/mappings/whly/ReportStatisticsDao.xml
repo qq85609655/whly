@@ -191,7 +191,7 @@
 				<if test="companyName != null and companyName != ''">
 					AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
 				</if>
-					AND company_id in(select id from sys_office where parent_id=#{parentId})
+					AND company_id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{parentId}), '%'))
 				GROUP BY 
 					<choose>  
 			             <when test="statisticsType == 'MONTH'">MONTH</when>  
@@ -250,7 +250,7 @@
 					<if test="companyName != null and companyName != ''">
 						AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
 					</if>
-					AND company_id in(select id from sys_office where parent_id=#{parentId})
+					AND company_id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{parentId}), '%'))
 				GROUP BY 
 					<choose>  
 			             <when test="statisticsType == 'MONTH'">MONTH</when>  
@@ -349,7 +349,7 @@
 				<if test="companyName != null and companyName != ''">
 					AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
 				</if>
-					AND company_id in(select id from sys_office where parent_id=#{parentId})
+					AND company_id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{parentId}), '%'))
 				GROUP BY 
 					<choose>  
 			             <when test="statisticsType == 'MONTH'">MONTH</when>  
@@ -366,7 +366,7 @@
 						WHERE
 							`year` = #{year}
 							AND `month`   &lt;= #{month}
-							AND company_id in(select id from sys_office where parent_id=#{parentId})
+							AND company_id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{parentId}), '%'))
 						GROUP BY MONTH
 					</when>  
 		            <when test="statisticsType == 'areaName'">
@@ -450,7 +450,7 @@
 				<if test="companyName != null and companyName != ''">
 					AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
 				</if>
-					AND company_id in(select id from sys_office where parent_id=#{parentId})
+					AND company_id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{parentId}), '%'))
 				GROUP BY 
 					<choose>  
 			             <when test="statisticsType == 'MONTH'">MONTH</when>  
@@ -482,7 +482,7 @@
 				<if test="companyName != null and companyName != ''">
 					AND company_Name like CONCAT(CONCAT('%', #{companyName}), '%')
 				</if>
-					AND company_id in(select id from sys_office where parent_id=#{parentId})
+					AND company_id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{parentId}), '%'))
 			) s ) p  RIGHT JOIN (
           		<choose>
 	          		<when test="statisticsType == 'MONTH'">
@@ -493,7 +493,7 @@
 						WHERE
 							`year` = #{year}
 							AND `month`   &lt;= #{month}
-							AND company_id in(select id from sys_office where parent_id=#{parentId})
+							AND company_id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{parentId}), '%'))
 						GROUP BY MONTH
 					</when>  
 		            <when test="statisticsType == 'areaName'">
@@ -533,7 +533,7 @@
 			<if test="month!=null and month!=''">and month=#{month}</if>
 			<if test="typeName!=null and typeName!=''">and type_name=#{typeName}</if>
 			<if test="companyName != null and companyName != ''">and company_Name like CONCAT(CONCAT('%', #{companyName}), '%')</if>
-			AND company_id in(select id from sys_office where parent_id=#{parentId})
+			AND company_id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{parentId}), '%'))
 		</where>
 			group by area_name
 		) v1 right join 
@@ -551,7 +551,7 @@
 			<if test="month!=null and month!=''">and month=#{month}</if>
 			<if test="areaName!=null and areaName!=''">and area_name=#{areaName}</if>
 			<if test="companyName != null and companyName != ''">and company_Name like CONCAT(CONCAT('%', #{companyName}), '%')</if>
-			AND company_id in(select id from sys_office where parent_id=#{parentId})
+			AND company_id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{parentId}), '%'))
 		</where> 
 			group by type_name
 		) v1 right join 

@@ -377,7 +377,7 @@
 					AND r.status = #{status}
 			</if>
 			<if test="companyId != null and companyId != ''">
-					AND r.company_id in(select id from sys_office where parent_id=#{companyId}) 
+					AND r.company_id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{companyId}), '%')) 
 			</if>
 			AND date_format(r.insert_time, '%Y/%m') in
 			 <foreach collection="dateList" index="index" item="item" open="(" separator="," close=")">  
@@ -399,7 +399,7 @@
 			del_flag = 0
 			and `status` is not null
 			<if test="companyId != null and companyId != ''">
-					AND company_id in(select id from sys_office where parent_id=#{companyId}) 
+					AND company_id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{companyId}), '%')) 
 			</if>
 			<if test="startDate != null and startDate  != ''">
 					and insert_time  &gt;= #{startDate}
@@ -419,7 +419,7 @@
 			sys_office
 		WHERE
 			<!-- parent_id NOT IN ('0', '1') -->
-			parent_id = #{parentId }
+			parent_ids like CONCAT(CONCAT('%', #{companyId}), '%')
 	</select>
 	
 	<select id="statisticsCountByType" parameterType="java.util.Map" resultType="com.hailian.whly.report.entity.FrontCompanyReport">
@@ -433,7 +433,7 @@
 			r.del_flag = 0
 			and r.`status` is not null
 			<if test="companyId != null and companyId != ''">
-					AND company_id in(select id from sys_office where parent_id=#{companyId}) 
+					AND company_id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{companyId}), '%')) 
 			</if>
 			<if test="status != null and status != ''">
 					AND r.status = #{status}

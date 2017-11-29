@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.hailian.whly.commom.IndexModel;
@@ -124,7 +125,12 @@ public class ReportStatisticsController extends BaseController {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			reportStatistics.setYear(sdf.format(new Date()));
 		}
-		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
+		Office company= UserUtils.getUser().getCompany();
+		if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
+			reportStatistics.setParentId(company.getParentId());
+		} else {
+			reportStatistics.setParentId(company.getId());
+		}
 		reportStatistics.setDictType(UserUtils.getUser().getCompany().getIndustyType().getType());
 		List<IndexModel> data = reportStatisticsService.getAmountQytb(reportStatistics);
 		json.success(data);
@@ -150,7 +156,12 @@ public class ReportStatisticsController extends BaseController {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			reportStatistics.setYear(sdf.format(new Date()));
 		}
-		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
+		Office company= UserUtils.getUser().getCompany();
+		if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
+			reportStatistics.setParentId(company.getParentId());
+		} else {
+			reportStatistics.setParentId(company.getId());
+		}
 		reportStatistics.setDictType(UserUtils.getUser().getCompany().getIndustyType().getType());
 		System.out.println(UserUtils.getUser().getCompany().getIndustyType().getType());
 		List<IndexModel> data = reportStatisticsService.getProportionQytb(reportStatistics);
@@ -178,7 +189,12 @@ public class ReportStatisticsController extends BaseController {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			reportStatistics.setYear(sdf.format(new Date()));
 		}
-		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
+		Office company= UserUtils.getUser().getCompany();
+		if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
+			reportStatistics.setParentId(company.getParentId());
+		} else {
+			reportStatistics.setParentId(company.getId());
+		}
 		reportStatistics.setDictType(UserUtils.getUser().getCompany().getIndustyType().getType());
 		List<IndexModel> data = reportStatisticsService.getStaiticQytb(reportStatistics);
 		json.success(data);
@@ -368,7 +384,12 @@ public class ReportStatisticsController extends BaseController {
 			reportStatistics.setYear(sdf.format(new Date()));
 		}
 		reportStatistics.setDictType(UserUtils.getUser().getCompany().getIndustyType().getType());
-		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
+		Office company= UserUtils.getUser().getCompany();
+		if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
+			reportStatistics.setParentId(company.getParentId());
+		} else {
+			reportStatistics.setParentId(company.getId());
+		}
 		List<ReportStatistics> data = reportStatisticsService.getIndustryEnploymentNumberAnalysis(reportStatistics);
 		json.success(data);
 		return json;
@@ -416,8 +437,13 @@ public class ReportStatisticsController extends BaseController {
 		if(reportStatistics.getYear() == null || reportStatistics.getYear().isEmpty()) {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			reportStatistics.setYear(sdf.format(new Date()));
-		}//UserUtils.getUser().getCompany().getIndustyType().getType()
-		reportStatistics.setParentId(UserUtils.getUser().getCompany().getParentId());
+		}
+		Office company= UserUtils.getUser().getCompany();
+		if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
+			reportStatistics.setParentId(company.getParentId());
+		} else {
+			reportStatistics.setParentId(company.getId());
+		}
 		reportStatistics.setDictType(UserUtils.getUser().getCompany().getIndustyType().getType());
 		List<ReportStatistics> data = reportStatisticsService.getAreaEnploymentNumberAnalysis(reportStatistics);
 		json.success(data);

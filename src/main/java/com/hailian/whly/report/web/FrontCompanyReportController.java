@@ -99,10 +99,16 @@ public class FrontCompanyReportController extends BaseController {
 			}
 			model.addAttribute("front", frontCompanyReport);
 			Office company= UserUtils.getUser().getCompany();
-			frontCompanyReport.setCompanyParentId(company.getParentId());
-			Area area= new Area();
-			area.setId(company.getArea().getId());
-			frontCompanyReport.setArea(area);
+			if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
+				frontCompanyReport.setCompanyParentId(company.getParentId());
+			} else {
+				frontCompanyReport.setCompanyParentId(company.getId());
+			}
+			if(company.getArea()!=null) {
+				Area area= new Area();
+				area.setId(company.getArea().getId());
+				frontCompanyReport.setArea(area);
+			}
 			Page<FrontCompanyReport> page = frontCompanyReportService
 					.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);
 			model.addAttribute("page", page);
@@ -131,8 +137,12 @@ public class FrontCompanyReportController extends BaseController {
 				frontCompanyReport.setMonth("");
 			}
 			model.addAttribute("front", frontCompanyReport);
-			String companyParentId = UserUtils.getUser().getCompany().getParentId();
-			frontCompanyReport.setCompanyParentId(companyParentId);
+			Office company= UserUtils.getUser().getCompany();
+			if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
+				frontCompanyReport.setCompanyParentId(company.getParentId());
+			} else {
+				frontCompanyReport.setCompanyParentId(company.getId());
+			}
 			Page<FrontCompanyReport> page = frontCompanyReportService
 					.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);
 			model.addAttribute("page", page);
@@ -285,7 +295,11 @@ public class FrontCompanyReportController extends BaseController {
 				int[] i = {Integer.valueOf(exportType)};
 				String fileName = "企业上报信息" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
 				Office company= UserUtils.getUser().getCompany();
-				frontCompanyReport.setCompanyParentId(company.getParentId());
+				if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
+					frontCompanyReport.setCompanyParentId(company.getParentId());
+				} else {
+					frontCompanyReport.setCompanyParentId(company.getId());
+				}
 				if(frontCompanyReport.getArea().getId().equals("this")) {
 					Area area= new Area();
 					area.setId(company.getArea().getId());

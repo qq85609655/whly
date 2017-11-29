@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.hailian.whly.frontnotification.entity.FrontNotification;
@@ -71,7 +72,12 @@ public class FrontNotificationListController extends BaseController {
 		ResultJson json = new ResultJson();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time= sdf.format(new Date());
-		frontNotification.setCompanyType(UserUtils.getUser().getCompany().getParentId());
+		Office company = UserUtils.getUser().getCompany();
+		if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
+			frontNotification.setCompanyType(company.getParentId());
+		} else {
+			frontNotification.setCompanyType(company.getId());
+		}
 		Page<FrontNotification> page = frontNotificationService.findPage(new Page<FrontNotification>(request, response), frontNotification);
 		if(frontNotification.getCategoryType().equals("3")) { //查看邮件用
 			HashMap<String, Object> data = new HashMap<String, Object>();

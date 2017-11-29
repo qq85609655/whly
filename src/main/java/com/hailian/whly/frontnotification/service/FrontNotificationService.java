@@ -52,9 +52,9 @@ public class FrontNotificationService extends CrudService<FrontNotificationDao, 
 		//管理员查看邮件  
 		if(type!=null && type.equals("3") && canSh) {
 			frontNotification.setKeywords("1");
-			Area area= new Area();
+			/*Area area= new Area();
 			area.setId(UserUtils.getUser().getCompany().getArea().getId());
-			frontNotification.setArea(area);
+			frontNotification.setArea(area);*/
 		} else if(type!=null && type.equals("3") && !canSh ) { //普通企业查看邮件 
 			frontNotification.setCompanyId(UserUtils.getUser().getCompany().getId());
 			frontNotification.setKeywords("2");
