@@ -126,7 +126,7 @@
             width: 19.9em;
             margin-left: 3em;
             margin-top: -.2em;
-            font-size: .75em;
+            font-size: .71em;
             letter-spacing: .1em;
         }
         .telephone>h4{
@@ -138,6 +138,22 @@
             line-height: 1.4em;
             transform-origin: 50% 0;
             transform: scale(.8) translateX(-13%);
+        }
+        footer{
+            margin-top: .3em;
+            position: absolute;
+            left: 50%;
+            width: 100%;
+            transform: translateX(-50%);
+            text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, .3);
+            text-align: center;
+        }
+        footer>h1{
+            font-size: 1em;
+            font-weight: normal;
+        }
+        footer>p.mainTelephone{
+            font-size: .8em;
         }
     </style>
 </head>
@@ -211,6 +227,10 @@
 
         </p>
     </div>
+    <footer>
+        <h1>山东渔翁信息技术股份有限公司</h1>
+        <p class="mainTelephone">技术支持电话：<span>4006686188</span></p>
+    </footer>
 </div>
 
 <script src="/static/${whlyPage}/assets/global/plugins/jquery.min.js" type="text/javascript"></script>

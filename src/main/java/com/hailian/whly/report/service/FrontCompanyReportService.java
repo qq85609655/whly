@@ -530,6 +530,9 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		FrontCompanyReport fcr  = new FrontCompanyReport();
 		fcr.setCompanyId(UserUtils.getUser().getCompany().getId());
 		List<FrontCompanyReport> reportList = dao.findReport(fcr);
+		if(reportList.size() == 0) {
+			return true;
+		}
 		FrontCompanyReport frontCompanyReport = reportList.get(0);
 		int lastYear = Integer.valueOf(frontCompanyReport.getYear());
 		int lastMonth = Integer.valueOf(frontCompanyReport.getMonth());
