@@ -24,7 +24,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String id;         	 //ID
 	private String year;			// 年
 	private String month;			// 月
-	private Date reportTime;		// 上报时间 year+month
+	private Date reportTime;		// 上报时间 
 	private String notificationId;  // 上报邮件ID 
 	private String companyId;		// 上报企业
 	private String companyName;		// 上报企业名字
@@ -74,7 +74,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	
 	
 	
-	
+	@ExcelField(title="当月完成投资总额（万元）", type=1, align=2, sort=110,groups= {3})
 	public String getCurrentInvestment() {
 		return currentInvestment;
 	}
@@ -83,6 +83,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.currentInvestment = currentInvestment;
 	}
 
+	@ExcelField(title="项目建设进展情况", type=1, align=2, sort=115,groups= {3})
 	public String getProjectEvolve() {
 		return projectEvolve;
 	}
@@ -99,6 +100,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.monthInvestment = monthInvestment;
 	}
 
+	@ExcelField(title="建设地点", type=1, align=2, sort=120,groups= {3})
 	public String getAddress() {
 		return address;
 	}
@@ -147,6 +149,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.projectEndTime = projectEndTime;
 	}
 
+	@ExcelField(title="项目名称", type=1, align=2, sort=105,groups= {3})
 	public String getProjectName() {
 		return projectName;
 	}
@@ -155,6 +158,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.projectName = projectName;
 	}
 
+	@ExcelField(title="项目主要内容", type=1, align=2, sort=125,groups= {3})
 	public String getProjectContent() {
 		return projectContent;
 	}
@@ -163,6 +167,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.projectContent = projectContent;
 	}
 
+	@ExcelField(title="项目预期效果", type=1, align=2, sort=130,groups= {3})
 	public String getProjectDesiredEffect() {
 		return projectDesiredEffect;
 	}
@@ -171,6 +176,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.projectDesiredEffect = projectDesiredEffect;
 	}
 
+	@ExcelField(title="起止年限", type=1, align=2, sort=135,groups= {3})
 	public String getYearLimit() {
 		return yearLimit;
 	}
@@ -219,7 +225,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.statusName = statusName;
 	}
 
-	@ExcelField(title="上报企业", type=1, align=1, sort=4)
+	@ExcelField(title="上报企业名称", type=1, align=1, sort=40, groups= {1,2,3})
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -253,7 +259,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	}
 
 	@Length(min=0, max=11, message="年长度必须介于 0 和 11 之间")
-	@ExcelField(title="年", type=1, align=2, sort=2)
+	@ExcelField(title="年", type=1, align=2, sort=20,groups= {1,2,3})
 	public String getYear() {
 		return year;
 	}
@@ -263,7 +269,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	}
 	
 	@Length(min=0, max=64, message="行业类型长度必须介于 0 和 64 之间")
-	@ExcelField(title="所属行业", type=1, align=2, sort=5)
+	@ExcelField(title="所属行业", type=1, align=2, sort=50,groups={1,2})
 	public String getDescription() {
 		return description;
 	}
@@ -273,7 +279,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	}
 
 	@Length(min=0, max=11, message="月长度必须介于 0 和 11 之间")
-	@ExcelField(title="月", type=1, align=2, sort=3)
+	@ExcelField(title="月", type=1, align=2, sort=30, groups= {1,2,3})
 	public String getMonth() {
 		return month;
 	}
@@ -283,7 +289,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	}
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@ExcelField(title="上报时间", type=1, align=2, sort=2)
+	@ExcelField(title="上报时间", type=1, align=2, sort=150,groups= {1,2,3})
 	public Date getReportTime() {
 		return reportTime;
 	}
@@ -310,7 +316,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.typeId = typeId;
 	}
 	
-	@ExcelField(title="所属地域", type=1, align=2, sort=6)
+	@ExcelField(title="所属地域", type=1, align=2, sort=60, value="area.name",groups= {1,2,3})
 	public Area getArea() {
 		return area;
 	}
@@ -320,7 +326,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	}
 	
 	@Length(min=0, max=11, message="从业人数（人）长度必须介于 0 和 11 之间")
-	@ExcelField(title="从业人数(人)", type=1, align=2, sort=14)
+	@ExcelField(title="从业人数(人)", type=1, align=2, sort=100, groups= {1,2})
 	public String getEmpQuantity() {
 		return empQuantity;
 	}
@@ -329,7 +335,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.empQuantity = empQuantity;
 	}
 	
-	@ExcelField(title="营业收入(万元)", type=1, align=2, sort=7)
+	@ExcelField(title="营业收入(万元)", type=1, align=2, sort=70,groups= {1,2})
 	public String getTotalIncome() {
 		return totalIncome;
 	}
@@ -338,7 +344,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.totalIncome = totalIncome;
 	}
 	
-	@ExcelField(title="营业利润(万元)", type=1, align=2, sort=8)
+	@ExcelField(title="营业利润(万元)", type=1, align=2, sort=80, groups= {1,2})
 	public String getTotalProfit() {
 		return totalProfit;
 	}
@@ -347,7 +353,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.totalProfit = totalProfit;
 	}
 	
-	@ExcelField(title="企业税费(万元)", type=1, align=2, sort=9)
+	@ExcelField(title="企业税费(万元)", type=1, align=2, sort=83, groups= {2})
 	public String getTotalTax() {
 		return totalTax;
 	}
@@ -383,8 +389,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.operator = operator;
 	}
 	
-	@Length(min=0, max=10, message="状态 未提交-UNSUBMIT 已提交-SUBMIT            审核通过-PASSED 未通过-UNPASSED长度必须介于 0 和 10 之间")
-	//@ExcelField(title="状态", type=1, align=2, sort=1)
+	@ExcelField(title="状态", type=1, align=2, sort=10, dictType="report_status",groups= {1,2,3})
 	public String getStatus() {
 		return status;
 	}
@@ -402,7 +407,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.reason = reason;
 	}
 	
-	@ExcelField(title="营业成本", type=1, align=2, sort=10)
+	@ExcelField(title="营业成本（万元）", type=1, align=2, sort=90, groups= {1,2})
 	public String getOperatingCosts() {
 		return operatingCosts;
 	}
@@ -411,7 +416,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.operatingCosts = operatingCosts;
 	}
 	
-	@ExcelField(title="应付职工薪酬", type=1, align=2, sort=11)
+	@ExcelField(title="应付职工薪酬（万元）", type=1, align=2, sort=93, groups= {2})
 	public String getEmployeeCompensation() {
 		return employeeCompensation;
 	}
@@ -420,7 +425,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.employeeCompensation = employeeCompensation;
 	}
 	
-	@ExcelField(title="贷款金额", type=1, align=2, sort=12)
+	@ExcelField(title="贷款金额（万元）", type=1, align=2, sort=95, groups= {2})
 	public String getLoanAmount() {
 		return loanAmount;
 	}
@@ -429,7 +434,7 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 		this.loanAmount = loanAmount;
 	}
 	
-	@ExcelField(title="订单数量", type=1, align=2, sort=13)
+	@ExcelField(title="订单数量", type=1, align=2, sort=97, groups= {2})
 	public String getOrderQuantity() {
 		return orderQuantity;
 	}

@@ -173,11 +173,6 @@
 		$("#searchForm").submit();
 		return false;
 	}
-	$(function(){
-		console.log($(".table-striped"));
-		 //style="table-layout: fixed
-		
-	});
 	
 </script>
 
@@ -224,9 +219,9 @@
 							value="${page.pageNo}" />
 						<input id="pageSize" name="pageSize" type="hidden"
 							value="${page.pageSize}" />
-						<input type="hidden" value="${companyParentType}"
+						<input type="hidden"  name="exportType" value="${companyParentType}"
 							id="companyParentType">
-						<input type="hidden" value="${month}" id="month">
+						<input type="hidden"  name="menuId" value="${menuId}" >
 						<input type="hidden" value="1" name="month">
 						<input type="hidden" value="${message}" id="message">
 						<div class="row form-body">

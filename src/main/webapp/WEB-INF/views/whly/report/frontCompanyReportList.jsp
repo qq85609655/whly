@@ -163,16 +163,6 @@
 				whlyPath + '/report/frontCompanyReport/export').submit();
 		$("#searchForm").attr("action",
 				whlyPath + '/report/frontCompanyReport/list?menuId=${menuId}');
-		/* $.ajax({
-			type : 'POST',
-			url : whlyPath + '/report/frontCompanyReport/saveh',
-			dataType : 'json'
-		}).done(function(result, status, xhr) {
-			console.info(result)
-               
-		}).fail(function(xhr, status, error) {
-			
-		}); */
 		loadingCancel('export'); 
 	}
 
@@ -183,11 +173,6 @@
 		$("#searchForm").submit();
 		return false;
 	}
-	$(function(){
-		console.log($(".table-striped"));
-		 //style="table-layout: fixed
-		
-	});
 	
 </script>
 
@@ -234,8 +219,10 @@
 							value="${page.pageNo}" />
 						<input id="pageSize" name="pageSize" type="hidden"
 							value="${page.pageSize}" />
-						<input type="hidden" value="${companyParentType}"
+						<input type="hidden"  name="exportType" value="${companyParentType}"
 							id="companyParentType">
+						<input type="hidden"  name="menuId" value="${menuId}" >
+						<input type="hidden"  name="area.id" value="this" >
 						<input type="hidden" value="${month}" id="month">
 						<input type="hidden" value="1" name="month">
 						<input type="hidden" value="${message}" id="message">
@@ -383,7 +370,7 @@
 												</th>
 											<th class="type_support width_2" style="display: none;">建设地点</th>
 											<th class="type_support width_3" style="display: none;">项目主要内容</th>
-											<th class="type_support width_3" style="display: none;">项目预期结果</th>
+											<th class="type_support width_3" style="display: none;">项目预期效果</th>
 											<th class="type_support width_3" style="display: none;">起止年限</th>
 											<th class="width_2">上报时间</th>
 										</tr>

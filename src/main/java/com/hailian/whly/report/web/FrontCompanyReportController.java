@@ -125,11 +125,11 @@ public class FrontCompanyReportController extends BaseController {
 				String year1 = String.valueOf(c.get(Calendar.YEAR));
 				String month = String.valueOf(c.get(Calendar.MONTH) + 1);
 				frontCompanyReport.setYear(year1 + "年" + month + "月");
-			}
+			}*/
 			if ((frontCompanyReport.getYear() == null || frontCompanyReport.getYear().trim().equals(""))
 					&& frontCompanyReport.getMonth() != null) {
 				frontCompanyReport.setMonth("");
-			}*/
+			}
 			model.addAttribute("front", frontCompanyReport);
 			String companyParentId = UserUtils.getUser().getCompany().getParentId();
 			frontCompanyReport.setCompanyParentId(companyParentId);
@@ -276,18 +276,43 @@ public class FrontCompanyReportController extends BaseController {
 
 	/* @RequiresPermissions("report:frontCompanyReport:export") */
 	@RequestMapping(value = "/export")
-	public String exportFile(FrontCompanyReport frontCompanyReport, HttpServletRequest request,
-			HttpServletResponse response, RedirectAttributes redirectAttributes) {
+	public String exportFile(FrontCompanyReport frontCompanyReport,String exportType, String menuId, HttpServletRequest request,
+			HttpServletResponse response, RedirectAttributes redirectAttributes, Model model) {
+		String url = "list";
 		try {
-			String fileName = "企业上报信息" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
-			List<FrontCompanyReport> list = frontCompanyReportService.findList(frontCompanyReport);
-			new ExportExcel("企业上报信息", FrontCompanyReport.class).setDataList(list).write(response, fileName).dispose();
-			return null;
+			model.addAttribute("frontCompanyReport", frontCompanyReport);
+			if(exportType!=null && !exportType.isEmpty()) {
+				int[] i = {Integer.valueOf(exportType)};
+				String fileName = "企业上报信息" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
+				Office company= UserUtils.getUser().getCompany();
+				frontCompanyReport.setCompanyParentId(company.getParentId());
+				if(frontCompanyReport.getArea().getId().equals("this")) {
+					Area area= new Area();
+					area.setId(company.getArea().getId());
+					frontCompanyReport.setArea(area);
+				} else {
+					url = "listAll";
+				}
+				if(frontCompanyReport.getYear() == null || frontCompanyReport.getYear().trim().isEmpty()) {
+					frontCompanyReport.setMonth(null);
+				}
+				List<FrontCompanyReport> list = frontCompanyReportService.findList(frontCompanyReport);
+				if(list == null || list.size() == 0) {
+					model.addAttribute("message", "没有查询到上报信息，请更改检索条件！");
+				} else {
+					new ExportExcel("企业上报信息", FrontCompanyReport.class,1, i).setDataList(list).write(response, fileName).dispose();
+				}
+				
+			} else {
+				model.addAttribute("message", "导出企业上报数据失败！");
+				//addMessage(redirectAttributes, "导出企业上报数据失败！");
+			}
+			
 		} catch (Exception e) {
-			addMessage(redirectAttributes, "导出企业上报数据失败！失败信息：" + e.getMessage());
+			model.addAttribute("message",  "导出企业上报数据失败！失败信息：" + e.getMessage());
+			//addMessage(redirectAttributes, "导出企业上报数据失败！失败信息：" + e.getMessage());
 		}
-		return "redirect:" + Global.getWhlyPath() + "/report/frontCompanyReport/?repage";
-
+		return "forward:" + Global.getWhlyPath() + "/report/frontCompanyReport/" + url;
 	}
 
 	/* @RequiresPermissions("report:frontCompanyReport:history") */
