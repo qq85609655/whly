@@ -470,6 +470,30 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		return companyParentType;
 	}
 	
+	/**
+	 * 
+	 * @time   2017年11月07日 上午11:18:00
+	 * @author zhouyl
+	 * @todo   获取当前登陆用户所在企业的所属类型;1:重点服务业企业监测板块, 2:限额以下服务业企业监测板块 , 3:年度扶持项目监测板块, 4:其他
+	 * @param  @param null
+	 * @param  @return 
+	 * @return_type   int
+	 */
+	public String getCompanyParentId(){
+		String companyParentType = null;
+		Office company= UserUtils.getUser().getCompany();
+		if(company.getParentIds().indexOf("be9e0da458064360b214c9ca69327859") != -1 || company.getParentId().indexOf("be9e0da458064360b214c9ca69327859") != -1 ) {  			//重点服务业企业监测板块
+			companyParentType = "be9e0da458064360b214c9ca69327859";
+		} else if(company.getParentIds().indexOf("cc0cbec49fe5449da652f8db57d473ab") != -1 || company.getParentId().indexOf("cc0cbec49fe5449da652f8db57d473ab") != -1 ) {	//限额以下服务业企业监测板块
+			companyParentType = "cc0cbec49fe5449da652f8db57d473ab";
+		} else if(company.getParentIds().indexOf("ebc16b9cafd84d53a8222eae5d4340d6") != -1 || company.getParentId().indexOf("ebc16b9cafd84d53a8222eae5d4340d6") != -1 ) {	//年度扶持项目监测板块
+			companyParentType = "ebc16b9cafd84d53a8222eae5d4340d6";
+		} else if(company.getParentIds().indexOf("d2c1c37069fa4ce189bc4a3529cc7a65") != -1 || company.getParentId().indexOf("d2c1c37069fa4ce189bc4a3529cc7a65") != -1 ) {	//其他
+			companyParentType = "d2c1c37069fa4ce189bc4a3529cc7a65";
+		}
+		return companyParentType;
+	}
+	
 	@Transactional(readOnly = false)
 	public void delete(FrontCompanyReport frontCompanyReport) {
 		super.delete(frontCompanyReport);
