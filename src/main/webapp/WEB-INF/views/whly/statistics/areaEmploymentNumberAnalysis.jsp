@@ -29,8 +29,6 @@
 				var areaName = $('#areaQuery').val();
 				var typeId = $('#industryQuery').val();
 				var year = $('#timeQuery').val();
-				//console.info(areaName);
-				//return false;
 				var data = {
 						companyName : companyName,
 						typeName : typeId,
@@ -41,7 +39,6 @@
 					data : data,
 					url : whlyPath + '/reportstatistics/reportStatistics/areaEnploymentNumberAnalysis'
 				}).done(function(result, status, xhr) {
-					//console.info(result.data);
 					var data = result.data;
 					var titleText=year+"全行业地区从业人数分析";//主标题
 					var titleSubtext=0;//副标题
@@ -62,7 +59,6 @@
 						pieData.push(d);
 					}
 				
-					console.log(data);
 					var option = {
 						    title : {
 						        text: titleText,

@@ -250,54 +250,6 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		return true;
 	}
 	
-	/*@Transactional(readOnly = false)
-	public int saveh(FrontCompanyReport frontCompanyReport) {
-		try {
-			User user = UserUtils.getUser();   //获取登录用户信息
-			Calendar c = Calendar.getInstance();	//获取时间
-			String year = String.valueOf(c.get(Calendar.YEAR));
-			String month = String.valueOf(c.get(Calendar.MONTH)+1);
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date time= sdf.parse(sdf.format(new Date()));
-			
-			
-			frontCompanyReport.setYear(year);
-			frontCompanyReport.setMonth(month);;
-			//添加日志
-			List<FrontCompanyReport> frontCompanyReport2 = dao.findReport(frontCompanyReport);
-			
-			for(FrontCompanyReport frontCompanyReport1 : frontCompanyReport2) {
-				if(frontCompanyReport1!=null) {
-					FrontReportHistory history = new FrontReportHistory();
-					String desciption = JsonMapper.toJsonString(frontCompanyReport1);
-					history.setId(UUID.randomUUID().toString());
-					history.setDescription(desciption);
-					history.setReportId(frontCompanyReport1.getId());
-					
-					history.setOperation("通过");
-					history.setOperator(frontCompanyReport1.getOperator());
-					if(frontCompanyReport1.getUpdateTime() != null) {
-						history.setOperateTime(frontCompanyReport1.getUpdateTime());
-						history.setCreateDate(frontCompanyReport1.getUpdateTime());
-						history.setUpdateDate(frontCompanyReport1.getUpdateTime());
-					} else {
-						history.setOperateTime(time);
-						history.setCreateDate(time);
-						history.setUpdateDate(time);
-					}
-					history.setRemarks("");   //备注
-					history.setCreateBy(user);
-					history.setDelFlag("0");
-					dao.addHistroy(history);
-				}
-				
-			}
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return 1;
-	}*/
-	
 	@Transactional(readOnly = false)
 	public String update(FrontCompanyReport frontCompanyReport) {
 		try {

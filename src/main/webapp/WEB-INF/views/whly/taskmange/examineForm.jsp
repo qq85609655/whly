@@ -104,8 +104,6 @@
 			var lastYear = null;  //上年本月的上报信息
 			var now = 0;
 			var max = 0;
-			//var operation1 = true;
-			console.info(data);
 			if(data!=null && data!="") {
 				for (var k=0; k < data.length; k++) {
 					if(data[k].id == '本年本月') {

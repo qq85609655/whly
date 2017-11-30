@@ -110,19 +110,21 @@
 			url : whlyPath + '/report/frontCompanyReport/getfrontCompanyprojectById',
 			dataType : 'json'
 		}).done(function(result, status, xhr) {
-            console.info(result);
-            var result = result.data[0];
-            //$('#submit').attr("style","display:block;");
-			$('#add').remove();
-			$('#delete').remove();
-			//$('#submit').remove();
-            $("#projectName").attr('value',result.projectName).attr('readonly','true');
-            $("#totalInvestment").attr('value',result.totalInvestment).attr('readonly','true');
-            $("#bankLoanAmount").attr('value',result.bankLoanAmount).attr('readonly','true');
-           	$("#projectContent").html(result.projectContent).attr('readonly','true');
-            $("#projectDesiredEffect").html(result.projectDesiredEffect).attr('readonly','true');
-            $("#yearLimit").attr('value',result.yearLimit).attr('readonly','true');
-            judgeInput();
+			if(result.data) {
+				var result = result.data[0];
+	            //$('#submit').attr("style","display:block;");
+				$('#add').remove();
+				$('#delete').remove();
+				//$('#submit').remove();
+	            $("#projectName").attr('value',result.projectName).attr('readonly','true');
+	            $("#totalInvestment").attr('value',result.totalInvestment).attr('readonly','true');
+	            $("#bankLoanAmount").attr('value',result.bankLoanAmount).attr('readonly','true');
+	           	$("#projectContent").html(result.projectContent).attr('readonly','true');
+	            $("#projectDesiredEffect").html(result.projectDesiredEffect).attr('readonly','true');
+	            $("#yearLimit").attr('value',result.yearLimit).attr('readonly','true');
+	            judgeInput();
+			}
+          
 		}).fail(function(xhr, status, error) {
 			
 		});
@@ -144,7 +146,6 @@
 				var companyName = $("#companyName").val();
                 var question = result.data.question;
                	var divs = $('#remarks').find("div");
-               	console.info(result.data);
 				if(companyName!=null && result.data.companyName == companyName && result.data.status != 'PASSED') {
 					$("#action").attr('action', whlyPath + '/report/frontCompanyReport/update?menuId=${menuId}');
 					if(type == '3') {

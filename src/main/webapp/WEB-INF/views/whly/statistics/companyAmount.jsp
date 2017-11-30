@@ -197,7 +197,6 @@
 			            center: ['50%', '60%'],
 			            data: values
 		       		});
-					console.info(seriesData);
 					option = {
 						    title : {
 						        text: data[i].name + '占比',

@@ -40,7 +40,6 @@
 					data : data,
 					url : whlyPath + '/reportstatistics/reportStatistics/getProportionQytb'
 				}).done(function(result, status, xhr) {
-					console.info(result.data);
 					var psLineChar = echarts.init(document.getElementById('lineDiv'));
 					if(!result.data[0].values) { //如果没数据 进行提示
 						alert(title+areaName+companyName+ '没有数据，请重新选择！');

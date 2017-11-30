@@ -20,8 +20,6 @@
 				var areaName = $('#areaQuery').val();
 				var typeId = $('#industryQuery').val();
 				var year = $('#timeQuery').val();
-				//console.info(areaName);
-				//return false;
 				var data = {
 						companyName : companyName,
 						areaName : areaName,
@@ -33,7 +31,6 @@
 					data : data,
 					url : whlyPath + '/reportstatistics/reportStatistics/getStatic'
 				}).done(function(result, status, xhr) {
-					console.info(result.data);
 					if(!result.data[0].values) { //如果没数据 进行提示
 						alert(title+areaName+typeName+companyName+ '没有数据，请重新选择！');
 						psLineChar.clear();
@@ -68,7 +65,6 @@
  						operatingCosts.push(data[i].operatingCosts);
 					}
  					var listingName = ['营业总额', '利润总额', '税收总额', '从业人员', '应付职工薪酬', '贷款金额', '订单数量', '营业成本'];
- 					//console.info(totalIncome);
  					var number = [ {
 					            name:'营业总额',
 					            type:'line',
