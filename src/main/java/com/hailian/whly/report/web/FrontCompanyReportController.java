@@ -125,13 +125,6 @@ public class FrontCompanyReportController extends BaseController {
 			model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
 			model.addAttribute("industyTypeLable", UserUtils.getUser().getCompany().getIndustyType().getType());
 			model.addAttribute("status", CheckStatus.getAllStatus());
-			/*if ((frontCompanyReport.getYear() == null || frontCompanyReport.getYear().trim().equals(""))
-					&& frontCompanyReport.getMonth() == null) {
-				Calendar c = Calendar.getInstance(); // 获取时间
-				String year1 = String.valueOf(c.get(Calendar.YEAR));
-				String month = String.valueOf(c.get(Calendar.MONTH) + 1);
-				frontCompanyReport.setYear(year1 + "年" + month + "月");
-			}*/
 			if ((frontCompanyReport.getYear() == null || frontCompanyReport.getYear().trim().equals(""))
 					&& frontCompanyReport.getMonth() != null) {
 				frontCompanyReport.setMonth("");

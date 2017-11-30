@@ -1,7 +1,5 @@
 package com.hailian.whly.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,14 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hailian.whly.commom.CheckStatus;
 import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.report.entity.FrontReportHistory;
 import com.hailian.whly.report.service.FrontCompanyReportService;
 import com.hailian.whly.report.utils.ResultJson;
 import com.hailian.whly.service.WhlyAccountService;
 import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
@@ -89,6 +85,9 @@ public class TaskManageController extends BaseController {
 		frontCompanyReport=frontCompanyReportService.get(frontCompanyReport.getId());
 		model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
+		if(frontCompanyReport == null) {
+			model.addAttribute("message", "该上报信息已不存在！");
+		}
 		return Global.getWhlyPage()+"/taskmange/examineForm";
 	}
 }

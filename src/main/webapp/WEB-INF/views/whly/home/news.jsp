@@ -80,15 +80,15 @@
 						}
 		                for (var i = 0; i < data.length; i++) {
 		                	var dataTitle = "";
-		                	if(data[i].title.length > 28) {
+		                	if(data[i].title.length > 17) {
 		                		var s1 = new Date(nowTime.replace(/-/g, '/'));
 		    			        var s2 = new Date(data[i].updateDate.replace(/-/g, '/'));
 		    			        var ms = Math.abs(s1.getTime() - s2.getTime());
 		    			        var time = Math.floor(ms / 1000 / 60 / 60);
 		    			        if(time > 24) {
-		    			        	dataTitle = data[i].title.substring(0,27) + '...';
-		    			        } else if(data[i].title.length > 32) {
-		    			        	dataTitle = data[i].title.substring(0,29) + '...';
+		    			        	dataTitle = data[i].title.substring(0,17) + '...';
+		    			        } else if(data[i].title.length > 17) {
+		    			        	dataTitle = data[i].title.substring(0,17) + '...';
 		    			        } else {
 		    			        	dataTitle = data[i].title;
 		    			        }
@@ -134,15 +134,15 @@
 						}
 		                for (var i = 0; i < data.length; i++) {
 		                	var dataTitle = "";
-		                	if(data[i].title.length > 28) {
+		                	if(data[i].title.length > 17) {
 		                		var s1 = new Date(nowTime.replace(/-/g, '/'));
 		    			        var s2 = new Date(data[i].updateDate.replace(/-/g, '/'));
 		    			        var ms = Math.abs(s1.getTime() - s2.getTime());
 		    			        var time = Math.floor(ms / 1000 / 60 / 60);
 		    			        if(time > 24) {
-		    			        	dataTitle = data[i].title.substring(0,27) + '...';
-		    			        } else if(data[i].title.length > 32) {
-		    			        	dataTitle = data[i].title.substring(0,29) + '...';
+		    			        	dataTitle = data[i].title.substring(0,17) + '...';
+		    			        } else if(data[i].title.length > 17) {
+		    			        	dataTitle = data[i].title.substring(0,17) + '...';
 		    			        } else {
 		    			        	dataTitle = data[i].title;
 		    			        }

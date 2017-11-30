@@ -30,6 +30,7 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.hailian.whly.frontnotification.entity.FrontNotification;
 import com.hailian.whly.frontnotification.service.FrontNotificationService;
 import com.hailian.whly.report.entity.FrontCompanyReport;
+import com.hailian.whly.report.service.FrontCompanyReportService;
 import com.hailian.whly.report.utils.ResultJson;
 
 /**
@@ -43,6 +44,8 @@ public class FrontNotificationListController extends BaseController {
 
 	@Autowired
 	private FrontNotificationService frontNotificationService;
+	@Autowired
+	private FrontCompanyReportService frontCompanyReportService;
 	
 	@ModelAttribute
 	public FrontNotification get(@RequestParam(required=false) String id) {
@@ -77,6 +80,9 @@ public class FrontNotificationListController extends BaseController {
 			frontNotification.setCompanyType(company.getParentId());
 		} else {
 			frontNotification.setCompanyType(company.getId());
+		}
+		if(!frontNotification.getCategoryType().equals("3")) { 
+			frontNotification.setCompanyType(frontCompanyReportService.getCompanyParentId());
 		}
 		Page<FrontNotification> page = frontNotificationService.findPage(new Page<FrontNotification>(request, response), frontNotification);
 		if(frontNotification.getCategoryType().equals("3")) { //查看邮件用
