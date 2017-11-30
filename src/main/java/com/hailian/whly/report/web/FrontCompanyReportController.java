@@ -173,6 +173,7 @@ public class FrontCompanyReportController extends BaseController {
 		frontCompanyReport.setFrom(from);
 		model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
+		model.addAttribute("areaId", UserUtils.getUser().getCompany().getArea());
 		model.addAttribute("companyName", UserUtils.getUser().getCompany().getName());
 		model.addAttribute("topMonth", topMonth);
 		return Global.getWhlyPage() + "/report/frontCompanyReportForm";

@@ -85,6 +85,10 @@
 			$('#delete').remove();
 			$('#submit').remove();
 		}
+		var areaId = $('#areaId').val();
+		if(!areaId) {
+			$('#submit').remove();
+		}
 	}
 	
     function returnBack() {
@@ -213,6 +217,7 @@
 			$("#action").attr('action', whlyPath + '/report/frontCompanyReport/save?menuId=${menuId}');
 			//$("#return").attr("style","display:none;");
 			$("#submit").attr("style","display:block;");
+			
 			if(type != '3') {
 				addRemarks();
 			}
@@ -295,10 +300,10 @@ $.ready(function() {
 							<div class="portlet-body" >
 								<form  modelAttribute="frontCompanyReport" action="${whlyPath}/report/frontCompanyReport/save?menuId=${menuId}"  id="action"  method="post">
 									<div class="form-body">
-										<input type="hidden" value="${frontCompanyReport.id}" id="reportId">
+										<input type="hidden" value="${frontCompanyReport.id}" id="reportId" name="id">
 										<input type="hidden" value="${frontCompanyReport.companyId}" id="companyId">
 										<input type="hidden" value="${companyName}" id="companyName">
-										<input type="hidden" value="${frontCompanyReport.id}" name="id">
+										<input type="hidden" value="${areaId}" id="areaId">
 										<input type="hidden" value="${companyParentType}" id="companyParentType">
 										<input type="hidden" value="${message}" id="message">
 										<input type="hidden" name="frontCompanyReport.year" value="${topMonth.year }">
