@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hailian.whly.commom.CompanyTypeEnum;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.service.OfficeService;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
@@ -40,7 +41,12 @@ public class ChooseController extends BaseController {
 			model.addAttribute("canSeeAll",true);
 			String pcid=(String) UserUtils.getCache("selected_pcid");
 			if(StringUtils.isNotBlank(pcid)){
-				UserUtils.getUser().setCompany(officeService.get(pcid));
+				Office o=officeService.get(pcid);
+				if("1".equals(o.getParentId())){
+					UserUtils.getUser().setCompany(officeService.get(pcid));
+				}else{
+					UserUtils.getUser().setCompany(officeService.get(o.getParentId()));
+				}
 			}
 		}else{
 			model.addAttribute("comPanyType", UserUtils.getUser().getCompany().getIndustyType().getType());
