@@ -50,7 +50,7 @@ public class FrontNotificationService extends CrudService<FrontNotificationDao, 
 		String type = frontNotification.getCategoryType();
 		boolean canSh = systemService.findUserCanSh();
 		//管理员查看邮件  
-		if(type!=null && type.equals("3") && canSh) {
+ 		if(type!=null && type.equals("3") && canSh) {
 			frontNotification.setKeywords("1");
 			/*Area area= new Area();
 			area.setId(UserUtils.getUser().getCompany().getArea().getId());

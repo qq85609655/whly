@@ -418,7 +418,7 @@
 		FROM
 			sys_office
 		WHERE
-			<!-- parent_id NOT IN ('0', '1') -->
+			area_id is not null AND area_id != "" AND
 			parent_ids like CONCAT(CONCAT('%', #{companyId}), '%')
 	</select>
 	
