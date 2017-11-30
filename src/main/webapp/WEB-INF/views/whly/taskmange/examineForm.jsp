@@ -232,6 +232,8 @@
 				$('.type_quota').show();
 			} else if(type == "3") {
 				$('.type_support').show();
+			} else {
+				
 			}
 		}
 		

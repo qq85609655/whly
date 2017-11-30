@@ -136,8 +136,9 @@ public class UserUtils {
 					String pcid=(String) UserUtils.getCache("selected_pcid");
 					if(StringUtils.isNotBlank(pcid)){
 						Office o=new Office();
-						o.setParentIds("%"+pcid+"%");
-						o=officeDao.findByParentIdsLike(o).get(0);
+						//o.setParentIds("%"+pcid+"%");
+						//o=officeDao.findByParentIdsLike(o).get(0);
+						o=officeDao.get(pcid);
 						o.setIndustyType(dictDao.get(o.getIndustyType().getId()));
 						user.setCompany(o);
 					}

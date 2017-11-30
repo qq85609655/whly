@@ -80,6 +80,10 @@
 			$('.type_support').show();
 			$('.input_support').attr('required','true');
 			$('.type_emphasis').remove();
+		} else {
+			$('#add').remove();
+			$('#delete').remove();
+			$('#submit').remove();
 		}
 	}
 	
