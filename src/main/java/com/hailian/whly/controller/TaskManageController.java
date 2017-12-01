@@ -1,6 +1,9 @@
 package com.hailian.whly.controller;
 
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -85,6 +88,25 @@ public class TaskManageController extends BaseController {
 		frontCompanyReport=frontCompanyReportService.get(frontCompanyReport.getId());
 		model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
 		model.addAttribute("frontCompanyReport", frontCompanyReport);
+		Map<String, Object> topMonth = new HashMap<String, Object>();
+		Calendar now = Calendar.getInstance();
+		Integer year = Integer.valueOf(now.get(1));
+		Integer month = Integer.valueOf(now.get(2))+1;
+		Integer day = Integer.valueOf(now.get(5));
+		if(Integer.valueOf(month) == 1) {
+			if(day <= 9) {
+				month = 12;
+				year = Integer.valueOf(year) - 1;
+			} 
+		} else {
+			if(day <= 9) {
+				month = Integer.valueOf(month) - 1;
+			} 
+		}
+		topMonth.put("year", year);
+		topMonth.put("month", month);
+		topMonth.put("info", year + "年" + month + "月");
+		model.addAttribute("topMonth", topMonth);
 		if(frontCompanyReport == null) {
 			model.addAttribute("message", "该上报信息已不存在！");
 		}

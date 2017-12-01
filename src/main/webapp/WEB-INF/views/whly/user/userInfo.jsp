@@ -94,6 +94,7 @@
 											<form role="form" action="${whlyPath }/user/saveUserInfo"
 												onsubmit="return checkSubmit(this)" type="post">
 												<!-- <sys:message content="${message}"/> -->
+												<input type="hidden" value="${user.company.area.id}" id="companyHide">
 												<div id="messageBox"
 													class="alert alert-danger ${empty message ? 'display-hide' : ''}">
 													<button class="close" data-close="alert" class="close">×</button>
@@ -112,7 +113,7 @@
 												</div>
 
 
-												<div class="form-group" style="clear: both">
+												<div class="form-group company" style="clear: both" >
 													<label class="control-label positioncx"
 														style="float: left;">归属公司:&nbsp;&nbsp;&nbsp;&nbsp;</label>
 													<span class="input-group-addon"
@@ -120,8 +121,8 @@
 														class="fa fa-home"></i></span> <label class="form-control"
 														style="float: left; width: 60%">${user.company.name}</label>
 												</div>
-												<br></br>
-												<div class="form-group" style="clear: both">
+												<br class="company"></br>
+												<div class="form-group company" style="clear: both">
 													<label class="control-label positioncx"
 														style="float: left;">归属部门:&nbsp;&nbsp;&nbsp;&nbsp;</label>
 													<span class="input-group-addon"
@@ -129,7 +130,7 @@
 														class="fa fa-industry"></i></span> <label class="form-control"
 														style="float: left; width: 60%">${user.office.name}</label>
 												</div>
-												<br></br>
+												<br  class="company"></br>
 												<div class="form-group" style="clear: both">
 													<label class="control-label positioncx"
 														style="float: left;">姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -265,6 +266,15 @@
 			return flag;
 
 		}
+		
+		$(function() {
+			var companyHide = $('#companyHide').val();
+			console.info(companyHide);
+			if(!companyHide) {
+				$('.company').hide();
+			}
+		});
+		
 	</script>
 </body>
 </html>

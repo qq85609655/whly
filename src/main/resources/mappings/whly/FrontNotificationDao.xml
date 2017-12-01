@@ -35,14 +35,9 @@
 		FROM front_notification a
 			<include refid="frontNotificationJoins"/>
 		<where>
-			a.del_flag = 0
 			<if test="id != null and id != ''">
-				AND a.id = #{id}
+				a.id = #{id}
 			</if>
-			<if test="categoryType != null and categoryType != ''">
-				AND a.category_type = #{categoryType}
-			</if>
-			AND a.company_type = #{companyType}
 		</where>
 		ORDER BY a.weight, a.update_date DESC
 	</select>

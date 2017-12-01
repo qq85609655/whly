@@ -149,6 +149,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			if(Integer.valueOf(month) == 1) {
 				if(day <= 9) {
 					reportMonth = "12";
+					year = String.valueOf(Integer.valueOf(year) - 1);
 				} 
 			} else {
 				if(day <= 9) {
@@ -527,7 +528,7 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		int lastMonth = Integer.valueOf(frontCompanyReport.getMonth());
 		Calendar now = Calendar.getInstance();
 		Integer year = Integer.valueOf(now.get(1));
-		Integer month = Integer.valueOf(now.get(2));
+		Integer month = Integer.valueOf(now.get(2)+1);
 		Integer day = Integer.valueOf(now.get(5));
 		if(lastMonth == 12) {
 			if((year - lastYear) >1) {  //如果当前年份大于上次上报年份 一年以上     可以上报

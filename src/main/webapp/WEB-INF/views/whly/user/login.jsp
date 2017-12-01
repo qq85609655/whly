@@ -140,20 +140,28 @@
             transform: scale(.8) translateX(-13%);
         }
         footer{
-            margin-top: .3em;
+            margin-top: 2em;
             position: absolute;
             left: 50%;
             width: 100%;
             transform: translateX(-50%);
             text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, .3);
-            text-align: center;
+            
         }
         footer>h1{
-            font-size: 1em;
+            font-size: .75em;
             font-weight: normal;
+            width:49%;
+            float:left;
+            text-align:right;
+            padding-right:.5em;
         }
         footer>p.mainTelephone{
-            font-size: .8em;
+            font-size: .75em;
+            width:49%;
+            float:left;
+            text-align:left;
+            padding-left:.5em;
         }
     </style>
 </head>
