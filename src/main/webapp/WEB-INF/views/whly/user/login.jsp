@@ -123,8 +123,8 @@
 
         .telephone{
             display: inline-block;
-            width: 19.9em;
-            margin-left: 3em;
+            width: 20em;
+            padding-left: 2em;
             margin-top: -.2em;
             font-size: .71em;
             letter-spacing: .1em;
