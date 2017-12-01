@@ -130,9 +130,11 @@
             letter-spacing: .1em;
         }
         .telephone>h4{
+            padding-left: 1em;
             transform: scale(.95) translateX(-3%);
         }
         .telephone>p{
+            padding-left: 2em;
             margin-top: .6em;
             letter-spacing: .12em;
             line-height: 1.4em;
