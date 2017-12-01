@@ -104,10 +104,12 @@ public class FrontCompanyReportController extends BaseController {
 			} else {
 				frontCompanyReport.setCompanyParentId(company.getId());
 			}
-			if(company.getArea()!=null) {
+			if(company.getArea()!=null && frontCompanyReport.getArea().getId().equals("this")) {
 				Area area= new Area();
 				area.setId(company.getArea().getId());
 				frontCompanyReport.setArea(area);
+			} else {
+				frontCompanyReport.getArea().setId(null);
 			}
 			Page<FrontCompanyReport> page = frontCompanyReportService
 					.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);
