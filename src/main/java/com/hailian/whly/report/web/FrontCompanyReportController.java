@@ -88,9 +88,23 @@ public class FrontCompanyReportController extends BaseController {
 			model.addAttribute("status", CheckStatus.getAllStatus());
 			if ((frontCompanyReport.getYear() == null || frontCompanyReport.getYear().trim().equals(""))
 					&& frontCompanyReport.getMonth() == null) {
-				Calendar c = Calendar.getInstance(); // 获取时间
+				Calendar now = Calendar.getInstance();
+				Integer year1 = Integer.valueOf(now.get(1));
+				Integer month = Integer.valueOf(now.get(2))+1;
+				Integer day = Integer.valueOf(now.get(5));
+				if(Integer.valueOf(month) == 1) {
+					if(day <= 9) {
+						month = 12;
+						year1 = Integer.valueOf(year1) - 1;
+					} 
+				} else {
+					if(day <= 9) {
+						month = Integer.valueOf(month) - 1;
+					} 
+				}
+				/*Calendar c = Calendar.getInstance(); // 获取时间
 				String year1 = String.valueOf(c.get(Calendar.YEAR));
-				String month = String.valueOf(c.get(Calendar.MONTH) + 1);
+				String month = String.valueOf(c.get(Calendar.MONTH) + 1);*/
 				frontCompanyReport.setYear(year1 + "年" + month + "月");
 			}
 			if ((frontCompanyReport.getYear() == null || frontCompanyReport.getYear().trim().equals(""))
@@ -109,7 +123,9 @@ public class FrontCompanyReportController extends BaseController {
 				area.setId(company.getArea().getId());
 				frontCompanyReport.setArea(area);
 			} else {
-				frontCompanyReport.getArea().setId(null);
+				if(frontCompanyReport.getArea()!=null) {
+					frontCompanyReport.getArea().setId(null);
+				}
 			}
 			Page<FrontCompanyReport> page = frontCompanyReportService
 					.findPage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);
@@ -160,7 +176,18 @@ public class FrontCompanyReportController extends BaseController {
 			try {
 				Calendar now = Calendar.getInstance();
 				Integer year = Integer.valueOf(now.get(1));
-				Integer month = Integer.valueOf(now.get(2) + 1);
+				Integer month = Integer.valueOf(now.get(2))+1;
+				Integer day = Integer.valueOf(now.get(5));
+				if(Integer.valueOf(month) == 1) {
+					if(day <= 9) {
+						month = 12;
+						year = Integer.valueOf(year) - 1;
+					} 
+				} else {
+					if(day <= 9) {
+						month = Integer.valueOf(month) - 1;
+					} 
+				}
 				topMonth.put("year", year);
 				topMonth.put("month", month);
 				topMonth.put("info", year + "年" + month + "月");

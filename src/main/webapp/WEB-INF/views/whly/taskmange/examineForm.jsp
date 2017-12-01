@@ -85,9 +85,7 @@
 			alert(redirectAttributes);
 		}
 		var date = new Date();
-		var year = date.getFullYear();
-		var month = date.getMonth() + 1;
-		var time = year + '年' + month + '月'; //设置显示时间
+		var time = $('#time').val(); //设置显示时间
 		var id = $("#reportId").val();
 		var data = {
 				reportId: id
@@ -564,6 +562,7 @@
 										<input type="hidden" value="${redirectAttributes}"
 											id="redirectAttributes">
 										<input type="hidden" value="${message}" id="message">
+										<input type="hidden" value="${topMonth.info}" id="time">
 										<div class="form-group col-md-11">
 											<br>
 											<!-- <button type="button" class="btn green pull-right"
