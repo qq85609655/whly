@@ -142,7 +142,7 @@
             transform: scale(.8) translateX(-13%);
         }
         footer{
-            margin-top: 2em;
+            margin-top: 0.5em;
             position: absolute;
             left: 50%;
             width: 100%;
