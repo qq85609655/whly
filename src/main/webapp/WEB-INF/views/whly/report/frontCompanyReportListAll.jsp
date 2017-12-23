@@ -346,6 +346,7 @@
 											<th class="width_2">上报企业名称</th>
 											<th class="width_2 type_emphasis type_quota" style="display: none;">所属行业</th>
 											<th class="width_1">所属地域</th>
+											<th class="type_emphasis type_quota width_2" style="display: none;">所属街道</th>
 											<th class="type_emphasis type_quota width_2" style="display: none;">营业收入
 												(万元)</th>
 											<th class="type_emphasis type_quota width_2" style="display: none;">营业利润
@@ -363,6 +364,8 @@
 											<th class="type_emphasis type_quota width_2" style="display: none;">从业人数(人)</th>
 											<th class="type_support width_2" style="display: none;">项目名称</th>
 											<th class="type_support width_3" style="display: none;">当月完成投资金额
+												(万元)</th>
+											<th class="type_support width_3" style="display: none;">累计完成投资金额
 												(万元)</th>
 											<th class="type_support width_2" style="display: none;">项目建设进展情况
 												</th>
@@ -394,6 +397,7 @@
 												<td>${frontCompanyReport.companyName}</td>
 												<td class="type_emphasis type_quota" style="display: none;">${frontCompanyReport.description}</td>
 												<td>${frontCompanyReport.area.name}</td>
+												<td class="type_emphasis type_quota" style="display: none;">${frontCompanyReport.pCompanyName}</td>
 												<td class="type_emphasis type_quota" style="display: none;">${frontCompanyReport.totalIncome}</td>
 												<td class="type_emphasis type_quota" style="display: none;">${frontCompanyReport.totalProfit}</td>
 												<td class="type_emphasis " style="display: none;">${frontCompanyReport.totalTax}</td>
@@ -405,6 +409,7 @@
 												
 												<td class="type_support" style="display: none;">${frontCompanyReport.projectName}</td>
 												<td class="type_support" style="display: none;">${frontCompanyReport.monthInvestment}</td>
+												<td class="type_support" style="display: none;">${frontCompanyReport.currentInvestment}</td>
 												<td class="type_support ellipsis" style="display: none;" title="${frontCompanyReport.projectEvolve}">${frontCompanyReport.projectEvolve}</td>
 												<td class="type_support" style="display: none;">${frontCompanyReport.address}</td>
 												<td class="type_support ellipsis"

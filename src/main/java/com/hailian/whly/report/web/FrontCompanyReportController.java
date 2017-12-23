@@ -179,12 +179,12 @@ public class FrontCompanyReportController extends BaseController {
 				Integer month = Integer.valueOf(now.get(2))+1;
 				Integer day = Integer.valueOf(now.get(5));
 				if(Integer.valueOf(month) == 1) {
-					if(day <= 9) {
+					if(day <= 26) {
 						month = 12;
 						year = Integer.valueOf(year) - 1;
 					} 
 				} else {
-					if(day <= 9) {
+					if(day <= 26) {
 						month = Integer.valueOf(month) - 1;
 					} 
 				}
@@ -278,10 +278,10 @@ public class FrontCompanyReportController extends BaseController {
 		if ( !reportPermission) {
 			Calendar now = Calendar.getInstance();
 			Integer day = Integer.valueOf(now.get(5));
-			if(day > 9) {
-				addMessage(redirectAttributes, "对不起，该月月报已经上报！请于下月10号再提交上报信息。");
+			if(day > 25) {
+				addMessage(redirectAttributes, "对不起，该月月报已经上报！请于下月25号再提交上报信息。");
 			} else {
-				addMessage(redirectAttributes, "对不起，该月月报已经上报！请于本月10号再提交上报信息。");
+				addMessage(redirectAttributes, "对不起，该月月报已经上报！请于本月25号再提交上报信息。");
 			}
 			return "redirect:" + Global.getWhlyPath() + "/report/frontCompanyReport/form";
 		} else {

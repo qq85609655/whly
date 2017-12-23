@@ -48,13 +48,17 @@
 		a7.name AS "area.name",
 		sd.description AS "description",
 		o5.name AS "companyName",
-		o5.address AS "address"
+		o5.address AS "address",
+		o5.parent_id as "pCompanyId",
+		o6.name as "pCompanyName",
+		(SELECT SUM(t.month_investment) from front_company_report t WHERE t.company_id=a.company_id) as currentInvestment
 		
 		
 	</sql>
 	
 	<sql id="frontCompanyReportJoins">
 		LEFT JOIN sys_office o5 ON o5.id = a.company_id
+		LEFT JOIN sys_office o6 ON o5.parent_id = o6.id
 		LEFT JOIN sys_area a7 ON a7.id = a.area_id
 		LEFT JOIN sys_dict sd ON sd.id = a.type_id
 		LEFT JOIN front_notification fn ON fn.report_id = a.id
@@ -401,12 +405,14 @@
 			<if test="companyId != null and companyId != ''">
 					AND company_id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{companyId}), '%')) 
 			</if>
-			<if test="startDate != null and startDate  != ''">
+			<!-- <if test="startDate != null and startDate  != ''">
 					and insert_time  &gt;= #{startDate}
 			</if>
 			<if test="endDate != null and endDate  != ''">
 					and insert_time  &lt;= #{endDate}
-			</if>
+			</if> -->
+			and  year= #{year}
+			and  month= #{month}
 		group by
 			`status`
 	</select>
@@ -618,6 +624,77 @@
 			front_company_report
 		WHERE 
 			company_id = #{companyId}
+	</select>
+	
+	<select id="findHomeList" resultType="com.hailian.whly.report.entity.FrontCompanyReport">
+		<!-- SELECT 
+			<include refid="frontCompanyReportColumns"/>
+		FROM front_company_report a
+		<include refid="frontCompanyReportJoinsHome"/>
+		where
+			 o5.del_flag = 0
+			<choose>
+			<when test="status != 'UNSUBMIT' ">
+				and o5.id in(select company_id from front_company_report where `status` = #{status})
+			</when>
+			<otherwise>
+				and o5.id not in(select company_id from front_company_report where `status` in('PASSED','SUBMIT','UNPASSED'))
+			</otherwise>
+		</choose>
+			<if test="companyParentId != null and companyParentId != ''">
+					AND o5.id in(select id from sys_office where parent_ids like CONCAT(CONCAT('%', #{companyParentId}), '%')) 
+			</if>
+			and  a.year= #{year}
+			and  a.month= #{month}
+			<if test="status != 'UNSUBMIT' ">
+				and a.status = #{status}
+		  </if> -->
+		  SELECT o.name as companyName,
+			sd.description AS "description",
+			o.parent_id as "pCompanyId",
+			a7.name AS "area.name",
+		fcp.project_name AS "projectName",
+		fcp.project_content AS "projectContent",
+		fcp.project_desired_effect AS "projectDesiredEffect",
+		fcp.year_limit AS "yearLimit",
+		fcp.total_investment AS "totalInvestment",
+		fcp.bank_loan_amount AS "bankLoanAmount", 
+			o6.name as "pCompanyName"
+			<if test="status != 'UNSUBMIT' ">
+					,a.report_time as reportTime
+			</if>
+			
+			 from sys_office o
+			LEFT JOIN sys_dict sd ON sd.id = o.industy_id
+			LEFT JOIN sys_office o6 ON o.parent_id = o6.id
+			LEFT JOIN sys_area a7 ON a7.id = o.area_id
+			LEFT JOIN front_company_project fcp ON fcp.company_id = o.id
+			<if test="status != 'UNSUBMIT' ">
+					LEFT JOIN front_company_report a on a.company_id=o.id 
+			</if>
+			
+			WHERE
+						1=1
+			<choose>
+				<when test="status != 'UNSUBMIT' ">
+					and a.`status`= #{status}
+					 and a.year=#{year} and a.month=#{month}
+				</when>
+				<otherwise>
+					and o.id not in(
+					SELECT
+								company_id
+							FROM
+								front_company_report
+							WHERE
+								`status` in('PASSED','SUBMIT','UNPASSED')
+							 and year=#{year}  and month=#{month}
+					) 
+				</otherwise>
+			</choose>
+			and o.parent_ids LIKE CONCAT(CONCAT('%', #{companyParentId}), '%')
+			and o.parent_id!=#{companyParentId}
+	
 	</select>
 	
 </mapper>

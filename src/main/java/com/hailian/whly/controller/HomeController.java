@@ -6,19 +6,24 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.hailian.whly.commom.CheckStatus;
+import com.hailian.whly.report.entity.FrontCompanyReport;
 import com.hailian.whly.report.service.FrontCompanyReportService;
 import com.thinkgem.jeesite.common.config.Global;
 
 import org.springframework.ui.Model;
 
+import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
+import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.thinkgem.jeesite.modules.sys.service.SystemService;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
@@ -44,7 +49,7 @@ public class HomeController extends BaseController {
 	 * @return_type   String
 	 */
 	@RequestMapping({"","/index"})
-	public String home(Model model){
+	public String home(Model model,FrontCompanyReport frontCompanyReport,HttpServletRequest request, HttpServletResponse response){
 		UserUtils.removeCache(UserUtils.CACHE_FRONT_MENU_LIST);
 		/*List<Menu> menuList = systemService.findAllFrontMenu();
 		boolean canSh=false;
@@ -63,6 +68,22 @@ public class HomeController extends BaseController {
 			model.addAttribute("time", time);
 			return whlyPage+"/home/news";
 		}else{
+			try {
+				/*Office company= UserUtils.getUser().getCompany();
+				if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
+					frontCompanyReport.setCompanyParentId(company.getParentId());
+				} else {
+					frontCompanyReport.setCompanyParentId(company.getId());
+				}*/
+				frontCompanyReport.setCompanyParentId(request.getParameter("pcid"));
+				Page<FrontCompanyReport> page = frontCompanyReportService
+						.findHomePage(new Page<FrontCompanyReport>(request, response), frontCompanyReport);
+				model.addAttribute("page", page);
+				model.addAttribute("companyParentType", frontCompanyReportService.getCompanyParentType());
+				model.addAttribute("frontCompanyReport", frontCompanyReport);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			return whlyPage+"/home/home";
 		}
 	}

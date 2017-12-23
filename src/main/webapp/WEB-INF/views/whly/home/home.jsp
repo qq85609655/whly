@@ -33,6 +33,130 @@
        			font-size:11px;
        		}
        </style>
+       <style>
+/****************************table*******************************/
+.table .gradeX td {
+	
+}
+
+.table .gradeX td:last-child a {
+	color: #333;
+	padding: 0;
+	font-size: 12px;
+}
+
+/*************************pagination***********************/
+.pagination {
+	/*background:#d00;*/
+	width: 100%;
+}
+
+.pagination  ul li {
+	list-style: none;
+	float: left;
+	margin: 0 1%;
+}
+
+.pagination  ul li a {
+	float: left;
+	width: 100%;
+	color: #333;
+}
+
+.pagination  ul li:first-child {
+	margin-left: 15%;
+}
+
+.pagination  ul .active a {
+	text-decoration: underline;
+}
+
+.pagination  ul .disabled a {
+	color: #ccc;
+}
+
+.pagination  ul .controls {
+	margin-left: 5%;
+	margin-top: -.3%;
+}
+
+.pagination  ul .controls input {
+	width: 2em;
+	outline: none;
+}
+
+.pagination  ul .controls a {
+	color: #333;
+}
+
+.pagination  ul .controls a:hover {
+	text-decoration: none;
+}
+
+.btn.green:not (.btn-outline ) {
+	background: #84d3da;
+	border: 0;
+}
+
+.control-label {
+	margin-top: 1px;
+	font-weight: 400;
+	text-align: right;
+	padding: 6px 0px;
+}
+
+.ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	width:111px;
+	/* display:block; */
+}
+
+</style>
+<script type="text/javascript">
+	$(function() {
+		//删除多余元素
+		$("#sample_1_length").remove();
+		$("#sample_1_filter").remove();
+		$("#sample_1_info").remove();
+		$("#sample_1_paginate").remove();
+		contentShow();
+		//设置表格宽度
+		style();
+	});
+	
+	function style() {
+		$(".table-striped").css("tableLayout","fixed");
+		$(".table-striped .width_1").css("width","60px");
+		$(".table-striped .width_2").css("width","120px");
+		$(".table-striped .width_3").css("width","150px");
+		$(".table-striped .width_9").css("width","80px");
+	}
+
+	// 根据当前登录用户企业所属类型 来页面展示的内容
+	function contentShow() {
+		var type = $('#companyParentType').val();
+		if (type == "1") {
+			$('.type_emphasis').show();
+		} else if (type == "2") {
+			$('.type_quota').show();
+		} else if (type == "3") {
+			$('.type_support').show();
+		}
+	}
+
+
+
+	//分页
+	function page(n, s) {
+		$("#pageNo").val(n);
+		$("#pageSize").val(s);
+		$("#searchForm").submit();
+		return false;
+	}
+	
+</script>
     </head>
     <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
         <!-- BEGIN 顶部菜单  -->
@@ -53,8 +177,18 @@
                     <%@ include  file="../include/topBar.jsp" %>
                     
                     <!-- 主体部分START-->
+                    <form:form id="searchForm" modelAttribute="frontCompanyReport"
+						action="${whlyPath}/home"
+						method="post" class="breadcrumb form-search">
+						<input id="pageNo" name="pageNo" type="hidden"
+							value="${page.pageNo}" />
+						<input id="pageSize" name="pageSize" type="hidden"
+							value="${page.pageSize}" />
+				        <input type="hidden" name="pcid" value="${pcid}" id="pcid">
+				        <input type="hidden" id="vType" name="status" value="${status}" >
+				        <input type="hidden"  name="exportType" value="${companyParentType}"
+							id="companyParentType">
                     <div class="row">
-                    <input type="hidden" id="companyIdDiv" value="${fns:getUser().company.parentId}">
 				         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 				             <div class="dashboard-stat blue">
 				                 <div class="visual">
@@ -62,7 +196,7 @@
 				                 </div>
 				                 <div class="details">
 				                     <div class="number" id="num_passed">
-				                          <span data-counter="counterup"  data-value="0">0</span>条
+				                          <span data-counter="counterup"  data-value="0">0</span>家
 				                     </div>
 				                     <div class="desc"> 已审核 </div>
 				                 </div>
@@ -78,7 +212,7 @@
 				                 </div>
 				                 <div class="details">
 				                     <div class="number" id="num_unpassed">
-				                         <span data-counter="counterup"  data-value="0">0</span>条
+				                         <span data-counter="counterup"  data-value="0">0</span>家
 				                     </div>
 				                     <div class="desc">未通过 </div>
 				                 </div>
@@ -94,7 +228,7 @@
 				                 </div>
 				                 <div class="details">
 				                     <div class="number" id="num_submit">
-				                         <span data-counter="counterup"  data-value="0">0</span>条
+				                         <span data-counter="counterup"  data-value="0">0</span>家
 				                     </div>
 				                     <div class="desc"> 已提交 </div>
 				                 </div>
@@ -103,60 +237,86 @@
 				                 </a>
 				             </div>
 				         </div>
-				         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+				          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 				             <div class="dashboard-stat purple">
-				                 <div class="visual" style="height: 108px;">
+				                 <div class="visual">
 				                     <i class="fa fa-globe"></i>
 				                 </div>
 				                 <div class="details">
-				                     <div class="number" id="num_notreport" > 
-				                         <span data-counter="counterup" data-value="0">0</span>条
-				                      </div>
+				                     <div class="number" id="num_notreport">
+				                         <span data-counter="counterup"  data-value="0">0</span>家
+				                     </div>
 				                     <div class="desc"> 未上报 </div>
 				                 </div>
+				                 <a class="more" href="javascript:;" onclick="getBottomData('UNSUBMIT')"> 查看详情
+				                     <i class="m-icon-swapright m-icon-white"></i>
+				                 </a>
 				             </div>
 				         </div>
+				       
 				     </div>
-				     
-				     
-				     <!-- 折线图 -->
-				     
+				     </form:form>
+				     <!-- 数据列表 -->
 				     <div class="row">
-                        <div class="col-md-12">
-                            <div class="portlet light portlet-fit bordered">
-                                <div class="portlet-title">
-                                    <div class="caption">
-                                        <i class=" icon-layers font-green"></i>
-                                        <span class="caption-subject font-green bold uppercase">企业上报分析</span>
-                                    </div>
-                                </div>
-                                <div class="portlet-body">
-                                    <div id="echarts_line" style="height: 400px; -webkit-tap-highlight-color: transparent; user-select: none; background-color: rgba(0, 0, 0, 0); cursor: default;" _echarts_instance_="1508464360993"><div style="position: relative; overflow: hidden; width: 1032px; height: 500px;"><div data-zr-dom-id="bg" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 1032px; height: 500px; user-select: none;"></div><canvas width="1032" height="500" data-zr-dom-id="0" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 1032px; height: 500px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas><canvas width="1032" height="500" data-zr-dom-id="1" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 1032px; height: 500px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas><canvas width="1032" height="500" data-zr-dom-id="_zrender_hover_" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 1032px; height: 500px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas><div class="echarts-dataview" style="position: absolute; display: block; overflow: hidden; transition: height 0.8s, background-color 1s; z-index: 1; left: 0px; top: 0px; width: 1032px; height: 0px; background-color: rgb(240, 255, 255);"></div><div class="echarts-tooltip zr-element" style="position: absolute; display: none; border-style: solid; white-space: nowrap; transition: left 0.4s, top 0.4s; background-color: rgba(0, 0, 0, 0.701961); border-width: 0px; border-color: rgb(51, 51, 51); border-radius: 4px; color: rgb(255, 255, 255); padding: 5px; left: 963px; top: 104px;">Sun<br>High : 10<br>Low : 0</div></div></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 饼状图 -->
-                     <div class="row" id="bar">
-                        <div class="col-md-12">
-                            <div class="portlet light portlet-fit bordered">
-                                <div class="portlet-title">
-                                    <div class="caption">
-                                        <i class=" icon-layers font-green"></i>
-                                        <span class="caption-subject font-green bold uppercase">行业分类分析</span>
-                                    </div>
-                                </div>
-                                <div class="portlet-body">
-                                    <div id="echarts_pie" style="height: 400px; -webkit-tap-highlight-color: transparent; user-select: none; background-color: rgba(0, 0, 0, 0); cursor: default;" _echarts_instance_="1508464360993"><div style="position: relative; overflow: hidden; width: 1032px; height: 500px;"><div data-zr-dom-id="bg" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 1032px; height: 500px; user-select: none;"></div><canvas width="1032" height="500" data-zr-dom-id="0" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 1032px; height: 500px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas><canvas width="1032" height="500" data-zr-dom-id="1" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 1032px; height: 500px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas><canvas width="1032" height="500" data-zr-dom-id="_zrender_hover_" class="zr-element" style="position: absolute; left: 0px; top: 0px; width: 1032px; height: 500px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></canvas><div class="echarts-dataview" style="position: absolute; display: block; overflow: hidden; transition: height 0.8s, background-color 1s; z-index: 1; left: 0px; top: 0px; width: 1032px; height: 0px; background-color: rgb(240, 255, 255);"></div><div class="echarts-tooltip zr-element" style="position: absolute; display: none; border-style: solid; white-space: nowrap; transition: left 0.4s, top 0.4s; background-color: rgba(0, 0, 0, 0.701961); border-width: 0px; border-color: rgb(51, 51, 51); border-radius: 4px; color: rgb(255, 255, 255); padding: 5px; left: 963px; top: 104px;">Sun<br>High : 10<br>Low : 0</div></div></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-				     
-				     
-				     <input type="hidden" value="${companyParentType}" id="companyParentType">
-				       <input type="hidden" value="${pcid}" id="pcid">
+					<div class="col-md-12">
+						<!-- BEGIN EXAMPLE TABLE PORTLET-->
+						<div class="portlet light bordered">
+							<div class="portlet-title">
+								<div class="caption font-dark">
+									<i class="icon-settings font-dark"></i> <span
+										class="caption-subject bold uppercase">
+										<c:if test="${frontCompanyReport.status=='PASSED' }">已审核</c:if>
+										<c:if test="${frontCompanyReport.status=='UNPASSED' }">未通过</c:if>
+										<c:if test="${frontCompanyReport.status=='SUBMIT' }">已提交</c:if>
+										<c:if test="${frontCompanyReport.status=='UNSUBMIT' }">未提交</c:if>数据列表
+										 </span>
+								</div>
+							</div>
+							<div class="portlet-body">
+								<table class="table table-striped table-bordered table-hover"  style="table-layout: fixed;"
+									id="sample_1">
+									<thead>
+										<tr role="row">
+											<th class="width_2">上报企业名称</th>
+											<th class="width_2 type_emphasis type_quota" style="display: none;">所属行业</th>
+											<th class="width_1">所属地域</th>
+											<th class="width_1" >所属街道</th>
+											
+											<th class="type_support width_2" style="display: none;">项目名称</th>
+											<!-- 
+											<th class="type_support width_2" style="display: none;">项目建设进展情况
+												</th>
+											<th class="type_support width_2" style="display: none;">建设地点</th>
+											<th class="type_support width_3" style="display: none;">项目主要内容</th>
+											<th class="type_support width_3" style="display: none;">项目预期结果</th>
+											<th class="type_support width_3" style="display: none;">起止年限</th> -->
+											<th class="width_2">上报时间</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${page.list}" var="frontCompanyReport">
+											<tr class="gradeX odd" role="row">
+												<td>${frontCompanyReport.companyName}</td>
+												<td class="type_emphasis type_quota" style="display: none;">${frontCompanyReport.description}</td>
+												<td>${frontCompanyReport.area.name}</td>
+												<td>${frontCompanyReport.pCompanyName}</td>
+												<td class="type_support" style="display: none;">${frontCompanyReport.projectName}</td>
+												<td><fmt:formatDate
+														value="${frontCompanyReport.reportTime}"
+														pattern="yyyy-MM-dd HH:mm:ss" /></td>
+
+
+											</tr>
+										</c:forEach>
+
+									</tbody>
+								</table>
+								<div class="pagination">${page}</div>
+							</div>
+						</div>
+					</div>
+					<!-- END EXAMPLE TABLE PORTLET-->
+				</div>
 				     
                      <!-- 主体部分END-->
                     
@@ -170,106 +330,27 @@
         <!-- js必须引用在body前面 -->
 	   <script>
 	   
-	   var myChart2 = echarts.init(document.getElementById("echarts_line"));
-       var myChartPie = echarts.init(document.getElementById("echarts_pie"));
        var companyParentId=$("#companyIdDiv").val();
-      /*  var option = {
-   		    title : {
-   		        text: '行业分类分析',
-   		        x:'center'
-   		    },
-   		    tooltip : {
-   		        trigger: 'item',
-   		        formatter: "{a} <br/>{b} : {c} ({d}%)"
-   		    },
-   		    legend: {
-   		        orient : 'vertical',
-   		        x : 'left',
-				data:["交通运输、仓储和邮政业","信息传输、软件和信息技术服务业","房地产业",
-   		              "租赁和商务服务业",
-   		              "科学研究和技术服务业","水利、环境和公共设施管理业","居民服务、修理和其他服务业","教育、卫生和社会工作","文化体育和娱乐业",
-					  "批发零售","住宿和餐饮业"]
-   		    },
-   		    toolbox: {
-   		        show : true,
-   		        feature : {
-   		            mark : {show: true},
-   		            dataView : {show: true, readOnly: false},
-   		            magicType : {
-   		                show: true, 
-   		                type: ['pie', 'funnel'],
-   		                option: {
-   		                    funnel: {
-   		                        x: '25%',
-   		                        width: '50%',
-   		                        funnelAlign: 'left',
-   		                        max: 1548
-   		                    }
-   		                }
-   		            },
-   		            saveAsImage : {show: true}
-   		        }
-   		    },
-   		    calculable : true,
-   		    series : [
-   		        {
-   		            name:'行业分类分析',
-   		            type:'pie',
-   		            radius : '55%',
-   		            center: ['50%', '60%'],
-   		            data:[{value:125, name:"交通运输、仓储和邮政业"},
-   		                  {value:215, name:"信息传输、软件和信息技术服务业"},
-   		               	  {value:88, name:"房地产业"},
-   		                  {value:313, name:"租赁和商务服务业"},
-		               	  {value:55, name:"科学研究和技术服务业"},
-		               	  {value:78, name:"水利、环境和公共设施管理业"},
-  		               	  {value:432, name:"居民服务、修理和其他服务业"},
-		               	  {value:255, name:"教育、卫生和社会工作"},
-						  {value:230, name:"文化体育和娱乐业"},
-		               	  {value:69, name:"批发零售"},
-  		                  {value:356, name:"住宿和餐饮业"}
-		               	
-   		            ]
-   		        }
-   		    ]
-   		}; 
-   		                    
-      myChartPie.setOption(option);*/
 	   $(function(){
-		   /* if(companyParentId=="be9e0da458064360b214c9ca69327859"){
-		    getStatisticsCountByStatus(null,null);
-		   } */
-		   getStatisticsCountByStatus(null,null);
-		   getBottomData(null);
+		   getStatisticsCountByStatus();
 		});
-	   //下方折现 pie图数据
-	   function getBottomData(status){
-		   getStatisticsReportByDate(status);
-		   /* if(companyParentId=="be9e0da458064360b214c9ca69327859"){
-			   getStatisticsCountByType(status);
-		   } */
-		   var type = $('#companyParentType').val();
-			/* if(type != "3"&& $("#pcid").val()=="") {
-				getStatisticsCountByType(status);
-			} else {
-				$('#bar').remove();
-			} */
-		   $('#bar').remove();
-		   
+	   function getBottomData(type){
+		   $("#vType").val(type);
+		   $("#searchForm").submit();
+		   return false;
 	   }
 	   //按照状态、时间统计数量
-	   function getStatisticsCountByStatus(startDate,endDate){
+	   function getStatisticsCountByStatus(){
 			$.ajax({
 				type : "post",
 				url : whlyPath+"/ajax/statisticsCountByStatus",
-				data:{"startDate":startDate,"endDate":endDate},
 				dataType:'json',
 				success : function(data) {
 					if(data.statusCode==200){
 						var dataArr=[],nameArr=[];
 						//以下三行为获取真实数据，应客户要求先注释
 						 $.each(data.resData,function(index,item){
-						 	var html='<span data-counter="counterup"  data-value="'+item.count+'">'+item.count+'</span>条';
+						 	var html='<span data-counter="counterup"  data-value="'+item.count+'">'+item.count+'</span>家';
 						 	$("#num_"+(item.name.toLowerCase())).html(html);
 						 });
 					}
@@ -277,163 +358,8 @@
 				}			
 			});
 		};
-		//按照行业类型统计数量
-		function getStatisticsCountByType(status){
-				var name = "已上报";
-			   	if(status == "PASSED") {
-				   name = "已审核";
-			   	} else if(status == "UNPASSED") {
-				   name = "未通过";
-			  	 } else if(status == "SUBMIT") {
-				   name = "已提交";
-			   	}
-				$.ajax({
-					type : "post",
-					url : whlyPath+"/ajax/statisticsCountByType",
-					data:{"status":status},
-					dataType:'json',
-					success : function(data) {
-						if(!data.resData) {
-							myChartPie.clear();
-						}
-						if(data.statusCode==200){
-							var nameArr=[];
-							var series=[];
-							$.each(data.resData,function(index,item){
-								nameArr.push(item.name);
-								series.push({value:item.count, name:item.name});
-							});
-							var option = {
-					    		    title : {
-					    		        text: '行业分类分析',
-					    		        x:'center'
-					    		    },
-					    		    tooltip : {
-					    		        trigger: 'item',
-					    		        formatter: "{a} <br/>{b} : {c} ({d}%)"
-					    		    },
-					    		    legend: {
-					    		        orient : 'vertical',
-					    		        x : 'left',
-					    		        data:nameArr
-					    		    },
-					    		    toolbox: {
-					    		        show : true,
-					    		        feature : {
-					    		            mark : {show: true},
-					    		            dataView : {show: true, readOnly: false},
-					    		            magicType : {
-					    		                show: true, 
-					    		                type: ['pie', 'funnel'],
-					    		                option: {
-					    		                    funnel: {
-					    		                        x: '25%',
-					    		                        width: '50%',
-					    		                        funnelAlign: 'left',
-					    		                        max: 1548
-					    		                    }
-					    		                }
-					    		            },
-					    		            saveAsImage : {show: true}
-					    		        }
-					    		    },
-					    		    calculable : true,
-					    		    series : [
-					    		        {
-					    		            name:'行业分类分析 - ' + name,
-					    		            type:'pie',
-					    		            radius : '55%',
-					    		            center: ['50%', '60%'],
-					    		            data:series
-					    		        }
-					    		    ]
-					    		};
-					    		                    
-					       myChartPie.setOption(option);
-						}
-						
-					}			
-				});
-			};
-	   //按照月份统计上报数量
-	   function getStatisticsReportByDate(status){
-		   var name = "已上报";
-		   if(status == "PASSED") {
-			   name = "已审核";
-		   } else if(status == "UNPASSED") {
-			   name = "未通过";
-		   } else if(status == "SUBMIT") {
-			   name = "已提交";
-		   }
-			$.ajax({
-				type : "post",
-				url : whlyPath+"/ajax/statisticsReportByDateAjax",
-				data:{status:status},
-				dataType:'json',
-				success : function(data) {
-					if(data.statusCode==200){
-						var dataArr=[],nameArr=[];
-						$.each(data.resData,function(index,item){
-							dataArr.push(item.count);
-							nameArr.push(item.name);
-						});
-						  myChart2.setOption({
-					           title: {
-					               text: '数量/条'
-					           },
-					           tooltip: {
-					               trigger: 'axis'
-					           },
-					           legend: {
-					               data: [name]
-					           },
-					           toolbox: {
-					               show: true,
-					               feature: {
-					                   mark: {
-					                       show: true
-					                   },
-					                   dataView: {
-					                       show: true,
-					                       readOnly: false
-					                   },
-					                   saveAsImage: {
-					                       show: true
-					                   }
-					               }
-					           },
-					           calculable: true,
-					           xAxis: [{
-					               type: 'category',
-					               boundaryGap: false,
-					               data:nameArr
-					           }],
-					           yAxis: [{
-					               type: 'value',
-					               axisLabel: {
-					                   formatter: '{value} 条'
-					               }
-					           }],
-					           series: [{
-					               name: name,
-					               type: 'line',
-					               data: dataArr,
-					               markPoint: {
-					                   data: [{
-					                       type: 'max',
-					                       name: 'Max'
-					                   }, {
-					                       type: 'min',
-					                       name: 'Min'
-					                   }]
-					               }
-					           }]
-					       });
-					}
-					
-				}			
-			});
-		};
+		
+	
 	   </script>
     </body>
 </html>

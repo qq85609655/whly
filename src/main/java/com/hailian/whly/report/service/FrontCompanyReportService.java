@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.groovy.transform.LazyASTTransformation;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,12 +148,12 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 			}
 			//如果上报时间是在10号之前 上报的内容为上个月的数据
 			if(Integer.valueOf(month) == 1) {
-				if(day <= 9) {
+				if(day <= 25) {
 					reportMonth = "12";
 					year = String.valueOf(Integer.valueOf(year) - 1);
 				} 
 			} else {
-				if(day <= 9) {
+				if(day <= 25) {
 					reportMonth = (Integer.valueOf(month) - 1) + "";
 				} 
 			}
@@ -426,6 +427,24 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		}
 		return companyParentType;
 	}
+	public String getCompanyParentTypes(){
+		String companyParentType = "";
+		Office company= UserUtils.getUser().getCompany();
+		if(company.getParentIds().indexOf("be9e0da458064360b214c9ca69327859") != -1 || company.getParentId().indexOf("be9e0da458064360b214c9ca69327859") != -1 
+				 || company.getId().indexOf("be9e0da458064360b214c9ca69327859") != -1 ) {  			//重点服务业企业监测板块
+			companyParentType = "be9e0da458064360b214c9ca69327859";
+		} else if(company.getParentIds().indexOf("cc0cbec49fe5449da652f8db57d473ab") != -1 || company.getParentId().indexOf("cc0cbec49fe5449da652f8db57d473ab") != -1 
+				 || company.getId().indexOf("cc0cbec49fe5449da652f8db57d473ab") != -1 ) {	//限额以下服务业企业监测板块
+			companyParentType = "cc0cbec49fe5449da652f8db57d473ab";
+		} else if(company.getParentIds().indexOf("ebc16b9cafd84d53a8222eae5d4340d6") != -1 || company.getParentId().indexOf("ebc16b9cafd84d53a8222eae5d4340d6") != -1 
+				 || company.getId().indexOf("ebc16b9cafd84d53a8222eae5d4340d6") != -1 ) {	//年度扶持项目监测板块
+			companyParentType = "ebc16b9cafd84d53a8222eae5d4340d6";
+		} else if(company.getParentIds().indexOf("d2c1c37069fa4ce189bc4a3529cc7a65") != -1 || company.getParentId().indexOf("d2c1c37069fa4ce189bc4a3529cc7a65") != -1 
+				 || company.getId().indexOf("d2c1c37069fa4ce189bc4a3529cc7a65") != -1 ) {	//其他
+			companyParentType = "d2c1c37069fa4ce189bc4a3529cc7a65";
+		}
+		return companyParentType;
+	}
 	
 	/**
 	 * 
@@ -599,6 +618,34 @@ public class FrontCompanyReportService extends CrudService<FrontCompanyReportDao
 		result.put("month", Integer.valueOf(report.getMonth())+1);
 		result.put("info", report.getYear() + "年" + (Integer.valueOf(report.getMonth()) + 1) + "月");
 		return result;
+	}
+	
+	@Transactional(readOnly = false)
+	public Page<FrontCompanyReport> findHomePage(Page<FrontCompanyReport> page, FrontCompanyReport frontCompanyReport) {
+		
+		String static1 = frontCompanyReport.getStatus();
+		if(StringUtils.isBlank(static1)){
+			frontCompanyReport.setStatus("PASSED");
+		}
+		Calendar now = Calendar.getInstance();
+		Integer year = Integer.valueOf(now.get(1));
+		Integer month = Integer.valueOf(now.get(2))+1;
+		Integer day = Integer.valueOf(now.get(5));
+		if(Integer.valueOf(month) == 1) {
+			if(day <= 26) {
+				month = 12;
+				year = Integer.valueOf(year) - 1;
+			} 
+		} else {
+			if(day <= 26) {
+				month = Integer.valueOf(month) - 1;
+			} 
+		}
+		frontCompanyReport.setYear(year.toString());
+		frontCompanyReport.setMonth(month.toString());
+		frontCompanyReport.setPage(page);
+		page.setList(dao.findHomeList(frontCompanyReport));
+		return page;
 	}
 
 }

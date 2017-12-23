@@ -407,15 +407,15 @@
 				p.monthInvestment,
 				c.*
 			FROM (SELECT
-				FORMAT(IF(n.totalIncome &lt; 0, 0 , n.totalIncome) / s.totalIncome *100, 2) AS totalIncome ,
-				FORMAT(IF(n.totalProfit &lt; 0, 0 , n.totalProfit) / s.totalProfit *100, 2) AS totalProfit ,
-				FORMAT(IF(n.totalTax &lt; 0, 0 , n.totalTax) / s.totalTax *100, 2) AS totalTax ,
-				FORMAT(IF(n.empQuantity &lt; 0, 0 , n.empQuantity) / s.empQuantity *100, 2) AS empQuantity ,
-				FORMAT(IF(n.employeeCompensation &lt; 0, 0 , n.employeeCompensation) / s.employeeCompensation *100, 2) AS employeeCompensation ,
-				FORMAT(IF(n.loanAmount &lt; 0, 0 , n.loanAmount) / s.loanAmount *100, 2) AS loanAmount ,
-				FORMAT(IF(n.orderQuantity &lt; 0, 0 , n.orderQuantity) / s.orderQuantity *100, 2) AS orderQuantity ,
-				FORMAT(IF(n.operatingCosts &lt; 0, 0 , n.operatingCosts) / s.operatingCosts *100, 2) AS operatingCosts ,
-				FORMAT(IF(n.monthInvestment &lt; 0, 0 , n.monthInvestment) / s.monthInvestment *100, 2) AS monthInvestment ,
+				FORMAT(n.totalIncome/ s.totalIncome *100, 2) AS totalIncome ,
+				FORMAT(n.totalProfit / s.totalProfit *100, 2) AS totalProfit ,
+				FORMAT(n.totalTax / s.totalTax *100, 2) AS totalTax ,
+				FORMAT( n.empQuantity / s.empQuantity *100, 2) AS empQuantity ,
+				FORMAT(n.employeeCompensation/ s.employeeCompensation *100, 2) AS employeeCompensation ,
+				FORMAT(n.loanAmount / s.loanAmount *100, 2) AS loanAmount ,
+				FORMAT(n.orderQuantity / s.orderQuantity *100, 2) AS orderQuantity ,
+				FORMAT(n.operatingCosts/ s.operatingCosts *100, 2) AS operatingCosts ,
+				FORMAT(n.monthInvestment / s.monthInvestment *100, 2) AS monthInvestment ,
 				<choose>  
 		            <when test="statisticsType == 'MONTH'">n.month as name</when>
 		            <when test="statisticsType == 'areaName'">n.areaName as name</when>  

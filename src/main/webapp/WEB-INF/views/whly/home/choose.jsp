@@ -118,6 +118,10 @@
     function loginPage(type){
 		window.location.href="${whlyPath}/home?pcid="+type;
 	}
+    //屏蔽其他模块
+    $(function(){
+    	$(".plate").eq(3).attr("onclick","").addClass("disabled");
+    });
 </script>
 </body>
 </html>

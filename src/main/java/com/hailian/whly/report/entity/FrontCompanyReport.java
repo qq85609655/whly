@@ -70,10 +70,28 @@ public class FrontCompanyReport extends DataEntity<FrontCompanyReport> {
 	private String statusName;
 	
 	private String from;
+	private String pCompanyId;
+	private String pCompanyName;
 	
 	
 	
 	
+	public String getpCompanyId() {
+		return pCompanyId;
+	}
+
+	public void setpCompanyId(String pCompanyId) {
+		this.pCompanyId = pCompanyId;
+	}
+
+	public String getpCompanyName() {
+		return pCompanyName;
+	}
+
+	public void setpCompanyName(String pCompanyName) {
+		this.pCompanyName = pCompanyName;
+	}
+
 	@ExcelField(title="当月完成投资总额（万元）", type=1, align=2, sort=110,groups= {3})
 	public String getCurrentInvestment() {
 		return currentInvestment;

@@ -167,6 +167,7 @@
 			}
 			
 			function loadPie(data) {
+				console.log(data)
 				var pieDiv = $('#pieDiv');
 				for (var i = 0; i < data.length; i++) {
 					if($('#pieDiv > div').length < data.length+1) {

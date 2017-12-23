@@ -72,11 +72,22 @@ public class AjaxController extends BaseController {
     public String statisticsCountByStatus(HttpServletRequest request, HttpServletResponse response,String startDate,String endDate){
         try {
         	Map<String, Object> params=new HashMap<String, Object>();
-        	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        	Calendar c = Calendar.getInstance();	//获取时间
-        	String date = sdf.format(new Date());
-        	params.put("startDate",String.valueOf(c.get(Calendar.YEAR))+"-"+String.valueOf(c.get(Calendar.MONTH)+1)+"-01 00:00:00");
-        	params.put("endDate", date);
+        	Calendar now = Calendar.getInstance();
+    		Integer year = Integer.valueOf(now.get(1));
+    		Integer month = Integer.valueOf(now.get(2))+1;
+    		Integer day = Integer.valueOf(now.get(5));
+    		if(Integer.valueOf(month) == 1) {
+    			if(day <= 26) {
+    				month = 12;
+    				year = Integer.valueOf(year) - 1;
+    			} 
+    		} else {
+    			if(day <= 26) {
+    				month = Integer.valueOf(month) - 1;
+    			} 
+    		}
+        	params.put("year",year);
+        	params.put("month", month);
         	Office company= UserUtils.getUser().getCompany();
 			if(company.getArea() != null && !company.getArea().getId().isEmpty()) {
 				params.put("companyId", company.getParentId());

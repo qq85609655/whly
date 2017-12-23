@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
+import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.sys.entity.Office;
 import com.hailian.whly.report.entity.FrontCompanyReport;
@@ -220,4 +221,11 @@ public interface FrontCompanyReportDao extends CrudDao<FrontCompanyReport> {
 	 * @param  @return ReportStatistics
 	 */
 	public FrontCompanyReport getCurrentInvestmentByCompanyID(String companyId);
+	/**
+	 * 查询数据列表，如果需要分页，请设置分页对象，如：entity.setPage(new Page<T>());
+	 * @param entity
+	 * @return
+	 */
+	public List<FrontCompanyReport> findHomeList(FrontCompanyReport entity);
+	
 }
